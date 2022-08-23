@@ -1,0 +1,4 @@
+enum AlertOption {
+  invokeOnBarrier,
+  none;
+}

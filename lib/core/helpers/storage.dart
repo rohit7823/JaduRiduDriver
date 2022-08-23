@@ -1,0 +1,16 @@
+abstract class Storage {
+  saveBaseUrl(String url);
+  String baseUrl();
+
+  introComplete(bool value);
+  bool isIntroComplete();
+
+  login(bool value);
+  bool isLogin();
+
+  saveUserId(String id);
+  String userId();
+
+  saveNumberCode(String code);
+  String numberCode();
+}
