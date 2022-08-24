@@ -39,7 +39,16 @@ class ChangeScreen {
             onComplete: onComplete);
         break;
       case Screen.welcomeJaduRide:
-        await _navigate(context, AppRoute.welcomeJaduRide, arguments: arguments, onComplete: onComplete);
+        await _navigate(context, AppRoute.welcomeJaduRide,
+            arguments: arguments, onComplete: onComplete);
+        break;
+      case Screen.addVehicle:
+        await _navigate(context, AppRoute.addVehicle,
+            arguments: arguments, onComplete: onComplete);
+        break;
+      case Screen.addAllDetails:
+        await _navigate(context, AppRoute.allDetails,
+            arguments: arguments, onComplete: onComplete);
         break;
     }
   }

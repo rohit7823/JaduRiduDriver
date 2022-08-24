@@ -284,6 +284,22 @@ mixin _$WelcomeJaduRideStore on _WelcomeJaduRideScreenStore, Store {
     });
   }
 
+  late final _$uploadingLoaderAtom = Atom(
+      name: '_WelcomeJaduRideScreenStore.uploadingLoader', context: context);
+
+  @override
+  bool get uploadingLoader {
+    _$uploadingLoaderAtom.reportRead();
+    return super.uploadingLoader;
+  }
+
+  @override
+  set uploadingLoader(bool value) {
+    _$uploadingLoaderAtom.reportWrite(value, super.uploadingLoader, () {
+      super.uploadingLoader = value;
+    });
+  }
+
   late final _$_initialDataAsyncAction =
       AsyncAction('_WelcomeJaduRideScreenStore._initialData', context: context);
 
@@ -315,6 +331,14 @@ mixin _$WelcomeJaduRideStore on _WelcomeJaduRideScreenStore, Store {
   @override
   Future _validateInputs() {
     return _$_validateInputsAsyncAction.run(() => super._validateInputs());
+  }
+
+  late final _$onContinueAsyncAction =
+      AsyncAction('_WelcomeJaduRideScreenStore.onContinue', context: context);
+
+  @override
+  Future onContinue() {
+    return _$onContinueAsyncAction.run(() => super.onContinue());
   }
 
   late final _$_WelcomeJaduRideScreenStoreActionController =
@@ -449,7 +473,8 @@ userName: ${userName},
 userEmail: ${userEmail},
 referralCode: ${referralCode},
 isTermsSelected: ${isTermsSelected},
-enableBtn: ${enableBtn}
+enableBtn: ${enableBtn},
+uploadingLoader: ${uploadingLoader}
     ''';
   }
 }

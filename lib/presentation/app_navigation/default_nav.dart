@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
+import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/add_vehicle_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
@@ -35,12 +37,16 @@ class DefaultNav {
             sharedStore: sharedStore, number: retrievedArgument));
       case AppRoute.changeLanguage:
         return ScreenTransitions.slideTransition(
-            ChangeAppLanguageScreen(sharedStore: sharedStore)
-        );
+            ChangeAppLanguageScreen(sharedStore: sharedStore));
       case AppRoute.welcomeJaduRide:
         return ScreenTransitions.slideTransition(
-            WelcomeJaduRideScreen(sharedStore: sharedStore)
-        );
+            WelcomeJaduRideScreen(sharedStore: sharedStore));
+      case AppRoute.addVehicle:
+        return ScreenTransitions.slideTransition(
+            AddVechicleScreen(sharedStore: sharedStore));
+      case AppRoute.allDetails:
+        return ScreenTransitions.slideTransition(
+            AddAllDetailsScreen(sharedStore: sharedStore));
       default:
         return null;
     }

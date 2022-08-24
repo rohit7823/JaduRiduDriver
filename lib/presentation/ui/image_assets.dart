@@ -1,4 +1,5 @@
 class ImageAssets {
+  static const _root = "assets/images";
   static const logo = "assets/images/logo.png";
   static const logoText = "assets/images/logo-text.png";
   static const splashBuilding = "assets/images/splash-building.png";
@@ -20,4 +21,8 @@ class ImageAssets {
   static const car_icon = "assets/images/car_icon.png";
   static const placeHolder = "assets/images/placeholder_image.jpg";
   static const clearText = "assets/images/clear_text.svg";
+
+  static const userCar = "$_root/user_car.svg";
+
+  static const dropDownArrow = "$_root/drop_down_arrow.svg";
 }

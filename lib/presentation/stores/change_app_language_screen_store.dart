@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
@@ -107,7 +109,7 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
                 data.message,
                 StringProvider.okay,
                 null,
-                null, AlertOption.none)
+                null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
             );
           }
           break;
@@ -120,7 +122,7 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
               data?.message ?? "",
               StringProvider.okay,
               null,
-              null, AlertOption.none)
+              null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
           );
       }
     } else if(response is Error) {
@@ -133,7 +135,7 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
           response.message ?? "",
           StringProvider.okay,
           null,
-          null, AlertOption.none)
+          null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
       );
     }
   }

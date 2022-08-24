@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
@@ -13,6 +14,7 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/alert_behaviour.dart';
 import '../../core/repository/verify_otp_repository.dart';
 
 part 'verify_otp_screen_store.g.dart';
@@ -66,7 +68,8 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
                 StringProvider.retry,
                 null,
                 null,
-                AlertOption.none));
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
           }
       }
     } else if (response is Error) {
@@ -79,7 +82,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
           StringProvider.retry,
           null,
           null,
-          AlertOption.none));
+          AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
     }
   }
 
@@ -106,7 +109,8 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
                 StringProvider.retry,
                 null,
                 null,
-                AlertOption.none));
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
           }
           break;
         default:
@@ -118,7 +122,8 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
               StringProvider.retry,
               null,
               null,
-              AlertOption.none));
+              AlertBehaviour(
+                  option: AlertOption.none, action: AlertAction.none)));
       }
     } else if (response is Error) {
       sendingLoader = false;
@@ -130,7 +135,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
           StringProvider.retry,
           null,
           null,
-          AlertOption.none));
+          AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
     }
   }
 
@@ -142,7 +147,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
     }
   }
 
-  onRetry() {
+  onRetry(AlertAction? action) {
     verify();
   }
 

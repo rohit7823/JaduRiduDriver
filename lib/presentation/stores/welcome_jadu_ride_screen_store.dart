@@ -1,8 +1,13 @@
 import 'dart:ffi';
 
+import 'package:flutter/widgets.dart';
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/mobile_number_code.dart';
 import 'package:jadu_ride_driver/core/domain/package.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -15,10 +20,10 @@ import 'package:mobx/mobx.dart';
 
 part 'welcome_jadu_ride_screen_store.g.dart';
 
-class WelcomeJaduRideStore = _WelcomeJaduRideScreenStore with _$WelcomeJaduRideStore;
+class WelcomeJaduRideStore = _WelcomeJaduRideScreenStore
+    with _$WelcomeJaduRideStore;
 
 abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
-
   final _repository = dependency<WelcomeJaduRideRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
@@ -74,6 +79,9 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
   @observable
   bool enableBtn = false;
 
+  @observable
+  bool uploadingLoader = false;
+
   _WelcomeJaduRideScreenStore() {
     _initialData();
     _validateInputs();
@@ -84,10 +92,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
     gettingLoader = true;
     var userId = _storage.userId();
     var response = await _repository.getInitialData(userId);
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
       gettingLoader = false;
-      switch(data != null && data.status){
+      switch (data != null && data.status) {
         case true:
           userMobileNumber = data!.mobileNumber;
           states = data.states;
@@ -103,10 +111,12 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
               data?.message ?? "",
               StringProvider.retry,
               null,
-              null, AlertOption.none)
-          );
+              null,
+              AlertBehaviour(
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.welcomeJaduRideInitialData)));
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       gettingLoader = false;
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
@@ -115,8 +125,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           response.message ?? "",
           StringProvider.retry,
           null,
-          null, AlertOption.none)
-      );
+          null,
+          AlertBehaviour(
+              option: AlertOption.invokeOnBarrier,
+              action: AlertAction.welcomeJaduRideInitialData)));
     }
   }
 
@@ -124,10 +136,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
   getDistricts() async {
     gettingDistrictsLoader = true;
     var response = await _repository.districts(selectedState!.id);
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
           districts = data!.districts;
           selectedDistrict = data.districts.first;
@@ -140,10 +152,12 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
               data?.message ?? "",
               StringProvider.retry,
               null,
-              null, AlertOption.none)
-          );
+              null,
+              AlertBehaviour(
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.getDistricts)));
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       gettingDistrictsLoader = false;
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
@@ -152,8 +166,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           response.message ?? "",
           StringProvider.retry,
           null,
-          null, AlertOption.none)
-      );
+          null,
+          AlertBehaviour(
+              option: AlertOption.invokeOnBarrier,
+              action: AlertAction.getDistricts)));
     }
   }
 
@@ -161,10 +177,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
   getCities() async {
     gettingCitiesLoader = true;
     var response = await _repository.cities(selectedDistrict!.id);
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
       gettingCitiesLoader = false;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
           cities = data!.cities;
           selectedCity = data.cities.first;
@@ -177,10 +193,12 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
               data?.message ?? "",
               StringProvider.retry,
               null,
-              null, AlertOption.none)
-          );
+              null,
+              AlertBehaviour(
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.getCities)));
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       gettingCitiesLoader = false;
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
@@ -189,11 +207,12 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           response.message ?? "",
           StringProvider.retry,
           null,
-          null, AlertOption.none)
-      );
+          null,
+          AlertBehaviour(
+              option: AlertOption.invokeOnBarrier,
+              action: AlertAction.getCities)));
     }
   }
-
 
   @action
   name(String value) {
@@ -247,15 +266,15 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
 
   @action
   _validateInputs() async {
-    while(true) {
+    while (true) {
       await Future.delayed(const Duration(milliseconds: 300));
-      if(userName.isEmpty) {
+      if (userName.isEmpty) {
         enableBtn = false;
-      } else if(referralCode.isEmpty) {
+      } else if (referralCode.isEmpty) {
         enableBtn = false;
-      } else if(userMobileNumber.isEmpty) {
+      } else if (userMobileNumber.isEmpty) {
         enableBtn = false;
-      } else if(!isTermsSelected) {
+      } else if (!isTermsSelected) {
         enableBtn = false;
       } else {
         enableBtn = true;
@@ -263,8 +282,89 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
     }
   }
 
+  onRetry(AlertAction? action) {
+    switch (action) {
+      case AlertAction.welcomeJaduRideInitialData:
+        _initialData();
+        break;
+      case AlertAction.getDistricts:
+        getDistricts();
+        break;
+      case AlertAction.getCities:
+        getCities();
+        break;
+      case AlertAction.uploadUserData:
+        onContinue();
+        break;
+      case AlertAction.none:
+        debugPrint("action is $action");
+        break;
+      default:
+        debugPrint("action is $action");
+    }
+  }
+
   @action
   onContinue() async {
+    uploadingLoader = true;
+    var response = await _repository.sendUserData(
+        userName,
+        userEmail,
+        userMobileNumber,
+        selectedState?.id ?? "",
+        selectedDistrict?.id ?? "",
+        selectedCity?.id ?? "",
+        referralCode,
+        isTermsSelected);
 
+    if (response is Success) {
+      var data = response.data;
+      uploadingLoader = false;
+      switch (data != null && data.status) {
+        case true:
+          if (data!.isSaved) {
+            _storage.saveUserName(userName);
+            onChange(ScreenWithExtras(
+              screen: Screen.addVehicle,
+            ));
+          } else {
+            dialogManager.initErrorData(AlertData(
+                StringProvider.error,
+                null,
+                StringProvider.appId,
+                data.message,
+                StringProvider.okay,
+                null,
+                null,
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
+          }
+          break;
+        default:
+          dialogManager.initErrorData(AlertData(
+              StringProvider.error,
+              null,
+              StringProvider.appId,
+              data?.message ?? "",
+              StringProvider.retry,
+              null,
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none,
+                  action: AlertAction.uploadUserData)));
+      }
+    } else if (response is Error) {
+      uploadingLoader = false;
+      dialogManager.initErrorData(AlertData(
+          StringProvider.error,
+          null,
+          StringProvider.appId,
+          response.message ?? "",
+          StringProvider.retry,
+          null,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none, action: AlertAction.uploadUserData)));
+    }
   }
 }

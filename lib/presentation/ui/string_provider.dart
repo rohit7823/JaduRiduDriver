@@ -51,9 +51,11 @@ class StringProvider {
 
   static const selectPrefferedLanguage = LocaleKeys.select_preffered_language;
 
-  static const languageChangedSuccessfully = LocaleKeys.language_changed_successfully;
+  static const languageChangedSuccessfully =
+      LocaleKeys.language_changed_successfully;
 
-  static const welcomeToJaduRide = "Welcome new Jadu Ride\nPartner! Drive forward.";
+  static const welcomeToJaduRide =
+      "Welcome new Jadu Ride\nPartner! Drive forward.";
 
   static const pleaseEnterPartnerDetails = "Please enter the partner details";
 
@@ -67,9 +69,22 @@ class StringProvider {
 
   static const referralCode = "Referral code";
 
-  static const agreeToJaduRideTermsAndCondition = "Agree to Jadu Ride Terms & Conditions";
+  static const agreeToJaduRideTermsAndCondition =
+      "Agree to Jadu Ride Terms & Conditions";
 
   static const thisFieldIsMandatory = "*This field is mandatory.";
+
+  static const addYourVehicle = "Add your vehicle\nto Continue";
+
+  static const pleaseEnterTheRequiredField =
+      "Please enter the required details";
+
+  static const vehicleNumber = "Vehicle Number";
+
+  static const welcome = "Welcome";
+
+  static const pleaseCompleteRequied =
+      "Please complete the require steps and start\ndriving with Jadu Ride.";
 
   StringProvider._();
 

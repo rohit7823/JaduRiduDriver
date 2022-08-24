@@ -13,4 +13,7 @@ abstract class Storage {
 
   saveNumberCode(String code);
   String numberCode();
+
+  saveUserName(String name);
+  String name();
 }

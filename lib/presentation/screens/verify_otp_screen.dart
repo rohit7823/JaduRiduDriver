@@ -56,7 +56,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
           _dialogController.show(_store.dialogManager.errorData!, p0,
-              positive: _store.verify,
+              positive: _store.onRetry,
               close: _store.dialogManager.closeErrorDialog);
         }
       }),

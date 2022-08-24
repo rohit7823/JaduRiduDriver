@@ -1,29 +1,27 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
-import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/core/domain/mobile_number_code.dart';
+import 'package:jadu_ride_driver/core/domain/vehicle_category.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
-import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/common/alert_behaviour.dart';
-import '../../core/repository/number_input_repository.dart';
+import '../../core/repository/add_vehicle_repository.dart';
 
-part 'number_input_screen_store.g.dart';
+part 'add_vehicle_screen_store.g.dart';
 
-class NumberInputStore = _NumberInputScreenStore with _$NumberInputStore;
+class AddVehicleStore = _AddVehicleScreenStore with _$AddVehicleStore;
 
-abstract class _NumberInputScreenStore extends AppNavigator with Store {
-  final _repository = dependency<NumberInputRepository>();
+abstract class _AddVehicleScreenStore extends AppNavigator with Store {
+  final _repository = dependency<AddVehicleRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
 
@@ -31,103 +29,105 @@ abstract class _NumberInputScreenStore extends AppNavigator with Store {
   bool gettingDataLoader = false;
 
   @observable
-  bool sendingLoader = false;
+  List<VehicleCategory> vCategories = [];
 
   @observable
-  List<MobileNumberCode> codes = [];
+  bool addingLoader = false;
 
   @observable
-  String mobileNumber = "";
+  VehicleCategory? selectedCategory;
 
-  String selectedCodeId = "";
+  @observable
+  String vehicleNumber = "";
 
   @observable
   bool enableBtn = false;
 
-  _NumberInputScreenStore() {
-    getNumberCodes();
-    validateInput();
+  _AddVehicleScreenStore() {
+    _getInitialData();
+    _validateInputs();
   }
 
   @action
-  getNumberCodes() async {
+  _validateInputs() async {
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (vehicleNumber.isEmpty) {
+        enableBtn = false;
+      } else if (selectedCategory == null) {
+        enableBtn = false;
+      } else {
+        enableBtn = true;
+      }
+    }
+  }
+
+  @action
+  _getInitialData() async {
     gettingDataLoader = true;
-    var response = await _repository.getNumberCodes();
+    var response = await _repository.initialData();
+
     if (response is Success) {
       var data = response.data;
       gettingDataLoader = false;
       switch (data != null && data.status) {
         case true:
-          codes = data!.codes;
-          selectedCodeId = data.codes.first.id;
+          vCategories = data!.categories;
+          selectedCategory = data.categories.first;
           break;
         default:
           dialogManager.initErrorData(AlertData(
               StringProvider.error,
-              Image.asset(ImageAssets.logo),
+              null,
               StringProvider.appId,
               data?.message ?? "",
               StringProvider.retry,
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.none, action: AlertAction.none)));
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.addVehicleInitialData)));
       }
     } else if (response is Error) {
       gettingDataLoader = false;
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
-          Image.asset(ImageAssets.logo),
+          null,
           StringProvider.appId,
           response.message ?? "",
           StringProvider.retry,
           null,
           null,
-          AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
+          AlertBehaviour(
+              option: AlertOption.invokeOnBarrier,
+              action: AlertAction.addVehicleInitialData)));
     }
   }
 
   @action
-  onNumberClear() {
-    mobileNumber = "";
-  }
-
-  onCodeSelected(MobileNumberCode? code) {
-    selectedCodeId = code!.id;
-  }
-
-  @action
-  onNumberChange(String number) {
-    mobileNumber = number;
-  }
-
-  @action
-  onNext() async {
-    sendingLoader = true;
-    var number = mobileNumber.trim();
-    var response = await _repository.sendOtp(number, selectedCodeId);
+  addVehicle() async {
+    addingLoader = true;
+    var userId = _storage.userId();
+    var response = await _repository.addVehicle(
+        userId, selectedCategory?.id ?? "", vehicleNumber);
     if (response is Success) {
       var data = response.data;
-      sendingLoader = false;
+      addingLoader = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.isSend) {
-            _storage.saveNumberCode(selectedCodeId);
-            onChange(ScreenWithExtras(
-                screen: Screen.verifyOtp,
-                argument: number,
-                option: NavigationOption(option: Option.popPrevious)));
+          if (data!.isAdded) {
+            onChange(ScreenWithExtras(screen: Screen.addAllDetails));
           } else {
             dialogManager.initErrorData(AlertData(
                 StringProvider.error,
                 null,
                 StringProvider.appId,
-                data.message,
+                data.messsage,
                 StringProvider.retry,
                 null,
                 null,
                 AlertBehaviour(
-                    option: AlertOption.none, action: AlertAction.none)));
+                    option: AlertOption.none, action: AlertAction.addVehicle)));
           }
           break;
         default:
@@ -135,15 +135,16 @@ abstract class _NumberInputScreenStore extends AppNavigator with Store {
               StringProvider.error,
               null,
               StringProvider.appId,
-              data?.message ?? "",
+              data?.messsage ?? "",
               StringProvider.retry,
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.none, action: AlertAction.none)));
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.addVehicle)));
       }
     } else if (response is Error) {
-      sendingLoader = false;
+      addingLoader = false;
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
           null,
@@ -152,23 +153,27 @@ abstract class _NumberInputScreenStore extends AppNavigator with Store {
           StringProvider.retry,
           null,
           null,
-          AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
+          AlertBehaviour(
+              option: AlertOption.invokeOnBarrier,
+              action: AlertAction.addVehicle)));
     }
   }
 
-  onRetry(AlertAction? action) {
-    onNext();
+  onError(AlertAction? action) {
+    if (action == AlertAction.addVehicleInitialData) {
+      _getInitialData();
+    } else if (action == AlertAction.addVehicle) {
+      addVehicle();
+    }
   }
 
   @action
-  validateInput() async {
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      if (mobileNumber.length == 12) {
-        enableBtn = true;
-      } else {
-        enableBtn = false;
-      }
-    }
+  onSelectCategory(VehicleCategory? category) {
+    selectedCategory = category;
+  }
+
+  @action
+  onVehicleNumber(String number) {
+    vehicleNumber = number;
   }
 }

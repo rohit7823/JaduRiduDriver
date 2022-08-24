@@ -55,4 +55,14 @@ class StorageImpl implements Storage {
   saveNumberCode(String code) {
     _pref.setString(Constants.numberCode, code);
   }
+
+  @override
+  String name() {
+    return _pref.getString(Constants.userName) ?? "";
+  }
+
+  @override
+  saveUserName(String name) {
+    _pref.setString(Constants.userName, name);
+  }
 }

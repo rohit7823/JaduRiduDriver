@@ -5,5 +5,7 @@ enum Screen {
   verifyOtp,
   changeLanguage,
   welcomeJaduRide,
+  addVehicle,
+  addAllDetails,
   numberInputScreen;
 }

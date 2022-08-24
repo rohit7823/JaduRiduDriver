@@ -20,8 +20,12 @@ extension IntroPage on int {
 }
 
 extension MyText on String {
-  Widget text([TextStyle? textStyle]) {
-    return Text(this.tr(), style: textStyle);
+  Widget text([TextStyle? textStyle, TextOverflow? textOverflow]) {
+    return Text(
+      this.tr(),
+      style: textStyle,
+      overflow: textOverflow,
+    );
   }
 }
 
@@ -48,5 +52,3 @@ extension MyExpanded on Object {
     return Expanded(flex: flex, child: child);
   }
 }
-
-

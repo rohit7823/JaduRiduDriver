@@ -9,6 +9,10 @@ class AppRoute {
 
   static const welcomeJaduRide = "/welcomeJaduRide";
 
+  static const addVehicle = "/addVehicle";
+
+  static const allDetails = "/allDetails";
+
   AppRoute._();
 
   static const splash = "/splash";
