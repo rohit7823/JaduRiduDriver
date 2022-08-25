@@ -86,6 +86,39 @@ class StringProvider {
   static const pleaseCompleteRequied =
       "Please complete the require steps and start\ndriving with Jadu Ride.";
 
+  static const criticalError = "Critical Error";
+
+  static const weAreFacingSomeError =
+      "We are facing some error in our backend please retry. Sorry for this inconvenience.";
+
+  static const indentifyDetails = "Identify Details";
+
+  static const profilePicture = "Profile Picture";
+
+  static const driverLicense = "Driver License";
+
+  static const aadharCard = "Aadhar Card";
+
+  static const vehicleInsurance = "Vehicle Insurance";
+
+  static const registrationCertificate = "Registration Certificate (RC)";
+
+  static const panCard = "Pan Card";
+
+  static const vehiclePermit = "Vehicle Permit";
+
+  static const vehicleAudit = "Vehicle Audit";
+
+  static const paymentDetails = "Payment Details";
+
+  static var necessarySteps = "Necessary Steps";
+
+  static var optionalSteps = "Optional Steps";
+
+  static var setting = "Setting";
+
+  static var profileSetting = "Profile Setting";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

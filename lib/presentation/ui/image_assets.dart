@@ -25,4 +25,6 @@ class ImageAssets {
   static const userCar = "$_root/user_car.svg";
 
   static const dropDownArrow = "$_root/drop_down_arrow.svg";
+
+  static const profile = "$_root/profile.svg";
 }

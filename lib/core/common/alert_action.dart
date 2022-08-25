@@ -5,5 +5,6 @@ enum AlertAction {
   uploadUserData,
   addVehicleInitialData,
   addVehicle,
+  allDetailsInitialData,
   none;
 }

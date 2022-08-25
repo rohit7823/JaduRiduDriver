@@ -155,6 +155,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: AppColors.primaryVariant);
 
+  static var stepsHeadingStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w500,
+      color: const Color(0xFF707070));
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(
@@ -268,6 +274,5 @@ class AppTextStyle {
       fontFamily: AppFonts.poppins,
       fontWeight: FontWeight.w400,
       fontSize: 12.sp,
-      color: AppColors.primaryVariant
-  );
+      color: AppColors.primaryVariant);
 }

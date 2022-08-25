@@ -1,10 +1,71 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jadu_ride_driver/core/domain/step.dart';
+import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
+import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class StepView extends StatelessWidget {
-  const StepView({Key? key}) : super(key: key);
+  DetailStep step;
+  Function(DetailStep) onClick;
+  StepView({Key? key, required this.step, required this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return InkWell(
+      onTap: () {
+        onClick(step);
+      },
+      borderRadius: BorderRadius.circular(16.r),
+      overlayColor:
+          MaterialStateProperty.all(AppColors.primaryVariant.withOpacity(.5)),
+      child: fitBox(
+        child: Container(
+          width: 0.90.sw,
+          padding: EdgeInsets.all(0.05.sw),
+          decoration: BoxDecoration(
+            color: step.isComplete
+                ? AppColors.appGreen.withOpacity(0.6)
+                : AppColors.white.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(16.r),
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.lightGray,
+                offset: Offset(
+                  5.0,
+                  5.0,
+                ),
+                blurRadius: 10.0,
+                spreadRadius: 2.0,
+              ), //BoxShadow
+              BoxShadow(
+                color: AppColors.lightGray,
+                offset: Offset(0.0, 0.0),
+                blurRadius: 0.0,
+                spreadRadius: 0.0,
+              ), //BoxShadow
+            ],
+          ),
+          child: Row(
+            children: [
+              expand(
+                  flex: 9,
+                  child: step.key.toDetailStepName().text(step.isComplete
+                      ? AppTextStyle.detailsTypeItemTextStyle
+                          .copyWith(color: AppColors.white)
+                      : AppTextStyle.detailsTypeItemTextStyle)),
+              expand(
+                  flex: 1,
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: step.isComplete ? AppColors.white : AppColors.Acadia,
+                  ))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

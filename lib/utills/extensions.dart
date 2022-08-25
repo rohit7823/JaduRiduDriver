@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_one.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_three.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_two.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 
 extension IntroPage on int {
   Widget getIntroPage(IntroStore store) {
@@ -50,5 +52,33 @@ extension MyFittedBox on Object {
 extension MyExpanded on Object {
   Widget expand({required int flex, required Widget child}) {
     return Expanded(flex: flex, child: child);
+  }
+}
+
+extension DetailsStepKeyMapper on String {
+  String toDetailStepName() {
+    if (this == DetailsStepKey.identifyDetails.key) {
+      return StringProvider.indentifyDetails;
+    } else if (this == DetailsStepKey.profilePicture.key) {
+      return StringProvider.profilePicture;
+    } else if (this == DetailsStepKey.driverLicense.key) {
+      return StringProvider.driverLicense;
+    } else if (this == DetailsStepKey.aadharCard.key) {
+      return StringProvider.aadharCard;
+    } else if (this == DetailsStepKey.vehicleInsurance.key) {
+      return StringProvider.vehicleInsurance;
+    } else if (this == DetailsStepKey.registrationCertificate.key) {
+      return StringProvider.registrationCertificate;
+    } else if (this == DetailsStepKey.panCard.key) {
+      return StringProvider.panCard;
+    } else if (this == DetailsStepKey.vehiclePermit.key) {
+      return StringProvider.vehiclePermit;
+    } else if (this == DetailsStepKey.vehicleAudit.key) {
+      return StringProvider.vehicleAudit;
+    } else if (this == DetailsStepKey.paymentDetails.key) {
+      return StringProvider.paymentDetails;
+    } else {
+      return "";
+    }
   }
 }
