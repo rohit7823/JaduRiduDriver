@@ -6,5 +6,6 @@ enum AlertAction {
   addVehicleInitialData,
   addVehicle,
   allDetailsInitialData,
+  detailsCancel,
   none;
 }

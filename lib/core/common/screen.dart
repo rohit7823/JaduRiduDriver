@@ -7,5 +7,17 @@ enum Screen {
   welcomeJaduRide,
   addVehicle,
   addAllDetails,
-  numberInputScreen;
+  profileSettings,
+  numberInputScreen,
+  identifyDetails,
+  vehicleAudit,
+  vehiclePermit,
+  panCard,
+  vehicleInsurance,
+  registrationCertificate,
+  profilePicture,
+  aadharCard,
+  driverLicense,
+  paymentDetails,
+  applicationSubmitted
 }

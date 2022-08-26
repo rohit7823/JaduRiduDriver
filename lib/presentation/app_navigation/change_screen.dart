@@ -9,6 +9,7 @@ class ChangeScreen {
   static to(BuildContext context, Screen screen,
       {Function? onComplete,
       Object? arguments,
+      Function(Object)? fromScreen,
       NavigationOption? option}) async {
     switch (screen) {
       case Screen.none:
@@ -50,12 +51,89 @@ class ChangeScreen {
         await _navigate(context, AppRoute.allDetails,
             arguments: arguments, onComplete: onComplete);
         break;
+      case Screen.profileSettings:
+        _navigate(context, AppRoute.profileSettings,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.identifyDetails:
+        _navigate(context, AppRoute.identifyDetails,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.vehicleAudit:
+        _navigate(context, AppRoute.vehicleAudit,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.vehiclePermit:
+        _navigate(context, AppRoute.vehiclePermit,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.panCard:
+        _navigate(context, AppRoute.panCard,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.vehicleInsurance:
+        _navigate(context, AppRoute.vehicleInsurance,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.registrationCertificate:
+        _navigate(context, AppRoute.registrationCertificate,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.profilePicture:
+        _navigate(context, AppRoute.profilePicture,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.aadharCard:
+        _navigate(context, AppRoute.aadharCard,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.driverLicense:
+        _navigate(context, AppRoute.driverLicense,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.paymentDetails:
+        _navigate(context, AppRoute.paymentDetails,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.applicationSubmitted:
+        _navigateWithOption(context, AppRoute.applicationSubmitted, option!);
+        break;
     }
   }
 
   static _navigate(BuildContext context, String destination,
-      {Function? onComplete, Object? arguments}) async {
-    await Navigator.of(context).pushNamed(destination, arguments: arguments);
+      {Function? onComplete,
+      Object? arguments,
+      Function(Object)? fromScreen}) async {
+    var returnedValue = await Navigator.of(context)
+        .pushNamed(destination, arguments: arguments);
+
+    if (returnedValue != null) {
+      fromScreen?.call(returnedValue);
+    }
+
     onComplete?.call();
   }
 
@@ -68,7 +146,8 @@ class ChangeScreen {
             .popAndPushNamed(destination, arguments: arguments);
         break;
       case Option.popAll:
-        // TODO: Handle this case.
+        await Navigator.of(context)
+            .pushNamedAndRemoveUntil(destination, (route) => false);
         break;
     }
     onComplete?.call();

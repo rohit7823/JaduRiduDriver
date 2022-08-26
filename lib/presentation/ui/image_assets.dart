@@ -27,4 +27,8 @@ class ImageAssets {
   static const dropDownArrow = "$_root/drop_down_arrow.svg";
 
   static const profile = "$_root/profile.svg";
+
+  static const success = "$_root/success.svg";
+
+  static const tick = "$_root/tick.svg";
 }

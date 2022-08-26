@@ -9,6 +9,22 @@ part of 'add_all_details_screen_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AddAllDetailsStore on _AddAllDetailsScreenStore, Store {
+  late final _$clearingLoaderAtom =
+      Atom(name: '_AddAllDetailsScreenStore.clearingLoader', context: context);
+
+  @override
+  bool get clearingLoader {
+    _$clearingLoaderAtom.reportRead();
+    return super.clearingLoader;
+  }
+
+  @override
+  set clearingLoader(bool value) {
+    _$clearingLoaderAtom.reportWrite(value, super.clearingLoader, () {
+      super.clearingLoader = value;
+    });
+  }
+
   late final _$gettingDataLoaderAtom = Atom(
       name: '_AddAllDetailsScreenStore.gettingDataLoader', context: context);
 
@@ -57,6 +73,38 @@ mixin _$AddAllDetailsStore on _AddAllDetailsScreenStore, Store {
     });
   }
 
+  late final _$informMessageAtom =
+      Atom(name: '_AddAllDetailsScreenStore.informMessage', context: context);
+
+  @override
+  String get informMessage {
+    _$informMessageAtom.reportRead();
+    return super.informMessage;
+  }
+
+  @override
+  set informMessage(String value) {
+    _$informMessageAtom.reportWrite(value, super.informMessage, () {
+      super.informMessage = value;
+    });
+  }
+
+  late final _$continueBtnAtom =
+      Atom(name: '_AddAllDetailsScreenStore.continueBtn', context: context);
+
+  @override
+  bool get continueBtn {
+    _$continueBtnAtom.reportRead();
+    return super.continueBtn;
+  }
+
+  @override
+  set continueBtn(bool value) {
+    _$continueBtnAtom.reportWrite(value, super.continueBtn, () {
+      super.continueBtn = value;
+    });
+  }
+
   late final _$getInitialDataAsyncAction =
       AsyncAction('_AddAllDetailsScreenStore.getInitialData', context: context);
 
@@ -65,12 +113,23 @@ mixin _$AddAllDetailsStore on _AddAllDetailsScreenStore, Store {
     return _$getInitialDataAsyncAction.run(() => super.getInitialData());
   }
 
+  late final _$onCancelResetAsyncAction =
+      AsyncAction('_AddAllDetailsScreenStore.onCancelReset', context: context);
+
+  @override
+  Future onCancelReset() {
+    return _$onCancelResetAsyncAction.run(() => super.onCancelReset());
+  }
+
   @override
   String toString() {
     return '''
+clearingLoader: ${clearingLoader},
 gettingDataLoader: ${gettingDataLoader},
 requiredSteps: ${requiredSteps},
-optionalSteps: ${optionalSteps}
+optionalSteps: ${optionalSteps},
+informMessage: ${informMessage},
+continueBtn: ${continueBtn}
     ''';
   }
 }

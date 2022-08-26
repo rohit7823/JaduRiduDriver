@@ -4,7 +4,7 @@ import 'package:jadu_ride_driver/utills/transition_event_detection.dart';
 class ScreenTransitions {
   ScreenTransitions._();
 
-  static slideTransition(Widget destination) {
+  static rightToLeftTransitionWithEvent(Widget destination) {
     return PageRouteBuilder(
         maintainState: true,
         transitionDuration: const Duration(milliseconds: 500),
@@ -12,6 +12,7 @@ class ScreenTransitions {
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var event =
               TransitionEventDetector.detect(animation, secondaryAnimation);
+          //debugPrint("transition event: ${event.name}");
           switch (event) {
             case TransitionEvent.ENTER:
               return SlideTransition(
@@ -28,6 +29,36 @@ class ScreenTransitions {
             case TransitionEvent.NONE:
               return child;
           }
+        },
+        pageBuilder: (context, animation, secondaryAnimation) => destination);
+  }
+
+  static rightToLeftTransition(Widget destination) {
+    return PageRouteBuilder(
+        maintainState: true,
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+              position: _onEnterEvent(animation), child: child);
+        },
+        pageBuilder: (context, animation, secondaryAnimation) => destination);
+  }
+
+  static bottomToTopTransition(Widget destination) {
+    return PageRouteBuilder(
+        maintainState: true,
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1);
+          const end = Offset.zero;
+          final tween = Tween(begin: begin, end: end)
+              .chain(CurveTween(curve: Curves.ease));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
         },
         pageBuilder: (context, animation, secondaryAnimation) => destination);
   }

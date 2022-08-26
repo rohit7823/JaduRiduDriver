@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/gradient_progress_indicator.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
@@ -23,16 +24,18 @@ class _AnimatedJaduRideViewState extends State<AnimatedJaduRideView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1500),
     );
 
     _controller.repeat(reverse: true);
 
     _sizeTween =
-        SizeTween(begin: Size(0.10.sh, 0.10.sh), end: Size(0.20.sh, 0.20.sh))
+        SizeTween(begin: Size(0.05.sw, 0.05.sw), end: Size(0.15.sw, 0.15.sw))
             .animate(_controller);
-    _colorTween = ColorTween(begin: AppColors.white, end: AppColors.primary)
-        .animate(_controller);
+    _colorTween = ColorTween(
+      begin: AppColors.primary,
+      end: AppColors.primaryVariant,
+    ).animate(_controller);
   }
 
   @override
@@ -46,32 +49,37 @@ class _AnimatedJaduRideViewState extends State<AnimatedJaduRideView>
     return AnimatedBuilder(
       animation: _controller,
       builder: (BuildContext context, Widget? child) {
-        return Container(
-          width: _sizeTween.value?.width,
-          height: _sizeTween.value?.height,
-          decoration: BoxDecoration(
-            color: _colorTween.value,
-            borderRadius: BorderRadius.circular(20.r),
-            boxShadow: const [
-              BoxShadow(
-                color: AppColors.lightGray,
-                offset: Offset(
-                  5.0,
-                  5.0,
-                ),
-                blurRadius: 10.0,
-                spreadRadius: 2.0,
-              ), //BoxShadow
-              BoxShadow(
-                color: AppColors.lightGray,
-                offset: Offset(0.0, 0.0),
-                blurRadius: 0.0,
-                spreadRadius: 0.0,
-              )
-            ],
-          ),
-          child: fitBox(
-            child: Image.asset(ImageAssets.logo),
+        return GradientProgressIndicator(
+          radius: 70,
+          strokeWidth: 10.0,
+          gradientStops: const [0.2, 0.8],
+          curveType: Curves.easeInCirc,
+          gradientColors: const [
+            AppColors.primary,
+            AppColors.primaryVariant,
+          ],
+          child: Container(
+            padding: EdgeInsets.all(0.03.sw),
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                shape: BoxShape.circle,
+                border: Border.all(color: _colorTween.value, width: 1),
+                boxShadow: const [
+                  BoxShadow(
+                    color: AppColors.lightGray,
+                    offset: Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 7.0,
+                    spreadRadius: 2.0,
+                  ) //BoxShadow
+                ]),
+            child: Image.asset(
+              ImageAssets.logo,
+              width: _sizeTween.value?.width,
+              height: _sizeTween.value?.height,
+            ),
           ),
         );
       },

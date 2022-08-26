@@ -119,6 +119,15 @@ class StringProvider {
 
   static var profileSetting = "Profile Setting";
 
+  static const youHaveToCompleteRequiredFields =
+      "You have to complete necessary steps to continue.";
+
+  static var cancelOrReset = "Cancel & Reset";
+
+  static var done = "Done";
+
+  static var selectOrChoosePicture = "Select/Choose Picture";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

@@ -1,6 +1,7 @@
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/add_all_details_initial_data_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/reset_all_details_response.dart';
 import 'package:jadu_ride_driver/core/domain/step.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 
@@ -17,7 +18,7 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
             (index) => DetailStep(
                 id: "ID${index + 1}",
                 key: _mapDetailsKeys(index),
-                isComplete: (index + 1).isEven ? true : false)),
+                isComplete: true)), //(index + 1).isEven ? true : false)),
         optionalSteps: List.generate(
             1,
             (index) => DetailStep(
@@ -49,5 +50,13 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
       default:
         return "";
     }
+  }
+
+  @override
+  Future<Resource<ResetAllDetailsResponse>> resetDetails(String userId) async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    return Success(ResetAllDetailsResponse(
+        status: true, message: "Success", isAllCleared: true));
   }
 }
