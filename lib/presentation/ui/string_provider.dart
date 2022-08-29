@@ -128,6 +128,29 @@ class StringProvider {
 
   static var selectOrChoosePicture = "Select/Choose Picture";
 
+  static var imageChooseGuidLine = "Image upload guideline 1";
+
+  static var imageChooseGuidLine2 = "Image upload guideline 2";
+
+  static var chooseImage = "Choose Image";
+
+  static var camera = "Camera";
+
+  static var gallery = "Gallery";
+
+  static var crop = "Crop";
+
+  static var pleaseEnterDrivingLicenseNumber =
+      "Please Enter Driving License Number";
+
+  static var driverLicenseNumber = "Driver License Number";
+
+  static var reEnterDriverLicenseNumber = "Re-Enter Driver License number";
+
+  static var dateOfBirth = "Date of Birth";
+
+  static var uploadDriverLicense = "Upload Driver License";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

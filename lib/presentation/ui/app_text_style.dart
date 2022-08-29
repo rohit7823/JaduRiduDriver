@@ -158,6 +158,12 @@ class AppTextStyle {
   static var stepsHeadingStyle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      color: const Color(0xFF707070));
+
+  static var enterDrivingLicNumberStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w500,
       color: const Color(0xFF707070));
 
@@ -275,4 +281,10 @@ class AppTextStyle {
       fontWeight: FontWeight.w400,
       fontSize: 12.sp,
       color: AppColors.primaryVariant);
+
+  static var guidLineStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontWeight: FontWeight.w500,
+      fontSize: 15.sp,
+      color: const Color(0xFF666666));
 }

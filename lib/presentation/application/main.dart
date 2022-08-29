@@ -30,8 +30,7 @@ class JaduRideDriver extends StatelessWidget {
   Widget build(BuildContext context) {
     return EasyLocalization(
       supportedLocales: List.generate(AppLanguageCode.values.length,
-              (index) => Locale(AppLanguageCode.values[index].value)
-      ),
+          (index) => Locale(AppLanguageCode.values[index].value)),
       path: TranslationAsset.path,
       fallbackLocale: Locale(AppLanguageCode.english.value),
       assetLoader: const CodegenLoader(),
@@ -46,7 +45,8 @@ class JaduRideDriver extends StatelessWidget {
             localizationsDelegates: context.localizationDelegates,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
-            onGenerateRoute: DefaultNav(sharedStore: sharedStore).generatedRoute,
+            onGenerateRoute:
+                DefaultNav(sharedStore: sharedStore).generatedRoute,
             themeMode: ThemeMode.light,
             initialRoute: AppRoute.splash,
           );

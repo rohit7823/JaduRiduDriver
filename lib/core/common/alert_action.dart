@@ -7,5 +7,6 @@ enum AlertAction {
   addVehicle,
   allDetailsInitialData,
   detailsCancel,
+  uploadProfileImage,
   none;
 }

@@ -31,4 +31,8 @@ class ImageAssets {
   static const success = "$_root/success.svg";
 
   static const tick = "$_root/tick.svg";
+
+  static const camera = "$_root/camera.svg";
+
+  static const gallery = "$_root/gallery.svg";
 }

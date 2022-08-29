@@ -152,4 +152,17 @@ class ChangeScreen {
     }
     onComplete?.call();
   }
+
+  static _navigatePop(BuildContext context, [Object? result]) async {
+    Navigator.of(context).pop(result);
+  }
+
+  static from(BuildContext context, Screen dest,
+      {Function? onCompleted, Object? result}) {
+    if (dest == Screen.addAllDetails) {
+      _navigatePop(context, result);
+    }
+
+    onCompleted?.call();
+  }
 }
