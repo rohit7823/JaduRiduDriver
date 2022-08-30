@@ -8,5 +8,7 @@ enum AlertAction {
   allDetailsInitialData,
   detailsCancel,
   uploadProfileImage,
+  uploadDriverLicense,
+  uploadDriverAadhar,
   none;
 }

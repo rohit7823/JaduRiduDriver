@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
-
 
 class MyTextInput extends StatefulWidget {
   Function(String) onTextChange;
@@ -15,6 +15,7 @@ class MyTextInput extends StatefulWidget {
   String? errorText;
   double? prefferedWidth;
   bool isMandatory = false;
+  List<TextInputFormatter> formatters;
   MyTextInput(
       {Key? key,
       required this.onTextChange,
@@ -22,13 +23,20 @@ class MyTextInput extends StatefulWidget {
       required this.keyboardType,
       required this.inputAction,
       this.prefferedWidth,
-      required  this.isMandatory,
+      this.formatters = const [],
+      required this.isMandatory,
       this.errorText})
       : super(key: key);
 
   @override
-  State<MyTextInput> createState() => _MyTextInputState(onTextChange,
-      keyboardType, inputAction, errorText, placeholderText, prefferedWidth);
+  State<MyTextInput> createState() => _MyTextInputState(
+      onTextChange,
+      keyboardType,
+      inputAction,
+      errorText,
+      placeholderText,
+      prefferedWidth,
+      formatters);
 }
 
 class _MyTextInputState extends State<MyTextInput> {
@@ -38,10 +46,17 @@ class _MyTextInputState extends State<MyTextInput> {
   TextInputAction action;
   String? errorText;
   double? _prefferedWidth;
+  List<TextInputFormatter> formatters;
 
   late final TextEditingController _controller;
-  _MyTextInputState(this.onTextChange, this._inputType,
-      this.action, this.errorText, this._placeholderText, this._prefferedWidth);
+  _MyTextInputState(
+      this.onTextChange,
+      this._inputType,
+      this.action,
+      this.errorText,
+      this._placeholderText,
+      this._prefferedWidth,
+      this.formatters);
 
   @override
   void initState() {
@@ -56,7 +71,9 @@ class _MyTextInputState extends State<MyTextInput> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: widget.isMandatory ? EdgeInsets.only(bottom: 0.03.sw) : EdgeInsets.zero,
+            padding: widget.isMandatory
+                ? EdgeInsets.only(bottom: 0.03.sw)
+                : EdgeInsets.zero,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.r)),
@@ -81,6 +98,7 @@ class _MyTextInputState extends State<MyTextInput> {
                 keyboardType: _inputType,
                 textInputAction: action,
                 maxLines: 1,
+                inputFormatters: formatters,
                 decoration: InputDecoration(
                   errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -105,7 +123,9 @@ class _MyTextInputState extends State<MyTextInput> {
               ),
             ),
           ),
-          if(widget.isMandatory) StringProvider.thisFieldIsMandatory.text(AppTextStyle.mandatoryFieldStyle)
+          if (widget.isMandatory)
+            StringProvider.thisFieldIsMandatory
+                .text(AppTextStyle.mandatoryFieldStyle)
         ],
       ),
     );

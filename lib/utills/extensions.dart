@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
+import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_one.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_three.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_two.dart';
@@ -79,6 +82,30 @@ extension DetailsStepKeyMapper on String {
       return StringProvider.paymentDetails;
     } else {
       return "";
+    }
+  }
+}
+
+extension MyApiCall on Future<BusinessObject> {
+  Future<Resource<R>> handleResponse<R>() async {
+    try {
+      var result = await this;
+      return Success(result as R);
+    } on DioError catch (ex) {
+      switch (ex.type) {
+        case DioErrorType.connectTimeout:
+          return Error(message: ex.message);
+        case DioErrorType.sendTimeout:
+          return Error(message: ex.message);
+        case DioErrorType.receiveTimeout:
+          return Error(message: ex.message);
+        case DioErrorType.response:
+          return Error(message: ex.message);
+        case DioErrorType.cancel:
+          return Error(message: ex.message);
+        case DioErrorType.other:
+          return Error(message: ex.message);
+      }
     }
   }
 }

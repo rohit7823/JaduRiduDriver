@@ -6,9 +6,7 @@ import '../core/common/app_constants.dart';
 import '../modules/app_module.dart';
 
 class Global {
-  late final String? deviceId;
-
-  Global(this.deviceId);
+  Global._();
 
   static String getPlatform() {
     if (Platform.isAndroid) {

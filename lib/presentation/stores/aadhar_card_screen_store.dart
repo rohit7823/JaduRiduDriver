@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
@@ -11,7 +10,8 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
-import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
+import 'package:jadu_ride_driver/core/helpers/validator.dart';
+import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/image_file_picker.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
@@ -20,31 +20,30 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
-part 'driver_license_screen_store.g.dart';
+part 'aadhar_card_screen_store.g.dart';
 
-class DriverLicenseStore = _DriverLicenseScreenStore with _$DriverLicenseStore;
+class AadharCardStore = _AadharCardScreenStore with _$AadharCardStore;
 
-abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
-  final _repository = dependency<DriverLicenseRepository>();
+abstract class _AadharCardScreenStore extends AppNavigator with Store {
+  final _repository = dependency<AadharNumberRepository>();
   final _storage = dependency<Storage>();
+  final _validator = dependency<Validator>();
   final dialogManager = DialogManager();
   final uploader = Uploader();
   final _picker = ImageFilePicker();
 
-  @observable
-  String license = "";
+  _AadharCardScreenStore() {
+    _validateInputs();
+  }
 
   @observable
-  String reEnteredLicense = "";
-
-  @observable
-  bool enableBtn = false;
+  String aaharNumber = "";
 
   @observable
   File? selectedImage;
 
   @observable
-  String warnMessage = "";
+  bool enableBtn = false;
 
   @observable
   String informMessage = "";
@@ -52,50 +51,43 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   @observable
   DialogState imagePicker = DialogState.notDisplaying;
 
-  _DriverLicenseScreenStore() {
-    _validateInputs();
-  }
+  @observable
+  String errorMessage = "";
 
   @action
   _validateInputs() async {
     while (true) {
-      if (license.isEmpty) {
-        enableBtn = false;
-      } else if (reEnteredLicense.isEmpty) {
+      if (aaharNumber.isEmpty) {
         enableBtn = false;
       } else if (selectedImage == null) {
         enableBtn = false;
       } else {
-        if (license != reEnteredLicense) {
-          enableBtn = false;
-          warnMessage = StringProvider.didNotMatched;
-        } else {
+        if (_validator.isAadharValid(aaharNumber)) {
+          errorMessage = "";
           enableBtn = true;
-          warnMessage = "";
+        } else {
+          errorMessage = StringProvider.invalidAadhar;
+          enableBtn = false;
         }
       }
       await Future.delayed(const Duration(milliseconds: 300));
     }
   }
 
-  @action
-  onClose() {
-    selectedImage = null;
+  onError(AlertAction? action) {
+    if (action == AlertAction.uploadDriverAadhar) {
+      onDone();
+    }
   }
 
   @action
-  driverLicense(String lic) {
-    license = lic;
-  }
-
-  @action
-  repeatedDriverLicense(String lic) {
-    reEnteredLicense = lic;
-  }
-
-  @action
-  openImageChoosingDialog() {
+  openImagePicker() {
     imagePicker = DialogState.displaying;
+  }
+
+  @action
+  closeImagePicker() {
+    imagePicker = DialogState.notDisplaying;
   }
 
   @action
@@ -109,11 +101,21 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   }
 
   @action
+  onClose() {
+    selectedImage = null;
+  }
+
+  @action
+  onAadharNumber(String number) {
+    aaharNumber = number;
+  }
+
+  @action
   onDone() async {
     var userId = _storage.userId();
     var response = await _repository
-        .uploadLicense(userId, license, selectedImage!, (status, p1) {
-      if (status) {
+        .uploadAadhar(userId, aaharNumber, selectedImage!, (p0, p1) {
+      if (p0) {
         uploader.startUploader(p1);
       } else {
         uploader.stopUploader(p1);
@@ -139,7 +141,7 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
                 null,
                 AlertBehaviour(
                     option: AlertOption.none,
-                    action: AlertAction.uploadDriverLicense)));
+                    action: AlertAction.uploadDriverAadhar)));
           }
           break;
         default:
@@ -152,10 +154,10 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.none,
-                  action: AlertAction.uploadDriverLicense)));
+                  option: AlertOption.invokeOnBarrier,
+                  action: AlertAction.uploadDriverAadhar)));
       }
-    } else {
+    } else if (response is Error) {
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
           null,
@@ -166,13 +168,7 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
           null,
           AlertBehaviour(
               option: AlertOption.invokeOnBarrier,
-              action: AlertAction.uploadDriverLicense)));
-    }
-  }
-
-  onError(AlertAction? action) {
-    if (action == AlertAction.uploadDriverLicense) {
-      onDone();
+              action: AlertAction.uploadDriverAadhar)));
     }
   }
 }

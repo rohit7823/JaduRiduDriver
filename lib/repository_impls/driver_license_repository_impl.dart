@@ -13,6 +13,6 @@ class DriverLicenseRepositoryImpl implements DriverLicenseRepository {
     await Future.delayed(const Duration(seconds: 3));
     onUploading(false, 0);
     return Success(UploadDriverLicenseResponse(
-        status: true, message: "Success", isUploaded: false));
+        status: true, message: "Success", isUploaded: true));
   }
 }

@@ -1,4 +1,6 @@
-class OtpVerificationResponse {
+import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
+
+class OtpVerificationResponse extends BusinessObject {
   bool status;
   String message;
   bool isVerified;

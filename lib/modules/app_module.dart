@@ -1,6 +1,11 @@
 import 'package:alice/alice.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
+import 'package:jadu_ride_driver/core/helpers/validator.dart';
+import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_vehicle_repository.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
@@ -12,6 +17,8 @@ import 'package:jadu_ride_driver/core/repository/splash_repository.dart';
 import 'package:jadu_ride_driver/core/repository/verify_otp_repository.dart';
 import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_vehicle_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/batch_call_repository_impl.dart';
@@ -22,6 +29,10 @@ import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_imp
 import 'package:jadu_ride_driver/repository_impls/splash_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/verify_otp_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/welcome_jadu_ride_repository_impl.dart';
+import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/environment.dart';
+import 'package:jadu_ride_driver/utills/global.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dependency = GetIt.instance;
@@ -37,16 +48,28 @@ class AppModule {
 
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
+    final imagePicker = ImagePicker();
+    final cropper = ImageCropper();
+    final env = Environment();
+    await env.init();
+    await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
+    final dio = Dio(ApiClientConfiguration.initialConfiguration);
+    dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
-    dependency
-        .registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl());
+
+    dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
+
+    dependency.registerLazySingleton<ImageCropper>(() => cropper);
+
+    dependency.registerLazySingleton<SplashRepository>(
+        () => SplashRepositoryImpl(dio));
 
     dependency.registerLazySingleton<BatchCallRepository>(
-        () => BatchCallRepositoryImpl());
+        () => BatchCallRepositoryImpl(dio));
 
     dependency.registerLazySingleton<NumberInputRepository>(
-        () => NumberInputRepositoryImpl());
+        () => NumberInputRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VerifyOtpRepository>(
         () => VerifyOtpRepositoryImpl());
@@ -58,7 +81,7 @@ class AppModule {
         () => WelcomeJaduRideRepositoryImpl());
 
     dependency.registerLazySingleton<AddVehicleRepository>(
-        () => AddVehicleRepositoryImpl());
+        () => AddVehicleRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AddAllDetailsRepository>(
         () => AddAllDetailsRepositoryImpl());
@@ -68,5 +91,10 @@ class AppModule {
 
     dependency.registerLazySingleton<DriverLicenseRepository>(
         () => DriverLicenseRepositoryImpl());
+
+    dependency.registerLazySingleton<AadharNumberRepository>(
+        () => AadharNumberRepositoryImpl());
+
+    dependency.registerLazySingleton<Validator>(() => ValidatorImpl());
   }
 }

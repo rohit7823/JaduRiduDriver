@@ -132,7 +132,7 @@ class StringProvider {
 
   static var imageChooseGuidLine2 = "Image upload guideline 2";
 
-  static var chooseImage = "Choose Image";
+  static var chooseSource = "Choose Source";
 
   static var camera = "Camera";
 
@@ -150,6 +150,18 @@ class StringProvider {
   static var dateOfBirth = "Date of Birth";
 
   static var uploadDriverLicense = "Upload Driver License";
+
+  static var didNotMatched = "Number did not matched!";
+
+  static var addharCard = "Aadhar Card";
+
+  static var enterAdharCardNumber = "Please Enter Aadhar Card Number";
+
+  static var aadharCardNumber = "Aadhar Card Number";
+
+  static var aadharCardPhoto = "Aadhar Card Photo";
+
+  static var invalidAadhar = "Invalid aadhar number!";
 
   StringProvider._();
 

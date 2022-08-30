@@ -144,7 +144,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                   MyTextInput(
                       onTextChange: _store.onVehicleNumber,
                       placeholderText: StringProvider.vehicleNumber,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       inputAction: TextInputAction.done,
                       isMandatory: true)
                 ],

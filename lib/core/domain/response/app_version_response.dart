@@ -1,6 +1,7 @@
 import 'package:jadu_ride_driver/core/domain/app_version.dart';
+import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
-class AppVersionResponse {
+class AppVersionResponse extends BusinessObject {
   bool status;
   String message;
   AppVersion version;

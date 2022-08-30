@@ -40,6 +40,7 @@ class JaduRideDriver extends StatelessWidget {
         designSize: const Size(428, 926),
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
+            navigatorKey: AppModule.alice.getNavigatorKey(),
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             localizationsDelegates: context.localizationDelegates,
