@@ -10,5 +10,7 @@ enum AlertAction {
   uploadProfileImage,
   uploadDriverLicense,
   uploadDriverAadhar,
+  uploadVehicleInsurance,
+  uploadDriverRegistrationCertificate,
   none;
 }

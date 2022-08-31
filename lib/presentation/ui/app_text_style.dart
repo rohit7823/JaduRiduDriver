@@ -167,6 +167,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: const Color(0xFF707070));
 
+  static var mcqTextStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w500,
+      color: const Color(0xFF3E3E3E));
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

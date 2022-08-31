@@ -163,6 +163,36 @@ class StringProvider {
 
   static var invalidAadhar = "Invalid aadhar number!";
 
+  static var doYouHaveValidInsurance =
+      "Do you have\nvalid insurance document ?";
+
+  static var yes = "YES";
+
+  static var no = "NO";
+
+  static var pleaseEnterVehicleInsuranceNumber =
+      "Please Enter Vehicle Insurance Number";
+
+  static var vehicleInsuranceNumber = "Vehicle Insurance Number";
+
+  static var uploadVechicle = "Upload Vehicle Insurance";
+
+  static var validTill = "Valid Till";
+
+  static var pleaseEnterValidityOfYourInsurance =
+      "Please Give Validity of Insurance";
+
+  static var set = "SET";
+
+  static var uploadRegistrationCertificate =
+      "Upload Registration Certificate (RC)";
+
+  static var uploadPanImage = "Upload Pan Image";
+
+  static var pleaseEnterPanCardNumber = "Please Enter Pancard Number";
+
+  static var panNumber = "Pan Number";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";
