@@ -1,8 +1,8 @@
 class UserVehicleResponse {
   bool status;
-  String messsage;
+  String message;
   bool isAdded;
 
   UserVehicleResponse(
-      {required this.status, required this.messsage, required this.isAdded});
+      {required this.status, required this.message, required this.isAdded});
 }

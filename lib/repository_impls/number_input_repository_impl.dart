@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/mobile_number_code.dart';
 import 'package:jadu_ride_driver/core/domain/response/number_codes_response.dart';
@@ -34,9 +35,17 @@ class NumberInputRepositoryImpl implements NumberInputRepository {
   @override
   Future<Resource<SendOtpResponse>> sendOtp(
       String number, String codeId) async {
-    await Future.delayed(const Duration(seconds: 2));
+    var trimedNumber = "";
+    number.split("-").forEach((element) {
+      trimedNumber += element;
+    });
+    return await _numberInputApi
+        .sendOtp(trimedNumber)
+        .handleResponse<SendOtpResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(
-        SendOtpResponse(status: true, message: "Success", isSend: true));
+        SendOtpResponse(status: true, message: "Success", isSend: true));*/
   }
 }

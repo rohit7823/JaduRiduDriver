@@ -20,6 +20,7 @@ import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_permit_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/vehicle_pollution_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/verify_otp_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
@@ -91,6 +92,9 @@ class DefaultNav {
       case AppRoute.paymentDetails:
         return ScreenTransitions.bottomToTopTransition(
             const PaymentDetailsScreen());
+      case AppRoute.vehiclePollution:
+        return ScreenTransitions.bottomToTopTransition(
+            const VehiclePollution());
       case AppRoute.applicationSubmitted:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             const ApplicationSubmittedScreen());

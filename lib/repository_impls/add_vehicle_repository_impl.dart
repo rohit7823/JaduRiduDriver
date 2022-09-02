@@ -19,11 +19,11 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
 
   @override
   Future<Resource<InitialDataInAddVehicleResponse>> initialData() async {
-    /*return await _addVehicleApi
+    return await _addVehicleApi
         .vehicleTypes()
-        .handleResponse<InitialDataInAddVehicleResponse>();*/
+        .handleResponse<InitialDataInAddVehicleResponse>();
 
-    await Future.delayed(const Duration(seconds: 2));
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(InitialDataInAddVehicleResponse(
         status: true,
@@ -31,7 +31,7 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
         categories: List.generate(
             10,
             (index) => VehicleCategory(
-                id: "ID${index + 1}", name: "Vehicle type ${index + 1}"))));
+                id: "ID${index + 1}", name: "Vehicle type ${index + 1}"))));*/
   }
 
   @override
@@ -40,6 +40,6 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
     await Future.delayed(const Duration(seconds: 2));
 
     return Success(
-        UserVehicleResponse(status: true, messsage: "Success", isAdded: true));
+        UserVehicleResponse(status: true, message: "Success", isAdded: true));
   }
 }

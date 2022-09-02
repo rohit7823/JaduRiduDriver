@@ -23,6 +23,20 @@ mixin _$DialogManager on _DialogManager, Store {
           Computed<DialogState>(() => super.currentErrorState,
               name: '_DialogManager.currentErrorState'))
       .value;
+  Computed<DialogState>? _$filePickerStateComputed;
+
+  @override
+  DialogState get filePickerState => (_$filePickerStateComputed ??=
+          Computed<DialogState>(() => super.filePickerState,
+              name: '_DialogManager.filePickerState'))
+      .value;
+  Computed<DialogState>? _$datePickerStateComputed;
+
+  @override
+  DialogState get datePickerState => (_$datePickerStateComputed ??=
+          Computed<DialogState>(() => super.datePickerState,
+              name: '_DialogManager.datePickerState'))
+      .value;
 
   late final _$_stateAtom =
       Atom(name: '_DialogManager._state', context: context);
@@ -53,6 +67,38 @@ mixin _$DialogManager on _DialogManager, Store {
   set _errorState(DialogState value) {
     _$_errorStateAtom.reportWrite(value, super._errorState, () {
       super._errorState = value;
+    });
+  }
+
+  late final _$_filePickerDialogAtom =
+      Atom(name: '_DialogManager._filePickerDialog', context: context);
+
+  @override
+  DialogState get _filePickerDialog {
+    _$_filePickerDialogAtom.reportRead();
+    return super._filePickerDialog;
+  }
+
+  @override
+  set _filePickerDialog(DialogState value) {
+    _$_filePickerDialogAtom.reportWrite(value, super._filePickerDialog, () {
+      super._filePickerDialog = value;
+    });
+  }
+
+  late final _$_datePickerAtom =
+      Atom(name: '_DialogManager._datePicker', context: context);
+
+  @override
+  DialogState get _datePicker {
+    _$_datePickerAtom.reportRead();
+    return super._datePicker;
+  }
+
+  @override
+  set _datePicker(DialogState value) {
+    _$_datePickerAtom.reportWrite(value, super._datePicker, () {
+      super._datePicker = value;
     });
   }
 
@@ -115,6 +161,50 @@ mixin _$DialogManager on _DialogManager, Store {
   }
 
   @override
+  dynamic openFilePicker() {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.openFilePicker');
+    try {
+      return super.openFilePicker();
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic clearFilePicker() {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.clearFilePicker');
+    try {
+      return super.clearFilePicker();
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic openDatePicker() {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.openDatePicker');
+    try {
+      return super.openDatePicker();
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic closeDatePicker() {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.closeDatePicker');
+    try {
+      return super.closeDatePicker();
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic closeDialog() {
     final _$actionInfo = _$_DialogManagerActionController.startAction(
         name: '_DialogManager.closeDialog');
@@ -142,7 +232,9 @@ mixin _$DialogManager on _DialogManager, Store {
 data: ${data},
 errorData: ${errorData},
 currentState: ${currentState},
-currentErrorState: ${currentErrorState}
+currentErrorState: ${currentErrorState},
+filePickerState: ${filePickerState},
+datePickerState: ${datePickerState}
     ''';
   }
 }

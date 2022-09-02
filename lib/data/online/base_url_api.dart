@@ -12,4 +12,7 @@ abstract class BaseUrlApi {
 
   @GET(ApiRoutes.baseUrl)
   Future<BaseUrlResponse> appBaseUrl();
+
+  @GET(ApiRoutes.appVersion)
+  Future<AppVersionResponse> appVersion();
 }

@@ -193,6 +193,30 @@ class StringProvider {
 
   static var panNumber = "Pan Number";
 
+  static var invalidPan = "Invalid Pan Number";
+
+  static var isYourVehiclePermitIssued = "Is your Vehicle Permit Issued?";
+
+  static var pleaseEnterVehiclePermitNumber =
+      "Please Enter Vehicle Permit Number";
+
+  static var issuedOn = "Issued On";
+
+  static var issuedDateOfVehiclePermit =
+      "Please Give Issued Date of Vehicle's Permit";
+
+  static var vehiclePermitNumber = "Vehicle Permit Number";
+
+  static var uploadVehiclePermit = "Upload Vehicle Permit";
+
+  static var requiredSteps = "Required Steps";
+
+  static var expiryDateOfLicense = "Please Give Expiry Date Of License";
+
+  static var expiry = "Expiry Date";
+
+  static var vehiclePollution = "Vehicle Pollution";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

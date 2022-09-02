@@ -25,6 +25,22 @@ mixin _$DriverLicenseStore on _DriverLicenseScreenStore, Store {
     });
   }
 
+  late final _$selectedDateAtom =
+      Atom(name: '_DriverLicenseScreenStore.selectedDate', context: context);
+
+  @override
+  String get selectedDate {
+    _$selectedDateAtom.reportRead();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(String value) {
+    _$selectedDateAtom.reportWrite(value, super.selectedDate, () {
+      super.selectedDate = value;
+    });
+  }
+
   late final _$reEnteredLicenseAtom = Atom(
       name: '_DriverLicenseScreenStore.reEnteredLicense', context: context);
 
@@ -202,9 +218,21 @@ mixin _$DriverLicenseStore on _DriverLicenseScreenStore, Store {
   }
 
   @override
+  dynamic onSelectDate(DateTime? selected) {
+    final _$actionInfo = _$_DriverLicenseScreenStoreActionController
+        .startAction(name: '_DriverLicenseScreenStore.onSelectDate');
+    try {
+      return super.onSelectDate(selected);
+    } finally {
+      _$_DriverLicenseScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 license: ${license},
+selectedDate: ${selectedDate},
 reEnteredLicense: ${reEnteredLicense},
 enableBtn: ${enableBtn},
 selectedImage: ${selectedImage},

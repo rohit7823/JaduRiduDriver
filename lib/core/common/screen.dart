@@ -19,5 +19,7 @@ enum Screen {
   aadharCard,
   driverLicense,
   paymentDetails,
-  applicationSubmitted
+  dashBoard,
+  applicationSubmitted,
+  vehiclePollution
 }

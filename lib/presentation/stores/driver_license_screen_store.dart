@@ -12,6 +12,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
+import 'package:jadu_ride_driver/helpers_impls/date_time_helper.dart';
 import 'package:jadu_ride_driver/helpers_impls/image_file_picker.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
@@ -30,9 +31,13 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   final dialogManager = DialogManager();
   final uploader = Uploader();
   final _picker = ImageFilePicker();
+  final _dateTimeHelper = DateTimeHelper();
 
   @observable
   String license = "";
+
+  @observable
+  String selectedDate = StringProvider.expiry;
 
   @observable
   String reEnteredLicense = "";
@@ -64,6 +69,8 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
       } else if (reEnteredLicense.isEmpty) {
         enableBtn = false;
       } else if (selectedImage == null) {
+        enableBtn = false;
+      } else if (selectedDate == StringProvider.expiry) {
         enableBtn = false;
       } else {
         if (license != reEnteredLicense) {
@@ -108,11 +115,25 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
     selectedImage = await _picker.clickViaCamera();
   }
 
+  openDatePicker() {
+    dialogManager.openDatePicker();
+  }
+
+  @action
+  onSelectDate(DateTime? selected) {
+    if (selected != null) {
+      selectedDate =
+          "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${_dateTimeHelper.getWeekDayName(selected.weekday)}, ${selected.year}";
+    } else {
+      selectedDate = StringProvider.expiry;
+    }
+  }
+
   @action
   onDone() async {
     var userId = _storage.userId();
-    var response = await _repository
-        .uploadLicense(userId, license, selectedImage!, (status, p1) {
+    var response = await _repository.uploadLicense(
+        userId, license, selectedImage!, selectedDate, (status, p1) {
       if (status) {
         uploader.startUploader(p1);
       } else {

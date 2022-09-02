@@ -8,6 +8,7 @@ enum DetailsStepKey {
   panCard("KEY_PAN_CARD"),
   vehiclePermit("KEY_VEHICLE_PERMIT"),
   vehicleAudit("KEY_VEHICLE_AUDIT"),
+  vehiclePollution("KEY_VEHICLE_POLLUTION"),
   paymentDetails("KEY_PAYMENT_DETAILS");
 
   final String key;

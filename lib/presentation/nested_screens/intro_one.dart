@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 
+import '../../utills/global.dart';
+
 class IntroOne extends StatelessWidget {
   IntroStore store;
   IntroOne({Key? key, required this.store}) : super(key: key);
@@ -24,7 +26,11 @@ class IntroOne extends StatelessWidget {
       child: FittedBox(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.10.sw, vertical: 0.05.sw),
-          child: SvgPicture.network("https://jaduridedev.v-xplore.com/${store.data.first.coverImage}", width: 0.30.sh, height: 0.30.sh,),
+          child: SvgPicture.network(
+            "${Global.baseUrl}${store.data.first.coverImage}",
+            width: 0.30.sh,
+            height: 0.30.sh,
+          ),
         ),
       ),
     );
@@ -37,14 +43,21 @@ class IntroOne extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(bottom: 0.03.sw),
-                child: Text(store.data.first.heading, style: AppTextStyle.introHeadingStyle)),
-            Padding(padding: EdgeInsets.only(bottom: 0.03.sw),
-                child: Text(store.data.first.body, style: AppTextStyle.introSubHeadingStyle, textAlign: TextAlign.center, maxLines: 3,))
+            Padding(
+                padding: EdgeInsets.only(bottom: 0.03.sw),
+                child: Text(store.data.first.heading,
+                    style: AppTextStyle.introHeadingStyle)),
+            Padding(
+                padding: EdgeInsets.only(bottom: 0.03.sw),
+                child: Text(
+                  store.data.first.body,
+                  style: AppTextStyle.introSubHeadingStyle,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                ))
           ],
         ),
       ),
     );
   }
-
 }

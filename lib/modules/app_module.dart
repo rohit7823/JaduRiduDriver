@@ -16,7 +16,9 @@ import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
 import 'package:jadu_ride_driver/core/repository/registration_certificate_repository.dart';
 import 'package:jadu_ride_driver/core/repository/splash_repository.dart';
+import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_insurance_repository.dart';
+import 'package:jadu_ride_driver/core/repository/vehicle_permit_repository.dart';
 import 'package:jadu_ride_driver/core/repository/verify_otp_repository.dart';
 import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
@@ -32,7 +34,9 @@ import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart'
 import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/registration_certificate_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/splash_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/vehicle_audit_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_insurance_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/vehicle_permit_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/verify_otp_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/welcome_jadu_ride_repository_impl.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
@@ -78,7 +82,7 @@ class AppModule {
         () => NumberInputRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VerifyOtpRepository>(
-        () => VerifyOtpRepositoryImpl());
+        () => VerifyOtpRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ChangeAppLanguageRepository>(
         () => ChangeAppLanguageRepositoryImpl());
@@ -93,10 +97,10 @@ class AppModule {
         () => AddAllDetailsRepositoryImpl());
 
     dependency.registerLazySingleton<ProfilePictureRepository>(
-        () => ProfilePictureRepositoryImpl());
+        () => ProfilePictureRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverLicenseRepository>(
-        () => DriverLicenseRepositoryImpl());
+        () => DriverLicenseRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AadharNumberRepository>(
         () => AadharNumberRepositoryImpl());
@@ -110,6 +114,12 @@ class AppModule {
         () => RegistrationCeritificateRepositoryImpl());
 
     dependency.registerLazySingleton<PanCardRepository>(
-        () => PanCardRepositoryImpl());
+        () => PanCardRepositoryImpl(dio));
+
+    dependency.registerLazySingleton<VehiclePermitRepository>(
+        () => VehiclePermitRepositoryImpl(dio));
+
+    dependency.registerLazySingleton<VehicleAuditRepository>(
+        () => VehicleAuditRepositoryImpl());
   }
 }

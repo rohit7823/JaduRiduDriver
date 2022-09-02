@@ -20,7 +20,9 @@ class SplashRepositoryImpl implements SplashRepository {
 
   @override
   Future<Resource<AppVersionResponse>> fetchAppVersion() async {
-    await Future.delayed(const Duration(seconds: 2));
+    return await _baseUrlApi.appVersion().handleResponse<AppVersionResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(AppVersionResponse(
         status: true,
@@ -31,18 +33,19 @@ class SplashRepositoryImpl implements SplashRepository {
             date: "8/6/2022",
             isSkipable: false,
             url:
-                'https://play.google.com/store/search?q=farmology+app&c=apps')));
+                'https://play.google.com/store/search?q=farmology+app&c=apps')));*/
   }
 
   @override
   Future<Resource<BaseUrlResponse>> getBaseUrl() async {
-    /*var result = await _baseUrlApi.baseUrl().handleResponse<BaseUrlResponse>();
-    return result;*/
-    await Future.delayed(const Duration(seconds: 2));
+    var result =
+        await _baseUrlApi.appBaseUrl().handleResponse<BaseUrlResponse>();
+    return result;
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(BaseUrlResponse(
         status: true,
         message: "Success",
-        baseUrl: "https://jaduridedev.v-xplore.com/"));
+        baseUrl: "https://jaduridedev.v-xplore.com/"));*/
   }
 }

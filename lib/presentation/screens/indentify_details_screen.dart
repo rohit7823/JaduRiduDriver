@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
+import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class IdentifyDetailsScreen extends StatefulWidget {
   const IdentifyDetailsScreen({Key? key}) : super(key: key);

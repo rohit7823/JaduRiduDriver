@@ -120,6 +120,12 @@ class ChangeScreen {
       case Screen.applicationSubmitted:
         _navigateWithOption(context, AppRoute.applicationSubmitted, option!);
         break;
+      case Screen.vehiclePollution:
+        _navigate(context, AppRoute.vehiclePollution);
+        break;
+      case Screen.dashBoard:
+        debugPrint("dashboard not ready");
+        break;
     }
   }
 

@@ -4,10 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 
+import '../../utills/global.dart';
+
 class IntroThree extends StatelessWidget {
   IntroStore store;
   int pos;
-  IntroThree({Key? key, required this.store, required this.pos}) : super(key: key);
+  IntroThree({Key? key, required this.store, required this.pos})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,8 @@ class IntroThree extends StatelessWidget {
       child: FittedBox(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.10.sw),
-          child: SvgPicture.network("https://jaduridedev.v-xplore.com/${store.data[pos].coverImage}"),
+          child: SvgPicture.network(
+              "${Global.baseUrl}${store.data[pos].coverImage}"),
         ),
       ),
     );
@@ -34,17 +38,21 @@ class IntroThree extends StatelessWidget {
   Widget _lowerSideContent() {
     return Align(
       alignment: Alignment.topCenter,
-      child: FittedBox(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0.10.sw),
-          child: Column(
-            children: [
-              Padding(padding: EdgeInsets.only(bottom: 0.03.sw),
-              child: Text(store.data[pos].heading, style: AppTextStyle.introHeadingStyle)),
-              Padding(padding: EdgeInsets.only(bottom: 0.03.sw),
-                  child: Text(store.data[pos].body, style: AppTextStyle.introSubHeadingStyle, maxLines: 3))
-            ],
-          ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
+        child: Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(bottom: 0.03.sw),
+                child: Text(store.data[pos].heading,
+                    style: AppTextStyle.introHeadingStyle)),
+            Padding(
+                padding: EdgeInsets.only(bottom: 0.03.sw),
+                child: Text(store.data[pos].body,
+                    style: AppTextStyle.introSubHeadingStyle,
+                    textAlign: TextAlign.center,
+                    maxLines: 3))
+          ],
         ),
       ),
     );

@@ -22,6 +22,7 @@ import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import 'package:jadu_ride_driver/utills/app_date_picker.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:jadu_ride_driver/utills/image_chooser_dialog.dart';
@@ -74,6 +75,13 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
           AppSnackBar.show(context, message: p0, clear: () {
             _store.informMessage = "";
           });
+        }
+      }),
+      reaction((p0) => _store.dialogManager.datePickerState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          AppDatePicker.show(context, DateTime.now(), DateTime(2000),
+              DateTime(2050), _store.onSelectDate,
+              dismissed: _store.dialogManager.closeDatePicker);
         }
       })
     ];
@@ -153,6 +161,19 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
                 Observer(
                   builder: (BuildContext context) {
                     return InvalidInput(invalidText: _store.warnMessage);
+                  },
+                ),
+                StringProvider.expiryDateOfLicense
+                    .text(AppTextStyle.enterDrivingLicNumberStyle)
+                    .padding(
+                        insets: EdgeInsets.only(top: 0.05.sw, bottom: 0.03.sw)),
+                Observer(
+                  builder: (BuildContext context) {
+                    return DobView(
+                      value: _store.selectedDate,
+                      onClick: _store.openDatePicker,
+                      isMandatory: true,
+                    );
                   },
                 ),
                 GuideLineView(guildLine: StringProvider.imageChooseGuidLine),

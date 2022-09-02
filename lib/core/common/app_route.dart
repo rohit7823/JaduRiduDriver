@@ -37,6 +37,8 @@ class AppRoute {
 
   static const applicationSubmitted = "/applicationSubmitted";
 
+  static const vehiclePollution = "/vehiclePollution";
+
   AppRoute._();
 
   static const splash = "/splash";

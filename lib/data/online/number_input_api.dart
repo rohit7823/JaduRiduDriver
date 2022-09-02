@@ -13,4 +13,7 @@ abstract class NumberInputApi {
 
   @GET(ApiRoutes.codes)
   Future<NumberCodesResponse> numberCodes();
+
+  @GET(ApiRoutes.sendOtp)
+  Future<SendOtpResponse> sendOtp(@Query("mobile") String number);
 }

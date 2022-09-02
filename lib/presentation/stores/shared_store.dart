@@ -13,6 +13,7 @@ import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:mobx/mobx.dart';
 
 part 'shared_store.g.dart';
@@ -125,6 +126,8 @@ abstract class _SharedStore extends AppNavigator with Store {
           if (pageResponse is LoginRegisterDataResponse) {
             if (pageResponse.status) {
               loginRegistrationData = pageResponse.data;
+              loginRegistrationData!.coverImage =
+                  "${Global.baseUrl}${loginRegistrationData!.coverImage}";
               onChange(
                   ScreenWithExtras(screen: Screen.loginRegistrationScreen));
             } else {

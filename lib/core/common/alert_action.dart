@@ -12,5 +12,8 @@ enum AlertAction {
   uploadDriverAadhar,
   uploadVehicleInsurance,
   uploadDriverRegistrationCertificate,
+  uploadPanCard,
+  uploadVehiclePermit,
+  auditRequiredSteps,
   none;
 }

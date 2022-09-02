@@ -137,6 +137,8 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
       onChange(ScreenWithExtras(screen: Screen.driverLicense));
     } else if (step.key == DetailsStepKey.paymentDetails.key) {
       onChange(ScreenWithExtras(screen: Screen.paymentDetails));
+    } else if (step.key == DetailsStepKey.vehiclePollution.key) {
+      onChange(ScreenWithExtras(screen: Screen.vehiclePollution));
     }
   }
 

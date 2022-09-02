@@ -14,7 +14,7 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
         status: true,
         message: "Success",
         requiredSteps: List.generate(
-            9,
+            10,
             (index) => DetailStep(
                 id: "ID${index + 1}",
                 key: _mapDetailsKeys(index),
@@ -46,6 +46,8 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
       case 7:
         return DetailsStepKey.vehicleAudit.key;
       case 8:
+        return DetailsStepKey.vehiclePollution.key;
+      case 9:
         return DetailsStepKey.identifyDetails.key;
       default:
         return "";

@@ -15,6 +15,38 @@ class _BatchCallApi implements BatchCallApi {
 
   String? baseUrl;
 
+  @override
+  Future<BatchCallResponse> batchCallForIntroData(requestedApi) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BatchCallResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/driver/batchCall',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BatchCallResponse.fromJsonIntro(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<BatchCallResponse> batchCallForRegistrationData(requestedApi) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BatchCallResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/driver/batchCall',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BatchCallResponse.fromJsonRegistration(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

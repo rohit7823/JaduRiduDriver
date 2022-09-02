@@ -1,6 +1,6 @@
 enum McqValue {
-  yes("VALID_INSURANCE"),
-  no("INVALID_INSURANCE");
+  yes("VALID"),
+  no("INVALID");
 
   final String key;
   const McqValue(this.key);

@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/user_status.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -97,9 +98,16 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
         case true:
           if (data!.isVerified) {
             _storage.saveUserId(data.userId);
-            onChange(ScreenWithExtras(
-                screen: Screen.changeLanguage,
-                option: NavigationOption(option: Option.popPrevious)));
+
+            if (data.userStatus == UserStatus.registered.value) {
+              onChange(ScreenWithExtras(
+                  screen: Screen.dashBoard,
+                  option: NavigationOption(option: Option.popPrevious)));
+            } else {
+              onChange(ScreenWithExtras(
+                  screen: Screen.changeLanguage,
+                  option: NavigationOption(option: Option.popPrevious)));
+            }
           } else {
             dialogManager.initErrorData(AlertData(
                 StringProvider.error,

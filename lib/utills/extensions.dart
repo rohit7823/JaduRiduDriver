@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
+import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_one.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_three.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_two.dart';
@@ -80,8 +82,29 @@ extension DetailsStepKeyMapper on String {
       return StringProvider.vehicleAudit;
     } else if (this == DetailsStepKey.paymentDetails.key) {
       return StringProvider.paymentDetails;
+    } else if (this == DetailsStepKey.vehiclePollution.key) {
+      return StringProvider.vehiclePollution;
     } else {
       return "";
+    }
+  }
+}
+
+extension AuditStepKeyMapper on VehicleAuditStep {
+  String toAuditStepName() {
+    switch (stepKey) {
+      case AuditStep.chasisNumberImage:
+        return name;
+      case AuditStep.backSideWithNumberPlate:
+        return name;
+      case AuditStep.leftSideExterior:
+        return name;
+      case AuditStep.rightSideExterior:
+        return name;
+      case AuditStep.carInside:
+        return name;
+      default:
+        return "";
     }
   }
 }

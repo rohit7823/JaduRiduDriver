@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
+
 SendOtpResponse sendOtpResponseFromJson(String str) =>
     SendOtpResponse.fromJson(json.decode(str));
 
 String sendOtpResponseToJson(SendOtpResponse data) =>
     json.encode(data.toJson());
 
-class SendOtpResponse {
+class SendOtpResponse extends BusinessObject {
   SendOtpResponse(
       {required this.status, required this.message, required this.isSend});
 
