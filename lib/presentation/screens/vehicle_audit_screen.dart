@@ -35,16 +35,26 @@ class _VehicleAuditScreenState extends State<VehicleAuditScreen> {
     super.initState();
 
     _disposers = [
-      reaction((p0) => _store.selectedStep, (p0) {
-        if (p0 != null && p0 is VehicleAuditStep) {
+      reaction((p0) => _store.requiredStore, (p0) {
+        if (p0 != null && p0 is Store) {
           showModalBottomSheet(
               useRootNavigator: true,
+              isScrollControlled: true,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      topRight: Radius.circular(20.r))),
+              //routeSettings: ,
               context: context,
               builder: (context) {
-                return p0.provideUI();
-              }).then((value) => _store.selectedStep = null);
+                //debugPrint("store ins from parent ${p0.hashCode}");
+                return SizedBox(height: 0.80.sh, child: p0.provideUI());
+              }).then((value) {
+            _store.requiredStore = null;
+            if (value is bool && value) {
+              _store.getRequiredSteps();
+            }
+          });
         }
       })
     ];

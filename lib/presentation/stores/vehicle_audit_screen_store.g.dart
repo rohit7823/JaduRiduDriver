@@ -41,19 +41,19 @@ mixin _$VehicleAuditStore on _VehicleAuditScreenStore, Store {
     });
   }
 
-  late final _$selectedStepAtom =
-      Atom(name: '_VehicleAuditScreenStore.selectedStep', context: context);
+  late final _$requiredStoreAtom =
+      Atom(name: '_VehicleAuditScreenStore.requiredStore', context: context);
 
   @override
-  VehicleAuditStep? get selectedStep {
-    _$selectedStepAtom.reportRead();
-    return super.selectedStep;
+  Store? get requiredStore {
+    _$requiredStoreAtom.reportRead();
+    return super.requiredStore;
   }
 
   @override
-  set selectedStep(VehicleAuditStep? value) {
-    _$selectedStepAtom.reportWrite(value, super.selectedStep, () {
-      super.selectedStep = value;
+  set requiredStore(Store? value) {
+    _$requiredStoreAtom.reportWrite(value, super.requiredStore, () {
+      super.requiredStore = value;
     });
   }
 
@@ -85,7 +85,7 @@ mixin _$VehicleAuditStore on _VehicleAuditScreenStore, Store {
     return '''
 requiredSteps: ${requiredSteps},
 gettingDataLoader: ${gettingDataLoader},
-selectedStep: ${selectedStep}
+requiredStore: ${requiredStore}
     ''';
   }
 }

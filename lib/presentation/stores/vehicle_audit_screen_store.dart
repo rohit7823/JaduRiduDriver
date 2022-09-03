@@ -2,11 +2,17 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/stores/car_inside_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/chasis_number_screen_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/left_side_exterior_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/number_plate_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/right_side_exterior_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
@@ -20,6 +26,20 @@ abstract class _VehicleAuditScreenStore with Store {
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
 
+  late final ChasisNumberStore _chasisNumberStore;
+  late final NumberPlateStore _numberPlateStore;
+  late final LSExteriorStore _lsExteriorStore;
+  late final RSExteriorStore _rsExteriorStore;
+  late final InsideCarStore _insideCarStore;
+
+  _VehicleAuditScreenStore() {
+    _chasisNumberStore = ChasisNumberStore();
+    _numberPlateStore = NumberPlateStore();
+    _lsExteriorStore = LSExteriorStore();
+    _rsExteriorStore = RSExteriorStore();
+    _insideCarStore = InsideCarStore();
+  }
+
   @observable
   List<VehicleAuditStep> requiredSteps = [];
 
@@ -27,7 +47,7 @@ abstract class _VehicleAuditScreenStore with Store {
   bool gettingDataLoader = false;
 
   @observable
-  VehicleAuditStep? selectedStep;
+  Store? requiredStore;
 
   @action
   getRequiredSteps() async {
@@ -72,6 +92,25 @@ abstract class _VehicleAuditScreenStore with Store {
 
   @action
   onStepClicked(VehicleAuditStep step) {
-    selectedStep = step;
+    switch (step.stepKey) {
+      case AuditStep.chasisNumberImage:
+        requiredStore = _chasisNumberStore;
+        break;
+      case AuditStep.backSideWithNumberPlate:
+        requiredStore = _numberPlateStore;
+        break;
+      case AuditStep.leftSideExterior:
+        requiredStore = _lsExteriorStore;
+        break;
+      case AuditStep.rightSideExterior:
+        requiredStore = _rsExteriorStore;
+        break;
+      case AuditStep.carInside:
+        requiredStore = _insideCarStore;
+        break;
+      default:
+        requiredStore = null;
+        break;
+    }
   }
 }

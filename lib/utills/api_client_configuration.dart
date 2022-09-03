@@ -32,7 +32,7 @@ class ApiClientConfiguration {
       });
 
   static BaseOptions mainConfiguration = BaseOptions(
-      baseUrl: _staticBaseUrl ?? "",
+      baseUrl: dependency<Storage>().baseUrl(),
       followRedirects: true,
       contentType: "application/json",
       connectTimeout: 10000,

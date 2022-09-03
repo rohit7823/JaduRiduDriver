@@ -217,6 +217,22 @@ class StringProvider {
 
   static var vehiclePollution = "Vehicle Pollution";
 
+  static var chasisNumberImage = "Chasis Number Image";
+
+  static var backSideWithNumberPlate = "Back Side With Number Plate";
+
+  static var leftSideExterior = "Left Side Exterior";
+
+  static var rightSideExterior = "Right Side Exterior";
+
+  static var carInside = "Car Inside";
+
+  static var enterChaisNumber = "Please Enter Chasis Number";
+
+  static var chasisNumber = "Chasis Number";
+
+  static var upload = "Upload";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

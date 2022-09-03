@@ -17,6 +17,7 @@ class MyTextInput extends StatefulWidget {
   bool isMandatory = false;
   List<TextInputFormatter> formatters;
   TextCapitalization textCapitalization;
+  String initialText;
 
   MyTextInput(
       {Key? key,
@@ -28,7 +29,8 @@ class MyTextInput extends StatefulWidget {
       this.formatters = const [],
       this.textCapitalization = TextCapitalization.words,
       required this.isMandatory,
-      this.errorText})
+      this.errorText,
+      this.initialText = ""})
       : super(key: key);
 
   @override
@@ -40,7 +42,8 @@ class MyTextInput extends StatefulWidget {
       placeholderText,
       prefferedWidth,
       formatters,
-      textCapitalization);
+      textCapitalization,
+      initialText);
 }
 
 class _MyTextInputState extends State<MyTextInput> {
@@ -52,6 +55,7 @@ class _MyTextInputState extends State<MyTextInput> {
   double? _prefferedWidth;
   List<TextInputFormatter> formatters;
   TextCapitalization capitalization;
+  String initialText;
 
   late final TextEditingController _controller;
   _MyTextInputState(
@@ -62,11 +66,12 @@ class _MyTextInputState extends State<MyTextInput> {
       this._placeholderText,
       this._prefferedWidth,
       this.formatters,
-      this.capitalization);
+      this.capitalization,
+      this.initialText);
 
   @override
   void initState() {
-    _controller = TextEditingController(text: "");
+    _controller = TextEditingController(text: initialText);
     super.initState();
   }
 

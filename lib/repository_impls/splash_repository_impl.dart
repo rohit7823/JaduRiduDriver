@@ -14,7 +14,7 @@ class SplashRepositoryImpl implements SplashRepository {
   late final BaseUrlApi _baseUrlApi;
 
   SplashRepositoryImpl(this._dio) {
-    _dio.options = ApiClientConfiguration.mainConfiguration;
+    //_dio.options = ApiClientConfiguration.initialConfiguration;
     _baseUrlApi = BaseUrlApi(_dio);
   }
 
@@ -40,6 +40,7 @@ class SplashRepositoryImpl implements SplashRepository {
   Future<Resource<BaseUrlResponse>> getBaseUrl() async {
     var result =
         await _baseUrlApi.appBaseUrl().handleResponse<BaseUrlResponse>();
+
     return result;
     /*await Future.delayed(const Duration(seconds: 2));
 

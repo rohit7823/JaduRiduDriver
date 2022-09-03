@@ -15,5 +15,7 @@ enum AlertAction {
   uploadPanCard,
   uploadVehiclePermit,
   auditRequiredSteps,
+  uploadChasisNumber,
+  uploadNumberPlate,
   none;
 }

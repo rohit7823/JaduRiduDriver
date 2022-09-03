@@ -167,6 +167,8 @@ class ChangeScreen {
       {Function? onCompleted, Object? result}) {
     if (dest == Screen.addAllDetails) {
       _navigatePop(context, result);
+    } else if (dest == Screen.vehicleAudit) {
+      _navigatePop(context, result);
     }
 
     onCompleted?.call();
