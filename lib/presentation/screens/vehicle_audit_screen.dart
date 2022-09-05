@@ -127,49 +127,48 @@ class _VehicleAuditScreenState extends State<VehicleAuditScreen> {
         children: [
           expand(
               flex: 9,
-              child: fitBox(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 0.05.sw),
-                  width: 1.sw,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StringProvider.requiredSteps
-                          .text(AppTextStyle.requiredStepsStyle)
-                          .padding(
-                              insets: EdgeInsets.only(
-                                  bottom: 0.03.sw, left: 0.05.sw, right: 0.05)),
-                      Observer(
-                        builder: (BuildContext context) {
-                          return AnimatedCrossFade(
-                            duration: const Duration(milliseconds: 300),
-                            crossFadeState: _store.gettingDataLoader
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
-                            firstChild: SizedBox(
-                                height: 0.50.sh,
-                                child: const AnimatedJaduRideView()),
-                            secondChild: ListView.separated(
-                                shrinkWrap: true,
-                                physics: const ClampingScrollPhysics(),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 0.05.sw, vertical: 0.03.sw),
-                                itemBuilder: (context, idx) {
-                                  return VAuditStepView(
-                                      auditStep: _store.requiredSteps[idx],
-                                      onClick: _store.onStepClicked);
-                                },
-                                separatorBuilder: (context, idx) {
-                                  return SizedBox(height: 0.05.sw);
-                                },
-                                itemCount: _store.requiredSteps.length),
-                          );
-                        },
+              child: ListView(
+                children: [
+                  StringProvider.requiredSteps
+                      .text(AppTextStyle.requiredStepsStyle)
+                      .padding(
+                      insets: EdgeInsets.only(
+                          bottom: 0.01.sw,
+                          left: 0.05.sw,
+                          right: 0.05,
+                          top: 0.05.sw
                       )
-                    ],
                   ),
-                ),
-              )),
+                  Observer(
+                    builder: (BuildContext context) {
+                      return AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 300),
+                        crossFadeState: _store.gettingDataLoader
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        firstChild: SizedBox(
+                            height: 0.50.sh,
+                            child: const AnimatedJaduRideView()),
+                        secondChild: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0.05.sw, vertical: 0.03.sw),
+                            itemBuilder: (context, idx) {
+                              return VAuditStepView(
+                                  auditStep: _store.requiredSteps[idx],
+                                  onClick: _store.onStepClicked);
+                            },
+                            separatorBuilder: (context, idx) {
+                              return SizedBox(height: 0.05.sw);
+                            },
+                            itemCount: _store.requiredSteps.length),
+                      );
+                    },
+                  )
+                ],
+              ),
+          ),
           expand(
               flex: 2,
               child: Align(

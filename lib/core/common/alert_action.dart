@@ -18,5 +18,6 @@ enum AlertAction {
   uploadChasisNumber,
   uploadNumberPlate,
   uploadExterior,
+  uploadPollution,
   none;
 }

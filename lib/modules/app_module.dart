@@ -24,6 +24,7 @@ import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_insurance_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_number_plate_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_permit_repository.dart';
+import 'package:jadu_ride_driver/core/repository/vehicle_pollution_repository.dart';
 import 'package:jadu_ride_driver/core/repository/verify_otp_repository.dart';
 import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
@@ -47,6 +48,7 @@ import 'package:jadu_ride_driver/repository_impls/vehicle_audit_repository_impl.
 import 'package:jadu_ride_driver/repository_impls/vehicle_insurance_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_number_plate_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_permit_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/vehicle_pollution_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/verify_otp_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/welcome_jadu_ride_repository_impl.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
@@ -113,7 +115,7 @@ class AppModule {
         () => DriverLicenseRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AadharNumberRepository>(
-        () => AadharNumberRepositoryImpl());
+        () => AadharNumberRepositoryImpl(dio));
 
     dependency.registerLazySingleton<Validator>(() => ValidatorImpl());
 
@@ -146,5 +148,7 @@ class AppModule {
 
     dependency.registerLazySingleton<CarInsideRepository>(
         () => CarInsideRepositoryImpl());
+
+    dependency.registerLazySingleton<VehiclePollutionRepository>(() => VehiclePollutionRepositoryImpl());
   }
 }
