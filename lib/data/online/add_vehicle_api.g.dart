@@ -31,6 +31,29 @@ class _AddVehicleApi implements AddVehicleApi {
     return value;
   }
 
+  @override
+  Future<UserVehicleResponse> addVehicle(
+      userId, vehicleTypeId, vehicleNumber) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'vehicle_type_id': vehicleTypeId,
+      'vehicle_number': vehicleNumber
+    };
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UserVehicleResponse>(Options(
+                method: 'POST',
+                headers: _headers,
+                extra: _extra,
+                contentType: 'application/x-www-form-urlencoded')
+            .compose(_dio.options, '/driver/users/${userId}/vehicle/number',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserVehicleResponse.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

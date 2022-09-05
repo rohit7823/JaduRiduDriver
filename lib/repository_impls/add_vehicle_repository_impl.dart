@@ -37,9 +37,13 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
   @override
   Future<Resource<UserVehicleResponse>> addVehicle(
       String userId, String vehicleTypeId, String number) async {
-    await Future.delayed(const Duration(seconds: 2));
+    return await _addVehicleApi
+        .addVehicle(userId, vehicleTypeId, number)
+        .handleResponse<UserVehicleResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(
-        UserVehicleResponse(status: true, message: "Success", isAdded: true));
+        UserVehicleResponse(status: true, message: "Success", isAdded: true));*/
   }
 }

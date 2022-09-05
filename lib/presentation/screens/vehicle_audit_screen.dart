@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/animated_jadu_ride_view.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/v_audit_step_view.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/vehicle_audit_nested_screens.dart';
@@ -55,6 +58,18 @@ class _VehicleAuditScreenState extends State<VehicleAuditScreen> {
               _store.getRequiredSteps();
             }
           });
+        }
+      }),
+      reaction((p0) => _store.informMassage, (p0) {
+        if (p0 is String && p0.isNotEmpty) {
+          AppSnackBar.show(context, message: p0, clear: () {
+            _store.informMassage = "";
+          });
+        }
+      }),
+      reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null && p0 is ScreenWithExtras) {
+          ChangeScreen.from(context, p0.screen, result: p0.argument);
         }
       })
     ];
@@ -159,11 +174,17 @@ class _VehicleAuditScreenState extends State<VehicleAuditScreen> {
               flex: 2,
               child: Align(
                 alignment: Alignment.center,
-                child: ElevatedButton(
-                    style: AppButtonThemes.defaultStyle,
-                    onPressed: () {},
-                    child: StringProvider.done
-                        .text(AppTextStyle.btnTextStyleWhite)),
+                child: Observer(
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                        style: _store.enableBtn
+                            ? AppButtonThemes.defaultStyle
+                            : AppButtonThemes.cancelBtnStyle,
+                        onPressed: _store.enableBtn ? _store.onDone : null,
+                        child: StringProvider.done
+                            .text(AppTextStyle.btnTextStyleWhite));
+                  },
+                ),
               ))
           //expand(flex: 2, child: child)
         ],

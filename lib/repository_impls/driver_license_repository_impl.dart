@@ -5,6 +5,7 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/upload_driver_license_response.dart';
 import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../data/online/driver_license_api.dart';
 
@@ -22,12 +23,16 @@ class DriverLicenseRepositoryImpl implements DriverLicenseRepository {
       String number,
       File license,
       String expiryDate,
-      Function(bool, int) onUploading) async {
-    var size = await license.length();
+      Function(int, int) onUploading) async {
+    return await _driverLicenseApi
+        .driverLicense(userId, number, license, expiryDate, onUploading)
+        .handleResponse<UploadDriverLicenseResponse>();
+
+    /*var size = await license.length();
     onUploading(true, size);
     await Future.delayed(const Duration(seconds: 3));
     onUploading(false, 0);
     return Success(UploadDriverLicenseResponse(
-        status: true, message: "Success", isUploaded: true));
+        status: true, message: "Success", isUploaded: true));*/
   }
 }

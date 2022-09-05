@@ -50,19 +50,24 @@ mixin _$RSExteriorStore on _RightSideExteriorStore, Store {
         .run(() => super.validateInputs(callBack));
   }
 
-  late final _$_RightSideExteriorStoreActionController =
-      ActionController(name: '_RightSideExteriorStore', context: context);
+  late final _$onDoneAsyncAction =
+      AsyncAction('_RightSideExteriorStore.onDone', context: context);
 
   @override
-  dynamic onDone() {
-    final _$actionInfo = _$_RightSideExteriorStoreActionController.startAction(
-        name: '_RightSideExteriorStore.onDone');
-    try {
-      return super.onDone();
-    } finally {
-      _$_RightSideExteriorStoreActionController.endAction(_$actionInfo);
-    }
+  Future onDone(
+      {required dynamic Function(bool, int) uploading,
+      required dynamic Function(String) success,
+      required dynamic Function(String) error,
+      required dynamic Function(String) responseError}) {
+    return _$onDoneAsyncAction.run(() => super.onDone(
+        uploading: uploading,
+        success: success,
+        error: error,
+        responseError: responseError));
   }
+
+  late final _$_RightSideExteriorStoreActionController =
+      ActionController(name: '_RightSideExteriorStore', context: context);
 
   @override
   dynamic onClose() {
@@ -70,17 +75,6 @@ mixin _$RSExteriorStore on _RightSideExteriorStore, Store {
         name: '_RightSideExteriorStore.onClose');
     try {
       return super.onClose();
-    } finally {
-      _$_RightSideExteriorStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic onUpload() {
-    final _$actionInfo = _$_RightSideExteriorStoreActionController.startAction(
-        name: '_RightSideExteriorStore.onUpload');
-    try {
-      return super.onUpload();
     } finally {
       _$_RightSideExteriorStoreActionController.endAction(_$actionInfo);
     }

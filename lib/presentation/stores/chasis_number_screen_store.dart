@@ -55,7 +55,7 @@ abstract class _ChasisNumberScreenStore with Store {
   @action
   onDone(
       {required Function(bool, int) uploading,
-      required Function success,
+      required Function(String) success,
       required Function(String) error,
       required Function(String) responseError}) async {
     var userId = _storage.userId();
@@ -69,7 +69,7 @@ abstract class _ChasisNumberScreenStore with Store {
           if (data!.isUploaded) {
             /*selectedImage = null;
             chasisNumber = "";*/
-            success();
+            success(data.message);
           } else {
             error(data.message);
           }

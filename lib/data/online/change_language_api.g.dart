@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pan_card_api.dart';
+part of 'change_language_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,35 +8,29 @@ part of 'pan_card_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-class _PanCardApi implements PanCardApi {
-  _PanCardApi(this._dio, {this.baseUrl});
+class _ChangeLanguageApi implements ChangeLanguageApi {
+  _ChangeLanguageApi(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<UploadPanCardResponse> driverPan(
-      userId, documentNumber, documentImage, uploading) async {
+  Future<AppLanguageUpdateResponse> changeLang(langCode, userId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = FormData();
-    _data.fields.add(MapEntry('document_number', documentNumber));
-    _data.files.add(MapEntry(
-        'document_image',
-        MultipartFile.fromFileSync(documentImage.path,
-            filename: documentImage.path.split(Platform.pathSeparator).last)));
+    final _data = {'langCode': langCode};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UploadPanCardResponse>(Options(
+        _setStreamType<AppLanguageUpdateResponse>(Options(
                 method: 'POST',
                 headers: _headers,
                 extra: _extra,
-                contentType: 'multipart/form-data')
-            .compose(_dio.options, '/driver/users/${userId}/document/pan',
+                contentType: 'application/x-www-form-urlencoded')
+            .compose(_dio.options, '/driver/users/${userId}/language/current',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UploadPanCardResponse.fromJson(_result.data!);
+    final value = AppLanguageUpdateResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -50,19 +50,24 @@ mixin _$InsideCarStore on _CarInsideStore, Store {
         .run(() => super.validateInputs(callBack));
   }
 
-  late final _$_CarInsideStoreActionController =
-      ActionController(name: '_CarInsideStore', context: context);
+  late final _$onDoneAsyncAction =
+      AsyncAction('_CarInsideStore.onDone', context: context);
 
   @override
-  dynamic onDone() {
-    final _$actionInfo = _$_CarInsideStoreActionController.startAction(
-        name: '_CarInsideStore.onDone');
-    try {
-      return super.onDone();
-    } finally {
-      _$_CarInsideStoreActionController.endAction(_$actionInfo);
-    }
+  Future onDone(
+      {required dynamic Function(bool, int) uploading,
+      required dynamic Function(String) success,
+      required dynamic Function(String) error,
+      required dynamic Function(String) responseError}) {
+    return _$onDoneAsyncAction.run(() => super.onDone(
+        uploading: uploading,
+        success: success,
+        error: error,
+        responseError: responseError));
   }
+
+  late final _$_CarInsideStoreActionController =
+      ActionController(name: '_CarInsideStore', context: context);
 
   @override
   dynamic onClose() {
@@ -70,17 +75,6 @@ mixin _$InsideCarStore on _CarInsideStore, Store {
         name: '_CarInsideStore.onClose');
     try {
       return super.onClose();
-    } finally {
-      _$_CarInsideStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic onUpload() {
-    final _$actionInfo = _$_CarInsideStoreActionController.startAction(
-        name: '_CarInsideStore.onUpload');
-    try {
-      return super.onUpload();
     } finally {
       _$_CarInsideStoreActionController.endAction(_$actionInfo);
     }

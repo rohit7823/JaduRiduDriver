@@ -9,5 +9,5 @@ abstract class DriverLicenseRepository {
       String number,
       File license,
       String expiryDate,
-      Function(bool, int) onUploading);
+      Function(int, int) onUploading);
 }

@@ -14,7 +14,7 @@ class SplashRepositoryImpl implements SplashRepository {
   late final BaseUrlApi _baseUrlApi;
 
   SplashRepositoryImpl(this._dio) {
-    //_dio.options = ApiClientConfiguration.initialConfiguration;
+    _dio.options = ApiClientConfiguration.initialConfiguration;
     _baseUrlApi = BaseUrlApi(_dio);
   }
 

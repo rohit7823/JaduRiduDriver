@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
@@ -11,6 +14,7 @@ import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/car_inside_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/chasis_number_screen_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/left_side_exterior_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/stores/number_plate_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/right_side_exterior_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -21,7 +25,7 @@ part 'vehicle_audit_screen_store.g.dart';
 
 class VehicleAuditStore = _VehicleAuditScreenStore with _$VehicleAuditStore;
 
-abstract class _VehicleAuditScreenStore with Store {
+abstract class _VehicleAuditScreenStore extends AppNavigator with Store {
   final _repository = dependency<VehicleAuditRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
@@ -49,6 +53,12 @@ abstract class _VehicleAuditScreenStore with Store {
   @observable
   Store? requiredStore;
 
+  @observable
+  bool enableBtn = false;
+
+  @observable
+  String informMassage = "";
+
   @action
   getRequiredSteps() async {
     gettingDataLoader = true;
@@ -60,6 +70,7 @@ abstract class _VehicleAuditScreenStore with Store {
       switch (data != null && data.status) {
         case true:
           requiredSteps = data!.steps;
+          enableBtn = requiredSteps.every((element) => element.isCompleted);
           break;
         default:
           dialogManager.initErrorData(AlertData(
@@ -111,6 +122,14 @@ abstract class _VehicleAuditScreenStore with Store {
       default:
         requiredStore = null;
         break;
+    }
+  }
+
+  @action
+  onDone() {
+    if (enableBtn) {
+      informMassage = StringProvider.vehicleAuditCompleted;
+      onChange(ScreenWithExtras(screen: Screen.addAllDetails, argument: true));
     }
   }
 }

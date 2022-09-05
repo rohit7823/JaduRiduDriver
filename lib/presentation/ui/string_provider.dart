@@ -233,6 +233,8 @@ class StringProvider {
 
   static var upload = "Upload";
 
+  static var vehicleAuditCompleted = "Vehicle Audit Completed Successfully!";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

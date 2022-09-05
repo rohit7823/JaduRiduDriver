@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/date_time_helper.dart';
@@ -29,7 +30,7 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   final _repository = dependency<DriverLicenseRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   final _picker = ImageFilePicker();
   final _dateTimeHelper = DateTimeHelper();
 
@@ -133,13 +134,7 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   onDone() async {
     var userId = _storage.userId();
     var response = await _repository.uploadLicense(
-        userId, license, selectedImage!, selectedDate, (status, p1) {
-      if (status) {
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+        userId, license, selectedImage!, selectedDate, uploader.start);
 
     if (response is Success) {
       var data = response.data;

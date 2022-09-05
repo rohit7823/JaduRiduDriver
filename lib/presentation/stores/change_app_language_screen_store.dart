@@ -23,7 +23,6 @@ class ChangeAppLanguageStore = _ChangeAppLanguageScreenStore
     with _$ChangeAppLanguageStore;
 
 abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
-
   final _repository = dependency<ChangeAppLanguageRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
@@ -60,13 +59,13 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
             locales.addAll({AppLanguageCode.bengali: element});
             break;
           case AppLanguage.marathi:
-            locales.addAll({AppLanguageCode.marathi: element});
+            //locales.addAll({AppLanguageCode.marathi: element});
             break;
           case AppLanguage.nepali:
-            locales.addAll({AppLanguageCode.nepali: element});
+            //locales.addAll({AppLanguageCode.nepali: element});
             break;
           case AppLanguage.sindhi:
-            locales.addAll({AppLanguageCode.sindhi: element});
+            //locales.addAll({AppLanguageCode.sindhi: element});
             break;
         }
       }
@@ -89,13 +88,14 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
     sendingLoader = true;
     enableBtn = true;
     var userId = _storage.userId();
-    var response = await _repository.updateLanguage(userId, selectedAppLocale.value);
-    if(response is Success) {
+    var response =
+        await _repository.updateLanguage(userId, selectedAppLocale.value);
+    if (response is Success) {
       var data = response.data;
       sendingLoader = false;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
-          if(data!.isUpdated) {
+          if (data!.isUpdated) {
             await changeLang();
             languageChangedMsg = StringProvider.languageChangedSuccessfully;
             enableBtn = false;
@@ -109,8 +109,9 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
                 data.message,
                 StringProvider.okay,
                 null,
-                null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
-            );
+                null,
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
           }
           break;
         default:
@@ -122,10 +123,11 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
               data?.message ?? "",
               StringProvider.okay,
               null,
-              null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
-          );
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none, action: AlertAction.none)));
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       sendingLoader = false;
       enableBtn = false;
       dialogManager.initErrorData(AlertData(
@@ -135,8 +137,8 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
           response.message ?? "",
           StringProvider.okay,
           null,
-          null, AlertBehaviour(option: AlertOption.none, action: AlertAction.none))
-      );
+          null,
+          AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
     }
   }
 }

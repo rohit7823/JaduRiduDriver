@@ -57,6 +57,38 @@ mixin _$VehicleAuditStore on _VehicleAuditScreenStore, Store {
     });
   }
 
+  late final _$enableBtnAtom =
+      Atom(name: '_VehicleAuditScreenStore.enableBtn', context: context);
+
+  @override
+  bool get enableBtn {
+    _$enableBtnAtom.reportRead();
+    return super.enableBtn;
+  }
+
+  @override
+  set enableBtn(bool value) {
+    _$enableBtnAtom.reportWrite(value, super.enableBtn, () {
+      super.enableBtn = value;
+    });
+  }
+
+  late final _$informMassageAtom =
+      Atom(name: '_VehicleAuditScreenStore.informMassage', context: context);
+
+  @override
+  String get informMassage {
+    _$informMassageAtom.reportRead();
+    return super.informMassage;
+  }
+
+  @override
+  set informMassage(String value) {
+    _$informMassageAtom.reportWrite(value, super.informMassage, () {
+      super.informMassage = value;
+    });
+  }
+
   late final _$getRequiredStepsAsyncAction = AsyncAction(
       '_VehicleAuditScreenStore.getRequiredSteps',
       context: context);
@@ -81,11 +113,24 @@ mixin _$VehicleAuditStore on _VehicleAuditScreenStore, Store {
   }
 
   @override
+  dynamic onDone() {
+    final _$actionInfo = _$_VehicleAuditScreenStoreActionController.startAction(
+        name: '_VehicleAuditScreenStore.onDone');
+    try {
+      return super.onDone();
+    } finally {
+      _$_VehicleAuditScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 requiredSteps: ${requiredSteps},
 gettingDataLoader: ${gettingDataLoader},
-requiredStore: ${requiredStore}
+requiredStore: ${requiredStore},
+enableBtn: ${enableBtn},
+informMassage: ${informMassage}
     ''';
   }
 }

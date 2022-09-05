@@ -4,17 +4,17 @@ import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/api_route.dart';
 import 'package:retrofit/http.dart';
 
-import '../../core/domain/response/upload_pan_card_response.dart';
+import '../../core/domain/response/upload_aadhar_response.dart';
 
-part 'pan_card_api.g.dart';
+part 'aadhar_number_api.g.dart';
 
 @RestApi()
-abstract class PanCardApi {
-  factory PanCardApi(Dio dio, {String baseUrl}) = _PanCardApi;
+abstract class AadharNumberApi {
+  factory AadharNumberApi(Dio dio, {String? baseUrl}) = _AadharNumberApi;
 
-  @POST("${ApiRoutes.parent}/users/{userId}/document/pan")
+  @POST("${ApiRoutes.parent}/users/{userId}/document/aadhar")
   @MultiPart()
-  Future<UploadPanCardResponse> driverPan(
+  Future<UploadAadharResponse> driverAadhar(
       @Path("userId") String userId,
       @Part(name: "document_number") String documentNumber,
       @Part(name: "document_image") File documentImage,

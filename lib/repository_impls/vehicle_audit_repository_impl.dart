@@ -16,7 +16,7 @@ class VehicleAuditRepositoryImpl implements VehicleAuditRepository {
       VehicleAuditStep(
           stepKey: AuditStep.chasisNumberImage,
           name: "Chassis Number Image",
-          isCompleted: false),
+          isCompleted: true),
       VehicleAuditStep(
           stepKey: AuditStep.backSideWithNumberPlate,
           name: "Back side with number plate",
@@ -28,9 +28,9 @@ class VehicleAuditRepositoryImpl implements VehicleAuditRepository {
       VehicleAuditStep(
           stepKey: AuditStep.rightSideExterior,
           name: "Right side exterior",
-          isCompleted: false),
+          isCompleted: true),
       VehicleAuditStep(
-          stepKey: AuditStep.carInside, name: "Car Inside", isCompleted: false),
+          stepKey: AuditStep.carInside, name: "Car Inside", isCompleted: true),
     ]));
   }
 }

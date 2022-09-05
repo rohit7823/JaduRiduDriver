@@ -8,7 +8,7 @@ import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart
 class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
   @override
   Future<Resource<AddAllDetailsInitialDataResponse>> initialData() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
 
     return Success(AddAllDetailsInitialDataResponse(
         status: true,
@@ -18,7 +18,9 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
             (index) => DetailStep(
                 id: "ID${index + 1}",
                 key: _mapDetailsKeys(index),
-                isComplete: true)), //(index + 1).isEven ? true : false)),
+                isComplete: index >= 0 && index <= 7
+                    ? true
+                    : false)), //(index + 1).isEven ? true : false)),
         optionalSteps: List.generate(
             1,
             (index) => DetailStep(

@@ -9,13 +9,16 @@ import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_vehicle_repository.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
+import 'package:jadu_ride_driver/core/repository/car_inside_repository.dart';
 import 'package:jadu_ride_driver/core/repository/change_app_language_repository.dart';
 import 'package:jadu_ride_driver/core/repository/chasis_number_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
+import 'package:jadu_ride_driver/core/repository/left_side_exterior_repository.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
 import 'package:jadu_ride_driver/core/repository/registration_certificate_repository.dart';
+import 'package:jadu_ride_driver/core/repository/right_side_exterior_repository.dart';
 import 'package:jadu_ride_driver/core/repository/splash_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_insurance_repository.dart';
@@ -29,13 +32,16 @@ import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_vehicle_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/batch_call_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/car_inside_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/change_app_language_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/chasis_number_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/driver_license_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/left_side_exterior_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/number_input_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/registration_certificate_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/right_side_exterior_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/splash_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_audit_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_insurance_repository_impl.dart';
@@ -62,15 +68,15 @@ class AppModule {
 
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
+    dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
+
     final imagePicker = ImagePicker();
     final cropper = ImageCropper();
     final env = Environment();
     await env.init();
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
-    final dio = Dio(ApiClientConfiguration.initialConfiguration);
+    final dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
-
-    dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 
@@ -89,7 +95,7 @@ class AppModule {
         () => VerifyOtpRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ChangeAppLanguageRepository>(
-        () => ChangeAppLanguageRepositoryImpl());
+        () => ChangeAppLanguageRepositoryImpl(dio));
 
     dependency.registerLazySingleton<WelcomeJaduRideRepository>(
         () => WelcomeJaduRideRepositoryImpl());
@@ -131,5 +137,14 @@ class AppModule {
 
     dependency.registerLazySingleton<VehicleNumberPlateRepository>(
         () => VehicleNumberPlateRepositoryImpl());
+
+    dependency.registerLazySingleton<LeftSideExteriorRepository>(
+        () => LeftSideExteriorRepositoryImpl());
+
+    dependency.registerLazySingleton<RightSideExteriorRepository>(
+        () => RightSideExteriorRepositoryImpl());
+
+    dependency.registerLazySingleton<CarInsideRepository>(
+        () => CarInsideRepositoryImpl());
   }
 }

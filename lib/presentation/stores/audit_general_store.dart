@@ -143,79 +143,35 @@ abstract class _AuditGeneralStore extends AppNavigator with Store {
   @action
   onDone() {
     if (requiredStore is ChasisNumberStore) {
-      (requiredStore as ChasisNumberStore).onDone(uploading: (status, size) {
-        if (status) {
-          uploader.startUploader(size);
-        } else {
-          uploader.stopUploader(size);
-        }
-      }, success: () {
-        onChange(ScreenWithExtras(screen: Screen.vehicleAudit, argument: true));
-      }, error: (message) {
-        dialogManager.initErrorData(AlertData(
-            StringProvider.error,
-            null,
-            StringProvider.appId,
-            message,
-            StringProvider.retry,
-            null,
-            null,
-            AlertBehaviour(
-                option: AlertOption.none,
-                action: AlertAction.uploadChasisNumber)));
-      }, responseError: (message) {
-        dialogManager.initErrorData(AlertData(
-            StringProvider.error,
-            null,
-            StringProvider.appId,
-            message,
-            StringProvider.retry,
-            null,
-            null,
-            AlertBehaviour(
-                option: AlertOption.invokeOnBarrier,
-                action: AlertAction.uploadChasisNumber)));
-      });
+      (requiredStore as ChasisNumberStore).onDone(
+          uploading: _onUploading,
+          success: _onSuccess,
+          error: _onError,
+          responseError: _onResponseError);
     } else if (requiredStore is NumberPlateStore) {
-      (requiredStore as NumberPlateStore).onDone(uploading: (status, size) {
-        if (status) {
-          uploader.startUploader(size);
-        } else {
-          uploader.stopUploader(size);
-        }
-      }, success: (message) {
-        onChange(ScreenWithExtras(screen: Screen.vehicleAudit, argument: true));
-      }, error: (message) {
-        dialogManager.initErrorData(AlertData(
-            StringProvider.error,
-            null,
-            StringProvider.appId,
-            message,
-            StringProvider.retry,
-            null,
-            null,
-            AlertBehaviour(
-                option: AlertOption.none,
-                action: AlertAction.uploadNumberPlate)));
-      }, responseError: (message) {
-        dialogManager.initErrorData(AlertData(
-            StringProvider.error,
-            null,
-            StringProvider.appId,
-            message,
-            StringProvider.retry,
-            null,
-            null,
-            AlertBehaviour(
-                option: AlertOption.invokeOnBarrier,
-                action: AlertAction.uploadNumberPlate)));
-      });
+      (requiredStore as NumberPlateStore).onDone(
+          uploading: _onUploading,
+          success: _onSuccess,
+          error: _onError,
+          responseError: _onResponseError);
     } else if (requiredStore is LSExteriorStore) {
-      (requiredStore as LSExteriorStore).onDone();
+      (requiredStore as LSExteriorStore).onDone(
+          uploading: _onUploading,
+          success: _onSuccess,
+          error: _onError,
+          responseError: _onResponseError);
     } else if (requiredStore is RSExteriorStore) {
-      (requiredStore as RSExteriorStore).onDone();
+      (requiredStore as RSExteriorStore).onDone(
+          uploading: _onUploading,
+          success: _onSuccess,
+          error: _onError,
+          responseError: _onResponseError);
     } else if (requiredStore is InsideCarStore) {
-      (requiredStore as InsideCarStore).onDone();
+      (requiredStore as InsideCarStore).onDone(
+          uploading: _onUploading,
+          success: _onSuccess,
+          error: _onError,
+          responseError: _onResponseError);
     }
   }
 
@@ -245,10 +201,43 @@ abstract class _AuditGeneralStore extends AppNavigator with Store {
   }
 
   onError(AlertAction? action) {
-    if (action == AlertAction.uploadChasisNumber) {
-      onDone();
-    } else if (action == AlertAction.uploadNumberPlate) {
-      onDone();
+    onDone();
+  }
+
+  _onUploading(bool status, int size) {
+    if (status) {
+      uploader.startUploader(size);
+    } else {
+      uploader.stopUploader(size);
     }
+  }
+
+  _onSuccess(String message) {
+    onChange(ScreenWithExtras(screen: Screen.vehicleAudit, argument: true));
+  }
+
+  _onError(String message) {
+    dialogManager.initErrorData(AlertData(
+        StringProvider.error,
+        null,
+        StringProvider.appId,
+        message,
+        StringProvider.retry,
+        null,
+        null,
+        AlertBehaviour(option: AlertOption.none, action: AlertAction.none)));
+  }
+
+  _onResponseError(String message) {
+    dialogManager.initErrorData(AlertData(
+        StringProvider.error,
+        null,
+        StringProvider.appId,
+        message,
+        StringProvider.retry,
+        null,
+        null,
+        AlertBehaviour(
+            option: AlertOption.invokeOnBarrier, action: AlertAction.none)));
   }
 }

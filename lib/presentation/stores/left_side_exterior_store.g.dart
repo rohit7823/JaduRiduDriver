@@ -50,19 +50,24 @@ mixin _$LSExteriorStore on _LeftSideExteriorStore, Store {
         .run(() => super.validateInputs(callBack));
   }
 
-  late final _$_LeftSideExteriorStoreActionController =
-      ActionController(name: '_LeftSideExteriorStore', context: context);
+  late final _$onDoneAsyncAction =
+      AsyncAction('_LeftSideExteriorStore.onDone', context: context);
 
   @override
-  dynamic onDone() {
-    final _$actionInfo = _$_LeftSideExteriorStoreActionController.startAction(
-        name: '_LeftSideExteriorStore.onDone');
-    try {
-      return super.onDone();
-    } finally {
-      _$_LeftSideExteriorStoreActionController.endAction(_$actionInfo);
-    }
+  Future onDone(
+      {required dynamic Function(bool, int) uploading,
+      required dynamic Function(String) success,
+      required dynamic Function(String) error,
+      required dynamic Function(String) responseError}) {
+    return _$onDoneAsyncAction.run(() => super.onDone(
+        uploading: uploading,
+        success: success,
+        error: error,
+        responseError: responseError));
   }
+
+  late final _$_LeftSideExteriorStoreActionController =
+      ActionController(name: '_LeftSideExteriorStore', context: context);
 
   @override
   dynamic onClose() {

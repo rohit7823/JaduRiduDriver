@@ -72,7 +72,7 @@ mixin _$ChasisNumberStore on _ChasisNumberScreenStore, Store {
   @override
   Future onDone(
       {required dynamic Function(bool, int) uploading,
-      required Function success,
+      required dynamic Function(String) success,
       required dynamic Function(String) error,
       required dynamic Function(String) responseError}) {
     return _$onDoneAsyncAction.run(() => super.onDone(

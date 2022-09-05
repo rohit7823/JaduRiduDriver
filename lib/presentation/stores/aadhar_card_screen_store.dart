@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/helpers/validator.dart';
 import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
@@ -29,7 +30,7 @@ abstract class _AadharCardScreenStore extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final _validator = dependency<Validator>();
   final dialogManager = DialogManager();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   final _picker = ImageFilePicker();
 
   _AadharCardScreenStore() {
@@ -113,14 +114,8 @@ abstract class _AadharCardScreenStore extends AppNavigator with Store {
   @action
   onDone() async {
     var userId = _storage.userId();
-    var response = await _repository
-        .uploadAadhar(userId, aaharNumber, selectedImage!, (p0, p1) {
-      if (p0) {
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+    var response = await _repository.uploadAadhar(
+        userId, aaharNumber, selectedImage!, uploader.start);
 
     if (response is Success) {
       var data = response.data;

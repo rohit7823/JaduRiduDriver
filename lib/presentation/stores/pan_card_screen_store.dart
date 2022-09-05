@@ -8,6 +8,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/image_file_picker.dart';
 import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
@@ -30,7 +31,7 @@ abstract class _PanCardScreenStore extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final _imagePicker = ImageFilePicker();
   final _validator = dependency<Validator>();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   final dialogManager = DialogManager();
 
   @observable
@@ -109,14 +110,8 @@ abstract class _PanCardScreenStore extends AppNavigator with Store {
   @action
   onDone() async {
     var userId = _storage.userId();
-    var response = await _repository
-        .uploadPanCard(userId, panNumber, selectedImage!, (p0, p1) {
-      if (p0) {
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+    var response = await _repository.uploadPanCard(
+        userId, panNumber, selectedImage!, uploader.start);
 
     if (response is Success) {
       var data = response.data;

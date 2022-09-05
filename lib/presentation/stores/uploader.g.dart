@@ -35,11 +35,22 @@ mixin _$Uploader on _Uploader, Store {
       ActionController(name: '_Uploader', context: context);
 
   @override
-  dynamic startUploader(int size) {
+  dynamic start(int sent, int total) {
+    final _$actionInfo =
+        _$_UploaderActionController.startAction(name: '_Uploader.start');
+    try {
+      return super.start(sent, total);
+    } finally {
+      _$_UploaderActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic startUploader(int total) {
     final _$actionInfo = _$_UploaderActionController.startAction(
         name: '_Uploader.startUploader');
     try {
-      return super.startUploader(size);
+      return super.startUploader(total);
     } finally {
       _$_UploaderActionController.endAction(_$actionInfo);
     }

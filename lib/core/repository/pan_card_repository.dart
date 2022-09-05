@@ -5,5 +5,5 @@ import 'package:jadu_ride_driver/core/domain/response/upload_pan_card_response.d
 
 abstract class PanCardRepository {
   Future<Resource<UploadPanCardResponse>> uploadPanCard(String userId,
-      String number, File panCard, Function(bool, int) onUploading);
+      String number, File panCard, Function(int, int) onUploading);
 }

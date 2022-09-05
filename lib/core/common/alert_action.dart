@@ -17,5 +17,6 @@ enum AlertAction {
   auditRequiredSteps,
   uploadChasisNumber,
   uploadNumberPlate,
+  uploadExterior,
   none;
 }

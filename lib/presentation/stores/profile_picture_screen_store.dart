@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -30,7 +31,7 @@ abstract class _ProfilePictureScreenStore extends AppNavigator with Store {
   final _repository = dependency<ProfilePictureRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   late final ImagePicker _picker;
   late final ImageCropper _cropper;
 
@@ -139,13 +140,7 @@ abstract class _ProfilePictureScreenStore extends AppNavigator with Store {
   onDone() async {
     var userId = _storage.userId();
     var response =
-        await _repository.uploadImage(userId, selectedImage!, (status, size) {
-      if (status) {
-        uploader.startUploader(size);
-      } else {
-        uploader.stopUploader(size);
-      }
-    });
+        await _repository.uploadImage(userId, selectedImage!, uploader.start);
     if (response is Success) {
       var data = response.data;
 

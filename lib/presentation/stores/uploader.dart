@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:mobx/mobx.dart';
 
 part 'uploader.g.dart';
@@ -16,9 +18,20 @@ abstract class _Uploader with Store {
 
   int _target = 0;
 
+  UploaderImplementation implementation;
+  _Uploader({this.implementation = UploaderImplementation.fake});
+
   @action
-  startUploader(int size) {
-    _target = size;
+  start(int sent, int total) {
+    _progress = sent;
+    _target = total;
+    debugPrint("sent $_progress total $_target");
+    _start = _progress <= _target;
+  }
+
+  @action
+  startUploader(int total) {
+    _target = total;
     _start = true;
   }
 
@@ -30,20 +43,37 @@ abstract class _Uploader with Store {
 
   Stream<int> listenProgressInPercent() async* {
     var percent = 0;
-    while (_progress != _target) {
-      _progress += 1024;
-      percent = _progress * 100 ~/ _target;
-      yield percent;
-      await Future.delayed(const Duration(milliseconds: 1000));
+
+    if (implementation == UploaderImplementation.fake) {
+      while (_start) {
+        _progress += 1024;
+        percent = _progress * 100 ~/ _target;
+        yield percent;
+        await Future.delayed(const Duration(milliseconds: 1000));
+      }
+    } else {
+      while (_start) {
+        percent = _progress * 100 ~/ _target;
+        yield percent;
+        await Future.delayed(const Duration(milliseconds: 10));
+      }
     }
+
     yield percent;
   }
 
   Stream<double> listenProgress() async* {
-    while (_progress != _target) {
-      _progress += 1024;
-      yield _progress / _target;
-      await Future.delayed(const Duration(milliseconds: 1000));
+    if (implementation == UploaderImplementation.fake) {
+      while (_start) {
+        _progress += 1024;
+        yield _progress / _target;
+        await Future.delayed(const Duration(milliseconds: 1000));
+      }
+    } else {
+      while (_start) {
+        yield _progress / _target;
+        await Future.delayed(const Duration(milliseconds: 10));
+      }
     }
   }
 }
