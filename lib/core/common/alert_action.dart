@@ -19,5 +19,7 @@ enum AlertAction {
   uploadNumberPlate,
   uploadExterior,
   uploadPollution,
+  exitFormIdentifyDetails,
+  identifyQuestions,
   none;
 }

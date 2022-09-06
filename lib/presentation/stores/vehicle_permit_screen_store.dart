@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/mcq_value.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/my_date_time.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_permit_repository.dart';
@@ -32,7 +33,7 @@ abstract class _VehiclePermitScreenStore extends AppNavigator with Store {
   final _picker = ImageFilePicker();
   final _dateTimeHelper = DateTimeHelper();
   final dialogManager = DialogManager();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
 
   @observable
   McqValue isIssued = McqValue.no;
@@ -126,15 +127,8 @@ abstract class _VehiclePermitScreenStore extends AppNavigator with Store {
   @action
   onDone() async {
     var userId = _storage.userId();
-    var response = await _repository.uploadPermit(
-        userId, permitNumber, selectedDate, isIssued.key, selectedImage!,
-        (p0, p1) {
-      if (p0) {
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+    var response = await _repository.uploadPermit(userId, permitNumber,
+        selectedDate, isIssued.key, selectedImage!, uploader.start);
 
     if (response is Success) {
       var data = response.data;

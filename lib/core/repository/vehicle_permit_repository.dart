@@ -10,5 +10,5 @@ abstract class VehiclePermitRepository {
       String issueDate,
       String isIssued,
       File vehiclePermit,
-      Function(bool, int) onUploading);
+      Function(int, int) onUploading);
 }

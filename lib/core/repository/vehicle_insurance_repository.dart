@@ -11,5 +11,5 @@ abstract class VehicleInsuranceRepository {
       String validTil,
       String validInsurance,
       File insurance,
-      Function(bool, int) onUploading);
+      Function(int, int) onUploading);
 }

@@ -35,4 +35,8 @@ class ImageAssets {
   static const camera = "$_root/camera.svg";
 
   static const gallery = "$_root/gallery.svg";
+
+  static const onlinePayment = "$_root/online_payment.svg";
+
+  static const cashPayment = "$_root/cash_payment.svg";
 }

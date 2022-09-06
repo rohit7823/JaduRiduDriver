@@ -8,16 +8,16 @@ import 'package:jadu_ride_driver/core/repository/vehicle_pollution_repository.da
 
 class VehiclePollutionRepositoryImpl implements VehiclePollutionRepository {
   @override
-  Future<Resource<UploadVehiclePollutionResponse>> uploadPollution(String userId, String expiryDate, File pollutionPaper, Function(bool p1, int p2) onUploading) async {
+  Future<Resource<UploadVehiclePollutionResponse>> uploadPollution(
+      String userId,
+      String expiryDate,
+      File pollutionPaper,
+      Function(bool p1, int p2) onUploading) async {
     var size = await pollutionPaper.length();
     onUploading(true, size);
     await Future.delayed(const Duration(seconds: 3));
     onUploading(false, 0);
     return Success(UploadVehiclePollutionResponse(
-        status: true,
-        message: "Success",
-        isSubmitted: false
-    ));
+        status: true, message: "Success", isSubmitted: true));
   }
-
 }

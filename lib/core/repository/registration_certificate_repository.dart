@@ -5,5 +5,5 @@ import 'package:jadu_ride_driver/core/domain/response/upload_registration_certif
 
 abstract class RegistrationCertificateRepository {
   Future<Resource<UploadRegistrationCertificateResponse>> uploadCertificate(
-      String userId, File certificate, Function(bool, int) onUploading);
+      String userId, File certificate, Function(int, int) onUploading);
 }

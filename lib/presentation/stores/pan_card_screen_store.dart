@@ -158,8 +158,7 @@ abstract class _PanCardScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.uploadPanCard)));
+              option: AlertOption.none, action: AlertAction.uploadPanCard)));
     }
   }
 }

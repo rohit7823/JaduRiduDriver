@@ -148,6 +148,7 @@ class _VehiclePermitScreenState extends State<VehiclePermitScreen> {
                       return DobView(
                         onClick: _store.onChoose,
                         value: _store.selectedDate,
+                        isMandatory: true,
                       ).padding(insets: EdgeInsets.only(bottom: 0.03.sw));
                     },
                   ),

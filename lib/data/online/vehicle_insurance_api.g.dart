@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'vehicle_permit_api.dart';
+part of 'vehicle_insurance_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,16 +8,16 @@ part of 'vehicle_permit_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-class _VehiclePermitApi implements VehiclePermitApi {
-  _VehiclePermitApi(this._dio, {this.baseUrl});
+class _VehicleInsuranceApi implements VehicleInsuranceApi {
+  _VehicleInsuranceApi(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<UploadVehiclePermitResponse> vehiclePermit(userId, documentNumber,
-      documentImage, expiryDate, validPermit, uploading) async {
+  Future<UploadInsuranceResponse> addVehicleInsurance(userId, documentNumber,
+      documentImage, expiryDate, isValid, uploading) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -28,15 +28,18 @@ class _VehiclePermitApi implements VehiclePermitApi {
         MultipartFile.fromFileSync(documentImage.path,
             filename: documentImage.path.split(Platform.pathSeparator).last)));
     _data.fields.add(MapEntry('expiary_date', expiryDate));
-    _data.fields.add(MapEntry('validPermit', validPermit));
+    _data.fields.add(MapEntry('validInsurance', isValid));
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UploadVehiclePermitResponse>(Options(
-                method: 'POST', headers: _headers, extra: _extra)
-            .compose(
-                _dio.options, '/driver/users/${userId}/document/vehiclePermit',
+        _setStreamType<UploadInsuranceResponse>(Options(
+                method: 'POST',
+                headers: _headers,
+                extra: _extra,
+                contentType: 'multipart/form-data')
+            .compose(_dio.options,
+                '/driver/users/${userId}/document/vehicleInsurance',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UploadVehiclePermitResponse.fromJson(_result.data!);
+    final value = UploadInsuranceResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -235,11 +235,20 @@ class StringProvider {
 
   static var vehicleAuditCompleted = "Vehicle Audit Completed Successfully!";
 
-  static var pleaseGiveYourPollutionExpiryNumber = "Please Give Your Pollution Expiry Date";
+  static var pleaseGiveYourPollutionExpiryNumber =
+      "Please Give Your Pollution Expiry Date";
 
   static var expiryDate = "Expiry Date";
 
   static var uploadPollutionPaper = "Upload Pollution Paper";
+
+  static var close = "Close";
+
+  static var saveAndProcced = "Save and Proceed";
+
+  static var thisQuestionIsMandatory = "*This question is mandatory.";
+
+  static var selectPaymentMethod = "Select Payment Method";
 
   StringProvider._();
 

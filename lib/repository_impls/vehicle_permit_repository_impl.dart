@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/domain/response/upload_vehicle_permit_resp
 import 'package:jadu_ride_driver/core/repository/vehicle_permit_repository.dart';
 import 'package:jadu_ride_driver/data/online/vehicle_permit_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class VehiclePermitRepositoryImpl implements VehiclePermitRepository {
   final Dio _dio;
@@ -23,12 +24,17 @@ class VehiclePermitRepositoryImpl implements VehiclePermitRepository {
       String issueDate,
       String isIssued,
       File vehiclePermit,
-      Function(bool p1, int p2) onUploading) async {
-    var size = await vehiclePermit.length();
+      Function(int p1, int p2) onUploading) async {
+    return await _vehiclePermitApi
+        .vehiclePermit(
+            userId, number, vehiclePermit, issueDate, isIssued, onUploading)
+        .handleResponse<UploadVehiclePermitResponse>();
+
+    /*var size = await vehiclePermit.length();
     onUploading(true, size);
     await Future.delayed(const Duration(seconds: 3));
     onUploading(false, 0);
     return Success(UploadVehiclePermitResponse(
-        status: true, message: "Success", isUploaded: true));
+        status: true, message: "Success", isUploaded: true));*/
   }
 }

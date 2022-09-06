@@ -19,6 +19,8 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/uploader_implementation.dart';
+
 part 'registration_certificate_screen_store.g.dart';
 
 class RegistrationCertificateStore = _RegistrationCertificateScreenStore
@@ -29,7 +31,7 @@ abstract class _RegistrationCertificateScreenStore extends AppNavigator
   final _repository = dependency<RegistrationCertificateRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   final _picker = ImageFilePicker();
 
   @observable
@@ -83,15 +85,8 @@ abstract class _RegistrationCertificateScreenStore extends AppNavigator
   @action
   onDone() async {
     var userId = _storage.userId();
-    var response =
-        await _repository.uploadCertificate(userId, selectedImage!, (p0, p1) {
-      if (p0) {
-        debugPrint("fileSize $p1");
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+    var response = await _repository.uploadCertificate(
+        userId, selectedImage!, uploader.start);
 
     if (response is Success) {
       var data = response.data;

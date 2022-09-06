@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'vehicle_permit_api.dart';
+part of 'registration_certificate_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,35 +8,34 @@ part of 'vehicle_permit_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-class _VehiclePermitApi implements VehiclePermitApi {
-  _VehiclePermitApi(this._dio, {this.baseUrl});
+class _RegistrationCertificateApi implements RegistrationCertificateApi {
+  _RegistrationCertificateApi(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<UploadVehiclePermitResponse> vehiclePermit(userId, documentNumber,
-      documentImage, expiryDate, validPermit, uploading) async {
+  Future<UploadRegistrationCertificateResponse> addRegistrationCert(
+      userId, documentImage, uploading) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
-    _data.fields.add(MapEntry('document_number', documentNumber));
     _data.files.add(MapEntry(
         'document_image',
         MultipartFile.fromFileSync(documentImage.path,
             filename: documentImage.path.split(Platform.pathSeparator).last)));
-    _data.fields.add(MapEntry('expiary_date', expiryDate));
-    _data.fields.add(MapEntry('validPermit', validPermit));
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UploadVehiclePermitResponse>(Options(
-                method: 'POST', headers: _headers, extra: _extra)
-            .compose(
-                _dio.options, '/driver/users/${userId}/document/vehiclePermit',
+        _setStreamType<UploadRegistrationCertificateResponse>(Options(
+                method: 'POST',
+                headers: _headers,
+                extra: _extra,
+                contentType: 'multipart/form-data')
+            .compose(_dio.options, '/driver/users/${userId}/document/rc',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UploadVehiclePermitResponse.fromJson(_result.data!);
+    final value = UploadRegistrationCertificateResponse.fromJson(_result.data!);
     return value;
   }
 

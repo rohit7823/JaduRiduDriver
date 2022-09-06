@@ -181,7 +181,7 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
+              option: AlertOption.none,
               action: AlertAction.uploadDriverLicense)));
     }
   }
