@@ -1,14 +1,30 @@
+import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/add_all_details_initial_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/reset_all_details_response.dart';
 import 'package:jadu_ride_driver/core/domain/step.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
+import 'package:jadu_ride_driver/data/online/add_all_details_api.dart';
+import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
+  final Dio _dio;
+  late final AddAllDetailsApi _addAllDetailsApi;
+  AddAllDetailsRepositoryImpl(this._dio) {
+    _dio.options = ApiClientConfiguration.mainConfiguration;
+    _addAllDetailsApi = AddAllDetailsApi(_dio);
+  }
+
   @override
-  Future<Resource<AddAllDetailsInitialDataResponse>> initialData() async {
-    await Future.delayed(const Duration(seconds: 3));
+  Future<Resource<AddAllDetailsInitialDataResponse>> initialData(
+      String userId) async {
+    return await _addAllDetailsApi
+        .initialData(userId)
+        .handleResponse<AddAllDetailsInitialDataResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 3));
 
     return Success(AddAllDetailsInitialDataResponse(
         status: true,
@@ -26,7 +42,7 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
             (index) => DetailStep(
                 id: "ID${index + 1}",
                 key: DetailsStepKey.paymentDetails.key,
-                isComplete: false))));
+                isComplete: false))));*/
   }
 
   String _mapDetailsKeys(int index) {

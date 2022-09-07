@@ -21,5 +21,7 @@ enum AlertAction {
   uploadPollution,
   exitFormIdentifyDetails,
   identifyQuestions,
+  getUpis,
+  uploadPaymentDetails,
   none;
 }

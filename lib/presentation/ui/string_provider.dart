@@ -250,6 +250,18 @@ class StringProvider {
 
   static var selectPaymentMethod = "Select Payment Method";
 
+  static var selectYourUpi = "Select Your UPI App";
+
+  static var uploadQrCode = "Upload QR Code";
+
+  static var enterYourUpiID = "Enter your UPI ID";
+
+  static var upiId = "UPI ID";
+
+  static var UpiIsValid = "Upi is valid!";
+
+  static var UpiIsInValid = "Upi is invalid!";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

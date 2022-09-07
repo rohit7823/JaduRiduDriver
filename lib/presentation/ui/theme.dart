@@ -191,6 +191,7 @@ class AppColors {
   static Color BronzeOlive = Color(0xFF4E420C);
   static Color Bronzetone = Color(0xFF4D400F);
   static Color Broom = Color(0xFFFFEC13);
+  static Color lightPink = Color(0xffF5EFEF);
   static Color Brown = Color(0xFF964B00);
   static Color BrownBramble = Color(0xFF592804);
   static Color BrownDerby = Color(0xFF492615);
@@ -1576,6 +1577,8 @@ class AppColors {
   static Color Zorba = Color(0xFFA59B91);
   static Color Zuccini = Color(0xFF044022);
   static Color Zumthor = Color(0xFFEDF6FF);
+
+  static var upiIdDropDownBg = Color(0xFFD4D4D4);
   //////////////////////////////////////////////////////////////////////////////////
 }
 

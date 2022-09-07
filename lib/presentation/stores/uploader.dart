@@ -32,7 +32,7 @@ abstract class _Uploader with Store {
   @action
   startUploader(int total) {
     _target = total;
-    _start = true;
+    _start = _progress <= _target;
   }
 
   @action

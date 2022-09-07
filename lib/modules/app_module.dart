@@ -104,13 +104,13 @@ class AppModule {
         () => ChangeAppLanguageRepositoryImpl(dio));
 
     dependency.registerLazySingleton<WelcomeJaduRideRepository>(
-        () => WelcomeJaduRideRepositoryImpl());
+        () => WelcomeJaduRideRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AddVehicleRepository>(
         () => AddVehicleRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AddAllDetailsRepository>(
-        () => AddAllDetailsRepositoryImpl());
+        () => AddAllDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ProfilePictureRepository>(
         () => ProfilePictureRepositoryImpl(dio));

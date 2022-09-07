@@ -307,7 +307,9 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
   @action
   onContinue() async {
     uploadingLoader = true;
+    var userId = _storage.userId();
     var response = await _repository.sendUserData(
+        userId,
         userName,
         userEmail,
         userMobileNumber,

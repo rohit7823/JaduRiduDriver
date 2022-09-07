@@ -12,6 +12,7 @@ abstract class WelcomeJaduRideRepository {
   Future<Resource<CitiesResponse>> cities(String selectedDistrictId);
 
   Future<Resource<UserPrimaryRegistrationResponse>> sendUserData(
+      String userId,
       String userName,
       String userEmail,
       String userMobileNumber,

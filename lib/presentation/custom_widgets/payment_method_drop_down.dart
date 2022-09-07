@@ -130,10 +130,11 @@ class PaymentMethodDropDown extends StatelessWidget {
                         children: [
                           fitBox(child: SvgPicture.asset(e.image)),
                           fitBox(
-                              child: Text(
-                            e.value,
-                            style: AppTextStyle.normal,
-                          ).padding(insets: EdgeInsets.only(left: 0.03.sw))),
+                            child: Text(
+                              e.value,
+                              style: AppTextStyle.normal,
+                            ).padding(insets: EdgeInsets.only(left: 0.03.sw)),
+                          ),
                         ],
                       ));
                 }).toList()),

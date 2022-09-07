@@ -52,7 +52,8 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
   @action
   getInitialData() async {
     gettingDataLoader = true;
-    var response = await _repository.initialData();
+    var userId = _storage.userId();
+    var response = await _repository.initialData(userId);
     if (response is Success) {
       var data = response.data;
       gettingDataLoader = false;

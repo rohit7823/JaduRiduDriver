@@ -39,4 +39,6 @@ class ImageAssets {
   static const onlinePayment = "$_root/online_payment.svg";
 
   static const cashPayment = "$_root/cash_payment.svg";
+
+  static const upload = "$_root/upload.svg";
 }
