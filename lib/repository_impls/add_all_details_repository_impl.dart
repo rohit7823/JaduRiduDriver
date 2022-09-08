@@ -74,9 +74,13 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
 
   @override
   Future<Resource<ResetAllDetailsResponse>> resetDetails(String userId) async {
-    await Future.delayed(const Duration(seconds: 3));
+    return await _addAllDetailsApi
+        .resetAll(userId)
+        .handleResponse<ResetAllDetailsResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 3));
 
     return Success(ResetAllDetailsResponse(
-        status: true, message: "Success", isAllCleared: true));
+        status: true, message: "Success", isAllCleared: true));*/
   }
 }

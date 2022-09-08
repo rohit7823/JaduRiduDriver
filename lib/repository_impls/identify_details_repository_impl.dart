@@ -1,15 +1,30 @@
+import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/question.dart';
 import 'package:jadu_ride_driver/core/domain/question_option.dart';
 import 'package:jadu_ride_driver/core/domain/response/identify_detail_questions_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/identify_question_answer_response.dart';
 import 'package:jadu_ride_driver/core/repository/identify_details_repository.dart';
+import 'package:jadu_ride_driver/data/online/identify_detail_api.dart';
+import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
+
+  final Dio _dio;
+  late final IdentifyDetailApi _identifyDetailsApi;
+
+  IdentifyDetailsRepositoryImpl(this._dio) {
+    _dio.options = ApiClientConfiguration.mainConfiguration;
+    _identifyDetailsApi = IdentifyDetailApi(_dio);
+  }
+
   @override
   Future<Resource<IdentifyDetailQuestionsResponse>> identifyQuestions(
       String userId) async {
-    await Future.delayed(const Duration(seconds: 2));
+    return await _identifyDetailsApi.questions().handleResponse<IdentifyDetailQuestionsResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
 
     return Success(IdentifyDetailQuestionsResponse(
         status: true,
@@ -40,7 +55,7 @@ class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
                 QuestionOption(id: "2", option: "Aadhar"),
                 QuestionOption(id: "3", option: "Others")
               ])
-        ]));
+        ]));*/
   }
 
   @override

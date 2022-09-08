@@ -56,10 +56,9 @@ class IdentifyQuestionItemView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                fitBox(
-                    child: item.data.question
-                        .text(AppTextStyle.mcqTextStyle)
-                        .padding(insets: EdgeInsets.only(bottom: 0.03.sw))),
+                item.data.question
+                    .text(AppTextStyle.mcqTextStyle)
+                    .padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
                 ListView(
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,

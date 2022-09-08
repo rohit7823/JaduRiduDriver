@@ -8,6 +8,7 @@ class ApiRoutes {
   static const sendOtp = "$parent/sendOtp";
 
   static const verifyOtp = "$parent/verifyOtp";
+  static const identifyDetailQuestions = "$parent/identifyDetailQuestions";
 
   ApiRoutes._();
   static const parent = "/driver";

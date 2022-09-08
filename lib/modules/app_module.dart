@@ -157,7 +157,7 @@ class AppModule {
         () => VehiclePollutionRepositoryImpl());
 
     dependency.registerLazySingleton<IdentifyDetailsRepository>(
-        () => IdentifyDetailsRepositoryImpl());
+        () => IdentifyDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PaymentDetailsRepository>(
         () => PaymentDetailsRepositoryImpl());

@@ -99,18 +99,20 @@ class _NumberInputScreenState extends State<NumberInputScreen> {
         alignment: Alignment.topLeft,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              fitBox(
-                  child: StringProvider.enterMobileNumber
-                      .text(AppTextStyle.enterNumberStyle)
-                      .padding(insets: EdgeInsets.only(bottom: 0.03.sw))),
-              fitBox(
-                  child: StringProvider.enterNumberDescription
-                      .text(AppTextStyle.enterNumberSubHeadingStyle)
-                      .padding(insets: EdgeInsets.only(bottom: 0.03.sw)))
-            ],
+          child: fitBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                fitBox(
+                    child: StringProvider.enterMobileNumber
+                        .text(AppTextStyle.enterNumberStyle)
+                        .padding(insets: EdgeInsets.only(bottom: 0.03.sw))),
+                fitBox(
+                    child: StringProvider.enterNumberDescription
+                        .text(AppTextStyle.enterNumberSubHeadingStyle)
+                        .padding(insets: EdgeInsets.only(bottom: 0.03.sw)))
+              ],
+            ),
           ),
         ),
       ),

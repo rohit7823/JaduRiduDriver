@@ -10,6 +10,7 @@ abstract class WelcomeJaduRideApi {
   factory WelcomeJaduRideApi(Dio dio, {String? baseUrl}) = _WelcomeJaduRideApi;
 
   @POST("${ApiRoutes.parent}/users/{userId}/details")
+  @FormUrlEncoded()
   Future<UserPrimaryRegistrationResponse> driverDetails(
       @Path("userId") String userId,
       @Field("name") String userName,
