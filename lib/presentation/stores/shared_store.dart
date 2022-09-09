@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
@@ -12,6 +13,7 @@ import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:mobx/mobx.dart';
@@ -39,6 +41,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   bool gettingDataLoader = false;
 
   initiateBatchCall() {
+    ApiClientConfiguration.mainConfiguration.baseUrl = _prefs.baseUrl();
     var isCmplt = _prefs.isIntroComplete();
     var isLogin = _prefs.isLogin();
     var userId = _prefs.userId();

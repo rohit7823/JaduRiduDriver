@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'batch_call_api.dart';
+part of 'identify_detail_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,42 +8,46 @@ part of 'batch_call_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-class _BatchCallApi implements BatchCallApi {
-  _BatchCallApi(this._dio, {this.baseUrl});
+class _IdentifyDetailApi implements IdentifyDetailApi {
+  _IdentifyDetailApi(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<BatchCallResponse> batchCallForIntroData(requestedApi) async {
+  Future<IdentifyDetailQuestionsResponse> questions() async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BatchCallResponse>(
+        _setStreamType<IdentifyDetailQuestionsResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/driver/batchCall',
+                .compose(_dio.options, '/driver/identifyDetailQuestions',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+    final value = IdentifyDetailQuestionsResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<BatchCallResponse> batchCallForRegistrationData(requestedApi) async {
+  Future<IdentifyQuestionAnswerResponse> answer(
+      userId, questionId, optionId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final _data = {'questionId': questionId, 'optionId': optionId};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BatchCallResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/driver/batchCall',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+        _setStreamType<IdentifyQuestionAnswerResponse>(Options(
+                method: 'POST',
+                headers: _headers,
+                extra: _extra,
+                contentType: 'application/x-www-form-urlencoded')
+            .compose(_dio.options, '/driver/users/${userId}/answer',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = IdentifyQuestionAnswerResponse.fromJson(_result.data!);
     return value;
   }
 

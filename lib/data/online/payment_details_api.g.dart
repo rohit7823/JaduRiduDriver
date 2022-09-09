@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'batch_call_api.dart';
+part of 'payment_details_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,42 +8,52 @@ part of 'batch_call_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-class _BatchCallApi implements BatchCallApi {
-  _BatchCallApi(this._dio, {this.baseUrl});
+class _PaymentDetailsApi implements PaymentDetailsApi {
+  _PaymentDetailsApi(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<BatchCallResponse> batchCallForIntroData(requestedApi) async {
+  Future<UpisResponse> upiHandles() async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BatchCallResponse>(
+        _setStreamType<UpisResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/driver/batchCall',
+                .compose(_dio.options, 'upiHandles',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+    final value = UpisResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<BatchCallResponse> batchCallForRegistrationData(requestedApi) async {
+  Future<PaymentDetailsResponse> paymentDetails(
+      userId, upiId, documentImage, uploading) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'requested_api': requestedApi};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry('upiId', upiId));
+    _data.files.add(MapEntry(
+        'document_image',
+        MultipartFile.fromFileSync(documentImage.path,
+            filename: documentImage.path.split(Platform.pathSeparator).last)));
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BatchCallResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/driver/batchCall',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+        _setStreamType<PaymentDetailsResponse>(Options(
+                method: 'POST',
+                headers: _headers,
+                extra: _extra,
+                contentType: 'multipart/form-data')
+            .compose(_dio.options,
+                '/driver/users/${userId}/document/onlinePaymentDetails',
+                queryParameters: queryParameters, data: _data, onSendProgress: uploading)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PaymentDetailsResponse.fromJson(_result.data!);
     return value;
   }
 

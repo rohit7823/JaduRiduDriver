@@ -128,13 +128,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Observer(
-                      builder: (BuildContext context) {
-                        return PaymentMethodDropDown(
-                            methods: _store.methods,
-                            onSelected: _store.onSelectMethod,
-                            current: _store.selectedMethod);
-                      },
+                    DefaultPaymentMethodView(
+                        current: _store.methods.first
                     ).padding(insets: EdgeInsets.only(top: 0.05.sw)),
                     Padding(
                       padding: EdgeInsets.only(top: 0.10.sw, bottom: 0.07.sw),
@@ -143,18 +138,84 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                           height: 0.03.sw,
                           color: AppColors.lightPink),
                     ),
-                    Observer(
-                      builder: (BuildContext context) {
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          switchInCurve: Curves.easeInSine,
-                          switchOutCurve: Curves.easeOutSine,
-                          child: _store.selectedMethod == PaymentMethod.online
-                              ? _onlinePaymentDetailsContent()
-                              : const SizedBox.shrink(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: fitBox(
+                        child: StringProvider.provideYourAlternatePaymentDetails
+                            .text(AppTextStyle.requiredStepsStyle)
+                            .padding(insets: EdgeInsets.only(bottom: 0.04.sw, left: 0.05.sw)),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 0.05.sw),
+                      child: Observer(builder: (BuildContext context) {
+                        return UpiIdTextField(
+                          upiIds: _store.upis,
+                          loading: _store.gettingUpisLoader,
+                          onSelect: _store.onSelectUpi,
+                          selected: _store.selectedUpi,
+                          onChange: _store.onUpiId,
+                          controller: _editingController,
+                          placeHolder: StringProvider.enterUpiId,
+                          upiValidationLabel: _store.upiStatusLabel,
                         );
-                      },
-                    )
+                      }),
+                    ),
+                    fitBox(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 0.05.sw),
+                        child: InkWell(
+                          overlayColor: MaterialStateProperty.all(
+                              AppColors.primaryVariant.withOpacity(.5)),
+                          borderRadius: BorderRadius.circular(16.r),
+                          onTap: _store.openImagePicker,
+                          child: Container(
+                            width: 0.90.sw,
+                            padding: EdgeInsets.all(.05.sw),
+                            decoration: BoxDecoration(
+                              color: AppColors.white.withOpacity(.9),
+                              borderRadius: BorderRadius.circular(16.r),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: AppColors.lightGray,
+                                  offset: Offset(
+                                    5.0,
+                                    5.0,
+                                  ),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0,
+                                ), //BoxShadow
+                                BoxShadow(
+                                  color: AppColors.lightGray,
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 0.0,
+                                  spreadRadius: 0.0,
+                                ), //BoxShadow
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                expand(
+                                    flex: 9,
+                                    child: StringProvider.uploadQrCode
+                                        .text(AppTextStyle.detailsTypeItemTextStyle)),
+                                expand(
+                                    flex: 1,
+                                    child: SvgPicture.asset(
+                                      ImageAssets.upload,
+                                      color: AppColors.Gray,
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Observer(builder: (BuildContext context) {
+                      return ImageViewer(
+                          selectedImage: _store.selectedImage,
+                          onClose: _store.clearSelectedImage);
+                    })
                   ],
                 ),
               )),
@@ -188,83 +249,6 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
               ))
         ],
       ),
-    );
-  }
-
-  Widget _onlinePaymentDetailsContent() {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: 0.05.sw),
-          child: Observer(builder: (BuildContext context) {
-            return UpiIdTextField(
-              upiIds: _store.upis,
-              loading: _store.gettingUpisLoader,
-              onSelect: _store.onSelectUpi,
-              selected: _store.selectedUpi,
-              onChange: _store.onUpiId,
-              controller: _editingController,
-              placeHolder: StringProvider.upiId,
-              upiValidationLabel: _store.upiStatusLabel,
-            );
-          }),
-        ),
-        fitBox(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 0.05.sw),
-            child: InkWell(
-              overlayColor: MaterialStateProperty.all(
-                  AppColors.primaryVariant.withOpacity(.5)),
-              borderRadius: BorderRadius.circular(16.r),
-              onTap: _store.openImagePicker,
-              child: Container(
-                width: 0.90.sw,
-                padding: EdgeInsets.all(.05.sw),
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.9),
-                  borderRadius: BorderRadius.circular(16.r),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppColors.lightGray,
-                      offset: Offset(
-                        5.0,
-                        5.0,
-                      ),
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0,
-                    ), //BoxShadow
-                    BoxShadow(
-                      color: AppColors.lightGray,
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 0.0,
-                      spreadRadius: 0.0,
-                    ), //BoxShadow
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    expand(
-                        flex: 9,
-                        child: StringProvider.uploadQrCode
-                            .text(AppTextStyle.detailsTypeItemTextStyle)),
-                    expand(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          ImageAssets.upload,
-                          color: AppColors.Gray,
-                        ))
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Observer(builder: (BuildContext context) {
-          return ImageViewer(
-              selectedImage: _store.selectedImage,
-              onClose: _store.clearSelectedImage);
-        })
-      ],
     );
   }
 }

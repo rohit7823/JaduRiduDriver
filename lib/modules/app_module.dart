@@ -160,6 +160,6 @@ class AppModule {
         () => IdentifyDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PaymentDetailsRepository>(
-        () => PaymentDetailsRepositoryImpl());
+        () => PaymentDetailsRepositoryImpl(dio));
   }
 }

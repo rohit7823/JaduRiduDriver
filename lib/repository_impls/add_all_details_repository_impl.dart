@@ -3,7 +3,6 @@ import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/add_all_details_initial_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/reset_all_details_response.dart';
-import 'package:jadu_ride_driver/core/domain/step.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 import 'package:jadu_ride_driver/data/online/add_all_details_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';

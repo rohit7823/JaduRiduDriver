@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/question.dart';
 import 'package:jadu_ride_driver/core/domain/question_option.dart';
@@ -15,6 +16,7 @@ class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
   late final IdentifyDetailApi _identifyDetailsApi;
 
   IdentifyDetailsRepositoryImpl(this._dio) {
+    debugPrint("baseUrl in number input ${ApiClientConfiguration.mainConfiguration.baseUrl}");
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _identifyDetailsApi = IdentifyDetailApi(_dio);
   }
@@ -61,8 +63,11 @@ class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
   @override
   Future<Resource<IdentifyQuestionAnswerResponse>> setAnswer(
       String userId, String questionId, String optionId) async {
-    await Future.delayed(const Duration(seconds: 2));
+
+    return await _identifyDetailsApi.answer(userId, questionId, optionId).handleResponse<IdentifyQuestionAnswerResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
     return Success(IdentifyQuestionAnswerResponse(
-        status: true, message: "Success", isUpdated: true));
+        status: true, message: "Success", isUpdated: true));*/
   }
 }

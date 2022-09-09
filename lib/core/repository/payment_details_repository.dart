@@ -8,10 +8,9 @@ import 'package:jadu_ride_driver/core/domain/response/upis_response.dart';
 abstract class PaymentDetailsRepository {
   Future<Resource<PaymentDetailsResponse>> paymentDetails(
       String userId,
-      String selectedMethod,
-      File? QrCode,
+      File QrCode,
       String upiId,
-      Function(bool, int) onUploading);
+      Function(int, int) onUploading);
 
   Future<Resource<UpisResponse>> getUpiIds();
 

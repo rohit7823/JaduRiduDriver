@@ -25,22 +25,6 @@ mixin _$PaymentDetailStore on _PaymentDetailsStore, Store {
     });
   }
 
-  late final _$selectedMethodAtom =
-      Atom(name: '_PaymentDetailsStore.selectedMethod', context: context);
-
-  @override
-  PaymentMethod? get selectedMethod {
-    _$selectedMethodAtom.reportRead();
-    return super.selectedMethod;
-  }
-
-  @override
-  set selectedMethod(PaymentMethod? value) {
-    _$selectedMethodAtom.reportWrite(value, super.selectedMethod, () {
-      super.selectedMethod = value;
-    });
-  }
-
   late final _$selectedImageAtom =
       Atom(name: '_PaymentDetailsStore.selectedImage', context: context);
 
@@ -221,17 +205,6 @@ mixin _$PaymentDetailStore on _PaymentDetailsStore, Store {
       ActionController(name: '_PaymentDetailsStore', context: context);
 
   @override
-  dynamic onSelectMethod(PaymentMethod? method) {
-    final _$actionInfo = _$_PaymentDetailsStoreActionController.startAction(
-        name: '_PaymentDetailsStore.onSelectMethod');
-    try {
-      return super.onSelectMethod(method);
-    } finally {
-      _$_PaymentDetailsStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic clearSelectedImage() {
     final _$actionInfo = _$_PaymentDetailsStoreActionController.startAction(
         name: '_PaymentDetailsStore.clearSelectedImage');
@@ -257,7 +230,6 @@ mixin _$PaymentDetailStore on _PaymentDetailsStore, Store {
   String toString() {
     return '''
 enableBtn: ${enableBtn},
-selectedMethod: ${selectedMethod},
 selectedImage: ${selectedImage},
 upis: ${upis},
 selectedUpi: ${selectedUpi},

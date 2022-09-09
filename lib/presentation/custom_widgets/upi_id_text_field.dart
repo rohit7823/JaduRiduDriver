@@ -36,9 +36,6 @@ class UpiIdTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        StringProvider.enterYourUpiID
-            .text(AppTextStyle.requiredStepsStyle)
-            .padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
         Container(
           width: 0.90.sw,
           decoration: BoxDecoration(

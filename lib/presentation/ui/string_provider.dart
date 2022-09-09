@@ -248,7 +248,7 @@ class StringProvider {
 
   static var thisQuestionIsMandatory = "*This question is mandatory.";
 
-  static var selectPaymentMethod = "Select Payment Method";
+  static var defaultPaymentMethod = "Default Payment Method";
 
   static var selectYourUpi = "Select Your UPI App";
 
@@ -261,6 +261,10 @@ class StringProvider {
   static var UpiIsValid = "Upi is valid!";
 
   static var UpiIsInValid = "Upi is invalid!";
+
+  static var provideYourAlternatePaymentDetails = "Provide Your Alternate Payment Details";
+
+  static var enterUpiId = "Enter UPI ID";
 
   StringProvider._();
 

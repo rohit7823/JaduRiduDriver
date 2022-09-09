@@ -27,11 +27,12 @@ extension IntroPage on int {
 }
 
 extension MyText on String {
-  Widget text([TextStyle? textStyle, TextOverflow? textOverflow]) {
+  Widget text([TextStyle? textStyle, TextOverflow? textOverflow, TextAlign? align]) {
     return Text(
       this.tr(),
       style: textStyle,
       overflow: textOverflow,
+      textAlign: align,
     );
   }
 }

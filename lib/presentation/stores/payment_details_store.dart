@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/payment_method.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/domain/upi_id.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/payment_details_repository.dart';
@@ -29,15 +30,12 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
   final _picker = ImageFilePicker();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
 
   List<PaymentMethod> methods = PaymentMethod.values;
 
   @observable
   bool enableBtn = false;
-
-  @observable
-  PaymentMethod? selectedMethod;
 
   @observable
   File? selectedImage;
@@ -66,14 +64,8 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
   bool uploadingLoader = false;
 
   _PaymentDetailsStore() {
-    onSelectMethod(methods.first);
     getInitialData();
     _validateInputs();
-  }
-
-  @action
-  onSelectMethod(PaymentMethod? method) {
-    selectedMethod = method;
   }
 
   @action
@@ -131,16 +123,10 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
   @action
   _validateInputs() async {
     while (true) {
-      if (selectedMethod == PaymentMethod.online) {
-        if (upiID.isEmpty) {
-          enableBtn = false;
-        } else if (selectedImage == null) {
-          enableBtn = false;
-        } else if (upiID.isEmpty && selectedUpi == null) {
-          enableBtn = false;
-        } else {
-          enableBtn = true;
-        }
+      if (upiID.isEmpty) {
+        enableBtn = false;
+      } else if (selectedImage == null) {
+        enableBtn = false;
       } else {
         enableBtn = true;
       }
@@ -194,15 +180,8 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
     var userId = _storage.userId();
     var response = await _repository.paymentDetails(
         userId,
-        selectedMethod?.value ?? "",
-        selectedImage,
-        "$upiID${selectedUpi?.name}", (p0, p1) {
-      if (p0) {
-        uploader.startUploader(p1);
-      } else {
-        uploader.stopUploader(p1);
-      }
-    });
+        selectedImage!,
+        "$upiID${selectedUpi?.name}", uploader.start);
 
     if (response is Success) {
       var data = response.data;
