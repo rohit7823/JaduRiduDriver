@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dar
 import 'package:jadu_ride_driver/presentation/screens/add_vehicle_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/application_submitted_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/dashboard_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
@@ -14,7 +15,6 @@ import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/payment_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dart';
-import 'package:jadu_ride_driver/presentation/screens/profile_settings_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
@@ -27,6 +27,7 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
 class DefaultNav {
   DefaultNav({required this.sharedStore});
+
   SharedStore sharedStore;
 
   Route? generatedRoute(RouteSettings routeSettings) {
@@ -60,9 +61,6 @@ class DefaultNav {
       case AppRoute.allDetails:
         return ScreenTransitions.rightToLeftTransition(
             AddAllDetailsScreen(sharedStore: sharedStore));
-      case AppRoute.profileSettings:
-        return ScreenTransitions.bottomToTopTransition(
-            const ProfileSettingsScreen());
       case AppRoute.identifyDetails:
         return ScreenTransitions.bottomToTopTransition(
             const IdentifyDetailsScreen());
@@ -97,7 +95,11 @@ class DefaultNav {
             const VehiclePollution());
       case AppRoute.applicationSubmitted:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
-            const ApplicationSubmittedScreen());
+            ApplicationSubmittedScreen(sharedStore: sharedStore));
+      case AppRoute.dashBoard:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
+            DashboardScreen(sharedStore: sharedStore)
+        );
       default:
         return null;
     }

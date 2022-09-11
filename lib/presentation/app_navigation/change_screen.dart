@@ -4,9 +4,13 @@ import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 
 class ChangeScreen {
-  ChangeScreen._();
+  GlobalKey<NavigatorState> dashBoardNavigator;
+  ChangeScreen(this.dashBoardNavigator);
 
-  static to(BuildContext context, Screen screen,
+
+  static to(
+      BuildContext context,
+      Screen screen,
       {Function? onComplete,
       Object? arguments,
       Function(Object)? fromScreen,
@@ -50,12 +54,6 @@ class ChangeScreen {
       case Screen.addAllDetails:
         await _navigate(context, AppRoute.allDetails,
             arguments: arguments, onComplete: onComplete);
-        break;
-      case Screen.profileSettings:
-        _navigate(context, AppRoute.profileSettings,
-            arguments: arguments,
-            onComplete: onComplete,
-            fromScreen: fromScreen);
         break;
       case Screen.identifyDetails:
         _navigate(context, AppRoute.identifyDetails,
@@ -124,9 +122,62 @@ class ChangeScreen {
         _navigate(context, AppRoute.vehiclePollution);
         break;
       case Screen.dashBoard:
-        debugPrint("dashboard not ready");
+        _navigateWithOption(context, AppRoute.dashBoard, option!);
         break;
     }
+  }
+
+  nestedTo(Screen screen,
+      {Function? onComplete,
+        Object? arguments,
+        Function(Object)? fromScreen,
+        NavigationOption? option}) async {
+      switch(screen) {
+        case Screen.duty:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.duty,
+              option!
+          );
+          break;
+        case Screen.accounts:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.accounts,
+              option!
+          );
+          break;
+        case Screen.incentives:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.incentives,
+              option!
+          );
+          break;
+        case Screen.partnerCare:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.partnerCare,
+              option!
+          );
+          break;
+        case Screen.schedule:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.schedule,
+              option!
+          );
+          break;
+        case Screen.more:
+          _navigateWithOption(
+              dashBoardNavigator.currentState!.context,
+              AppRoute.more,
+              option!
+          );
+          break;
+      }
+
+      onComplete?.call();
   }
 
   static _navigate(BuildContext context, String destination,

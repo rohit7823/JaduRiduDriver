@@ -9,6 +9,8 @@ class Constants {
 
   static const userName = "UserName";
 
+  static const driverStatus = "DRIVER_STATUS";
+
   Constants._();
 
   static const baseUrl = "BASE_URL";

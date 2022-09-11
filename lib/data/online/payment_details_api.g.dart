@@ -24,7 +24,7 @@ class _PaymentDetailsApi implements PaymentDetailsApi {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpisResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, 'upiHandles',
+                .compose(_dio.options, '/driver/upiHandle',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UpisResponse.fromJson(_result.data!);
@@ -51,7 +51,7 @@ class _PaymentDetailsApi implements PaymentDetailsApi {
                 contentType: 'multipart/form-data')
             .compose(_dio.options,
                 '/driver/users/${userId}/document/onlinePaymentDetails',
-                queryParameters: queryParameters, data: _data, onSendProgress: uploading)
+                queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaymentDetailsResponse.fromJson(_result.data!);
     return value;

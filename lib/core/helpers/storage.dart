@@ -16,4 +16,7 @@ abstract class Storage {
 
   saveUserName(String name);
   String name();
+
+  setDriverStatus(String status);
+  String driverStatus();
 }

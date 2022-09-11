@@ -7,7 +7,6 @@ enum Screen {
   welcomeJaduRide,
   addVehicle,
   addAllDetails,
-  profileSettings,
   numberInputScreen,
   identifyDetails,
   vehicleAudit,
@@ -21,5 +20,11 @@ enum Screen {
   paymentDetails,
   dashBoard,
   applicationSubmitted,
+  duty,
+  accounts,
+  incentives,
+  partnerCare,
+  schedule,
+  more,
   vehiclePollution
 }

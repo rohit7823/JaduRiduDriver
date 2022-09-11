@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/guideline_view.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/image_viewer.dart';
@@ -48,7 +48,7 @@ class _AuditGeneralScreenState extends State<AuditGeneralScreen> {
     _store = widget.storeInstance;
     _auditGeneralStore = AuditGeneralStore(_store);
     _dialogController =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
     _disposers = [
       reaction((p0) => _auditGeneralStore.dialogManager.filePickerState, (p0) {

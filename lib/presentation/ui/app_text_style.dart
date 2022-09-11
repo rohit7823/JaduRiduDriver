@@ -179,6 +179,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: const Color(0xFF707070));
 
+  static var applicationSubmittedStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w500,
+      color: Colors.black);
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

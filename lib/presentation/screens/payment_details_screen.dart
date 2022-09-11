@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/payment_method.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/image_viewer.dart';
@@ -45,7 +45,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
     _store = PaymentDetailStore();
     _editingController = TextEditingController(text: _store.upiID);
     _controller =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [
@@ -228,22 +228,10 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
               child: Align(
                 child: Observer(
                   builder: (BuildContext context) {
-                    return _store.selectedMethod == PaymentMethod.online
-                        ? ProgressButton(
-                            enableBtn: _store.enableBtn,
-                            uploader: _store.uploader,
-                            onPress: _store.onDone)
-                        : ElevatedButton(
-                            style: _store.uploadingLoader
-                                ? AppButtonThemes.cancelBtnStyle
-                                : AppButtonThemes.defaultStyle,
-                            onPressed:
-                                _store.uploadingLoader ? null : _store.onDone,
-                            child: _store.uploadingLoader
-                                ? const CircularProgressIndicator(
-                                    color: AppColors.white)
-                                : StringProvider.done
-                                    .text(AppTextStyle.btnTextStyleWhite));
+                    return ProgressButton(
+                        enableBtn: _store.enableBtn,
+                        uploader: _store.uploader,
+                        onPress: _store.onDone);
                   },
                 ),
               ))

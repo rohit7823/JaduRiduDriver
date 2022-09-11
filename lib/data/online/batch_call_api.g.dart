@@ -27,7 +27,7 @@ class _BatchCallApi implements BatchCallApi {
                 .compose(_dio.options, '/driver/batchCall',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+    final value = BatchCallResponse.fromJsonIntro(_result.data!);
     return value;
   }
 
@@ -43,7 +43,7 @@ class _BatchCallApi implements BatchCallApi {
                 .compose(_dio.options, '/driver/batchCall',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BatchCallResponse.fromJson(_result.data!);
+    final value = BatchCallResponse.fromJsonRegistration(_result.data!);
     return value;
   }
 

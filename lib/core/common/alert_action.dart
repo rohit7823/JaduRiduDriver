@@ -23,5 +23,9 @@ enum AlertAction {
   identifyQuestions,
   getUpis,
   uploadPaymentDetails,
+  profileSettingsInitialData,
+  enableGps,
+  locationPermissionRationale,
+  locationServiceDisable,
   none;
 }

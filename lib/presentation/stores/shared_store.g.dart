@@ -58,6 +58,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$selectedMenuAtom =
+      Atom(name: '_SharedStore.selectedMenu', context: context);
+
+  @override
+  int get selectedMenu {
+    _$selectedMenuAtom.reportRead();
+    return super.selectedMenu;
+  }
+
+  @override
+  set selectedMenu(int value) {
+    _$selectedMenuAtom.reportWrite(value, super.selectedMenu, () {
+      super.selectedMenu = value;
+    });
+  }
+
   late final _$getIntroPageDataAsyncAction =
       AsyncAction('_SharedStore.getIntroPageData', context: context);
 
@@ -76,12 +92,35 @@ mixin _$SharedStore on _SharedStore, Store {
         .run(() => super.getLoginRegistrationPageData());
   }
 
+  late final _$getDashBoardDataAsyncAction =
+      AsyncAction('_SharedStore.getDashBoardData', context: context);
+
+  @override
+  Future getDashBoardData() {
+    return _$getDashBoardDataAsyncAction.run(() => super.getDashBoardData());
+  }
+
+  late final _$_SharedStoreActionController =
+      ActionController(name: '_SharedStore', context: context);
+
+  @override
+  dynamic onBottomMenu(int index) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.onBottomMenu');
+    try {
+      return super.onBottomMenu(index);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
-gettingDataLoader: ${gettingDataLoader}
+gettingDataLoader: ${gettingDataLoader},
+selectedMenu: ${selectedMenu}
     ''';
   }
 }

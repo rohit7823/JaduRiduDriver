@@ -65,4 +65,14 @@ class StorageImpl implements Storage {
   saveUserName(String name) {
     _pref.setString(Constants.userName, name);
   }
+
+  @override
+  String driverStatus() {
+    return _pref.getString(Constants.driverStatus) ?? "";
+  }
+
+  @override
+  setDriverStatus(String status) {
+    _pref.setString(Constants.driverStatus, status);
+  }
 }

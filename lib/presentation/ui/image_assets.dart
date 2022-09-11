@@ -41,4 +41,14 @@ class ImageAssets {
   static const cashPayment = "$_root/cash_payment.svg";
 
   static const upload = "$_root/upload.svg";
+
+  static const accounts = "$_root/accounts.svg";
+  static const duty = "$_root/duty.svg";
+  static const incentives = "$_root/incentives.svg";
+  static const more = "$_root/more.svg";
+  static const partnerCare = "$_root/partner_care.svg";
+  static const schedule = "$_root/schedule.svg";
+
+  static const car = "$_root/car.svg";
+  static const notifications = "$_root/notification.svg";
 }

@@ -266,6 +266,40 @@ class StringProvider {
 
   static var enterUpiId = "Enter UPI ID";
 
+  static var toDashboard = "To Dashboard";
+
+  static var applicationSubmitted = "Your Application Submitted";
+
+  static var applicationSubmittedDescription = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+
+  static var enableGpsMessage = "Please enable your Location Service/GPS, We need this for getting your current location.";
+
+  static var permissionRationaleMessage = "For driving with us we need to access your current location. Without this we can't provide any service to you, so please allow this permission.";
+
+  static var locationDeniedForever = "To give your location permission, go to app settings and change current setting";
+
+  static var appSetting = "App Setting";
+
+  static var enableLocationMessage = "Please enable your GPS/Location Service, Otherwise you might not receive any bookings and cannot use our services either.";
+
+  static const duty = "Duty";
+
+  static const accounts = "Accounts";
+
+  static const incentives = "Incentives";
+
+  static const partnerCare = "Partner Care";
+
+  static const schedule = "Schedule";
+
+  static const more = "More";
+
+  static const bookingCount = "Booking Count";
+
+  static const operatorBill = "Operator Bill";
+
+  static var lastUpdated = "Last Updated: ";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

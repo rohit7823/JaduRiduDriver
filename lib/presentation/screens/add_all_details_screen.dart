@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/animated_jadu_ride_view.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
@@ -39,7 +39,7 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
   void initState() {
     _store = AddAllDetailsStore();
     _dialogController =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [
@@ -250,52 +250,7 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
               ],
             );
           },
-        ),
-        StringProvider.setting
-            .text(AppTextStyle.stepsHeadingStyle)
-            .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
-        fitBox(
-            child: InkWell(
-          onTap: _store.profileSettingClicked,
-          borderRadius: BorderRadius.circular(16.r),
-          overlayColor: MaterialStateProperty.all(
-              AppColors.primaryVariant.withOpacity(0.5)),
-          child: Container(
-            width: 0.90.sw,
-            padding: EdgeInsets.all(0.05.sw),
-            decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(16.r),
-              boxShadow: const [
-                BoxShadow(
-                  color: AppColors.lightGray,
-                  offset: Offset(
-                    5.0,
-                    5.0,
-                  ),
-                  blurRadius: 10.0,
-                  spreadRadius: 2.0,
-                ), //BoxShadow
-                BoxShadow(
-                  color: AppColors.lightGray,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ), //BoxShadow
-              ],
-            ),
-            child: Row(
-              children: [
-                expand(flex: 1, child: SvgPicture.asset(ImageAssets.profile)),
-                expand(
-                    flex: 9,
-                    child: StringProvider.profileSetting
-                        .text(AppTextStyle.detailsTypeItemTextStyle)
-                        .padding(insets: EdgeInsets.only(left: 0.05.sw))),
-              ],
-            ),
-          ),
-        ))
+        )
       ],
     );
   }

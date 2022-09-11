@@ -9,9 +9,9 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../core/common/alert_behaviour.dart';
 
-class ErrorDialogImpl implements MyDialog {
+class MyDialogImpl implements MyDialog {
   BuildContext buildContext;
-  ErrorDialogImpl({required this.buildContext});
+  MyDialogImpl({required this.buildContext});
 
   @override
   Future show(AlertData data, DialogState state,
@@ -20,6 +20,7 @@ class ErrorDialogImpl implements MyDialog {
       Function? close}) async {
     await showDialog(
         context: buildContext,
+        barrierDismissible: (data.data as AlertBehaviour).isDismissable,
         builder: (context) {
           return AnimatedOpacity(
             opacity: state == DialogState.displaying ? 1.0 : 0.0,

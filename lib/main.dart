@@ -40,7 +40,6 @@ class JaduRideDriver extends StatelessWidget {
         designSize: const Size(428, 926),
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
-            navigatorKey: AppModule.alice.getNavigatorKey(),
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             localizationsDelegates: context.localizationDelegates,
@@ -49,7 +48,7 @@ class JaduRideDriver extends StatelessWidget {
             onGenerateRoute:
                 DefaultNav(sharedStore: sharedStore).generatedRoute,
             themeMode: ThemeMode.light,
-            initialRoute: AppRoute.allDetails,
+            initialRoute: AppRoute.applicationSubmitted,
           );
         },
       ),

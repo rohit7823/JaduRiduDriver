@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/animated_jadu_ride_view.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
@@ -35,7 +35,7 @@ class _IdentifyDetailsScreenState extends State<IdentifyDetailsScreen> {
   void initState() {
     _store = IdentifyDetailStore();
     _dialogController =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [

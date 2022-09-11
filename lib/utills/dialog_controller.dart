@@ -5,7 +5,7 @@ import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/helpers/my_dialog.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 
 class DialogController {
   MyDialog dialog;

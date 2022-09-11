@@ -4,6 +4,12 @@ import 'package:jadu_ride_driver/utills/transition_event_detection.dart';
 class ScreenTransitions {
   ScreenTransitions._();
 
+  static MaterialPageRoute normal(Widget destination) {
+    return MaterialPageRoute(builder: (context) {
+      return destination;
+    });
+  }
+
   static rightToLeftTransitionWithEvent(Widget destination) {
     return PageRouteBuilder(
         maintainState: true,

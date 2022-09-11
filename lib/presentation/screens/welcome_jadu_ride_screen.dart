@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/package.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/mobile_number_with_codes_text_field.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
@@ -41,7 +41,7 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
   void initState() {
     _store = WelcomeJaduRideStore();
     _dialogController =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
     _disposers = [
       reaction((p0) => _store.selectedState, (p0) {

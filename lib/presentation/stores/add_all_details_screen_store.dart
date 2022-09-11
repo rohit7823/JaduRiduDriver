@@ -113,10 +113,6 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
     }
   }
 
-  profileSettingClicked() {
-    onChange(ScreenWithExtras(screen: Screen.profileSettings));
-  }
-
   onClicked(DetailStep step) {
     if (step.key == DetailsStepKey.identifyDetails.key) {
       onChange(ScreenWithExtras(screen: Screen.identifyDetails));

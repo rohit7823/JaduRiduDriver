@@ -1,5 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geolocator_platform_interface/src/models/position.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
+import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
+import 'package:jadu_ride_driver/core/common/gps_status.dart';
+import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
@@ -10,6 +21,7 @@ import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
+import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -26,6 +38,8 @@ abstract class _SharedStore extends AppNavigator with Store {
   final _repository = dependency<BatchCallRepository>();
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
+  final _locationService = AppLocationService();
+  final googleMap = const Key("GOOGLE_MAP");
 
   @observable
   bool gettingIntroDataLoader = false;
@@ -40,6 +54,13 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool gettingDataLoader = false;
 
+  StreamSubscription? streamDisposer;
+
+  Position? currentLocation;
+
+  @observable
+  int selectedMenu = 0;
+
   initiateBatchCall() {
     ApiClientConfiguration.mainConfiguration.baseUrl = _prefs.baseUrl();
     var isCmplt = _prefs.isIntroComplete();
@@ -51,7 +72,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       if (isLogin && userId.isNotEmpty) {
         getDashBoardData();
       } else {
-        getRegistrationPageData();
+        getLoginRegistrationPageData();
       }
     }
   }
@@ -177,7 +198,148 @@ abstract class _SharedStore extends AppNavigator with Store {
     getLoginRegistrationPageData();
   }
 
-  getDashBoardData() async {}
+  @action
+  getDashBoardData() async {
+    gettingDataLoader = true;
+    streamDisposer = _locationService.checkPermission().listen((event) async {
+      if(event == GpsStatus.disabled) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+                StringProvider.appName,
+                null,
+                StringProvider.appId,
+                StringProvider.enableGpsMessage,
+                StringProvider.okay,
+                null,
+                null,
+                AlertBehaviour(
+                    option: AlertOption.invokeOnBarrier,
+                    isDismissable: false,
+                    action: AlertAction.enableGps
+                )
+            ));
+      } else if(event == LocationPermissionStatus.showRationale) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.permissionRationaleMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none,
+                action: AlertAction.locationPermissionRationale
+            )
+        ));
+      } else if(event == LocationPermissionStatus.openSetting) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.locationDeniedForever,
+            StringProvider.appSetting,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none,
+                action: AlertAction.enableGps
+            )
+        ));
+      } else {
+        currentLocation = await _locationService.getCurrentLocation();
+        gettingDataLoader = false;
+        streamDisposer?.cancel();
+        onChange(ScreenWithExtras(screen: Screen.dashBoard,
+            option: NavigationOption(option: Option.popPrevious)
+        ));
+      }
+    });
+  }
 
-  getRegistrationPageData() async {}
+  onAction(AlertAction? action) {
+    if(action == AlertAction.enableGps) {
+      _locationService.openSettings();
+    } else if(action == AlertAction.locationServiceDisable) {
+      _locationService.openSettings();
+    }
+  }
+
+  locationStatus() {
+    streamDisposer = _locationService.gpsStatusStream().listen((event) {
+      if(event == ServiceStatus.disabled) {
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.enableLocationMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.invokeOnBarrier,
+                isDismissable: false,
+                action: AlertAction.locationServiceDisable
+            )
+        ));
+      }
+    });
+  }
+
+  @action
+  onBottomMenu(int index) {
+    if(index != selectedMenu) {
+      selectedMenu = index;
+      ScreenWithExtras? screen;
+      if(index == BottomMenus.duty.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.duty,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      } else if(index == BottomMenus.accounts.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.accounts,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      } else if(index == BottomMenus.incentives.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.incentives,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      } else if(index == BottomMenus.partnerCare.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.partnerCare,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      } else if(index == BottomMenus.schedule.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.schedule,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      } else if(index == BottomMenus.more.index) {
+        screen = ScreenWithExtras(
+            screen: Screen.more,
+            option: NavigationOption(
+                option: Option.popPrevious
+            )
+        );
+      }
+
+      if(screen != null) {
+        onChange(screen);
+      }
+    }
+  }
 }

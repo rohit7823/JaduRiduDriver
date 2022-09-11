@@ -39,6 +39,20 @@ class AppRoute {
 
   static const vehiclePollution = "/vehiclePollution";
 
+  static const dashBoard = "/dashBoard";
+
+  static const duty = "/duty";
+
+  static const accounts = "/accounts";
+
+  static const incentives = "/incentives";
+
+  static const partnerCare = "/partnerCare";
+
+  static const schedule = "/schedule";
+
+  static const more = "/more";
+
   AppRoute._();
 
   static const splash = "/splash";

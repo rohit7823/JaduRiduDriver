@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/helpers_impls/error_dialog_impl.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/mobile_number_with_codes_text_field.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
@@ -44,7 +44,7 @@ class _NumberInputScreenState extends State<NumberInputScreen> {
   void initState() {
     _store = NumberInputStore();
     dialogController =
-        DialogController(dialog: ErrorDialogImpl(buildContext: context));
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     _mobileNumberInputController =
         TextEditingController(text: _store.mobileNumber);
     super.initState();
