@@ -300,6 +300,10 @@ class StringProvider {
 
   static var lastUpdated = "Last Updated: ";
 
+  static var accountSummary = "Account Summary";
+
+  static var accountSummaryDescription = "Lorem Ipsum is simply dummy text of the printing text of the printing";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

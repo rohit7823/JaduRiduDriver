@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
+import 'package:jadu_ride_driver/core/common/alert_data.dart';
+import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
 part 'duty_screen_store.g.dart';
@@ -14,6 +20,7 @@ abstract class _DutyScreenStore with Store {
 
   final _storage = dependency<Storage>();
   final _repository = dependency<DriverDutyRepository>();
+  final dialogManager = DialogManager();
 
   @observable
   String bookingCount = "0";
@@ -32,14 +39,26 @@ abstract class _DutyScreenStore with Store {
   @observable
   String errorMsg = "";
 
+  @observable
+  bool gettingSummaryLoader = false;
+
+  @observable
+  String informMessage = "";
+
   _DutyScreenStore(this.tabController) {
     _driverStatus();
+    _getBookingSummary();
   }
 
   _driverStatus() async {
     var currentStatus = _storage.driverStatus();
     if(currentStatus.isNotEmpty) {
-      selectedStatus = DriverStatus.values.byName(currentStatus);
+      for (var element in DriverStatus.values) {
+        if(element.name == currentStatus) {
+          selectedStatus = element;
+          break;
+        }
+      }
     } else {
       var userId = _storage.userId();
       var response = await _repository.driverStatus(userId);
@@ -47,7 +66,13 @@ abstract class _DutyScreenStore with Store {
         var data = response.data;
         switch(data != null && data.status) {
           case true:
-            selectedStatus = DriverStatus.values.byName(data!.driverStatus.status);
+            for (var element in DriverStatus.values) {
+              if(element.name == data!.driverStatus.status) {
+                selectedStatus = element;
+                _storage.setDriverStatus(selectedStatus.name);
+                break;
+              }
+            }
             break;
           default:
             errorMsg = data?.message ?? "";
@@ -61,7 +86,58 @@ abstract class _DutyScreenStore with Store {
   }
 
   @action
-  onDriverStatusChanged(int idx) {
-    selectedStatus = DriverStatus.values.elementAt(idx);
+  onDriverStatusChanged(int idx) async {
+    var selectedStatus = DriverStatus.values.elementAt(idx);
+    var userId = _storage.userId();
+
+    var response = await _repository.setStatus(userId, selectedStatus.name);
+
+    if(response is Success) {
+      var data = response.data;
+      switch(data != null && data.status) {
+        case true:
+          if(data!.isUpdated) {
+            this.selectedStatus = selectedStatus;
+            informMessage = data.message;
+          } else {
+             errorMsg = data.message;
+          }
+          break;
+        default:
+          errorMsg = data?.message ?? "";
+      }
+    } else if(response is Error) {
+      errorMsg = response.message ?? "";
+    }
+  }
+
+  onError(AlertAction? action) {
+
+  }
+
+  @action
+  _getBookingSummary() async {
+    gettingSummaryLoader = true;
+    var userId = _storage.userId();
+    var response = await _repository.bookingsSummary(userId);
+    if(response is Success) {
+      var data = response.data;
+      gettingSummaryLoader = false;
+      switch(data != null && data.status) {
+        case true:
+         bookingCount = data!.bookingsSummary.bookingCount;
+         operatorBill = data.bookingsSummary.totalIncome;
+         timeStamp = data.bookingsSummary.timeStamp;
+         break;
+        default:
+          bookingCount = "0";
+          operatorBill = "0.0";
+          timeStamp = "";
+          errorMsg = data?.message ?? "";
+      }
+    } else if(response is Error) {
+      gettingSummaryLoader = false;
+      errorMsg = response.message ?? "";
+    }
   }
 }

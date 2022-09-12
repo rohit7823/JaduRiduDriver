@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,6 +24,7 @@ import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
@@ -39,7 +41,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
-  final googleMap = const Key("GOOGLE_MAP");
+  late final DriverBookingStore driverBookings;
 
   @observable
   bool gettingIntroDataLoader = false;
@@ -250,6 +252,7 @@ abstract class _SharedStore extends AppNavigator with Store {
         ));
       } else {
         currentLocation = await _locationService.getCurrentLocation();
+        _sendCurrentLocation();
         gettingDataLoader = false;
         streamDisposer?.cancel();
         onChange(ScreenWithExtras(screen: Screen.dashBoard,
@@ -341,5 +344,11 @@ abstract class _SharedStore extends AppNavigator with Store {
         onChange(screen);
       }
     }
+  }
+
+  _sendCurrentLocation() async {
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+
+    });
   }
 }

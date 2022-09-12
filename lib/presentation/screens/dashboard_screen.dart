@@ -11,6 +11,7 @@ import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
+import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
@@ -39,6 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     widget.sharedStore.locationStatus();
+    widget.sharedStore.driverBookings = DriverBookingStore();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
@@ -82,6 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       element();
     }
     WidgetsBinding.instance.removeObserver(this);
+    widget.sharedStore.driverBookings.disposers();
     widget.sharedStore.streamDisposer?.cancel();
     super.dispose();
   }

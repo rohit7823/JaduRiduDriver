@@ -51,4 +51,5 @@ class ImageAssets {
 
   static const car = "$_root/car.svg";
   static const notifications = "$_root/notification.svg";
+  static const customerMarker = "$_root/customer_marker.svg";
 }

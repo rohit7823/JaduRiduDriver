@@ -27,5 +27,6 @@ enum AlertAction {
   enableGps,
   locationPermissionRationale,
   locationServiceDisable,
+  setDriverStatus,
   none;
 }

@@ -89,18 +89,55 @@ mixin _$DutyStore on _DutyScreenStore, Store {
     });
   }
 
-  late final _$_DutyScreenStoreActionController =
-      ActionController(name: '_DutyScreenStore', context: context);
+  late final _$gettingSummaryLoaderAtom =
+      Atom(name: '_DutyScreenStore.gettingSummaryLoader', context: context);
 
   @override
-  dynamic onDriverStatusChanged(int idx) {
-    final _$actionInfo = _$_DutyScreenStoreActionController.startAction(
-        name: '_DutyScreenStore.onDriverStatusChanged');
-    try {
-      return super.onDriverStatusChanged(idx);
-    } finally {
-      _$_DutyScreenStoreActionController.endAction(_$actionInfo);
-    }
+  bool get gettingSummaryLoader {
+    _$gettingSummaryLoaderAtom.reportRead();
+    return super.gettingSummaryLoader;
+  }
+
+  @override
+  set gettingSummaryLoader(bool value) {
+    _$gettingSummaryLoaderAtom.reportWrite(value, super.gettingSummaryLoader,
+        () {
+      super.gettingSummaryLoader = value;
+    });
+  }
+
+  late final _$informMessageAtom =
+      Atom(name: '_DutyScreenStore.informMessage', context: context);
+
+  @override
+  String get informMessage {
+    _$informMessageAtom.reportRead();
+    return super.informMessage;
+  }
+
+  @override
+  set informMessage(String value) {
+    _$informMessageAtom.reportWrite(value, super.informMessage, () {
+      super.informMessage = value;
+    });
+  }
+
+  late final _$onDriverStatusChangedAsyncAction =
+      AsyncAction('_DutyScreenStore.onDriverStatusChanged', context: context);
+
+  @override
+  Future onDriverStatusChanged(int idx) {
+    return _$onDriverStatusChangedAsyncAction
+        .run(() => super.onDriverStatusChanged(idx));
+  }
+
+  late final _$_getBookingSummaryAsyncAction =
+      AsyncAction('_DutyScreenStore._getBookingSummary', context: context);
+
+  @override
+  Future _getBookingSummary() {
+    return _$_getBookingSummaryAsyncAction
+        .run(() => super._getBookingSummary());
   }
 
   @override
@@ -110,7 +147,9 @@ bookingCount: ${bookingCount},
 operatorBill: ${operatorBill},
 timeStamp: ${timeStamp},
 selectedStatus: ${selectedStatus},
-errorMsg: ${errorMsg}
+errorMsg: ${errorMsg},
+gettingSummaryLoader: ${gettingSummaryLoader},
+informMessage: ${informMessage}
     ''';
   }
 }

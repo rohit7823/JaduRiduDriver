@@ -185,6 +185,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: Colors.black);
 
+  static var vehicleTypeStyle = TextStyle(
+  fontFamily: AppFonts.poppins,
+  fontSize: 20.sp,
+  fontWeight: FontWeight.w500,
+  color: Colors.white);
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(
