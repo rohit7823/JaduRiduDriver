@@ -100,7 +100,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                     },
                   ),
                 ),
-                Padding(
+                /*Padding(
                   padding: EdgeInsets.only(bottom: 0.05.sw),
                   child: TextField(
                     keyboardType: TextInputType.text,
@@ -114,7 +114,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                       setState(() {});
                     },
                   ),
-                ),
+                ),*/
                 Padding(
                   padding: EdgeInsets.only(bottom: 0.05.sw),
                   child: TextField(
