@@ -186,10 +186,10 @@ class AppTextStyle {
       color: Colors.black);
 
   static var vehicleTypeStyle = TextStyle(
-  fontFamily: AppFonts.poppins,
-  fontSize: 20.sp,
-  fontWeight: FontWeight.w500,
-  color: Colors.white);
+      fontFamily: AppFonts.poppins,
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w500,
+      color: Colors.white);
 
   AppTextStyle._();
 
@@ -311,4 +311,20 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       fontSize: 15.sp,
       color: const Color(0xFF666666));
+
+  //create by palash
+
+  static var partnerTextTitle = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w400,
+    color: const Color(0xFFFFFFFF),
+    fontSize: 12.sp,
+  );
+
+  static var partnerButtonTxt = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xFFFFFFFF),
+    fontSize: 20.sp,
+  );
 }

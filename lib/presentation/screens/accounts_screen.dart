@@ -52,9 +52,50 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Widget _lowerSideContent() {
     return Align(
       alignment: Alignment.topCenter,
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
         children: [
-
+          SizedBox(
+            width: 0.95.sw,
+            child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                color: AppColors.primaryVariant,
+                elevation: 10,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 9,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.03.sw, horizontal: 0.05.sw),
+                        child: fitBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              StringProvider.lowBalance
+                                  .text(AppTextStyle.partnerTextTitle),
+                              StringProvider.duesAreNot
+                                  .text(AppTextStyle.partnerTextTitle),
+                              StringProvider.clearImd
+                                  .text(AppTextStyle.partnerTextTitle),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Colors.white,
+                        ))
+                  ],
+                )),
+          ),
         ],
       ),
     );

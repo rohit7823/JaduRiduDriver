@@ -48,7 +48,7 @@ abstract class _DriverBookingsStore with Store {
   int passTimer = 0;
 
   onMapCreate(GoogleMapController controller, BuildContext context) async {
-    _onBooking(controller, context);
+    //_onBooking(controller, context);
   }
 
   disposers() {

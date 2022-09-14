@@ -302,9 +302,15 @@ class StringProvider {
 
   static var accountSummary = "Account Summary";
 
-  static var accountSummaryDescription = "Lorem Ipsum is simply dummy text of the printing text of the printing";
+  static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
 
   StringProvider._();
 
   static const appVersion = "AppVersion";
+
+  //add by palash
+  static const lowBalance = "Your balance is low! ";
+  static const duesAreNot = "Your bookings may drop if dues are not";
+  static const clearImd = "cleared immediately";
+  static const submitBtn = "Submit";
 }
