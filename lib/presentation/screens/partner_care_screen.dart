@@ -135,9 +135,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
           child: Align(
             alignment: Alignment.center,
             child: ElevatedButton(
-              onPressed: () {
-                /////////
-              },
+              onPressed: () {},
               
               style:AppButtonThemes.defaultStyle.copyWith(backgroundColor: MaterialStateProperty.all(AppColors.primaryVariant)),
               child: StringProvider.submitBtn.text(AppTextStyle.partnerButtonTxt),
