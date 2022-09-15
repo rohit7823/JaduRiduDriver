@@ -15,16 +15,13 @@ import '../ui/app_text_style.dart';
 import '../ui/theme.dart';
 
 class PartnerCareScreen extends StatefulWidget {
+
   final SharedStore sharedStore;
-
-
   const PartnerCareScreen({Key? key, required this.sharedStore})
       : super(key: key);
 
   @override
   State<PartnerCareScreen> createState() => _PartnerCareScreenState();
-
-
 }
 
 class _PartnerCareScreenState extends State<PartnerCareScreen> {
