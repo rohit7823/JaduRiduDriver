@@ -19,6 +19,7 @@ import 'package:jadu_ride_driver/core/repository/identify_details_repository.dar
 import 'package:jadu_ride_driver/core/repository/left_side_exterior_repository.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
+import 'package:jadu_ride_driver/core/repository/partner_care_repository.dart';
 import 'package:jadu_ride_driver/core/repository/payment_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
 import 'package:jadu_ride_driver/core/repository/registration_certificate_repository.dart';
@@ -47,6 +48,7 @@ import 'package:jadu_ride_driver/repository_impls/identify_details_repository_im
 import 'package:jadu_ride_driver/repository_impls/left_side_exterior_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/number_input_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/partner_care_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/payment_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/registration_certificate_repository_impl.dart';
@@ -125,6 +127,9 @@ class AppModule {
     dependency.registerLazySingleton<AadharNumberRepository>(
         () => AadharNumberRepositoryImpl(dio));
 
+    dependency.registerLazySingleton<PartnerCareRepository>(
+            () => PartnerCareRepositoryImpl());
+
     dependency.registerLazySingleton<Validator>(() => ValidatorImpl());
 
     dependency.registerLazySingleton<VehicleInsuranceRepository>(
@@ -169,5 +174,6 @@ class AppModule {
     dependency.registerLazySingleton<DriverDutyRepository>(() => DriverDutyRepositoryImpl());
 
     dependency.registerLazySingleton<DriverBookingsRepository>(() => DriverBookingsRepositoryImpl());
+    //dependency. => PanCardRepositoryImpl());
   }
 }
