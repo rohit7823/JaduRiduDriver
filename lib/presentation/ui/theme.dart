@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const appGreen = Color(0xFF11C942);
+  static const appGreens = Color(0xFFCCCCCC);
+  static const appGreery = Color(0xFF666666);
   static Color Abbey = Color(0xFF4C4F56);
   static Color Acadia = Color(0xFF1B1404);
   static final shimmerHighlightColor = Colors.grey.shade100;

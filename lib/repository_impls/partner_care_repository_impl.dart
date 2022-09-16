@@ -14,5 +14,4 @@ class PartnerCareRepositoryImpl implements PartnerCareRepository{
        return Success(UploadPartnerCareResponse(
            status: true, message: "Success", isUploaded: true));
   }
-
 }

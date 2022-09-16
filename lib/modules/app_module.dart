@@ -16,6 +16,7 @@ import 'package:jadu_ride_driver/core/repository/driver_bookings_repository.dart
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_license_repository.dart';
 import 'package:jadu_ride_driver/core/repository/identify_details_repository.dart';
+import 'package:jadu_ride_driver/core/repository/incentive_repository.dart';
 import 'package:jadu_ride_driver/core/repository/left_side_exterior_repository.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
@@ -45,6 +46,7 @@ import 'package:jadu_ride_driver/repository_impls/driver_bookings_repository_imp
 import 'package:jadu_ride_driver/repository_impls/driver_duty_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/driver_license_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/identify_details_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/incentive_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/left_side_exterior_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/number_input_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart';
@@ -174,6 +176,7 @@ class AppModule {
     dependency.registerLazySingleton<DriverDutyRepository>(() => DriverDutyRepositoryImpl());
 
     dependency.registerLazySingleton<DriverBookingsRepository>(() => DriverBookingsRepositoryImpl());
-    //dependency. => PanCardRepositoryImpl());
+
+    dependency.registerLazySingleton<IncentiveRepository>(() => IncentiveRepositoryImpl());
   }
 }

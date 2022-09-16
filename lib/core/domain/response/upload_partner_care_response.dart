@@ -1,9 +1,4 @@
 
-
-//UploadPartnerCareResponse uploadPartnerCareResponse
-
-
-
 class UploadPartnerCareResponse {
   UploadPartnerCareResponse(
       {required this.status, required this.message, required this.isUploaded});
