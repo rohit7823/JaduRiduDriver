@@ -197,20 +197,18 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     flex: 8,
                     child: Align(
                       alignment: Alignment.topLeft,
-
-
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("TODAY'S PAYMENT",
-                                style: TextStyle(
-                                    color: AppColors.secondaryVariant,
-                                    fontSize: 16.sp)),
-                            Text(" no balance to be paid today",
-                                style: TextStyle(
-                                    color: AppColors.appGreens, fontSize: 11.sp)),
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("TODAY'S PAYMENT",
+                              style: TextStyle(
+                                  color: AppColors.secondaryVariant,
+                                  fontSize: 16.sp)),
+                          Text(" no balance to be paid today",
+                              style: TextStyle(
+                                  color: AppColors.appGreens, fontSize: 11.sp)),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -223,23 +221,158 @@ class _AccountsScreenState extends State<AccountsScreen> {
               ),
             ),
           ),
-
           SizedBox(
             height: 0.02.sw,
           ),
           Container(
             decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                border: Border.all(color: AppColors.appGreens),
                 boxShadow: [
                   BoxShadow(
                       color: Color(0x1a000000),
                       blurRadius: 20,
+                      spreadRadius: 0,
                       offset: Offset(0, 10))
                 ]),
-            height: 0.50.sw,
 
-
-          )
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("PAYMENT'S SUMMARY",
+                              style: TextStyle(
+                                  color: AppColors.secondaryVariant,
+                                  fontSize: 16.sp)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: AppColors.secondaryVariant,
+                      ))
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 0.01.sw,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 0.05.sw),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0x1a000000),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: Offset(0, 10))
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("ONLINE COLLECTED",
+                                style: TextStyle(
+                                    color: AppColors.secondaryVariant,
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.secondaryVariant,
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 0.01.sw,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 0.05.sw),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0x1a000000),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: Offset(0, 10))
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("CASH COLLECTED",
+                                style: TextStyle(
+                                    color: AppColors.secondaryVariant,
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.secondaryVariant,
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

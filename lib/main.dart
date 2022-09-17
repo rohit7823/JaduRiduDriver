@@ -10,7 +10,6 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/presentation/ui/translations_asset.dart';
 import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.dart';
-import 'package:easy_logger/easy_logger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
