@@ -54,6 +54,34 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.Acadia);
 
+  static var currentBalanceTitle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 30.sp,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: AppColors.secondaryVariant);
+
+  static var currentBalanceDate = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 18.sp,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: AppColors.appGreery);
+
+  static var currentBalanceDetails = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 60.sp,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none,
+      color: AppColors.secondaryVariant);
+
+  static var currentBalanceDetailsKM = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 30.sp,
+      fontWeight: FontWeight.w500,
+      decoration: TextDecoration.none,
+      color: AppColors.secondaryVariant);
+
   static var numberInputStyle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 18.sp,
@@ -340,5 +368,12 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
     color: const Color(0xFFFFFFFF),
     fontSize: 20.sp,
+  );
+
+  static var currentBalanceButtonTxt = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xFFFFFFFF),
+    fontSize: 16.sp,
   );
 }

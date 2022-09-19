@@ -6,10 +6,13 @@ part of 'driver_license_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _DriverLicenseApi implements DriverLicenseApi {
-  _DriverLicenseApi(this._dio, {this.baseUrl});
+  _DriverLicenseApi(
+    this._dio, {
+    this.baseUrl,
+  });
 
   final Dio _dio;
 
@@ -17,25 +20,44 @@ class _DriverLicenseApi implements DriverLicenseApi {
 
   @override
   Future<UploadDriverLicenseResponse> driverLicense(
-      userId, documentNumber, documentImage, expiaryDate, uploading) async {
+    userId,
+    documentNumber,
+    documentImage,
+    expiaryDate,
+    uploading,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
-    _data.fields.add(MapEntry('document_number', documentNumber));
+    _data.fields.add(MapEntry(
+      'document_number',
+      documentNumber,
+    ));
     _data.files.add(MapEntry(
-        'document_image',
-        MultipartFile.fromFileSync(documentImage.path,
-            filename: documentImage.path.split(Platform.pathSeparator).last)));
-    _data.fields.add(MapEntry('expiary_date', expiaryDate));
+      'document_image',
+      MultipartFile.fromFileSync(
+        documentImage.path,
+        filename: documentImage.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    _data.fields.add(MapEntry(
+      'expiary_date',
+      expiaryDate,
+    ));
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UploadDriverLicenseResponse>(Options(
-                method: 'POST',
-                headers: _headers,
-                extra: _extra,
-                contentType: 'multipart/form-data')
-            .compose(_dio.options, '/driver/users/${userId}/vehicleLicence',
-                queryParameters: queryParameters, data: _data)
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/vehicleLicence',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadDriverLicenseResponse.fromJson(_result.data!);
     return value;

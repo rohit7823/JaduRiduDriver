@@ -47,6 +47,14 @@ class StringProvider {
 
   static const recieve = "Receive";
 
+  static const todaysPayment = "TODAY'S PAYMENT";
+
+  static const currentBalanceDate = "June 17, 2022";
+
+  static const noBalance = "no balance to be paid today";
+
+  static const paymentSummery = "PAYMENT'S SUMMARY";
+
   static const verifyNow = "VERIFY NOW";
 
   static const selectPrefferedLanguage = LocaleKeys.select_preffered_language;
@@ -246,6 +254,8 @@ class StringProvider {
 
   static var saveAndProcced = "Save and Proceed";
 
+  static var rechargeNow = "RECHARGE NOW";
+
   static var thisQuestionIsMandatory = "*This question is mandatory.";
 
   static var defaultPaymentMethod = "Default Payment Method";
@@ -289,7 +299,9 @@ class StringProvider {
   static const incentives = "Incentives";
 
   static const partnerCare = "Partner Care";
+
   static const userName = "Mukesh Janha";
+
   static const userProfile = "Manage Profile";
 
   static const schedule = "Schedule";
@@ -304,6 +316,10 @@ class StringProvider {
 
   static var accountSummary = "Account Summary";
 
+  static var currentBalanceTitle = "Balance";
+
+  static var currentBalanceKM_TXT = "KM";
+
   static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
 
   StringProvider._();
@@ -315,4 +331,5 @@ class StringProvider {
   static const duesAreNot = "Your bookings may drop if dues are not";
   static const clearImd = "cleared immediately";
   static const submitBtn = "Submit";
+  static const currentBalance = "Current Balance";
 }

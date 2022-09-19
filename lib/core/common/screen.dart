@@ -26,5 +26,7 @@ enum Screen {
   partnerCare,
   schedule,
   more,
-  vehiclePollution
+  vehiclePollution,
+  currentBalanceDetails,
+
 }

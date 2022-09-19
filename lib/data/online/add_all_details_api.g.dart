@@ -6,10 +6,13 @@ part of 'add_all_details_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _AddAllDetailsApi implements AddAllDetailsApi {
-  _AddAllDetailsApi(this._dio, {this.baseUrl});
+  _AddAllDetailsApi(
+    this._dio, {
+    this.baseUrl,
+  });
 
   final Dio _dio;
 
@@ -23,10 +26,16 @@ class _AddAllDetailsApi implements AddAllDetailsApi {
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<AddAllDetailsInitialDataResponse>(Options(
-                method: 'GET', headers: _headers, extra: _extra)
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
             .compose(
-                _dio.options, '/driver/users/${userId}/document/addedDetails',
-                queryParameters: queryParameters, data: _data)
+              _dio.options,
+              '/driver/users/${userId}/document/addedDetails',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AddAllDetailsInitialDataResponse.fromJson(_result.data!);
     return value;
@@ -39,11 +48,18 @@ class _AddAllDetailsApi implements AddAllDetailsApi {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResetAllDetailsResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/driver/users/${userId}/document/reset',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<ResetAllDetailsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/document/reset',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ResetAllDetailsResponse.fromJson(_result.data!);
     return value;
   }

@@ -25,6 +25,8 @@ import 'package:jadu_ride_driver/presentation/screens/verify_otp_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
+import '../screens/current_balance_details_screen.dart';
+
 class DefaultNav {
   DefaultNav({required this.sharedStore});
 
@@ -33,6 +35,7 @@ class DefaultNav {
   Route? generatedRoute(RouteSettings routeSettings) {
     var retrievedArgument = _retrieveArgument(routeSettings.arguments);
 
+    debugPrint(routeSettings.name);
     switch (routeSettings.name) {
       case AppRoute.splash:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
@@ -98,8 +101,10 @@ class DefaultNav {
             ApplicationSubmittedScreen(sharedStore: sharedStore));
       case AppRoute.dashBoard:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
-            DashboardScreen(sharedStore: sharedStore)
-        );
+            DashboardScreen(sharedStore: sharedStore));
+      case AppRoute.currentBalance:
+        return ScreenTransitions.rightToLeftTransition(
+            CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
       default:
         return null;
     }
@@ -109,7 +114,7 @@ class DefaultNav {
     if (arguments != null) {
       if (arguments is String) {
         return arguments;
-      }
+      } //if()
     }
   }
 }

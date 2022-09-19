@@ -16,6 +16,7 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:mobx/mobx.dart';
 
 import '../ui/theme.dart';
@@ -51,21 +52,19 @@ class _DashboardScreenState extends State<DashboardScreen>
     _disposers = [
       reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
-          _dialogController.show(
-              widget.sharedStore.dialogManager.data!,
-              p0,
+          _dialogController.show(widget.sharedStore.dialogManager.data!, p0,
               close: widget.sharedStore.dialogManager.closeDialog,
-              positive: widget.sharedStore.onAction
-          );
+              positive: widget.sharedStore.onAction);
         }
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          changeScreen.nestedTo(
-              p0.screen,
-              option: p0.option,
-              onComplete: widget.sharedStore.clear
-          );
+          if (p0.screen == Screen.currentBalanceDetails) {
+            ChangeScreen.to(context, p0.screen, arguments: p0.argument);
+          } else {
+            changeScreen.nestedTo(p0.screen,
+                option: p0.option, onComplete: widget.sharedStore.clear);
+          }
         }
       })
     ];

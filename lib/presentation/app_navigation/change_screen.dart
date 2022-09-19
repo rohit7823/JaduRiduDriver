@@ -124,6 +124,11 @@ class ChangeScreen {
       case Screen.dashBoard:
         _navigateWithOption(context, AppRoute.dashBoard, option!);
         break;
+      case Screen.currentBalanceDetails:
+        _navigate(context, AppRoute.currentBalance,
+            arguments: arguments,
+            onComplete: onComplete,);
+        break;
     }
   }
 

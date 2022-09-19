@@ -22,6 +22,8 @@ class ImageAssets {
   static const car_icon = "assets/images/car_icon.png";
   static const placeHolder = "assets/images/placeholder_image.jpg";
   static const clearText = "assets/images/clear_text.svg";
+  static const balanceCar = "assets/images/current_balance_car.svg";
+  static const dateDownArrow = "assets/images/down_arrow.svg";
 
   static const userCar = "$_root/user_car.svg";
 

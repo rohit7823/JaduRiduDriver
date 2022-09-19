@@ -32,11 +32,11 @@ abstract class _IncentivesViewModel with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.incentives.isEmpty) {
-            MyUtils.toastMessage("Empty....");
+            //MyUtils.toastMessage("Empty....");
 
           } else {
             incentiveList = data.incentives;
-            MyUtils.toastMessage("Success....");
+            //MyUtils.toastMessage("Success....");
           }
       } //switch
     } else if (response is Error) {

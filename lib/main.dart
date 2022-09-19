@@ -47,6 +47,7 @@ class JaduRideDriver extends StatelessWidget {
             onGenerateRoute:
                 DefaultNav(sharedStore: sharedStore).generatedRoute,
             themeMode: ThemeMode.light,
+            //initialRoute: AppRoute.welcomeJaduRide,
             initialRoute: AppRoute.applicationSubmitted,
           );
         },

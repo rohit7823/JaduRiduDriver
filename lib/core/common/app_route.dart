@@ -57,4 +57,5 @@ class AppRoute {
 
   static const splash = "/splash";
   static const intro = "/intro";
+  static const currentBalance = "/currentBalance";
 }

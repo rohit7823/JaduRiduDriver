@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/helpers/validator.dart';
 import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
+import 'package:jadu_ride_driver/core/repository/accounts_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_vehicle_repository.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
@@ -36,6 +37,7 @@ import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.da
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
 import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/accounts_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_vehicle_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/batch_call_repository_impl.dart';
@@ -178,5 +180,6 @@ class AppModule {
     dependency.registerLazySingleton<DriverBookingsRepository>(() => DriverBookingsRepositoryImpl());
 
     dependency.registerLazySingleton<IncentiveRepository>(() => IncentiveRepositoryImpl());
+    dependency.registerLazySingleton<AccountsRepository>(() => AccountsRepositoryImpl());
   }
 }
