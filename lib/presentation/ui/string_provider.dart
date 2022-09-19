@@ -289,6 +289,8 @@ class StringProvider {
   static const incentives = "Incentives";
 
   static const partnerCare = "Partner Care";
+  static const userName = "Mukesh Janha";
+  static const userProfile = "Manage Profile";
 
   static const schedule = "Schedule";
 

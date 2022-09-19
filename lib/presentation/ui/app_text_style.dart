@@ -12,6 +12,20 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.secondary);
 
+  static var profileText = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 25.sp,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: AppColors.secondaryVariant);
+
+  static var profileNameText = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 25.sp,
+      fontWeight: FontWeight.w300,
+      decoration: TextDecoration.none,
+      color: AppColors.primaryVariant);
+
   static var normalWhite = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 15.sp,

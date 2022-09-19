@@ -13,6 +13,7 @@ class ImageAssets {
   static const googleLogoPng = "assets/images/google_logo.png";
   static const facebookLogo = "assets/images/facebook_logo.svg";
   static const userImage = "assets/images/user_image.png";
+  static const profile_circled = "assets/images/profile_circled.png";
   static const service_ride = "assets/images/service_ride.svg";
   static const service_delivery = "assets/images/service_delivery.svg";
   static const service_book = "assets/images/service_book.svg";
