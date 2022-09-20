@@ -56,6 +56,10 @@ class ImageAssets {
   static const notifications = "$_root/notification.svg";
   static const customerMarker = "$_root/customer_marker.svg";
   static const todaysPayment = "$_root/todays_payment.svg";
+  static const onlineCollect = "$_root/online_collect.svg";
+  static const cashCollect = "$_root/cash_collect.svg";
+  static const amountTransfer = "$_root/amount_transfer.svg";
+  static const paymentSummery = "$_root/payment_summery.svg";
   static const accRightArrow = "$_root/right_arrow.svg";
 
 }

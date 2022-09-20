@@ -64,7 +64,7 @@ class AppTextStyle {
   static var currentBalanceDate = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 18.sp,
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w500,
       decoration: TextDecoration.none,
       color: AppColors.appGreery);
 

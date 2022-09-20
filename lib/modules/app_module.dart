@@ -71,6 +71,9 @@ import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/repository/current_balance_repository.dart';
+import '../repository_impls/current_balance_repository_impl.dart';
+
 final dependency = GetIt.instance;
 
 class AppModule {
@@ -181,5 +184,6 @@ class AppModule {
 
     dependency.registerLazySingleton<IncentiveRepository>(() => IncentiveRepositoryImpl());
     dependency.registerLazySingleton<AccountsRepository>(() => AccountsRepositoryImpl());
+    dependency.registerLazySingleton<CurrentBalanceRepository>(() => CurrentBalanceRepositoryImpl());
   }
 }

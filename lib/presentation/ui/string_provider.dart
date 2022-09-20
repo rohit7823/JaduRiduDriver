@@ -295,6 +295,9 @@ class StringProvider {
   static const duty = "Duty";
 
   static const accounts = "Accounts";
+  static const onlineCollect = "ONLINE COLLECTED";
+  static const cashCollect = "CASH COLLECTED";
+  static const amountTransfer = "AMOUNT TRANSFER BY DAY";
 
   static const incentives = "Incentives";
 

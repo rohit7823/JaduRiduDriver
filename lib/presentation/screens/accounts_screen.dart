@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/accounts_view_model.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -13,7 +11,6 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 import '../stores/shared_store.dart';
-import '../ui/image_assets.dart';
 
 class AccountsScreen extends StatefulWidget {
   final SharedStore sharedStore;
@@ -88,16 +85,93 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _lowerSideContent() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
-      child: ListView(
-        children: [
-          Observer(
-            builder: ((context) {
-              if (accountsStore.balanceLow.isNotEmpty) {
-                return Container(
+    return Observer(builder: (BuildContext context) {
+      if(accountsStore.isLoading){
+        return Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            height: 0.18.sw,
+            width: 0.18.sw,
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }else{
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
+          child: ListView(
+            children: [
+              Observer(
+                builder: ((context) {
+                  if (accountsStore.balanceLow.isNotEmpty) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0x1a000000),
+                                blurRadius: 20,
+                                spreadRadius: 0,
+                                offset: Offset(0, 10))
+                          ]),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.05.sw, horizontal: 0.05.sw),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 9,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Your balance is low! ",
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  Text(
+                                    "Your bookings may drop if dues are not ",
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  Text(
+                                    "cleared immediately ",
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 0.05.sw),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: Colors.white,
+                                    )))
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 0.02.sw,
+                    );
+                  }
+                }),
+              ),
+              SizedBox(
+                height: 0.02.sw,
+              ),
+              InkWell(
+                onTap: accountsStore.onCurrentBalance,
+                child: Container(
                   decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       boxShadow: [
                         BoxShadow(
@@ -116,23 +190,26 @@ class _AccountsScreenState extends State<AccountsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Your balance is low! ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16.sp),
-                              ),
-                              Text(
-                                "Your bookings may drop if dues are not ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16.sp),
-                              ),
-                              Text(
-                                "cleared immediately ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16.sp),
+                              //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
+                              Text(StringProvider.currentBalance,
+                                  style: TextStyle(
+                                      color: AppColors.appGreery, fontSize: 16.sp)),
+                              Row(
+                                children: [
+                                  Observer(
+                                    builder: (context) {
+                                      return Text(accountsStore.currentBalance,
+                                          style: TextStyle(
+                                              color: AppColors.secondaryVariant,
+                                              fontSize: 35.sp,
+                                              fontWeight: FontWeight.bold));
+                                    },
+                                  ),
+                                  Text("KM",
+                                      style: TextStyle(
+                                          color: AppColors.secondaryVariant,
+                                          fontSize: 15.sp)),
+                                ],
                               )
                             ],
                           ),
@@ -143,339 +220,272 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 padding: EdgeInsets.only(left: 0.05.sw),
                                 child: Icon(
                                   Icons.keyboard_arrow_right,
-                                  color: Colors.white,
+                                  color: AppColors.secondaryVariant,
                                 )))
                       ],
                     ),
                   ),
-                );
-              } else {
-                return SizedBox(
-                  height: 0.02.sw,
-                );
-              }
-            }),
-          ),
-          SizedBox(
-            height: 0.02.sw,
-          ),
-          InkWell(
-            onTap: accountsStore.onCurrentBalance,
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x1a000000),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                        offset: Offset(0, 10))
-                  ]),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 0.05.sw, horizontal: 0.05.sw),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 9,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
-                          Text(StringProvider.currentBalance,
-                              style: TextStyle(
-                                  color: AppColors.appGreery, fontSize: 16.sp)),
-                          Row(
+                ),
+              ),
+              SizedBox(
+                height: 0.02.sw,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x1a000000),
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: Offset(0, 10))
+                    ]),
+                child: Padding(
+                  padding:
+                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                  child: Row(
+                    children: [
+                      /*Expanded(
+                        flex: 1,
+                        child: SvgPicture.asset(ImageAssets.todaysPayment),
+                      ),*/
+                      Expanded(
+                        flex: 8,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Observer(
-                                builder: (context) {
-                                  return Text(accountsStore.currentBalance,
-                                      style: TextStyle(
-                                          color: AppColors.secondaryVariant,
-                                          fontSize: 35.sp,
-                                          fontWeight: FontWeight.bold));
-                                },
-                              ),
-                              Text("KM",
+                              Text(StringProvider.todaysPayment,
                                   style: TextStyle(
                                       color: AppColors.secondaryVariant,
-                                      fontSize: 15.sp)),
+                                      fontSize: 16.sp)),
+                              Text(StringProvider.noBalance,
+                                  style: TextStyle(
+                                      color: AppColors.appGreens, fontSize: 11.sp)),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                    Expanded(
+                      Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: AppColors.secondaryVariant,
+                          ))
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 0.02.sw,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    border: Border.all(color: AppColors.appGreens),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x1a000000),
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: Offset(0, 10))
+                    ]),
+                child: Padding(
+                  padding:
+                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                  child: Row(
+                    children: [
+                      /*Expanded(
                         flex: 1,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 0.05.sw),
-                            child: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: AppColors.secondaryVariant,
-                            )))
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 0.02.sw,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0x1a000000),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: Offset(0, 10))
-                ]),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(StringProvider.todaysPayment,
-                              style: TextStyle(
-                                  color: AppColors.secondaryVariant,
-                                  fontSize: 16.sp)),
-                          Text(StringProvider.noBalance,
-                              style: TextStyle(
-                                  color: AppColors.appGreens, fontSize: 11.sp)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.secondaryVariant,
-                      ))
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 0.02.sw,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                border: Border.all(color: AppColors.appGreens),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0x1a000000),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: Offset(0, 10))
-                ]),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(StringProvider.paymentSummery,
-                              style: TextStyle(
-                                  color: AppColors.secondaryVariant,
-                                  fontSize: 16.sp)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.secondaryVariant,
-                      ))
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 0.01.sw,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 0.05.sw),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x1a000000),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                        offset: Offset(0, 10))
-                  ]),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 0.05.sw, horizontal: 0.05.sw),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: SvgPicture.asset(ImageAssets.todaysPayment),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("ONLINE COLLECTED",
-                                style: TextStyle(
-                                    color: AppColors.secondaryVariant,
-                                    fontSize: 16.sp)),
-                          ],
+                        child: SvgPicture.asset(ImageAssets.paymentSummery),
+                      ),*/
+                      Expanded(
+                        flex: 8,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(StringProvider.paymentSummery,
+                                  style: TextStyle(
+                                      color: AppColors.secondaryVariant,
+                                      fontSize: 16.sp)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Observer(
-                          builder: (context) {
-                            return Text(
-                              "₹${accountsStore.onlinePrice}",
-                            );
-                          },
-                        ))
-                  ],
+                      Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: AppColors.secondaryVariant,
+                          ))
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 0.01.sw,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 0.05.sw),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x1a000000),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                        offset: Offset(0, 10))
-                  ]),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 0.05.sw, horizontal: 0.05.sw),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: SvgPicture.asset(ImageAssets.todaysPayment),
+              SizedBox(
+                height: 0.01.sw,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 0.03.sw),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0.05.sw, horizontal: 0.05.sw),
+                    child: Row(
+                      children: [
+                        /*Expanded(
+                          flex: 1,
+                          child: SvgPicture.asset(ImageAssets.onlineCollect),
+                        ),*/
+                        Expanded(
+                          flex: 8,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.onlineCollect,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 2,
+                            child: Observer(
+                              builder: (context) {
+                                return Text(
+                                  "₹${accountsStore.onlinePrice}",
+                                );
+                              },
+                            ))
+                      ],
                     ),
-                    Expanded(
-                      flex: 8,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("CASH COLLECTED",
-                                style: TextStyle(
-                                    color: AppColors.secondaryVariant,
-                                    fontSize: 16.sp)),
-                          ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 0.01.sw,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 0.03.sw),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0.05.sw, horizontal: 0.05.sw),
+                    child: Row(
+                      children: [
+                        /*Expanded(
+                          flex: 1,
+                          child: SvgPicture.asset(ImageAssets.cashCollect),
+                        ),*/
+                        Expanded(
+                          flex: 8,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.cashCollect,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 2,
+                            child: Observer(
+                              builder: (context) {
+                                return Text("₹${accountsStore.cashPrice}");
+                              },
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 0.03.sw,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    border: Border.all(color: AppColors.appGreens),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x1a000000),
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: Offset(0, 10))
+                    ]),
+                child: Padding(
+                  padding:
+                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                  child: Row(
+                    children: [
+                      /*Expanded(
+                        flex: 1,
+                        child: SvgPicture.asset(ImageAssets.amountTransfer),
+                      ),*/
+                      Expanded(
+                        flex: 8,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(StringProvider.amountTransfer,
+                                  style: TextStyle(
+                                      color: AppColors.secondaryVariant,
+                                      fontSize: 16.sp)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Observer(
-                          builder: (context) {
-                            return Text("₹${accountsStore.cashPrice}");
-                          },
-                        ))
-                  ],
+                      Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: AppColors.secondaryVariant,
+                          ))
+                    ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-          SizedBox(
-            height: 0.03.sw,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                border: Border.all(color: AppColors.appGreens),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0x1a000000),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: Offset(0, 10))
-                ]),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("AMOUNT TRANSFER BY DAY",
-                              style: TextStyle(
-                                  color: AppColors.secondaryVariant,
-                                  fontSize: 16.sp)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.secondaryVariant,
-                      ))
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+        );
+      }
+    });
   }
 }
