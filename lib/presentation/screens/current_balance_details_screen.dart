@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../custom_widgets/my_app_bar_without_logo.dart';
+import '../custom_widgets/outline_drop_down.dart';
 import '../stores/current_balance_view_model.dart';
 import '../ui/app_button_themes.dart';
 import '../ui/app_text_style.dart';
@@ -32,6 +33,7 @@ class _CurrentBalanceDetailsScreenState
   void initState() {
     currentBalanceStore = CurrentBalanceStore();
     currentBalanceStore.datelistItem();
+    currentBalanceStore.allDatelistItem();
     //debugPrint(widget.currentBalanceKM);
     super.initState();
   }
@@ -124,56 +126,79 @@ class _CurrentBalanceDetailsScreenState
   }
 
   Widget _lowerSideContent() {
-    return Observer(
-      builder: (BuildContext context) {
-        if (currentBalanceStore.isLoading) {
-          return Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-                height: 0.18.sw,
-                width: 0.18.sw,
-                child: CircularProgressIndicator()),
-          );
-        } else {
-          return ListView(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0x1a000000),
-                              blurRadius: 20,
-                              spreadRadius: 0,
-                              offset: Offset(0, 10))
-                        ]),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.05.sw, horizontal: 0.05.sw),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 8,
-                            child: StringProvider.currentBalanceDate
-                                .text(AppTextStyle.currentBalanceDate),
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child:
-                                  SvgPicture.asset(ImageAssets.dateDownArrow))
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
-      },
+    return Observer(builder: (BuildContext context) {
+      return Align(
+        child: Column(
+          children: [
+            OutlineDropDown(
+                    items: currentBalanceStore.allDatesLists,
+                    onSelected: currentBalanceStore.onState,
+                    placeHolder: StringProvider.notItems,
+                    loader: currentBalanceStore.isLoading,
+                    current: currentBalanceStore.selectedDates)
+                .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+
+            //listview......
+            ListView.separated(
+              shrinkWrap: true,
+              padding:
+                  EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
+              itemCount: currentBalanceStore.currentBalanceList.length,
+              itemBuilder: (context, index) => listItem(index),
+              separatorBuilder: (BuildContext context, int index) =>
+                  separatedBox(),
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget listItem(int index) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 0.05.sw,
+      ),
+      //margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          boxShadow: [
+            BoxShadow(
+                color: Color(0x1a000000),
+                blurRadius: 20,
+                spreadRadius: 0,
+                offset: Offset(0, 10))
+          ]),
+
+      child: Column(
+
+        children: [
+          ListTile(
+            title: Text(currentBalanceStore.currentBalanceList[index].title,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold)),
+            subtitle: Text(
+              currentBalanceStore.currentBalanceList[index].sub_title,
+              style: TextStyle(color: Colors.grey, fontSize: 15.sp),
+            ),
+            trailing: Text(
+                "₹${currentBalanceStore.currentBalanceList[index].price}",
+                style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold)),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget separatedBox() {
+    return SizedBox(
+      height: 0.05.sw,
     );
   }
 }

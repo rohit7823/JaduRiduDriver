@@ -1,6 +1,6 @@
-import 'dart:html';
 import '../../core/common/response.dart';
 import '../../core/domain/current_balance_dates.dart';
+import '../../core/domain/package.dart';
 import '../../core/helpers/storage.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/repository/current_balance_repository.dart';
@@ -16,10 +16,21 @@ abstract class _CurrentBalanceViewModel with Store {
   final _prefs = dependency<Storage>();
 
   @observable
+  List<Package> allDatesLists = [];
+
+  @observable
+  Package? selectedDates;
+
+  @observable
   List<CurrentBalanceDates> currentBalanceList = [];
 
   @observable
   bool isLoading = false;
+
+  @action
+  onState(Package? dates) {
+    selectedDates = dates;
+  }
 
   @action
   datelistItem() async {
@@ -45,4 +56,28 @@ abstract class _CurrentBalanceViewModel with Store {
     }
   }
 
+  @action
+  allDatelistItem() async {
+    isLoading = true;
+    var userId = _prefs.userId();
+    var response = await _repository.allDatesResponse(userId);
+    if (response is Success) {
+      var data = response.data;
+      isLoading = false;
+      switch (data != null && data.status) {
+        case true:
+          if (data!.allDatesList.isEmpty) {
+            MyUtils.toastMessage("Empty....");
+
+          } else {
+            allDatesLists = data.allDatesList;
+            selectedDates= data.allDatesList.first;
+            //MyUtils.toastMessage("Success....");
+          }
+      } //switch
+    } else if (response is Error) {
+      MyUtils.toastMessage("Error found....");
+      isLoading = false;
+    }
+  }
 }
