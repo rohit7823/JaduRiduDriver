@@ -28,5 +28,7 @@ enum Screen {
   more,
   vehiclePollution,
   currentBalanceDetails,
+  todaysPaymentScreen,
+  paymentSummeryScreen,
 
 }

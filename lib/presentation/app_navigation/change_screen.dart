@@ -129,6 +129,17 @@ class ChangeScreen {
             arguments: arguments,
             onComplete: onComplete,);
         break;
+      case Screen.todaysPaymentScreen:
+        _navigate(context, AppRoute.todaysPayment,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.paymentSummeryScreen:
+        _navigate(context, AppRoute.paymentSummery,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
     }
   }
 

@@ -60,8 +60,16 @@ class _DashboardScreenState extends State<DashboardScreen>
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
           if (p0.screen == Screen.currentBalanceDetails) {
-            ChangeScreen.to(context, p0.screen, arguments: p0.argument);
-          } else {
+            ChangeScreen.to(context, p0.screen, arguments: p0.argument, onComplete: widget.sharedStore.clear);
+          }
+          else if (p0.screen == Screen.todaysPaymentScreen) {
+            ChangeScreen.to(context, p0.screen , onComplete: widget.sharedStore.clear);
+          }
+          else if (p0.screen == Screen.paymentSummeryScreen) {
+            ChangeScreen.to(context, p0.screen , onComplete: widget.sharedStore.clear);
+          }
+
+          else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);
           }

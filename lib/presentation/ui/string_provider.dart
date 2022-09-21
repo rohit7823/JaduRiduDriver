@@ -319,6 +319,9 @@ class StringProvider {
 
   static var accountSummary = "Account Summary";
 
+  static var todaysPayments = "Today's Payment";
+  static var paymentsSummery = "Payment Summery";
+
   static var currentBalanceTitle = "Balance";
 
   static var currentBalanceKM_TXT = "KM";

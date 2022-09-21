@@ -32,9 +32,7 @@ class _CurrentBalanceDetailsScreenState
   @override
   void initState() {
     currentBalanceStore = CurrentBalanceStore();
-    currentBalanceStore.datelistItem();
     currentBalanceStore.allDatelistItem();
-    //debugPrint(widget.currentBalanceKM);
     super.initState();
   }
 
@@ -126,40 +124,57 @@ class _CurrentBalanceDetailsScreenState
   }
 
   Widget _lowerSideContent() {
-    return Observer(builder: (BuildContext context) {
-      return Align(
-        child: Column(
-          children: [
-            OutlineDropDown(
-                    items: currentBalanceStore.allDatesLists,
-                    onSelected: currentBalanceStore.onState,
-                    placeHolder: StringProvider.notItems,
-                    loader: currentBalanceStore.isLoading,
-                    current: currentBalanceStore.selectedDates)
-                .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+    // Default Radio Button Selected Item When App Starts.
+    //String radioButtonItem = 'ONE';
 
-            //listview......
-            ListView.separated(
-              shrinkWrap: true,
-              padding:
-                  EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
-              itemCount: currentBalanceStore.currentBalanceList.length,
-              itemBuilder: (context, index) => listItem(index),
-              separatorBuilder: (BuildContext context, int index) =>
-                  separatedBox(),
-            )
+    // Group Value for Radio Button.
+    int id = 1;
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Radio(
+              value: 1,
+              groupValue: id,
+              onChanged: (val) {
+                setState(() {
+                  //radioButtonItem = 'TWO';
+                  id = 1;
+                });
+              },
+            ),
+            Text(
+              'Received',
+              style: new TextStyle(
+                fontSize: 17.0,
+              ),
+            ),
+            Radio(
+              value: 2,
+              groupValue: id,
+              onChanged: (val) {
+                setState(() {
+                  //radioButtonItem = 'THREE';
+                  id = 2;
+                });
+              },
+            ),
+            Text(
+              'Paid',
+              style: new TextStyle(fontSize: 17.0),
+            ),
           ],
         ),
-      );
-    });
+      ],
+    );
   }
 
   Widget listItem(int index) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 0.05.sw,
+        vertical: 0.02.sw,
       ),
-      //margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -170,26 +185,77 @@ class _CurrentBalanceDetailsScreenState
                 spreadRadius: 0,
                 offset: Offset(0, 10))
           ]),
-
       child: Column(
-
         children: [
-          ListTile(
-            title: Text(currentBalanceStore.currentBalanceList[index].title,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold)),
-            subtitle: Text(
-              currentBalanceStore.currentBalanceList[index].sub_title,
-              style: TextStyle(color: Colors.grey, fontSize: 15.sp),
-            ),
-            trailing: Text(
-                "₹${currentBalanceStore.currentBalanceList[index].price}",
-                style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              Expanded(
+                  flex: 2,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(color: AppColors.appGreens),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0x1a000000),
+                                blurRadius: 20,
+                                spreadRadius: 0,
+                                offset: Offset(0, 10))
+                          ]),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.02.sw, horizontal: 0.02.sw),
+                        child: Column(
+                          children: [
+                            Text("27",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.appGreery,
+                                    fontWeight: FontWeight.w500)),
+                            Text("June",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.appGreery,
+                                    fontWeight: FontWeight.w500))
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
+              Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5.sp),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(currentBalanceStore.currentBalanceList[index].title,
+                          style: TextStyle(
+                              color: AppColors.lightBlack,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500)),
+                      Text(
+                        currentBalanceStore.currentBalanceList[index].sub_title,
+                        style: TextStyle(
+                            color: AppColors.appGreery, fontSize: 12.sp),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                    "₹${currentBalanceStore.currentBalanceList[index].price}",
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400)),
+              )
+            ],
           )
         ],
       ),
@@ -198,7 +264,34 @@ class _CurrentBalanceDetailsScreenState
 
   Widget separatedBox() {
     return SizedBox(
-      height: 0.05.sw,
+      height: 0.03.sw,
     );
   }
 }
+
+/*Expanded(
+flex: 8,
+child: Observer(builder: (BuildContext context) {
+return Padding(
+padding: EdgeInsets.symmetric(
+vertical: 0.02.sw, horizontal: 0.02.sw),
+child: currentBalanceStore.datesSelectedListLoader
+? Align(
+alignment: Alignment.center,
+child: SizedBox(
+height: 0.10.sw,
+width: 0.10.sw,
+child: CircularProgressIndicator()),
+)
+    : ListView.separated(
+shrinkWrap: true,
+padding: EdgeInsets.symmetric(
+vertical: 0.02.sw, horizontal: 0.02.sw),
+itemCount:
+currentBalanceStore.currentBalanceList.length,
+itemBuilder: (context, index) => listItem(index),
+separatorBuilder: (BuildContext context, int index) =>
+separatedBox(),
+),
+);
+}))*/

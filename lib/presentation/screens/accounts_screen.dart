@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/presentation/stores/accounts_view_model.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
@@ -11,6 +12,7 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 import '../stores/shared_store.dart';
+import '../ui/image_assets.dart';
 
 class AccountsScreen extends StatefulWidget {
   final SharedStore sharedStore;
@@ -90,8 +92,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
         return Align(
           alignment: Alignment.center,
           child: SizedBox(
-            height: 0.18.sw,
-            width: 0.18.sw,
+            height: 0.10.sw,
+            width: 0.10.sw,
             child: CircularProgressIndicator(),
           ),
         );
@@ -230,100 +232,106 @@ class _AccountsScreenState extends State<AccountsScreen> {
               SizedBox(
                 height: 0.02.sw,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0x1a000000),
-                          blurRadius: 20,
-                          spreadRadius: 0,
-                          offset: Offset(0, 10))
-                    ]),
-                child: Padding(
-                  padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                  child: Row(
-                    children: [
-                      /*Expanded(
-                        flex: 1,
-                        child: SvgPicture.asset(ImageAssets.todaysPayment),
-                      ),*/
-                      Expanded(
-                        flex: 8,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(StringProvider.todaysPayment,
-                                  style: TextStyle(
-                                      color: AppColors.secondaryVariant,
-                                      fontSize: 16.sp)),
-                              Text(StringProvider.noBalance,
-                                  style: TextStyle(
-                                      color: AppColors.appGreens, fontSize: 11.sp)),
-                            ],
+              InkWell(
+                onTap: accountsStore.onTodaysPayment,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Padding(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: SvgPicture.asset(ImageAssets.todaysPayment),
+                        ),
+                        Expanded(
+                          flex: 8,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.todaysPayment,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                                Text(StringProvider.noBalance,
+                                    style: TextStyle(
+                                        color: AppColors.appGreens, fontSize: 11.sp)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: AppColors.secondaryVariant,
-                          ))
-                    ],
+                        Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.secondaryVariant,
+                            ))
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: 0.02.sw,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    border: Border.all(color: AppColors.appGreens),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0x1a000000),
-                          blurRadius: 20,
-                          spreadRadius: 0,
-                          offset: Offset(0, 10))
-                    ]),
-                child: Padding(
-                  padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                  child: Row(
-                    children: [
-                      /*Expanded(
-                        flex: 1,
-                        child: SvgPicture.asset(ImageAssets.paymentSummery),
-                      ),*/
-                      Expanded(
-                        flex: 8,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(StringProvider.paymentSummery,
-                                  style: TextStyle(
-                                      color: AppColors.secondaryVariant,
-                                      fontSize: 16.sp)),
-                            ],
+              InkWell(
+                onTap: accountsStore.onPaymentSummery,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      border: Border.all(color: AppColors.appGreens),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Padding(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: SvgPicture.asset(ImageAssets.paymentSummery),
+                        ),
+                        Expanded(
+                          flex: 8,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.paymentSummery,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: AppColors.secondaryVariant,
-                          ))
-                    ],
+                        Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.secondaryVariant,
+                            ))
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -348,10 +356,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         vertical: 0.05.sw, horizontal: 0.05.sw),
                     child: Row(
                       children: [
-                        /*Expanded(
+                        Expanded(
                           flex: 1,
                           child: SvgPicture.asset(ImageAssets.onlineCollect),
-                        ),*/
+                        ),
                         Expanded(
                           flex: 8,
                           child: Align(
@@ -402,10 +410,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         vertical: 0.05.sw, horizontal: 0.05.sw),
                     child: Row(
                       children: [
-                        /*Expanded(
+                        Expanded(
                           flex: 1,
                           child: SvgPicture.asset(ImageAssets.cashCollect),
-                        ),*/
+                        ),
                         Expanded(
                           flex: 8,
                           child: Align(
@@ -453,10 +461,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
                   child: Row(
                     children: [
-                      /*Expanded(
+                      Expanded(
                         flex: 1,
                         child: SvgPicture.asset(ImageAssets.amountTransfer),
-                      ),*/
+                      ),
                       Expanded(
                         flex: 8,
                         child: Align(

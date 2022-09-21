@@ -13,6 +13,8 @@ class AppColors {
   static const primary = Color(0xFFfdba12);
   static const btnGrey = Color(0xFFD5D5D5);
   static const lightGray = Color(0xFF3030301C);
+  static const lightGrays = Color(0xFF303030);
+  static const lightBlack = Color(0xFF212121);
   static const primaryVariant = Color(0xFFed252c);
   static const secondary = Color(0xFF531010);
   static const secondaryVariant = Color(0xFF0f0f0f);

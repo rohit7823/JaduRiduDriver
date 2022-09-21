@@ -26,6 +26,8 @@ import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.d
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
 import '../screens/current_balance_details_screen.dart';
+import '../screens/payment_summery_screen.dart';
+import '../screens/todays_payment_details_screen.dart';
 
 class DefaultNav {
   DefaultNav({required this.sharedStore});
@@ -105,6 +107,12 @@ class DefaultNav {
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
             CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
+      case AppRoute.todaysPayment:
+        return ScreenTransitions.rightToLeftTransition(
+            TodaysPaymentDetails());
+      case AppRoute.paymentSummery:
+        return ScreenTransitions.rightToLeftTransition(
+            PaymentSummeryScreen());
       default:
         return null;
     }

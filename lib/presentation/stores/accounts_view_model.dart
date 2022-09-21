@@ -58,8 +58,21 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
     }
   }
 
+  //current balance click........
   onCurrentBalance() {
     onChange(ScreenWithExtras(
         screen: Screen.currentBalanceDetails, argument: currentBalance));
+  }
+
+  //todays payment click.........
+  onTodaysPayment() {
+    onChange(ScreenWithExtras(
+        screen: Screen.todaysPaymentScreen));
+  }
+
+  //payment summery click.........
+  onPaymentSummery() {
+    onChange(ScreenWithExtras(
+        screen: Screen.paymentSummeryScreen));
   }
 }

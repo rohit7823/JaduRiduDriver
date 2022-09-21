@@ -27,35 +27,16 @@ abstract class _CurrentBalanceViewModel with Store {
   @observable
   bool isLoading = false;
 
+  @observable
+  bool datesSelectedListLoader = false;
+
   @action
   onState(Package? dates) {
     selectedDates = dates;
+    datelistItem(selectedDates!.id);
   }
 
-  @action
-  datelistItem() async {
-    isLoading = true;
-    var userId = _prefs.userId();
-    var response = await _repository.uploadCurrentBalanceResponse(userId);
-    if (response is Success) {
-      var data = response.data;
-      isLoading = false;
-      switch (data != null && data.status) {
-        case true:
-          if (data!.currentBalanceDates.isEmpty) {
-            //MyUtils.toastMessage("Empty....");
-
-          } else {
-            currentBalanceList = data.currentBalanceDates;
-            //MyUtils.toastMessage("Success....");
-          }
-      } //switch
-    } else if (response is Error) {
-      MyUtils.toastMessage("Error found....");
-      isLoading = false;
-    }
-  }
-
+  //drop down...........................
   @action
   allDatelistItem() async {
     isLoading = true;
@@ -72,12 +53,38 @@ abstract class _CurrentBalanceViewModel with Store {
           } else {
             allDatesLists = data.allDatesList;
             selectedDates= data.allDatesList.first;
+            datelistItem(selectedDates!.id);
             //MyUtils.toastMessage("Success....");
           }
       } //switch
     } else if (response is Error) {
       MyUtils.toastMessage("Error found....");
       isLoading = false;
+    }
+  }
+
+  //selected item list..............
+  @action
+  datelistItem(String id) async {
+    datesSelectedListLoader = true;
+    var userId = _prefs.userId();
+    var response = await _repository.uploadCurrentBalanceResponse(userId, id);
+    if (response is Success) {
+      var data = response.data;
+      datesSelectedListLoader = false;
+      switch (data != null && data.status) {
+        case true:
+          if (data!.currentBalanceDates.isEmpty) {
+            //MyUtils.toastMessage("Empty....");
+
+          } else {
+            currentBalanceList = data.currentBalanceDates;
+            //MyUtils.toastMessage("Success....");
+          }
+      } //switch
+    } else if (response is Error) {
+      MyUtils.toastMessage("Error found....");
+      datesSelectedListLoader = false;
     }
   }
 }
