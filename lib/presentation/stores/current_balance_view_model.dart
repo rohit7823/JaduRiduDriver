@@ -1,10 +1,16 @@
+import 'package:flutter/cupertino.dart';
+
+import '../../core/common/current_date_time.dart';
+import '../../core/common/custom_radio_button.dart';
 import '../../core/common/response.dart';
 import '../../core/domain/current_balance_dates.dart';
 import '../../core/domain/package.dart';
 import '../../core/helpers/storage.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/repository/current_balance_repository.dart';
+import '../../helpers_impls/date_time_helper.dart';
 import '../../modules/app_module.dart';
+import '../../utills/dialog_manager.dart';
 import '../../utills/my_utils.dart';
 
 part 'current_balance_view_model.g.dart';
@@ -14,6 +20,8 @@ class CurrentBalanceStore = _CurrentBalanceViewModel with _$CurrentBalanceStore;
 abstract class _CurrentBalanceViewModel with Store {
   final _repository = dependency<CurrentBalanceRepository>();
   final _prefs = dependency<Storage>();
+  final dialogManager = DialogManager();
+  final _dateTimeHelper = DateTimeHelper();
 
   @observable
   List<Package> allDatesLists = [];
@@ -29,6 +37,43 @@ abstract class _CurrentBalanceViewModel with Store {
 
   @observable
   bool datesSelectedListLoader = false;
+
+  @observable
+  String finalCurrentDate = "";
+
+  @action
+  currentDate() {
+    finalCurrentDate = GetDateState.getCurrentDate();
+  }
+
+  openDatePicker() {
+    dialogManager.openDatePicker();
+  }
+
+  @observable
+  DriverTransactionType selected = DriverTransactionType.none;
+
+  @action
+  onRadioSelected(DriverTransactionType? selectedValue) {
+    if (selectedValue == null) {
+      selected = DriverTransactionType.none;
+      allDatelistItem();
+    } else {
+      selected = selectedValue;
+      allDatelistItem();
+    }
+  }
+
+  @action
+  onSelectDate(DateTime? selected) {
+    if (selected != null) {
+      //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
+      finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
+      allDatelistItem();
+    } else {
+      currentDate();
+    }
+  }
 
   @action
   onState(Package? dates) {
@@ -49,10 +94,9 @@ abstract class _CurrentBalanceViewModel with Store {
         case true:
           if (data!.allDatesList.isEmpty) {
             MyUtils.toastMessage("Empty....");
-
           } else {
             allDatesLists = data.allDatesList;
-            selectedDates= data.allDatesList.first;
+            selectedDates = data.allDatesList.first;
             datelistItem(selectedDates!.id);
             //MyUtils.toastMessage("Success....");
           }
