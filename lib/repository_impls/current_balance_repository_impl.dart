@@ -20,7 +20,7 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
   @override
   Future<Resource<GetCurrentBalanceResponse>> uploadCurrentBalanceResponse(
       String userId, String id) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(seconds: 1));
     return Success(GetCurrentBalanceResponse(
         status: true,
         message: "Success",

@@ -4,9 +4,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../core/common/custom_radio_button.dart';
 import '../custom_widgets/my_app_bar_without_logo.dart';
+import '../stores/payment_summery_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
 import '../ui/string_provider.dart';
@@ -20,6 +22,17 @@ class PaymentSummeryScreen extends StatefulWidget {
 }
 
 class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
+  late final PaymentSummaryStores paymentSummaryStores;
+  late final List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    paymentSummaryStores = PaymentSummaryStores();
+    paymentSummaryStores.currentDate();
+    //paymentSummaryStores.allDatelistItem();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,13 +93,13 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                               children: [
                                 Radio(
                                   value: DriverTransactionType.received,
-                                  groupValue: currentBalanceStore.selected,
+                                  groupValue: paymentSummaryStores.selected,
                                   onChanged:
-                                  currentBalanceStore.onRadioSelected,
+                                  paymentSummaryStores.onRadioSelected,
                                   activeColor: Colors.green,
                                 ),
                                 Text(
-                                  "Received",
+                                  "Online",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -102,12 +115,12 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                               children: [
                                 Radio(
                                   value: DriverTransactionType.paid,
-                                  groupValue: currentBalanceStore.selected,
+                                  groupValue: paymentSummaryStores.selected,
                                   onChanged:
-                                  currentBalanceStore.onRadioSelected,
+                                  paymentSummaryStores.onRadioSelected,
                                   activeColor: Colors.red,
                                 ),
-                                Text("Paid",
+                                Text("Cash",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -121,7 +134,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                         height: 0.03.sw,
                       ),
                       InkWell(
-                        onTap: currentBalanceStore.openDatePicker,
+                        onTap: paymentSummaryStores.openDatePicker,
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -149,7 +162,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                       children: [
                                         Observer(builder: (BuildContext context) {
                                           return Text(
-                                              currentBalanceStore
+                                              paymentSummaryStores
                                                   .finalCurrentDate,
                                               style: TextStyle(
                                                   color:
@@ -174,7 +187,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           ),
                         ),
                       ),
-                      Container(
+                      /*Container(
                         color: Colors.white,
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.02.sw),
@@ -207,7 +220,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                             );
                           }),
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -284,13 +297,13 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(currentBalanceStore.currentBalanceList[index].title,
+                      Text(paymentSummaryStores.pamentSummeryList[index].customerName,
                           style: TextStyle(
                               color: AppColors.lightBlack,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500)),
                       Text(
-                        currentBalanceStore.currentBalanceList[index].sub_title,
+                        paymentSummaryStores.pamentSummeryList[index].paymentMethodType,
                         style: TextStyle(
                             color: AppColors.appGreery, fontSize: 12.sp),
                       ),
@@ -301,7 +314,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
               Expanded(
                 flex: 2,
                 child: Text(
-                    "₹${currentBalanceStore.currentBalanceList[index].price}",
+                    "₹${paymentSummaryStores.pamentSummeryList[index].price}",
                     style: TextStyle(
                         color: Colors.green,
                         fontSize: 14.sp,
