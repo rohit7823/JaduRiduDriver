@@ -95,118 +95,123 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Observer(
-            builder: (BuildContext context) {
-              return AnimatedContainer(
-                color: _store.selectedStatus == DriverStatus.offDuty ||
+          Expanded(
+              flex: 5,
+              child: Observer(
+                builder: (BuildContext context) {
+                  return AnimatedContainer(
+                    color: _store.selectedStatus == DriverStatus.offDuty ||
                         _store.selectedStatus == DriverStatus.goTo
-                    ? AppColors.primaryVariant
-                    : AppColors.primary,
-                padding: EdgeInsets.symmetric(
-                    vertical: 0.04.sw, horizontal: 0.05.sw),
-                duration: const Duration(milliseconds: 400),
-                child: Row(
+                        ? AppColors.primaryVariant
+                        : AppColors.primary,
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0.04.sw, horizontal: 0.05.sw),
+                    duration: const Duration(milliseconds: 400),
+                    child: Row(
+                      children: [
+                        expand(flex: 2, child: SvgPicture.asset(ImageAssets.car)),
+                        expand(
+                            flex: 7,
+                            child: Container(
+                              height: 0.10.sw,
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  border: Border.all(color: AppColors.lightGray)),
+                              child: TabBar(
+                                indicator: BoxDecoration(
+                                    color: AppColors.primaryVariant,
+                                    borderRadius: BorderRadius.circular(20.r)),
+                                padding: EdgeInsets.all(0.01.sw),
+                                controller: _store.tabController,
+                                onTap: _store.onDriverStatusChanged,
+                                labelColor: AppColors.white,
+                                unselectedLabelColor: AppColors.Gray,
+                                tabs: DriverStatus.values.map((status) {
+                                  return fitBox(
+                                    child: Tab(text: status.name),
+                                  );
+                                }).toList(),
+                              ),
+                            )),
+                        expand(
+                            flex: 2,
+                            child: SvgPicture.asset(
+                              ImageAssets.notifications,
+                              color: AppColors.Acadia,
+                              width: 30,
+                              height: 30,
+                            ))
+                      ],
+                    ),
+                  );
+                },
+              )),
+          Expanded(
+              flex: 8,
+              child: Container(
+                color: AppColors.white,
+                padding:
+                EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.05.sw),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    expand(flex: 2, child: SvgPicture.asset(ImageAssets.car)),
-                    expand(
-                        flex: 7,
-                        child: Container(
-                          height: 0.10.sw,
-                          decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(20.r),
-                              border: Border.all(color: AppColors.lightGray)),
-                          child: TabBar(
-                            indicator: BoxDecoration(
-                                color: AppColors.primaryVariant,
-                                borderRadius: BorderRadius.circular(20.r)),
-                            padding: EdgeInsets.all(0.01.sw),
-                            controller: _store.tabController,
-                            onTap: _store.onDriverStatusChanged,
-                            labelColor: AppColors.white,
-                            unselectedLabelColor: AppColors.Gray,
-                            tabs: DriverStatus.values.map((status) {
-                              return fitBox(
-                                child: Tab(text: status.name),
-                              );
-                            }).toList(),
-                          ),
-                        )),
-                    expand(
-                        flex: 2,
-                        child: SvgPicture.asset(
-                          ImageAssets.notifications,
-                          color: AppColors.Acadia,
-                          width: 30,
-                          height: 30,
-                        ))
+                    Row(
+                      children: [
+                        expand(
+                            flex: 5,
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                return Column(
+                                  children: [
+                                    StringProvider.bookingCount
+                                        .text(AppTextStyle.selectRechargeStyle),
+                                    if (_store.gettingSummaryLoader)
+                                      SizedBox(
+                                          width: 0.05.sw,
+                                          height: 0.05.sw,
+                                          child: const CircularProgressIndicator(
+                                            color: AppColors.primaryVariant,
+                                          )),
+                                    if (!_store.gettingSummaryLoader)
+                                      _store.bookingCount.text(
+                                          AppTextStyle.detailsTypeItemTextStyle)
+                                  ],
+                                );
+                              },
+                            )),
+                        expand(
+                            flex: 5,
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                return Column(
+                                  children: [
+                                    StringProvider.operatorBill
+                                        .text(AppTextStyle.selectRechargeStyle),
+                                    if (_store.gettingSummaryLoader)
+                                      SizedBox(
+                                          width: 0.05.sw,
+                                          height: 0.05.sw,
+                                          child: const CircularProgressIndicator(
+                                            color: AppColors.primaryVariant,
+                                          )),
+                                    if (!_store.gettingSummaryLoader)
+                                      _store.operatorBill.text(
+                                          AppTextStyle.detailsTypeItemTextStyle)
+                                  ],
+                                );
+                              },
+                            ))
+                      ],
+                    ).padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
+                    fitBox(
+                      child: "${StringProvider.lastUpdated}${_store.timeStamp}"
+                          .text(AppTextStyle.placerHolderStyle),
+                    )
                   ],
                 ),
-              );
-            },
-          ),
-          Container(
-            color: AppColors.white,
-            padding:
-                EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.05.sw),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    expand(
-                        flex: 5,
-                        child: Observer(
-                          builder: (BuildContext context) {
-                            return Column(
-                              children: [
-                                StringProvider.bookingCount
-                                    .text(AppTextStyle.selectRechargeStyle),
-                                if (_store.gettingSummaryLoader)
-                                  SizedBox(
-                                      width: 0.05.sw,
-                                      height: 0.05.sw,
-                                      child: const CircularProgressIndicator(
-                                        color: AppColors.primaryVariant,
-                                      )),
-                                if (!_store.gettingSummaryLoader)
-                                  _store.bookingCount.text(
-                                      AppTextStyle.detailsTypeItemTextStyle)
-                              ],
-                            );
-                          },
-                        )),
-                    expand(
-                        flex: 5,
-                        child: Observer(
-                          builder: (BuildContext context) {
-                            return Column(
-                              children: [
-                                StringProvider.operatorBill
-                                    .text(AppTextStyle.selectRechargeStyle),
-                                if (_store.gettingSummaryLoader)
-                                  SizedBox(
-                                      width: 0.05.sw,
-                                      height: 0.05.sw,
-                                      child: const CircularProgressIndicator(
-                                        color: AppColors.primaryVariant,
-                                      )),
-                                if (!_store.gettingSummaryLoader)
-                                  _store.operatorBill.text(
-                                      AppTextStyle.detailsTypeItemTextStyle)
-                              ],
-                            );
-                          },
-                        ))
-                  ],
-                ).padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
-                fitBox(
-                  child: "${StringProvider.lastUpdated}${_store.timeStamp}"
-                      .text(AppTextStyle.placerHolderStyle),
-                )
-              ],
-            ),
-          )
+              ))
+
         ],
       ),
     );

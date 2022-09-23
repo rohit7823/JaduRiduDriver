@@ -46,6 +46,9 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
 
   bool _isValid = false;
 
+  @observable
+  bool isUserRegister  = false;
+
   _VerifyOtpScreenStore(this.number);
 
   @action
@@ -100,9 +103,10 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
             _storage.saveUserId(data.userId);
 
             if (data.userStatus == UserStatus.registered.value) {
-              onChange(ScreenWithExtras(
+              isUserRegister = true;
+              /*onChange(ScreenWithExtras(
                   screen: Screen.dashBoard,
-                  option: NavigationOption(option: Option.popPrevious)));
+                  option: NavigationOption(option: Option.popPrevious)));*/
             } else {
               onChange(ScreenWithExtras(
                   screen: Screen.changeLanguage,

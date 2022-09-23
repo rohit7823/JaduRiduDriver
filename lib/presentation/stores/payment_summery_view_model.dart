@@ -51,10 +51,17 @@ abstract class _PaymentSummeryViewModel with Store{
   onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
     if (selectedValue == null) {
       selected = DriverTransactionPaymentSummeryType.none;
-      //allDatelistItem();
+      datelistItem();
+      MyUtils.toastMessage("hahaa....");
     } else {
       selected = selectedValue;
-      //allDatelistItem();
+      if(selected.name=="cash"){
+        datelistItem();
+        //MyUtils.toastMessage("cash");
+      }else{
+        //MyUtils.toastMessage("online");
+        datelistItem();
+      }
     }
   }
 
@@ -63,7 +70,7 @@ abstract class _PaymentSummeryViewModel with Store{
     if (selected != null) {
       //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
       finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
-      //allDatelistItem();
+      datelistItem();
     } else {
       currentDate();
     }
@@ -81,15 +88,14 @@ abstract class _PaymentSummeryViewModel with Store{
       switch (data != null && data.status) {
         case true:
           if (data!.paymentSummeryList.isEmpty) {
-            MyUtils.toastMessage("Empty....");
-
+            MyUtils.toastMessage("Empty List....");
           } else {
             pamentSummeryArrayList = data.paymentSummeryList;
-            MyUtils.toastMessage("Success....");
+            //MyUtils.toastMessage("Success....");
           }
       } //switch
     } else if (response is Error) {
-      MyUtils.toastMessage("Error found....");
+      MyUtils.toastMessage("Server Error found....");
       datesSelectedListLoader = false;
     }
   }

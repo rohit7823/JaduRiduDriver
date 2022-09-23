@@ -35,7 +35,8 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
     paymentSummaryStores.datelistItem();
     super.initState();
     _disposers = [
-      reaction((p0) => paymentSummaryStores.dialogManager.datePickerState, (p0) {
+      reaction((p0) => paymentSummaryStores.dialogManager.datePickerState,
+          (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
           AppDatePicker.show(context, DateTime.now(), DateTime(2000),
               DateTime(2050), paymentSummaryStores.onSelectDate,
@@ -93,163 +94,169 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
   }
 
   Widget _lowerSideContent() {
-    return Container(
-      child: Column(
-        children: [
-          Observer(
-            builder: (BuildContext context) {
-              return Container(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                  child: Column(
-                    children: [
-                      Row(
-
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Radio(
-                                  value: DriverTransactionPaymentSummeryType.online,
-                                  groupValue: paymentSummaryStores.selected,
-                                  onChanged:
-                                  paymentSummaryStores.onRadioSelected,
-                                  activeColor: Colors.green,
-                                ),
-                                Text(
-                                  "Online",
+    return Column(
+      children: [
+        Expanded(
+              flex: 3,
+              child:
+              Column(
+                children: [
+                  Observer(builder: (BuildContext context){
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: DriverTransactionPaymentSummeryType
+                                    .online,
+                                groupValue: paymentSummaryStores.selected,
+                                onChanged:
+                                paymentSummaryStores.onRadioSelected,
+                                activeColor: Colors.green,
+                              ),
+                              Text(
+                                "Online",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.green),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value:
+                                DriverTransactionPaymentSummeryType.cash,
+                                groupValue: paymentSummaryStores.selected,
+                                onChanged:
+                                paymentSummaryStores.onRadioSelected,
+                                activeColor: Colors.red,
+                              ),
+                              Text("Cash",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
-                                      color: Colors.green),
-                                )
-                              ],
-                            ),
+                                      color: Colors.red))
+                            ],
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Radio(
-                                  value: DriverTransactionPaymentSummeryType.cash,
-                                  groupValue: paymentSummaryStores.selected,
-                                  onChanged:
-                                  paymentSummaryStores.onRadioSelected,
-                                  activeColor: Colors.red,
-                                ),
-                                Text("Cash",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color: Colors.red))
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 0.03.sw,
-                      ),
-                      InkWell(
-                        onTap: paymentSummaryStores.openDatePicker,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                              border: Border.all(color: AppColors.appGreens),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color(0x1a000000),
-                                    blurRadius: 20,
-                                    spreadRadius: 0,
-                                    offset: Offset(0, 10))
-                              ]),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 0.05.sw, horizontal: 0.05.sw),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 8,
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Observer(builder: (BuildContext context) {
-                                          return Text(
-                                              paymentSummaryStores
-                                                  .finalCurrentDate,
-                                              style: TextStyle(
-                                                  color:
-                                                  AppColors.secondaryVariant,
-                                                  fontSize: 16.sp));
-                                        })
-                                        /**/
-                                      ],
-                                    ),
+                        ),
+                      ],
+                    );
+                  }),
+                  SizedBox(
+                    height: 0.03.sw,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
+                    child: InkWell(
+                      onTap: paymentSummaryStores.openDatePicker,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(15)),
+                            border: Border.all(color: AppColors.appGreens),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0x1a000000),
+                                  blurRadius: 20,
+                                  spreadRadius: 0,
+                                  offset: Offset(0, 10))
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.05.sw, horizontal: 0.05.sw),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 8,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Observer(
+                                          builder: (BuildContext context) {
+                                            return Text(
+                                                paymentSummaryStores
+                                                    .finalCurrentDate,
+                                                style: TextStyle(
+                                                    color: AppColors
+                                                        .secondaryVariant,
+                                                    fontSize: 16.sp));
+                                          })
+                                      /**/
+                                    ],
                                   ),
                                 ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Icon(
-                                      Icons.date_range,
-                                      color: Colors.red,
-                                    )
-
-                                ),
-                              ],
-                            ),
+                              ),
+                              Expanded(
+                                  flex: 1,
+                                  child: Icon(
+                                    Icons.date_range,
+                                    color: Colors.red,
+                                  )),
+                            ],
                           ),
                         ),
                       ),
-                      Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-                          child: Observer(builder: (BuildContext context) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 0.02.sw, horizontal: 0.02.sw),
-                              child: paymentSummaryStores.datesSelectedListLoader? Align(
-                                alignment: Alignment.center,
-                                child: SizedBox(
-                                    height: 0.20.sh,
-                                    width: 0.20.sh,
-                                    child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                                        child: const CircularProgressIndicator())),
-                              )
-                                  : ListView.separated(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 0.02.sw,
-                                    horizontal: 0.02.sw),
-                                itemCount: paymentSummaryStores
-                                    .pamentSummeryArrayList.length,
-                                itemBuilder: (context, index) =>
-                                    listItem(index),
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                    separatedBox(),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
+                ],
+              )
           ),
+        Expanded(
+            flex: 10,
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 0.02.sw),
+                child: Observer(builder: (BuildContext context) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0.02.sw, horizontal: 0.02.sw),
+                    child: paymentSummaryStores
+                        .datesSelectedListLoader
+                        ? Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                          height: 0.10.sh,
+                          width: 0.10.sh,
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0.05.sw,
+                                  horizontal: 0.05.sw),
+                              child:
+                              const CircularProgressIndicator())),
+                    )
+                        : ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.02.sw,
+                          horizontal: 0.02.sw),
+                      itemCount: paymentSummaryStores
+                          .pamentSummeryArrayList.length,
+                      itemBuilder: (context, index) =>
+                          listItem(index),
+                      separatorBuilder:
+                          (BuildContext context, int index) =>
+                          separatedBox(),
+                    ),
+                  );
+                }),
+              ),
+            ),),
         ],
-      ),
-    );
+      );
   }
 
   Widget listItem(int index) {
@@ -267,82 +274,92 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 spreadRadius: 0,
                 offset: Offset(0, 10))
           ]),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 0.03.sw),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            border: Border.all(color: AppColors.appGreens),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0x1a000000),
-                                  blurRadius: 20,
-                                  spreadRadius: 0,
-                                  offset: Offset(0, 10))
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.01.sw, horizontal: 0.01.sw),
-                          child: Column(
-                            children: [
-                              Text("27",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.appGreery,
-                                      fontWeight: FontWeight.w500)),
-                              Text("June",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.appGreery,
-                                      fontWeight: FontWeight.w500))
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-              Expanded(
-                flex: 7,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5.sp),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(paymentSummaryStores.pamentSummeryArrayList[index].bookingId,
-                          style: TextStyle(
-                              color: AppColors.lightBlack,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500)),
-                      Text(
-                        paymentSummaryStores.pamentSummeryArrayList[index].paymentMethodType,
+
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    flex: 5,
+                    child: Text(
+                        paymentSummaryStores
+                            .pamentSummeryArrayList[index].date,
                         style: TextStyle(
-                            color: AppColors.appGreery, fontSize: 12.sp),
-                      ),
-                    ],
+                            color: AppColors.lightBlack,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,)),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            paymentSummaryStores
+                                .pamentSummeryArrayList[index].paymentMethodType,
+                            style: TextStyle(
+                                color: AppColors.primaryVariant,
+                                fontSize: 13.sp,)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                    "₹${paymentSummaryStores.pamentSummeryArrayList[index].price}",
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400)),
-              )
-            ],
-          )
-        ],
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                      "₹${paymentSummaryStores.pamentSummeryArrayList[index].price}",
+                      style: TextStyle(
+                          color: AppColors.lightGrays,
+                          fontSize: 13.sp,)),
+                )
+              ],
+            ),
+            Divider(color: AppColors.deviderColor, ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(StringProvider.customarName,
+                      style: TextStyle(
+                        color: AppColors.lightBlack,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,)),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].customerName,
+                      style: TextStyle(
+                        color: AppColors.lightGrays,
+                        fontSize: 13.sp,)),
+                )
+              ],
+            ),
+            Divider(color: AppColors.deviderColor, ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(StringProvider.customarBookingId,
+                      style: TextStyle(
+                        color: AppColors.lightBlack,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,)),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].bookingId,
+                      style: TextStyle(
+                        color: AppColors.lightGrays,
+                        fontSize: 13.sp,)),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

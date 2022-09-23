@@ -73,6 +73,22 @@ mixin _$VerifyOtpStore on _VerifyOtpScreenStore, Store {
     });
   }
 
+  late final _$isUserRegisterAtom =
+      Atom(name: '_VerifyOtpScreenStore.isUserRegister', context: context);
+
+  @override
+  bool get isUserRegister {
+    _$isUserRegisterAtom.reportRead();
+    return super.isUserRegister;
+  }
+
+  @override
+  set isUserRegister(bool value) {
+    _$isUserRegisterAtom.reportWrite(value, super.isUserRegister, () {
+      super.isUserRegister = value;
+    });
+  }
+
   late final _$reSendOtpAsyncAction =
       AsyncAction('_VerifyOtpScreenStore.reSendOtp', context: context);
 
@@ -120,7 +136,8 @@ mixin _$VerifyOtpStore on _VerifyOtpScreenStore, Store {
 reSendingOtpLoader: ${reSendingOtpLoader},
 enableBtn: ${enableBtn},
 sendingLoader: ${sendingLoader},
-showSnackbarMsg: ${showSnackbarMsg}
+showSnackbarMsg: ${showSnackbarMsg},
+isUserRegister: ${isUserRegister}
     ''';
   }
 }

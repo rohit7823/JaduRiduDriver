@@ -255,8 +255,9 @@ abstract class _SharedStore extends AppNavigator with Store {
         _sendCurrentLocation();
         gettingDataLoader = false;
         streamDisposer?.cancel();
+        debugPrint(currentLocation.toString());
         onChange(ScreenWithExtras(screen: Screen.dashBoard,
-            option: NavigationOption(option: Option.popPrevious)
+            option: NavigationOption(option: Option.popAll)
         ));
       }
     });

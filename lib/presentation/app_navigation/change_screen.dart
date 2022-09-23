@@ -122,7 +122,9 @@ class ChangeScreen {
         _navigate(context, AppRoute.vehiclePollution);
         break;
       case Screen.dashBoard:
-        _navigateWithOption(context, AppRoute.dashBoard, option!);
+        if(option!=null) {
+          _navigateWithOption(context, AppRoute.dashBoard, option);
+        }
         break;
       case Screen.currentBalanceDetails:
         _navigate(context, AppRoute.currentBalance,

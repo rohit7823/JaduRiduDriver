@@ -58,7 +58,9 @@ class _DashboardScreenState extends State<DashboardScreen>
         }
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
+
         if (p0 != null && p0 is ScreenWithExtras) {
+          debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
             ChangeScreen.to(context, p0.screen, arguments: p0.argument, onComplete: widget.sharedStore.clear);
           }

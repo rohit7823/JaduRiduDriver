@@ -50,6 +50,7 @@ class _ApplicationSubmittedScreenState
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
+          debugPrint("MyDebug"+p0.option.toString());
           ChangeScreen.to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
         }

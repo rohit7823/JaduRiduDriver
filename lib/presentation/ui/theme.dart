@@ -300,6 +300,7 @@ class AppColors {
   static Color Chardonnay = Color(0xFFFFCD8C);
   static Color Charlotte = Color(0xFFBAEEF9);
   static Color Charm = Color(0xFFD47494);
+  static Color deviderColor = Color(0xFFF6F6F6);
   static Color Chartreuse = Color(0xFF7FFF00);
   static Color ChartreuseYellow = Color(0xFFDFFF00);
   static Color ChateauGreen = Color(0xFF40A860);

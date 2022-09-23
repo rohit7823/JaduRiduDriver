@@ -46,6 +46,11 @@ class StringProvider {
   static const recieveing = "Receiving...";
 
   static const recieve = "Receive";
+  static const customarName = "Customer Name : ";
+  static const pickUpLocation = "PICKUP LOCATION";
+  static const navigatesTxt = "NAVIGATE";
+  static const dropLocation = "DROP LOCATION";
+  static const customarBookingId = "Booking ID: : ";
 
   static const todaysPayment = "TODAY'S PAYMENT";
 
@@ -302,6 +307,7 @@ class StringProvider {
   static const incentives = "Incentives";
 
   static const partnerCare = "Partner Care";
+  static const scheduleTrip = "Schedule Trips";
 
   static const userName = "Mukesh Janha";
 
