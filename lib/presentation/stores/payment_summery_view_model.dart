@@ -3,12 +3,15 @@ import 'package:jadu_ride_driver/core/domain/payment_summery.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/current_date_time.dart';
-import '../../core/common/custom_radio_button.dart';
+import '../../core/common/payment_summery_radio_button.dart';
+import '../../core/common/response.dart';
+import '../../core/domain/package.dart';
 import '../../core/repository/payment_summery_repository.dart';
 import '../../helpers_impls/date_time_helper.dart';
 import '../../modules/app_module.dart';
 import '../../utills/dialog_manager.dart';
 import '../../core/helpers/storage.dart';
+import '../../utills/my_utils.dart';
 
 part 'payment_summery_view_model.g.dart';
 
@@ -21,7 +24,13 @@ abstract class _PaymentSummeryViewModel with Store{
   final _dateTimeHelper = DateTimeHelper();
 
   @observable
-  List<PaymentSummery> pamentSummeryList = [];
+  List<PaymentSummery> pamentSummeryArrayList = [];
+
+  @observable
+  bool isLoading = false;
+
+  @observable
+  bool datesSelectedListLoader = false;
 
   @observable
   String finalCurrentDate = "";
@@ -36,12 +45,12 @@ abstract class _PaymentSummeryViewModel with Store{
   }
 
   @observable
-  DriverTransactionType selected = DriverTransactionType.none;
+  DriverTransactionPaymentSummeryType selected = DriverTransactionPaymentSummeryType.none;
 
   @action
-  onRadioSelected(DriverTransactionType? selectedValue) {
+  onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
     if (selectedValue == null) {
-      selected = DriverTransactionType.none;
+      selected = DriverTransactionPaymentSummeryType.none;
       //allDatelistItem();
     } else {
       selected = selectedValue;
@@ -60,4 +69,28 @@ abstract class _PaymentSummeryViewModel with Store{
     }
   }
 
+  //selected item list..............
+  @action
+  datelistItem() async {
+    datesSelectedListLoader = true;
+    var userId = _prefs.userId();
+    var response = await _repository.getPaymentSummeryResponse();
+    if (response is Success) {
+      var data = response.data;
+      datesSelectedListLoader = false;
+      switch (data != null && data.status) {
+        case true:
+          if (data!.paymentSummeryList.isEmpty) {
+            MyUtils.toastMessage("Empty....");
+
+          } else {
+            pamentSummeryArrayList = data.paymentSummeryList;
+            MyUtils.toastMessage("Success....");
+          }
+      } //switch
+    } else if (response is Error) {
+      MyUtils.toastMessage("Error found....");
+      datesSelectedListLoader = false;
+    }
+  }
 }

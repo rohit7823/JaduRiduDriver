@@ -7,6 +7,9 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/custom_radio_button.dart';
+import '../../core/common/dialog_state.dart';
+import '../../core/common/payment_summery_radio_button.dart';
+import '../../utills/app_date_picker.dart';
 import '../custom_widgets/my_app_bar_without_logo.dart';
 import '../stores/payment_summery_view_model.dart';
 import '../ui/app_text_style.dart';
@@ -29,8 +32,25 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
   void initState() {
     paymentSummaryStores = PaymentSummaryStores();
     paymentSummaryStores.currentDate();
-    //paymentSummaryStores.allDatelistItem();
+    paymentSummaryStores.datelistItem();
     super.initState();
+    _disposers = [
+      reaction((p0) => paymentSummaryStores.dialogManager.datePickerState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          AppDatePicker.show(context, DateTime.now(), DateTime(2000),
+              DateTime(2050), paymentSummaryStores.onSelectDate,
+              dismissed: paymentSummaryStores.dialogManager.closeDatePicker);
+        }
+      })
+    ];
+  }
+
+  @override
+  void dispose() {
+    _disposers.forEach((element) {
+      element.call();
+    });
+    super.dispose();
   }
 
   @override
@@ -92,7 +112,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Radio(
-                                  value: DriverTransactionType.received,
+                                  value: DriverTransactionPaymentSummeryType.online,
                                   groupValue: paymentSummaryStores.selected,
                                   onChanged:
                                   paymentSummaryStores.onRadioSelected,
@@ -114,7 +134,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Radio(
-                                  value: DriverTransactionType.paid,
+                                  value: DriverTransactionPaymentSummeryType.cash,
                                   groupValue: paymentSummaryStores.selected,
                                   onChanged:
                                   paymentSummaryStores.onRadioSelected,
@@ -187,7 +207,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           ),
                         ),
                       ),
-                      /*Container(
+                      Container(
                         color: Colors.white,
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.02.sw),
@@ -195,7 +215,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 0.02.sw, horizontal: 0.02.sw),
-                              child: currentBalanceStore.datesSelectedListLoader? Align(
+                              child: paymentSummaryStores.datesSelectedListLoader? Align(
                                 alignment: Alignment.center,
                                 child: SizedBox(
                                     height: 0.20.sh,
@@ -209,8 +229,8 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 0.02.sw,
                                     horizontal: 0.02.sw),
-                                itemCount: currentBalanceStore
-                                    .currentBalanceList.length,
+                                itemCount: paymentSummaryStores
+                                    .pamentSummeryArrayList.length,
                                 itemBuilder: (context, index) =>
                                     listItem(index),
                                 separatorBuilder:
@@ -220,7 +240,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                             );
                           }),
                         ),
-                      ),*/
+                      ),
                     ],
                   ),
                 ),
@@ -297,13 +317,13 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(paymentSummaryStores.pamentSummeryList[index].customerName,
+                      Text(paymentSummaryStores.pamentSummeryArrayList[index].bookingId,
                           style: TextStyle(
                               color: AppColors.lightBlack,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500)),
                       Text(
-                        paymentSummaryStores.pamentSummeryList[index].paymentMethodType,
+                        paymentSummaryStores.pamentSummeryArrayList[index].paymentMethodType,
                         style: TextStyle(
                             color: AppColors.appGreery, fontSize: 12.sp),
                       ),
@@ -314,7 +334,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
               Expanded(
                 flex: 2,
                 child: Text(
-                    "₹${paymentSummaryStores.pamentSummeryList[index].price}",
+                    "₹${paymentSummaryStores.pamentSummeryArrayList[index].price}",
                     style: TextStyle(
                         color: Colors.green,
                         fontSize: 14.sp,

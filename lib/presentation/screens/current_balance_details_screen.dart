@@ -271,17 +271,17 @@ class _CurrentBalanceDetailsScreenState
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.02.sw),
                           child: Observer(builder: (BuildContext context) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 0.02.sw, horizontal: 0.02.sw),
-                              child: currentBalanceStore.datesSelectedListLoader? Align(
+                            return currentBalanceStore.datesSelectedListLoader? Align(
                                       alignment: Alignment.center,
-                                      child: SizedBox(
-                                          height: 0.20.sh,
-                                          width: 0.20.sh,
-                                          child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                                              child: const CircularProgressIndicator())),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 0.15.sw),
+                                        child: SizedBox(
+                                            height: 0.10.sh,
+                                            width: 0.10.sh,
+                                            child: Padding(
+                                                padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                                                child: const CircularProgressIndicator())),
+                                      ),
                                     )
                                   : ListView.separated(
                                       shrinkWrap: true,
@@ -295,8 +295,8 @@ class _CurrentBalanceDetailsScreenState
                                       separatorBuilder:
                                           (BuildContext context, int index) =>
                                               separatedBox(),
-                                    ),
-                            );
+                                    );
+                            //);
                           }),
                         ),
                       ),
