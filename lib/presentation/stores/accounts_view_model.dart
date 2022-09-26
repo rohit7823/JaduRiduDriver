@@ -75,4 +75,10 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
     onChange(ScreenWithExtras(
         screen: Screen.paymentSummeryScreen));
   }
+
+  //click amount transferred by date...................
+  onAmountTransfferedByDay() {
+    onChange(ScreenWithExtras(
+        screen: Screen.amountTransfferedByDayScreen));
+  }
 }

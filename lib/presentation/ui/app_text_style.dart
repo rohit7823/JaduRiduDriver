@@ -21,7 +21,7 @@ class AppTextStyle {
 
   static var profileNameText = TextStyle(
       fontFamily: AppFonts.poppins,
-      fontSize: 25.sp,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w300,
       decoration: TextDecoration.none,
       color: AppColors.primaryVariant);

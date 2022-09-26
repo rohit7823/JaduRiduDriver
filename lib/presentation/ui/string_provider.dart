@@ -326,6 +326,7 @@ class StringProvider {
   static var accountSummary = "Account Summary";
 
   static var todaysPayments = "Today's Payment";
+  static var amountTransfferedByDay = "Amount Transferred by day";
   static var paymentsSummery = "Payment Summery";
 
   static var currentBalanceTitle = "Balance";

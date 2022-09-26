@@ -126,11 +126,19 @@ class ChangeScreen {
           _navigateWithOption(context, AppRoute.dashBoard, option);
         }
         break;
-      case Screen.currentBalanceDetails:
+
+        case Screen.currentBalanceDetails:
         _navigate(context, AppRoute.currentBalance,
             arguments: arguments,
             onComplete: onComplete,);
         break;
+
+      case Screen.profileDetailsScreen:
+        _navigate(context, AppRoute.profileDetails,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
       case Screen.todaysPaymentScreen:
         _navigate(context, AppRoute.todaysPayment,
           arguments: arguments,
@@ -139,6 +147,12 @@ class ChangeScreen {
 
       case Screen.paymentSummeryScreen:
         _navigate(context, AppRoute.paymentSummery,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.amountTransfferedByDayScreen:
+        _navigate(context, AppRoute.amountTransfferedByDay,
           arguments: arguments,
           onComplete: onComplete,);
         break;

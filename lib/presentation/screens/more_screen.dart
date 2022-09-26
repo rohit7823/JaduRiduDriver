@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:mobx/mobx.dart';
 
+import '../../core/common/screen_wtih_extras.dart';
+import '../stores/profile_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
 import '../ui/string_provider.dart';
@@ -20,6 +24,33 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
+  late final ProfileViewModel profileViewModel;
+  late final List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    profileViewModel = ProfileViewModel();
+    profileViewModel.getShortProfileData();
+    super.initState();
+    _disposers = [
+      reaction((p0) => profileViewModel.currentChange, (p0) {
+        if (p0 != null && p0 is ScreenWithExtras) {
+          widget.sharedStore.onChange(
+            p0,
+          );
+        }
+      })
+    ];
+  }
+
+  @override
+  void dispose() {
+    _disposers.forEach((element) {
+      element.call();
+    });
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,50 +66,101 @@ class _MoreScreenState extends State<MoreScreen> {
   }
 
   Widget _upperSideContent() {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(100.r))),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 5,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Image.asset(ImageAssets.userImage),
-              )),
-          Expanded(
-              flex: 10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 0.03.sw,
-                  ),
-                  StringProvider.userName.text(AppTextStyle.profileText),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: StringProvider.userProfile
-                              .text(AppTextStyle.profileNameText),
-                        ),
-                        Expanded(
-                          flex: 10,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Icon(Icons.edit, color: Colors.red),
-                          ),
-                        ),
-                      ],
+    return InkWell(
+      onTap: profileViewModel.onProfileDetails,
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius:
+                BorderRadius.only(bottomRight: Radius.circular(100.r))),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 5,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Observer(
+                      builder: (BuildContext context) {
+                        if (profileViewModel.imageURL.isEmpty) {
+                          return const CircleAvatar(
+                            foregroundImage:
+                                AssetImage(ImageAssets.placeHolder),
+                            backgroundColor: AppColors.primary,
+                            radius: 40,
+                          );
+                        } else {
+                          return CircleAvatar(
+                            foregroundImage:
+                                NetworkImage(profileViewModel.imageURL),
+                            backgroundColor: AppColors.primary,
+                            radius: 40,
+                          );
+                        }
+                        /*if (profileViewModel.isLoading) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              height: 0.10.sw,
+                              width: 0.10.sw,
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        } else {
+
+                        }*/
+                      },
+                    ))),
+            Expanded(
+                flex: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 0.03.sw,
                     ),
-                  )
-                ],
-              ))
-        ],
+                    Observer(
+                      builder: ((context) {
+                        if (profileViewModel.isLoading) {
+                          return Align(
+                            alignment: Alignment.topLeft,
+                            child: SizedBox(
+                              height: 0.10.sw,
+                              width: 0.10.sw,
+                              child: CircularProgressIndicator(color: Colors.red),
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            profileViewModel.driverName,
+                            style: AppTextStyle.profileText,
+                          );
+                        }
+                      }),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: StringProvider.userProfile
+                                .text(AppTextStyle.profileNameText),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Icon(Icons.edit, color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -110,7 +192,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.tripIcon),
                   ),
                   Expanded(
                     flex: 8,
@@ -160,7 +242,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.walletIcon),
                   ),
                   Expanded(
                     flex: 8,
@@ -210,7 +292,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.raferIcon),
                   ),
                   Expanded(
                     flex: 8,
@@ -260,7 +342,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.paymentIcon),
                   ),
                   Expanded(
                     flex: 8,
@@ -310,7 +392,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.languagetIcon),
                   ),
                   Expanded(
                     flex: 8,
@@ -360,7 +442,8 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child:
+                        SvgPicture.asset(ImageAssets.termsAndConditionsIcons),
                   ),
                   Expanded(
                     flex: 8,
@@ -410,7 +493,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.privacyIcons),
                   ),
                   Expanded(
                     flex: 8,
@@ -460,7 +543,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.refundIcons),
                   ),
                   Expanded(
                     flex: 8,
@@ -510,7 +593,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.helpIcons),
                   ),
                   Expanded(
                     flex: 8,
@@ -560,7 +643,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.emergencyIcons),
                   ),
                   Expanded(
                     flex: 8,
@@ -610,7 +693,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(ImageAssets.todaysPayment),
+                    child: SvgPicture.asset(ImageAssets.logoutIcons),
                   ),
                   Expanded(
                     flex: 8,

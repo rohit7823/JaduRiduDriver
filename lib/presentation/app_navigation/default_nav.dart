@@ -25,8 +25,10 @@ import 'package:jadu_ride_driver/presentation/screens/verify_otp_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
+import '../screens/amount_transffered_by_day_screen.dart';
 import '../screens/current_balance_details_screen.dart';
 import '../screens/payment_summery_screen.dart';
+import '../screens/profile_details_screen.dart';
 import '../screens/todays_payment_details_screen.dart';
 
 class DefaultNav {
@@ -104,15 +106,26 @@ class DefaultNav {
       case AppRoute.dashBoard:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             DashboardScreen(sharedStore: sharedStore));
+
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
             CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
+
+      case AppRoute.profileDetails:
+        return ScreenTransitions.rightToLeftTransition(
+            ProfileDetailsScreen(driveName: retrievedArgument));
+
       case AppRoute.todaysPayment:
         return ScreenTransitions.rightToLeftTransition(
-            TodaysPaymentDetails());
+            const TodaysPaymentDetails());
+
       case AppRoute.paymentSummery:
         return ScreenTransitions.rightToLeftTransition(
-            PaymentSummeryScreen());
+            const PaymentSummeryScreen());
+
+      case AppRoute.amountTransfferedByDay:
+        return ScreenTransitions.rightToLeftTransition(
+            const AmountTransfferedbyDayScreen());
       default:
         return null;
     }

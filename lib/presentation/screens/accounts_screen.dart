@@ -444,49 +444,52 @@ class _AccountsScreenState extends State<AccountsScreen> {
               SizedBox(
                 height: 0.03.sw,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    border: Border.all(color: AppColors.appGreens),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0x1a000000),
-                          blurRadius: 20,
-                          spreadRadius: 0,
-                          offset: Offset(0, 10))
-                    ]),
-                child: Padding(
-                  padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: SvgPicture.asset(ImageAssets.amountTransfer),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(StringProvider.amountTransfer,
-                                  style: TextStyle(
-                                      color: AppColors.secondaryVariant,
-                                      fontSize: 16.sp)),
-                            ],
+              InkWell(
+                onTap: accountsStore.onAmountTransfferedByDay,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      border: Border.all(color: AppColors.appGreens),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Padding(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: SvgPicture.asset(ImageAssets.amountTransfer),
+                        ),
+                        Expanded(
+                          flex: 8,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.amountTransfer,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: AppColors.secondaryVariant,
-                          ))
-                    ],
+                        Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.secondaryVariant,
+                            ))
+                      ],
+                    ),
                   ),
                 ),
               ),

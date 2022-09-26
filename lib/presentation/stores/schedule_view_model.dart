@@ -47,6 +47,7 @@ abstract class _ScheduleViewModel with Store{
           } else {
             scheduleArrayList = data.scheduleList;
             isEmpty = false;
+            msg = data.message;
             //MyUtils.toastMessage("Success....");
           }
       } //switch

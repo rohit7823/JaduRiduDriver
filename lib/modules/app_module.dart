@@ -71,13 +71,17 @@ import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/repository/amount_transffered_by_day_repository.dart';
 import '../core/repository/current_balance_repository.dart';
 import '../core/repository/payment_summery_repository.dart';
+import '../core/repository/profile_repository.dart';
 import '../core/repository/schedule_repository.dart';
 import '../core/repository/todays_payment_repository.dart';
+import '../repository_impls/amount_transferred_repository_impl.dart';
 import '../repository_impls/current_balance_repository_impl.dart';
 import '../repository_impls/location_schudule_repository_impl.dart';
 import '../repository_impls/payment_summery_impl.dart';
+import '../repository_impls/profile_short_repository_impl.dart';
 import '../repository_impls/todays_payment_repository_impl.dart';
 
 final dependency = GetIt.instance;
@@ -194,5 +198,7 @@ class AppModule {
     dependency.registerLazySingleton<TodaysPaymentRepository>(() => TodaysPaymentReposityImpl());
     dependency.registerLazySingleton<PaymentSummeryRepository>(() => PaymentSummeryRepositoryImpl());
     dependency.registerLazySingleton<ScheduleRepository>(() => LocationSchedulRepositoryImpl());
+    dependency.registerLazySingleton<AmountTransfferedByDayRepository>(() => AmountTransferredByDayRepositoryImpl());
+    dependency.registerLazySingleton<ProfileRepository>(() => ProfileShortRepositoryImpl());
   }
 }

@@ -30,5 +30,7 @@ enum Screen {
   currentBalanceDetails,
   todaysPaymentScreen,
   paymentSummeryScreen,
+  amountTransfferedByDayScreen,
+  profileDetailsScreen,
 
 }

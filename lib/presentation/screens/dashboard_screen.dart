@@ -64,10 +64,15 @@ class _DashboardScreenState extends State<DashboardScreen>
           if (p0.screen == Screen.currentBalanceDetails) {
             ChangeScreen.to(context, p0.screen, arguments: p0.argument, onComplete: widget.sharedStore.clear);
           }
-          else if (p0.screen == Screen.todaysPaymentScreen) {
+          else if (p0.screen == Screen.profileDetailsScreen) {
+            ChangeScreen.to(context, p0.screen, arguments: p0.argument, onComplete: widget.sharedStore.clear);
+
+          }else if (p0.screen == Screen.todaysPaymentScreen) {
             ChangeScreen.to(context, p0.screen , onComplete: widget.sharedStore.clear);
           }
           else if (p0.screen == Screen.paymentSummeryScreen) {
+            ChangeScreen.to(context, p0.screen , onComplete: widget.sharedStore.clear);
+          }else if (p0.screen == Screen.amountTransfferedByDayScreen) {
             ChangeScreen.to(context, p0.screen , onComplete: widget.sharedStore.clear);
           }
 

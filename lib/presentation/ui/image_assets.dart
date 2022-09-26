@@ -24,6 +24,7 @@ class ImageAssets {
   static const clearText = "assets/images/clear_text.svg";
   static const balanceCar = "assets/images/current_balance_car.svg";
   static const dateDownArrow = "assets/images/down_arrow.svg";
+  static const tripIcons = "assets/images/trip_icon.svg";
 
   static const userCar = "$_root/user_car.svg";
 
@@ -61,5 +62,16 @@ class ImageAssets {
   static const amountTransfer = "$_root/amount_transfer.svg";
   static const paymentSummery = "$_root/payment_summery.svg";
   static const accRightArrow = "$_root/right_arrow.svg";
+  static const tripIcon = "$_root/trip_icon.svg";
+  static const walletIcon = "$_root/wallet.svg";
+  static const raferIcon = "$_root/referIcon.svg";
+  static const paymentIcon = "$_root/payment_details.svg";
+  static const languagetIcon = "$_root/language_icons.svg";
+  static const termsAndConditionsIcons = "$_root/terms_and_conditions.svg";
+  static const privacyIcons = "$_root/privacy_icons.svg";
+  static const refundIcons = "$_root/refund_policy.svg";
+  static const helpIcons = "$_root/help_icon.svg";
+  static const emergencyIcons = "$_root/emergency_icons.svg";
+  static const logoutIcons = "$_root/logout_icon.svg";
 
 }

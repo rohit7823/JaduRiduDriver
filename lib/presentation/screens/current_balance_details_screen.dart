@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,13 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
-
-import '../../core/common/current_date_time.dart';
 import '../../core/common/custom_radio_button.dart';
 import '../../core/common/dialog_state.dart';
 import '../../utills/app_date_picker.dart';
 import '../custom_widgets/my_app_bar_without_logo.dart';
-import '../custom_widgets/outline_drop_down.dart';
 import '../stores/current_balance_view_model.dart';
 import '../ui/app_button_themes.dart';
 import '../ui/app_text_style.dart';
