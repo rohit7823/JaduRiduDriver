@@ -21,7 +21,7 @@ abstract class _PaymentSummeryViewModel with Store{
   final _repository = dependency<PaymentSummeryRepository>();
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
-  final _dateTimeHelper = DateTimeHelper();
+  //final _dateTimeHelper = DateTimeHelper();
 
   @observable
   List<PaymentSummery> pamentSummeryArrayList = [];

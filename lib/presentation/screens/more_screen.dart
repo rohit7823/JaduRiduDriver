@@ -24,12 +24,12 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
-  late final ProfileViewModel profileViewModel;
+  late final ProfileViewModels profileViewModel;
   late final List<ReactionDisposer> _disposers;
 
   @override
   void initState() {
-    profileViewModel = ProfileViewModel();
+    profileViewModel = ProfileViewModels();
     profileViewModel.getShortProfileData();
     super.initState();
     _disposers = [
@@ -96,18 +96,6 @@ class _MoreScreenState extends State<MoreScreen> {
                             radius: 40,
                           );
                         }
-                        /*if (profileViewModel.isLoading) {
-                          return Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              height: 0.10.sw,
-                              width: 0.10.sw,
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        } else {
-
-                        }*/
                       },
                     ))),
             Expanded(

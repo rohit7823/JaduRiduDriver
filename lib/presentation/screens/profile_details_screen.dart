@@ -1,30 +1,457 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:mobx/mobx.dart';
 
+import '../../core/common/dialog_state.dart';
+import '../../core/common/gender_radio_button.dart';
 import '../../core/common/profile_short_description.dart';
+import '../../core/domain/package.dart';
+import '../../helpers_impls/my_dialog_impl.dart';
+import '../../utills/app_date_picker.dart';
+import '../../utills/dialog_controller.dart';
+import '../../utills/image_chooser_dialog.dart';
+import '../custom_widgets/app_snack_bar.dart';
+import '../custom_widgets/mobile_number_with_codes_text_field.dart';
+import '../custom_widgets/my_app_bar_without_logo.dart';
+import '../custom_widgets/my_text_input.dart';
+import '../custom_widgets/outline_drop_down.dart';
+import '../stores/profile_details_description_view_model.dart';
+import '../ui/app_button_themes.dart';
+import '../ui/app_text_style.dart';
+import '../ui/image_assets.dart';
+import '../ui/string_provider.dart';
+import '../ui/theme.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
-  ProfileDetailsScreen({Key? key, required this.profileShortDescription}) : super(key: key);
-  ProfileShortDescription profileShortDescription;
 
+  ProfileDetailsScreen({Key? key, required this.profileShortDescription})
+      : super(key: key);
+  ProfileShortDescription profileShortDescription;
 
   @override
   State<ProfileDetailsScreen> createState() => _ProfileDetailsScreenState();
 }
 
 class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
+  late final ProfileDescriptionStore _store;
+  late final List<ReactionDisposer> _disposers;
+  late final DialogController _dialogController;
 
- // String name =
+  // String name =
 
   @override
   void initState() {
-    debugPrint(widget.profileShortDescription.driverName);
-    debugPrint(widget.profileShortDescription.driverName);
+    _store = ProfileDescriptionStore();
+    //_store.currentDate();
+    //debugPrint(widget.profileShortDescription.driverName);
+    //debugPrint(widget.profileShortDescription.driverImageURL);
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
+    _disposers = [
+      reaction((p0) => _store.openImagePicker, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          ImageChooserDialog.showChooseDialog(context,
+              fromCamera: _store.chooseFromCamera,
+              fromGallery: _store.chooseFromGallery,
+              onDismiss: _store.onClose);
+        }
+      }),
+      reaction((p0) => _store.dialogManager.currentErrorState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          _dialogController.show(_store.dialogManager.errorData!, p0,
+              positive: _store.onError,
+              close: _store.dialogManager.closeErrorDialog);
+        }
+      }),
+      /*reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null && p0 is ScreenWithExtras) {
+          ChangeScreen.from(context, p0.screen,
+              onCompleted: _store.clear, result: p0.argument);
+        }
+      }),*/
+      reaction((p0) => _store.informMessage, (p0) {
+        if (p0 is String && p0.isNotEmpty) {
+          AppSnackBar.show(context, message: p0, clear: () {
+            _store.informMessage = "";
+          });
+        }
+      }),
+
+      //another.............
+      reaction((p0) => _store.selectedState, (p0) {
+        if (p0 != null && p0 is Package) {
+          _store.getDistricts();
+        }
+      }),
+      reaction((p0) => _store.selectedDistrict, (p0) {
+        if (p0 != null && p0 is Package) {
+          _store.getCities();
+        }
+      }),
+      reaction((p0) => _store.dialogManager.currentErrorState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          _dialogController.show(_store.dialogManager.errorData!, p0,
+              close: _store.dialogManager.closeErrorDialog,
+              positive: _store.onRetry);
+        }
+      }),
+      /*reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null && p0 is ScreenWithExtras) {
+          ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
+        }
+      })*/
+      reaction((p0) => _store.dialogManager.datePickerState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          AppDatePicker.show(context, DateTime.now(), DateTime(2000),
+              DateTime(2050), _store.onSelectDate,
+              dismissed: _store.dialogManager.closeDatePicker);
+        }
+      })
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: MyAppBarWithOutLogo(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            expand(flex: 2, child: _upperSideContent()),
+            expand(flex: 8, child: _lowerSideContent())
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _upperSideContent() {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Column(
+          children: [
+            Expanded(
+              flex: 7,
+              child: Container(
+                decoration: BoxDecoration(color: AppColors.primary),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: StringProvider.manageProfile
+                        .text(AppTextStyle.enterNumberStyle),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+                flex: 3,
+                child: Container(
+                  color: AppColors.white,
+                ))
+          ],
+        ),
+        InkWell(
+          onTap: _store.selectImage,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 0.02.sw),
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                Observer(builder: (BuildContext context) {
+                  if (_store.selectedImage != null) {
+                    return Container(
+                      height: 0.25.sw,
+                      width: 0.25.sw,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(500),
+                        border: Border.all(color: AppColors.appGreens),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(500),
+                        child: Image.file(
+                          _store.selectedImage!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }
+                  return CircleAvatar(
+                    foregroundImage: NetworkImage(
+                        widget.profileShortDescription.driverImageURL),
+                    backgroundColor: AppColors.primary,
+                    radius: 45,
+                  );
+                }),
+                Container(
+                  padding: EdgeInsets.all(0.01.sw),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    border: Border.all(color: AppColors.appGreens),
+                  ),
+                  child: SvgPicture.asset(ImageAssets.editIcons),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _lowerSideContent() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Column(
+        children: [
+          expand(
+            flex: 8,
+            child: Observer(
+              builder: (BuildContext context) {
+                return ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.05.sw, vertical: 0.05.sw),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("Name"),
+                    ),
+                    MyTextInput(
+                      onTextChange: _store.name,
+                      keyboardType: TextInputType.name,
+                      inputAction: TextInputAction.next,
+                      isMandatory: false,
+                      placeholderText: StringProvider.enterYourName,
+                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("Email"),
+                    ),
+                    MyTextInput(
+                      onTextChange: _store.email,
+                      keyboardType: TextInputType.name,
+                      inputAction: TextInputAction.next,
+                      isMandatory: false,
+                      placeholderText: StringProvider.enterYourEmail,
+                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("Phone"),
+                    ),
+                    MobileNumberWithCodesTextField(
+                            key: ObjectKey(_store.gettingLoader),
+                            node: FocusNode(),
+                            controller: TextEditingController(
+                                text: _store.userMobileNumber),
+                            onTextChange: _store.mobileNumber,
+                            codes: _store.codes,
+                            isMandatory: false,
+                            onCodeSelect: _store.onNumberCode,
+                            onNumberCleared: _store.mobileNumberCleared,
+                            gettingLoader: _store.gettingLoader)
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("State"),
+                    ),
+                    OutlineDropDown(
+                            items: _store.states,
+                            onSelected: _store.onState,
+                            placeHolder: StringProvider.notItems,
+                            loader: _store.gettingLoader,
+                            current: _store.selectedState)
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("District"),
+                    ),
+                    OutlineDropDown(
+                            items: _store.districts,
+                            onSelected: _store.onDistrict,
+                            loader: _store.gettingDistrictsLoader,
+                            placeHolder: StringProvider.notItems,
+                            current: _store.selectedDistrict)
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("City"),
+                    ),
+                    OutlineDropDown(
+                            items: _store.cities,
+                            onSelected: _store.onCity,
+                            loader: _store.gettingCitiesLoader,
+                            placeHolder: StringProvider.notItems,
+                            current: _store.selectedCity)
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("Select Gender"),
+                    ),
+                    Observer(builder: (BuildContext context) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Radio(
+                                  value: GenderRadio.male,
+                                  groupValue: _store.selected,
+                                  onChanged: _store.onRadioSelected,
+                                  activeColor: Colors.black,
+                                ),
+                                Text(
+                                  "Male",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: Colors.black),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Radio(
+                                  value: GenderRadio.female,
+                                  groupValue: _store.selected,
+                                  onChanged: _store.onRadioSelected,
+                                  activeColor: Colors.black,
+                                ),
+                                Text("Female",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        color: Colors.black))
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.01.sw),
+                      child: Text("Date Of Birth"),
+                    ),
+                    InkWell(
+                      onTap: _store.openDatePicker,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            border: Border.all(color: AppColors.appGreens),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0x1a000000),
+                                  blurRadius: 20,
+                                  spreadRadius: 0,
+                                  offset: Offset(0, 10))
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.05.sw, horizontal: 0.05.sw),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 8,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Observer(builder: (BuildContext context) {
+                                        /*if (_store.finalCurrentDate ==
+                                                _store.finalCurrentDate) {
+                                              return Text(
+                                                  "25th june 1998",
+                                                  style: TextStyle(
+                                                      color: AppColors
+                                                          .secondaryVariant,
+                                                      fontSize: 16.sp));
+                                            } else {*/
+                                        return Text(_store.finalCurrentDate,
+                                            style: TextStyle(
+                                                color:
+                                                    AppColors.secondaryVariant,
+                                                fontSize: 16.sp));
+                                        // }
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                  flex: 1,
+                                  child: Icon(
+                                    Icons.date_range,
+                                    color: Colors.red,
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    /*Align(
+                      child: Observer(
+                        builder: (BuildContext context) {
+                          return ElevatedButton(
+                              onPressed: {},
+                              style: widget.sharedStore.gettingDataLoader
+                                  ? AppButtonThemes.cancelBtnStyle
+                                  : AppButtonThemes.defaultStyle,
+                              child: widget.sharedStore.gettingDataLoader
+                                  ? const CircularProgressIndicator(
+                                      color: AppColors.primaryVariant,
+                                    )
+                                  : StringProvider.toDashboard
+                                      .text(AppTextStyle.btnTextStyleWhite));
+                        },
+                      ),
+                    )*/
+                  ],
+                );
+              },
+            ),
+          ),
+          /*expand(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.center,
+                child: Observer(
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                        style: _store.enableBtn
+                            ? AppButtonThemes.defaultStyle
+                            : AppButtonThemes.cancelBtnStyle,
+                        onPressed: _store.enableBtn ? _store.onContinue : null,
+                        child: _store.uploadingLoader
+                            ? const CircularProgressIndicator(
+                          color: AppColors.white,
+                        )
+                            : Text(
+                          StringProvider.continuee,
+                          style: AppTextStyle.btnTextStyleWhite,
+                        ));
+                  },
+                ),
+              ))*/
+        ],
+      ),
+    );
   }
 }

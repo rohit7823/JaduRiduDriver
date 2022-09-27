@@ -124,6 +124,8 @@ class StringProvider {
 
   static const paymentDetails = "Payment Details";
 
+  static const manageProfile = "Manage Profile";
+
   static var necessarySteps = "Necessary Steps";
 
   static var optionalSteps = "Optional Steps";

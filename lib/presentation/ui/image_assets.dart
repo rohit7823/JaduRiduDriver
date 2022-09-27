@@ -73,5 +73,6 @@ class ImageAssets {
   static const helpIcons = "$_root/help_icon.svg";
   static const emergencyIcons = "$_root/emergency_icons.svg";
   static const logoutIcons = "$_root/logout_icon.svg";
+  static const editIcons = "$_root/edit_icon.svg";
 
 }

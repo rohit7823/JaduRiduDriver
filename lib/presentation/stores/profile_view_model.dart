@@ -12,7 +12,7 @@ import '../../utills/my_utils.dart';
 
 part 'profile_view_model.g.dart';
 
-class ProfileViewModel = _Profile with _$ProfileViewModel;
+class ProfileViewModels = _Profile with _$ProfileViewModels;
 
 abstract class _Profile extends AppNavigator with Store{
   final _repository = dependency<ProfileRepository>();
@@ -53,13 +53,10 @@ abstract class _Profile extends AppNavigator with Store{
     }
   }
 
-  ProfileShortDescription profileShortDescription(driverName, imageURL);
-
   //current balance click.......
   onProfileDetails() {
     onChange(ScreenWithExtras(
-
-        screen: Screen.profileDetailsScreen, argument: profileShortDescription, ));
+        screen: Screen.profileDetailsScreen, argument: ProfileShortDescription(driverName: driverName, driverImageURL: imageURL), ));
   }
 
 }

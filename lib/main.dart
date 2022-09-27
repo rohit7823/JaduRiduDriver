@@ -50,7 +50,7 @@ class JaduRideDriver extends StatelessWidget {
             themeMode: ThemeMode.light,
             //initialRoute: AppRoute.welcomeJaduRide,
             initialRoute: AppRoute.applicationSubmitted,
-            //initialRoute: AppRoute.splash,
+            //initialRoute: AppRoute.profilePicture,
           );
         },
       ),

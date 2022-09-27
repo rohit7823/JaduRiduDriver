@@ -25,6 +25,7 @@ import 'package:jadu_ride_driver/presentation/screens/verify_otp_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
+import '../../core/common/profile_short_description.dart';
 import '../screens/amount_transffered_by_day_screen.dart';
 import '../screens/current_balance_details_screen.dart';
 import '../screens/payment_summery_screen.dart';
@@ -113,7 +114,7 @@ class DefaultNav {
 
       case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(
-            ProfileDetailsScreen(driveName: retrievedArgument));
+            ProfileDetailsScreen(profileShortDescription: retrievedArgument));
 
       case AppRoute.todaysPayment:
         return ScreenTransitions.rightToLeftTransition(
@@ -135,7 +136,10 @@ class DefaultNav {
     if (arguments != null) {
       if (arguments is String) {
         return arguments;
-      } //if()
+      }
+      if (arguments is ProfileShortDescription) {
+        return arguments;
+      }//if()
     }
   }
 }

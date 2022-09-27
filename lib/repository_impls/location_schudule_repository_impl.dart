@@ -11,7 +11,7 @@ class LocationSchedulRepositoryImpl implements ScheduleRepository{
   Future<Resource<LocationScheduleResponse>> getScheduleResponse(String userId) async {
     await Future.delayed(const Duration(seconds: 1));
     return Success(LocationScheduleResponse(status: true, message: "Success",
-        scheduleList: List.generate(0, (index) =>
+        scheduleList: List.generate(5, (index) =>
         LocationSchedule(date: "Monday 18th June , 2022", time: "12:15 PM", pickUpLocation: "Howrah Railway Station", dropLocation: "V-xplore Technologies", rideId: "123"))));
   }
 

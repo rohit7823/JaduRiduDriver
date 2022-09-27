@@ -133,7 +133,7 @@ class _CurrentBalanceDetailsScreenState
           ],
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+          padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.20.sw),
           child: ElevatedButton(
             onPressed: () {},
             style: AppButtonThemes.defaultStyle.copyWith(
