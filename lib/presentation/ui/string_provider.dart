@@ -258,6 +258,7 @@ class StringProvider {
   static var uploadPollutionPaper = "Upload Pollution Paper";
 
   static var close = "Close";
+  static var save = "Save";
 
   static var saveAndProcced = "Save and Proceed";
 
@@ -330,12 +331,17 @@ class StringProvider {
   static var todaysPayments = "Today's Payment";
   static var amountTransfferedByDay = "Amount Transferred by day";
   static var paymentsSummery = "Payment Summery";
+  static var referList = "Refer List";
+  static var refer = "Refer";
 
   static var currentBalanceTitle = "Balance";
 
   static var currentBalanceKM_TXT = "KM";
+  static var referToDriver = "Refer to Driver";
+  static var referToCustomer = "Refer to Customer";
 
   static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
+  static var toDriver = "10";
 
   StringProvider._();
 

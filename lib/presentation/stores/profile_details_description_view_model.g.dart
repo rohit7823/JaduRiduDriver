@@ -236,54 +236,6 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
     });
   }
 
-  late final _$referralCodeAtom =
-      Atom(name: '_ProfileDescriptionViewModel.referralCode', context: context);
-
-  @override
-  String get referralCode {
-    _$referralCodeAtom.reportRead();
-    return super.referralCode;
-  }
-
-  @override
-  set referralCode(String value) {
-    _$referralCodeAtom.reportWrite(value, super.referralCode, () {
-      super.referralCode = value;
-    });
-  }
-
-  late final _$isTermsSelectedAtom = Atom(
-      name: '_ProfileDescriptionViewModel.isTermsSelected', context: context);
-
-  @override
-  bool get isTermsSelected {
-    _$isTermsSelectedAtom.reportRead();
-    return super.isTermsSelected;
-  }
-
-  @override
-  set isTermsSelected(bool value) {
-    _$isTermsSelectedAtom.reportWrite(value, super.isTermsSelected, () {
-      super.isTermsSelected = value;
-    });
-  }
-
-  late final _$enableBtnAtom =
-      Atom(name: '_ProfileDescriptionViewModel.enableBtn', context: context);
-
-  @override
-  bool get enableBtn {
-    _$enableBtnAtom.reportRead();
-    return super.enableBtn;
-  }
-
-  @override
-  set enableBtn(bool value) {
-    _$enableBtnAtom.reportWrite(value, super.enableBtn, () {
-      super.enableBtn = value;
-    });
-  }
-
   late final _$uploadingLoaderAtom = Atom(
       name: '_ProfileDescriptionViewModel.uploadingLoader', context: context);
 
@@ -297,6 +249,22 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
   set uploadingLoader(bool value) {
     _$uploadingLoaderAtom.reportWrite(value, super.uploadingLoader, () {
       super.uploadingLoader = value;
+    });
+  }
+
+  late final _$genderSelectedAtom = Atom(
+      name: '_ProfileDescriptionViewModel.genderSelected', context: context);
+
+  @override
+  String get genderSelected {
+    _$genderSelectedAtom.reportRead();
+    return super.genderSelected;
+  }
+
+  @override
+  set genderSelected(String value) {
+    _$genderSelectedAtom.reportWrite(value, super.genderSelected, () {
+      super.genderSelected = value;
     });
   }
 
@@ -422,23 +390,6 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
     return _$getCitiesAsyncAction.run(() => super.getCities());
   }
 
-  late final _$_validateInputsAsyncAction = AsyncAction(
-      '_ProfileDescriptionViewModel._validateInputs',
-      context: context);
-
-  @override
-  Future _validateInputs() {
-    return _$_validateInputsAsyncAction.run(() => super._validateInputs());
-  }
-
-  late final _$onContinueAsyncAction =
-      AsyncAction('_ProfileDescriptionViewModel.onContinue', context: context);
-
-  @override
-  Future onContinue() {
-    return _$onContinueAsyncAction.run(() => super.onContinue());
-  }
-
   late final _$chooseFromCameraAsyncAction = AsyncAction(
       '_ProfileDescriptionViewModel.chooseFromCamera',
       context: context);
@@ -510,29 +461,6 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
         .startAction(name: '_ProfileDescriptionViewModel.onNumberCode');
     try {
       return super.onNumberCode(code);
-    } finally {
-      _$_ProfileDescriptionViewModelActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic onReferralCode(String code) {
-    final _$actionInfo = _$_ProfileDescriptionViewModelActionController
-        .startAction(name: '_ProfileDescriptionViewModel.onReferralCode');
-    try {
-      return super.onReferralCode(code);
-    } finally {
-      _$_ProfileDescriptionViewModelActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic termsConditionClicked() {
-    final _$actionInfo =
-        _$_ProfileDescriptionViewModelActionController.startAction(
-            name: '_ProfileDescriptionViewModel.termsConditionClicked');
-    try {
-      return super.termsConditionClicked();
     } finally {
       _$_ProfileDescriptionViewModelActionController.endAction(_$actionInfo);
     }
@@ -643,10 +571,8 @@ gettingDistrictsLoader: ${gettingDistrictsLoader},
 gettingCitiesLoader: ${gettingCitiesLoader},
 userName: ${userName},
 userEmail: ${userEmail},
-referralCode: ${referralCode},
-isTermsSelected: ${isTermsSelected},
-enableBtn: ${enableBtn},
 uploadingLoader: ${uploadingLoader},
+genderSelected: ${genderSelected},
 informMessage: ${informMessage},
 openImagePicker: ${openImagePicker},
 selectedImage: ${selectedImage},

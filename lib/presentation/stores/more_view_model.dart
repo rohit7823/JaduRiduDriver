@@ -10,9 +10,9 @@ import '../../core/repository/profile_repository.dart';
 import '../../modules/app_module.dart';
 import '../../utills/my_utils.dart';
 
-part 'profile_view_model.g.dart';
+part 'more_view_model.g.dart';
 
-class ProfileViewModels = _Profile with _$ProfileViewModels;
+class MoreViewModels = _Profile with _$MoreViewModels;
 
 abstract class _Profile extends AppNavigator with Store{
   final _repository = dependency<ProfileRepository>();
@@ -57,6 +57,12 @@ abstract class _Profile extends AppNavigator with Store{
   onProfileDetails() {
     onChange(ScreenWithExtras(
         screen: Screen.profileDetailsScreen, argument: ProfileShortDescription(driverName: driverName, driverImageURL: imageURL), ));
+  }
+
+  //current balance click.......
+  onRefer() {
+    onChange(ScreenWithExtras(
+      screen: Screen.referScreen, ));
   }
 
 }

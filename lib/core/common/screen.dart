@@ -32,5 +32,6 @@ enum Screen {
   paymentSummeryScreen,
   amountTransfferedByDayScreen,
   profileDetailsScreen,
+  referScreen,
 
 }

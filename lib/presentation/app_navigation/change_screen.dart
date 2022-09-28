@@ -145,6 +145,12 @@ class ChangeScreen {
           onComplete: onComplete,);
         break;
 
+      case Screen.referScreen:
+        _navigate(context, AppRoute.referScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
       case Screen.paymentSummeryScreen:
         _navigate(context, AppRoute.paymentSummery,
           arguments: arguments,

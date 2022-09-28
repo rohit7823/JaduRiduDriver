@@ -60,6 +60,7 @@ class AppRoute {
   static const currentBalance = "/currentBalance";
   static const profileDetails = "/profileDetails";
   static const todaysPayment = "/todaysPayment";
+  static const referScreen = "/referScreen";
   static const paymentSummery = "/paymentSummery";
   static const amountTransfferedByDay = "/amountTransfferedByDay";
 }

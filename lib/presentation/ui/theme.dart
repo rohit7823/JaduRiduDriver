@@ -12,6 +12,7 @@ class AppColors {
   static Color AeroBlue = Color(0xFFC9FFE5);
   static const primary = Color(0xFFfdba12);
   static const btnGrey = Color(0xFFD5D5D5);
+  static const refer = Color(0xFF707070);
   static const lightGray = Color(0xFF3030301C);
   static const lightGrays = Color(0xFF303030);
   static const lightBlack = Color(0xFF212121);

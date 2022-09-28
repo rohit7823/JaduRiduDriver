@@ -51,10 +51,10 @@ class _CountryCodesDropDownState extends State<CountryCodesDropDown> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.network(
+                              Image.asset(
                                 height: 0.08.sw,
-                                //e.countryImage,
-                                "${Global.baseUrl}${e.countryImage}",
+                                e.countryImage,
+                                //"${Global.baseUrl}${e.countryImage}",
                                 width: 0.10.sw,
                               ),
                               SizedBox(width: 0.02.sw),

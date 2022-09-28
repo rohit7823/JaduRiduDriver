@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/domain/response/required_data_welcome_jadu
 import 'package:jadu_ride_driver/core/domain/response/user_primary_registration_response.dart';
 import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.dart';
 import 'package:jadu_ride_driver/data/online/welcome_jadu_ride_api.dart';
+import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class WelcomeJaduRideRepositoryImpl implements WelcomeJaduRideRepository {
@@ -55,7 +56,7 @@ class WelcomeJaduRideRepositoryImpl implements WelcomeJaduRideRepository {
         numberCodes: [
           MobileNumberCode(
               id: "312131",
-              countryImage: "assets/images/india.png",
+              countryImage: ImageAssets.flagIndia/*"assets/images/flag_india.png"*/,
               code: "+91")
         ]));
   }

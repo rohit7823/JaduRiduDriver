@@ -18,6 +18,7 @@ import '../../utills/image_chooser_dialog.dart';
 import '../custom_widgets/app_snack_bar.dart';
 import '../custom_widgets/mobile_number_with_codes_text_field.dart';
 import '../custom_widgets/my_app_bar_without_logo.dart';
+import '../custom_widgets/my_profile_text_input.dart';
 import '../custom_widgets/my_text_input.dart';
 import '../custom_widgets/outline_drop_down.dart';
 import '../stores/profile_details_description_view_model.dart';
@@ -28,7 +29,6 @@ import '../ui/string_provider.dart';
 import '../ui/theme.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
-
   ProfileDetailsScreen({Key? key, required this.profileShortDescription})
       : super(key: key);
   ProfileShortDescription profileShortDescription;
@@ -41,13 +41,15 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   late final ProfileDescriptionStore _store;
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final TextEditingController textEditingController;
 
-  // String name =
+  //String userName =
 
   @override
   void initState() {
     _store = ProfileDescriptionStore();
-    //_store.currentDate();
+    textEditingController = TextEditingController();
+    //_store.onSave();
     //debugPrint(widget.profileShortDescription.driverName);
     //debugPrint(widget.profileShortDescription.driverImageURL);
     _dialogController =
@@ -140,7 +142,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
             Expanded(
               flex: 7,
               child: Container(
-                decoration: BoxDecoration(color: AppColors.primary),
+                decoration: const BoxDecoration(color: AppColors.primary),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
                   child: Align(
@@ -215,40 +217,52 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
         children: [
           expand(
             flex: 8,
-            child: Observer(
-              builder: (BuildContext context) {
-                return ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 0.05.sw, vertical: 0.05.sw),
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("Name"),
-                    ),
-                    MyTextInput(
+            child: ListView(
+              shrinkWrap: true,
+              padding:
+                  EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.05.sw),
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("Name"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return MyTextInput(
+                      key: ObjectKey(_store.gettingLoader),
                       onTextChange: _store.name,
-                      keyboardType: TextInputType.name,
                       inputAction: TextInputAction.next,
                       isMandatory: false,
+                      keyboardType: TextInputType.name,
+                      initialText: _store.userName,
                       placeholderText: StringProvider.enterYourName,
-                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("Email"),
-                    ),
-                    MyTextInput(
+                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("Email"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return MyTextInput(
+                      key: ObjectKey(_store.gettingLoader),
                       onTextChange: _store.email,
-                      keyboardType: TextInputType.name,
                       inputAction: TextInputAction.next,
                       isMandatory: false,
+                      keyboardType: TextInputType.emailAddress,
+                      initialText: _store.userEmail,
                       placeholderText: StringProvider.enterYourEmail,
-                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("Phone"),
-                    ),
-                    MobileNumberWithCodesTextField(
+                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("Phone"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return MobileNumberWithCodesTextField(
                             key: ObjectKey(_store.gettingLoader),
                             node: FocusNode(),
                             controller: TextEditingController(
@@ -259,197 +273,187 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             onCodeSelect: _store.onNumberCode,
                             onNumberCleared: _store.mobileNumberCleared,
                             gettingLoader: _store.gettingLoader)
-                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("State"),
-                    ),
-                    OutlineDropDown(
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("State"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return OutlineDropDown(
                             items: _store.states,
                             onSelected: _store.onState,
                             placeHolder: StringProvider.notItems,
                             loader: _store.gettingLoader,
                             current: _store.selectedState)
-                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("District"),
-                    ),
-                    OutlineDropDown(
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("District"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return OutlineDropDown(
                             items: _store.districts,
                             onSelected: _store.onDistrict,
                             loader: _store.gettingDistrictsLoader,
                             placeHolder: StringProvider.notItems,
                             current: _store.selectedDistrict)
-                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("City"),
-                    ),
-                    OutlineDropDown(
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: Text("City"),
+                ),
+                Observer(
+                  builder: (BuildContext context) {
+                    return OutlineDropDown(
                             items: _store.cities,
                             onSelected: _store.onCity,
                             loader: _store.gettingCitiesLoader,
                             placeHolder: StringProvider.notItems,
                             current: _store.selectedCity)
-                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("Select Gender"),
+                        .padding(insets: EdgeInsets.only(bottom: 0.04.sw));
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("Select Gender"),
+                ),
+                Row(
+                  children: [
+                    Observer(
+                      builder: (BuildContext context) {
+                        return Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Radio(
+                                value: GenderRadio.male,
+                                groupValue: _store.selected,
+                                onChanged: _store.onRadioSelected,
+                                activeColor: Colors.black,
+                              ),
+                              const Text(
+                                "Male",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    Observer(builder: (BuildContext context) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Radio(
-                                  value: GenderRadio.male,
-                                  groupValue: _store.selected,
-                                  onChanged: _store.onRadioSelected,
-                                  activeColor: Colors.black,
-                                ),
-                                Text(
-                                  "Male",
+                    Observer(
+                      builder: (BuildContext context) {
+                        return Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Radio(
+                                value: GenderRadio.female,
+                                groupValue: _store.selected,
+                                onChanged: _store.onRadioSelected,
+                                activeColor: Colors.black,
+                              ),
+                              const Text("Female",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
-                                      color: Colors.black),
-                                )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Radio(
-                                  value: GenderRadio.female,
-                                  groupValue: _store.selected,
-                                  onChanged: _store.onRadioSelected,
-                                  activeColor: Colors.black,
-                                ),
-                                Text("Female",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color: Colors.black))
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.01.sw),
-                      child: Text("Date Of Birth"),
-                    ),
-                    InkWell(
-                      onTap: _store.openDatePicker,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            border: Border.all(color: AppColors.appGreens),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0x1a000000),
-                                  blurRadius: 20,
-                                  spreadRadius: 0,
-                                  offset: Offset(0, 10))
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.05.sw, horizontal: 0.05.sw),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Observer(builder: (BuildContext context) {
-                                        /*if (_store.finalCurrentDate ==
-                                                _store.finalCurrentDate) {
-                                              return Text(
-                                                  "25th june 1998",
-                                                  style: TextStyle(
-                                                      color: AppColors
-                                                          .secondaryVariant,
-                                                      fontSize: 16.sp));
-                                            } else {*/
-                                        return Text(_store.finalCurrentDate,
-                                            style: TextStyle(
-                                                color:
-                                                    AppColors.secondaryVariant,
-                                                fontSize: 16.sp));
-                                        // }
-                                      })
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                  flex: 1,
-                                  child: Icon(
-                                    Icons.date_range,
-                                    color: Colors.red,
-                                  )),
+                                      color: Colors.black))
                             ],
                           ),
-                        ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.01.sw),
+                  child: const Text("Date Of Birth"),
+                ),
+                InkWell(
+                  onTap: _store.openDatePicker,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                        border: Border.all(color: AppColors.appGreens),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Color(0x1a000000),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 10))
+                        ]),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.05.sw, horizontal: 0.05.sw),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 8,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Observer(builder: (BuildContext context) {
+                                    return Text(_store.finalCurrentDate,
+                                        style: TextStyle(
+                                            color: AppColors.secondaryVariant,
+                                            fontSize: 16.sp));
+                                  })
+                                ],
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.date_range,
+                                color: Colors.red,
+                              )),
+                        ],
                       ),
                     ),
-                    /*Align(
-                      child: Observer(
-                        builder: (BuildContext context) {
-                          return ElevatedButton(
-                              onPressed: {},
-                              style: widget.sharedStore.gettingDataLoader
-                                  ? AppButtonThemes.cancelBtnStyle
-                                  : AppButtonThemes.defaultStyle,
-                              child: widget.sharedStore.gettingDataLoader
-                                  ? const CircularProgressIndicator(
-                                      color: AppColors.primaryVariant,
-                                    )
-                                  : StringProvider.toDashboard
-                                      .text(AppTextStyle.btnTextStyleWhite));
-                        },
-                      ),
-                    )*/
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
           ),
-          /*expand(
+          expand(
               flex: 2,
               child: Align(
                 alignment: Alignment.center,
                 child: Observer(
                   builder: (BuildContext context) {
                     return ElevatedButton(
-                        style: _store.enableBtn
-                            ? AppButtonThemes.defaultStyle
-                            : AppButtonThemes.cancelBtnStyle,
-                        onPressed: _store.enableBtn ? _store.onContinue : null,
+                        style: AppButtonThemes.defaultStyle.copyWith(
+                            backgroundColor:
+                                MaterialStateProperty.all(AppColors.Acadia)),
+                        onPressed: _store.onSave,
                         child: _store.uploadingLoader
                             ? const CircularProgressIndicator(
-                          color: AppColors.white,
-                        )
+                                color: Colors.white,
+                              )
                             : Text(
-                          StringProvider.continuee,
-                          style: AppTextStyle.btnTextStyleWhite,
-                        ));
+                                StringProvider.save,
+                                style: AppTextStyle.btnTextStyleWhite,
+                              ));
                   },
                 ),
-              ))*/
+              ))
         ],
       ),
     );

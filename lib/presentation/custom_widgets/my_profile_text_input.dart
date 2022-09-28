@@ -7,7 +7,7 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
-class MyTextInput extends StatefulWidget {
+class MyProfileDetailsTextInput extends StatefulWidget {
   Function(String) onTextChange;
   String? placeholderText;
   TextInputType keyboardType;
@@ -17,24 +17,28 @@ class MyTextInput extends StatefulWidget {
   bool isMandatory = false;
   List<TextInputFormatter> formatters;
   TextCapitalization textCapitalization;
-  String initialText;
+  //String initialText;
 
-  MyTextInput(
+
+  TextEditingController controller;
+
+  MyProfileDetailsTextInput(
       {Key? key,
       required this.onTextChange,
-      this.placeholderText,
       required this.keyboardType,
+
+      this.placeholderText,
       required this.inputAction,
       this.prefferedWidth,
       this.formatters = const [],
       this.textCapitalization = TextCapitalization.words,
       required this.isMandatory,
       this.errorText,
-      this.initialText = "",})
+      required this.controller,})
       : super(key: key);
 
   @override
-  State<MyTextInput> createState() => _MyTextInputState(
+  State<MyProfileDetailsTextInput> createState() => _MyProfileDetailsTextInput(
       onTextChange,
       keyboardType,
       inputAction,
@@ -43,10 +47,11 @@ class MyTextInput extends StatefulWidget {
       prefferedWidth,
       formatters,
       textCapitalization,
-      initialText);
+
+      controller);
 }
 
-class _MyTextInputState extends State<MyTextInput> {
+class _MyProfileDetailsTextInput extends State<MyProfileDetailsTextInput> {
   Function(String) onTextChange;
   String? _placeholderText;
   TextInputType _inputType;
@@ -55,10 +60,10 @@ class _MyTextInputState extends State<MyTextInput> {
   double? _prefferedWidth;
   List<TextInputFormatter> formatters;
   TextCapitalization capitalization;
-  String initialText;
 
-  late final TextEditingController _controller;
-  _MyTextInputState(
+
+  TextEditingController _controller;
+  _MyProfileDetailsTextInput(
       this.onTextChange,
       this._inputType,
       this.action,
@@ -67,11 +72,14 @@ class _MyTextInputState extends State<MyTextInput> {
       this._prefferedWidth,
       this.formatters,
       this.capitalization,
-      this.initialText);
+
+      this._controller
+
+      );
 
   @override
   void initState() {
-    _controller = TextEditingController(text: initialText);
+    //_controller = TextEditingController(text: initialText);
     super.initState();
   }
 

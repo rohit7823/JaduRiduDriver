@@ -8,7 +8,7 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/screen_wtih_extras.dart';
-import '../stores/profile_view_model.dart';
+import '../stores/more_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
 import '../ui/string_provider.dart';
@@ -24,16 +24,16 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
-  late final ProfileViewModels profileViewModel;
+  late final MoreViewModels _store;
   late final List<ReactionDisposer> _disposers;
 
   @override
   void initState() {
-    profileViewModel = ProfileViewModels();
-    profileViewModel.getShortProfileData();
+    _store = MoreViewModels();
+    _store.getShortProfileData();
     super.initState();
     _disposers = [
-      reaction((p0) => profileViewModel.currentChange, (p0) {
+      reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
           widget.sharedStore.onChange(
             p0,
@@ -67,7 +67,7 @@ class _MoreScreenState extends State<MoreScreen> {
 
   Widget _upperSideContent() {
     return InkWell(
-      onTap: profileViewModel.onProfileDetails,
+      onTap: _store.onProfileDetails,
       child: Container(
         decoration: BoxDecoration(
             color: AppColors.primary,
@@ -81,7 +81,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     alignment: Alignment.center,
                     child: Observer(
                       builder: (BuildContext context) {
-                        if (profileViewModel.imageURL.isEmpty) {
+                        if (_store.imageURL.isEmpty) {
                           return const CircleAvatar(
                             foregroundImage:
                                 AssetImage(ImageAssets.placeHolder),
@@ -91,7 +91,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         } else {
                           return CircleAvatar(
                             foregroundImage:
-                                NetworkImage(profileViewModel.imageURL),
+                                NetworkImage(_store.imageURL),
                             backgroundColor: AppColors.primary,
                             radius: 40,
                           );
@@ -109,7 +109,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     ),
                     Observer(
                       builder: ((context) {
-                        if (profileViewModel.isLoading) {
+                        if (_store.isLoading) {
                           return Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
@@ -120,7 +120,7 @@ class _MoreScreenState extends State<MoreScreen> {
                           );
                         } else {
                           return Text(
-                            profileViewModel.driverName,
+                            _store.driverName,
                             style: AppTextStyle.profileText,
                           );
                         }
@@ -261,50 +261,53 @@ class _MoreScreenState extends State<MoreScreen> {
           SizedBox(
             height: 0.01.sw,
           ),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                border: Border.all(color: AppColors.appGreens),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0x1a000000),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: Offset(0, 10))
-                ]),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset(ImageAssets.raferIcon),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Refer",
-                              style: TextStyle(
-                                  color: AppColors.appMore,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w500)),
-                        ],
+          InkWell(
+            onTap: _store.onRefer,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  border: Border.all(color: AppColors.appGreens),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0x1a000000),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: Offset(0, 10))
+                  ]),
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SvgPicture.asset(ImageAssets.raferIcon),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Refer",
+                                style: TextStyle(
+                                    color: AppColors.appMore,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.secondaryVariant,
-                      ))
-                ],
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.secondaryVariant,
+                        ))
+                  ],
+                ),
               ),
             ),
           ),

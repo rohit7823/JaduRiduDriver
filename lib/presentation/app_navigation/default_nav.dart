@@ -30,6 +30,7 @@ import '../screens/amount_transffered_by_day_screen.dart';
 import '../screens/current_balance_details_screen.dart';
 import '../screens/payment_summery_screen.dart';
 import '../screens/profile_details_screen.dart';
+import '../screens/refer_screen.dart';
 import '../screens/todays_payment_details_screen.dart';
 
 class DefaultNav {
@@ -119,6 +120,10 @@ class DefaultNav {
       case AppRoute.todaysPayment:
         return ScreenTransitions.rightToLeftTransition(
             const TodaysPaymentDetails());
+
+      case AppRoute.referScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const ReferScreen());
 
       case AppRoute.paymentSummery:
         return ScreenTransitions.rightToLeftTransition(

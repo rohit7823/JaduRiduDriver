@@ -54,6 +54,13 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.Acadia);
 
+  static var referListStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: AppColors.refer);
+
   static var currentBalanceTitle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 30.sp,
@@ -274,6 +281,13 @@ class AppTextStyle {
       fontWeight: FontWeight.w200,
       color: AppColors.Acadia,
       fontSize: 16.sp,
+      decoration: TextDecoration.none);
+
+  static var toDriverTxtStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontWeight: FontWeight.w800,
+      color: AppColors.white,
+      fontSize: 30.sp,
       decoration: TextDecoration.none);
 
   static var dialogBodyTextStyle = TextStyle(
