@@ -28,10 +28,15 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import '../../core/common/profile_short_description.dart';
 import '../screens/amount_transffered_by_day_screen.dart';
 import '../screens/current_balance_details_screen.dart';
+import '../screens/emergency_support_screen.dart';
+import '../screens/help_screen.dart';
 import '../screens/payment_summery_screen.dart';
 import '../screens/profile_details_screen.dart';
 import '../screens/refer_screen.dart';
+import '../screens/refund_policy_screen.dart';
+import '../screens/terms_conditions_screen.dart';
 import '../screens/todays_payment_details_screen.dart';
+import '../screens/trip_details_screen.dart';
 
 class DefaultNav {
   DefaultNav({required this.sharedStore});
@@ -125,6 +130,26 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             const ReferScreen());
 
+      case AppRoute.termsAndConditionsScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const TermsAndConditionsScreen());
+
+      case AppRoute.privacyPolicyScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const TermsAndConditionsScreen());
+
+      case AppRoute.refundPolicyScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const RefundPolicyScreen());
+
+      case AppRoute.helpScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const HelpScreen());
+
+      case AppRoute.emergencySupportScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const EmergencyScreen());
+
       case AppRoute.paymentSummery:
         return ScreenTransitions.rightToLeftTransition(
             const PaymentSummeryScreen());
@@ -132,6 +157,9 @@ class DefaultNav {
       case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
+      case AppRoute.tripsScreen:
+        return ScreenTransitions.rightToLeftTransition(
+            const TripsScreen());
       default:
         return null;
     }

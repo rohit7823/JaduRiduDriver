@@ -151,6 +151,42 @@ class ChangeScreen {
           onComplete: onComplete,);
         break;
 
+      case Screen.termsAndConditionsScreen:
+        _navigate(context, AppRoute.termsAndConditionsScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.privacyPolicyScreen:
+        _navigate(context, AppRoute.privacyPolicyScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.refundPolicyScreen:
+        _navigate(context, AppRoute.refundPolicyScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.helpScreen:
+        _navigate(context, AppRoute.helpScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.emergencySupportScreen:
+        _navigate(context, AppRoute.emergencySupportScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
+      case Screen.tripsScreen:
+        _navigate(context, AppRoute.tripsScreen,
+          arguments: arguments,
+          onComplete: onComplete,);
+        break;
+
       case Screen.paymentSummeryScreen:
         _navigate(context, AppRoute.paymentSummery,
           arguments: arguments,

@@ -33,5 +33,10 @@ enum Screen {
   amountTransfferedByDayScreen,
   profileDetailsScreen,
   referScreen,
+  termsAndConditionsScreen,
+  privacyPolicyScreen,
+  refundPolicyScreen,
+  helpScreen,
+  tripsScreen, emergencySupportScreen,
 
 }

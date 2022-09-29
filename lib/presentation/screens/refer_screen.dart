@@ -4,12 +4,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:jadu_ride_driver/utills/my_utils.dart';
 
 import '../custom_widgets/my_app_bar_without_logo.dart';
+import '../stores/refer_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
 import '../ui/string_provider.dart';
 import '../ui/theme.dart';
+import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 
 class ReferScreen extends StatefulWidget {
   const ReferScreen({Key? key}) : super(key: key);
@@ -19,6 +23,13 @@ class ReferScreen extends StatefulWidget {
 }
 
 class _ReferScreenState extends State<ReferScreen> {
+  late final ReferStore _referStore;
+
+  @override
+  void initState() {
+    _referStore = ReferStore();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +119,14 @@ class _ReferScreenState extends State<ReferScreen> {
                             ),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Expanded(
-                                  flex: 4,
-                                  child: StringProvider.toDriver
-                                      .text(AppTextStyle.toDriverTxtStyle)),
+                              child: Observer(
+                                builder: (BuildContext context){
+                                  return Expanded(
+                                      flex: 4,
+                                      child: _referStore.driverToDriver.toString()
+                                          .text(AppTextStyle.toDriverTxtStyle));
+                                },
+                              ),
                             )
                           ],
                         ),
@@ -155,10 +170,14 @@ class _ReferScreenState extends State<ReferScreen> {
                             ),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Expanded(
-                                  flex: 4,
-                                  child: StringProvider.toDriver
-                                      .text(AppTextStyle.toDriverTxtStyle)),
+                              child: Observer(
+                                builder: (BuildContext context){
+                                  return Expanded(
+                                      flex: 4,
+                                      child: _referStore.driverToCustomer.toString()
+                                          .text(AppTextStyle.toDriverTxtStyle));
+                                },
+                              ),
                             )
                           ],
                         ),
@@ -176,9 +195,9 @@ class _ReferScreenState extends State<ReferScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     border: Border.all(color: AppColors.appGreens),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Color(0x1a000000),
                           blurRadius: 20,
@@ -203,51 +222,87 @@ class _ReferScreenState extends State<ReferScreen> {
                             SizedBox(
                               height: 0.01.sh,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: AppColors.Mercury,
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  border: Border.all(color: AppColors.appGreens),
-                                  ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
-                                child: Row(
-                                  children: [
-                                    Observer(
-                                      builder: (context) {
-                                        return Text("SEGFERFYUF",
-                                            style: TextStyle(
-                                                color: AppColors.secondaryVariant,
-                                                fontSize: 20.sp,
-                                                fontWeight: FontWeight.bold));
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex: 8,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await Clipboard.setData(ClipboardData(text: _referStore.driverToDriverReferCode));
+                                        MyUtils.toastMessage("Copy");
                                       },
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 0.05.sw),
-                                      child: Text("Tap to Copy",
-                                          style: TextStyle(
-                                              color: AppColors.primaryVariant,
-                                              fontSize: 15.sp)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                                      child: Container(
+
+                                        decoration: BoxDecoration(
+                                          color: AppColors.Mercury,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(15)),
+                                          border: Border.all(
+                                              color: AppColors.appGreens),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 0.02.sw,
+                                              horizontal: 0.02.sw),
+                                          child: Row(
+                                            children: [
+                                              Observer(
+                                                builder: (context) {
+                                                  return Text(_referStore.driverToDriverReferCode,
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .appGreery,
+                                                          fontSize: 20.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold));
+                                                },
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 0.05.sw),
+                                                child: Text("Tap to Copy",
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryVariant,
+                                                        fontSize: 15.sp)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                                Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 0.03.sw,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 0.02.sw),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Share.share(_referStore.driverToDriverReferCode);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(0.04.sw),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primary,
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(100)),
+                                              border: Border.all(
+                                                  color: AppColors.appGreens),
+                                            ),
+                                            child: SvgPicture.asset(
+                                                ImageAssets.shareIcons),
+                                          ),
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            padding: EdgeInsets.all(0.04.sw),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100)),
-                              border: Border.all(color: AppColors.appGreens),
-                            ),
-                            child: SvgPicture.asset(ImageAssets.shareIcons),
-                          ))
                     ],
                   ),
                 ),
@@ -288,51 +343,86 @@ class _ReferScreenState extends State<ReferScreen> {
                             SizedBox(
                               height: 0.01.sh,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.Mercury,
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                border: Border.all(color: AppColors.appGreens),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
-                                child: Row(
-                                  children: [
-                                    Observer(
-                                      builder: (context) {
-                                        return Text("SEGFERFYUF",
-                                            style: TextStyle(
-                                                color: AppColors.secondaryVariant,
-                                                fontSize: 20.sp,
-                                                fontWeight: FontWeight.bold));
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex: 8,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await Clipboard.setData(ClipboardData(text: _referStore.driverToCustomerReferCode));
+                                        MyUtils.toastMessage("Copy");
                                       },
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 0.05.sw),
-                                      child: Text("Tap to Copy",
-                                          style: TextStyle(
-                                              color: AppColors.primaryVariant,
-                                              fontSize: 15.sp)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.Mercury,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15)),
+                                          border: Border.all(
+                                              color: AppColors.appGreens),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 0.02.sw,
+                                              horizontal: 0.02.sw),
+                                          child: Row(
+                                            children: [
+                                              Observer(
+                                                builder: (context) {
+                                                  return Text(_referStore.driverToCustomerReferCode,
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .appGreery,
+                                                          fontSize: 20.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold));
+                                                },
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 0.05.sw),
+                                                child: Text("Tap to Copy",
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryVariant,
+                                                        fontSize: 15.sp)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                                Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 0.03.sw,
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Share.share(_referStore.driverToCustomerReferCode);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 0.02.sw),
+                                          child: Container(
+                                            padding: EdgeInsets.all(0.04.sw),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primary,
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(100)),
+                                              border: Border.all(
+                                                  color: AppColors.appGreens),
+                                            ),
+                                            child: SvgPicture.asset(
+                                                ImageAssets.shareIcons),
+                                          ),
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            padding: EdgeInsets.all(0.04.sw),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100)),
-                              border: Border.all(color: AppColors.appGreens),
-                            ),
-                            child: SvgPicture.asset(ImageAssets.shareIcons),
-                          ))
                     ],
                   ),
                 ),

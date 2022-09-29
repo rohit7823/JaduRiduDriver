@@ -333,6 +333,7 @@ class StringProvider {
   static var paymentsSummery = "Payment Summery";
   static var referList = "Refer List";
   static var refer = "Refer";
+  static var tripsTxt = "Trips";
 
   static var currentBalanceTitle = "Balance";
 
@@ -341,7 +342,7 @@ class StringProvider {
   static var referToCustomer = "Refer to Customer";
 
   static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
-  static var toDriver = "10";
+  static var toDriver = "1";
 
   StringProvider._();
 

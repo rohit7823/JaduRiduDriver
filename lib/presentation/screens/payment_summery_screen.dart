@@ -117,7 +117,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                 paymentSummaryStores.onRadioSelected,
                                 activeColor: Colors.green,
                               ),
-                              Text(
+                              const Text(
                                 "Online",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -140,7 +140,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                 paymentSummaryStores.onRadioSelected,
                                 activeColor: Colors.red,
                               ),
-                              Text("Cash",
+                              const Text("Cash",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -162,9 +162,9 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius:
-                            BorderRadius.all(Radius.circular(15)),
+                            const BorderRadius.all(Radius.circular(15)),
                             border: Border.all(color: AppColors.appGreens),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0x1a000000),
                                   blurRadius: 20,
@@ -199,7 +199,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                   ),
                                 ),
                               ),
-                              Expanded(
+                              const Expanded(
                                   flex: 1,
                                   child: Icon(
                                     Icons.date_range,
@@ -264,7 +264,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
       padding: EdgeInsets.symmetric(
         vertical: 0.02.sw,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [

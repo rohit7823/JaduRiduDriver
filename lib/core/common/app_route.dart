@@ -61,6 +61,12 @@ class AppRoute {
   static const profileDetails = "/profileDetails";
   static const todaysPayment = "/todaysPayment";
   static const referScreen = "/referScreen";
+  static const termsAndConditionsScreen = "/termsAndConditionsScreen";
+  static const privacyPolicyScreen = "/privacyPolicyScreen";
+  static const refundPolicyScreen = "/refundPolicyScreen";
+  static const helpScreen = "/helpScreen";
+  static const emergencySupportScreen = "/emergencySupportScreen";
+  static const tripsScreen = "/tripsScreen";
   static const paymentSummery = "/paymentSummery";
   static const amountTransfferedByDay = "/amountTransfferedByDay";
 }
