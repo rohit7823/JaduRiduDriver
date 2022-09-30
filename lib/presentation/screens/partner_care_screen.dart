@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_button_themes.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
-import 'package:jadu_ride_driver/utills/my_utils.dart';
-import 'package:provider/provider.dart';
-
 import '../stores/partner_care_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/theme.dart';
@@ -35,10 +31,8 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
   @override
   void initState() {
     partnerCareStore = PartnerCareStore();
-
     partnerCareStore.validateInput();
     partnerCareStore.validateInputMessage();
-
     super.initState();
 
   }
@@ -107,7 +101,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   child: TextField(
                     keyboardType: TextInputType.name,
                     controller: _nameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(),
                       labelText: 'Your Name',
@@ -118,7 +112,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(),
                     labelText: 'Email',
@@ -131,9 +125,9 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
 
                     if(partnerCareStore.errorMsg.isNotEmpty){
                       return Text(partnerCareStore.errorMsg,
-                      style: TextStyle(color: Colors.red),);
+                      style: const TextStyle(color: Colors.red),);
                     }
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }),
                 ),
                 Padding(
@@ -141,7 +135,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   child: TextField(
                     keyboardType: TextInputType.text,
                     controller: _subjectController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(),
                       labelText: 'Subject',
@@ -155,7 +149,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
 
                     maxLines: 4,
                     controller: _msgController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(),
                       labelText: 'Message',
@@ -169,9 +163,9 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
 
                     if(partnerCareStore.errorMessageMsg.isNotEmpty){
                       return Text(partnerCareStore.errorMessageMsg,
-                        style: TextStyle(color: Colors.red),);
+                        style: const TextStyle(color: Colors.red),);
                     }
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }),
                 ),
               ],
@@ -188,7 +182,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   },
 
                   style:AppButtonThemes.defaultStyle.copyWith(backgroundColor: MaterialStateProperty.all(AppColors.primaryVariant)),
-                  child: partnerCareStore.isLoading? CircularProgressIndicator(color: Colors.white,):
+                  child: partnerCareStore.isLoading? const CircularProgressIndicator(color: Colors.white,):
                   StringProvider.submitBtn.text(AppTextStyle.partnerButtonTxt),
                 );
               },
@@ -199,8 +193,3 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
     );
   }
 }
-
-/*//this is for svg.....................................
-//SvgPicture.asset(ImageAssets.todaysPayment)
-//this is for png........................................
-//Image.asset(ImageAssets.googleLogoPng)*/

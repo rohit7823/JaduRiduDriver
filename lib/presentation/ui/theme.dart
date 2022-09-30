@@ -17,6 +17,7 @@ class AppColors {
   static const lightGrays = Color(0xFF303030);
   static const lightBlack = Color(0xFF212121);
   static const primaryVariant = Color(0xFFed252c);
+  static const tripsPaymentTxtColor = Color(0xFFCCCCCC);
   static const secondary = Color(0xFF531010);
   static const secondaryVariant = Color(0xFF0f0f0f);
   static const white = Color(0xFFFFFFFF);

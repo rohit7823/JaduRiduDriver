@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -5,25 +6,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../custom_widgets/my_app_bar_without_logo.dart';
-import '../stores/terms_and_conditions_view_model.dart';
+import '../stores/privacy_policy_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/string_provider.dart';
 import '../ui/theme.dart';
 
-class TermsAndConditionsScreen extends StatefulWidget {
-  const TermsAndConditionsScreen({Key? key}) : super(key: key);
+class PrivacyPolicyScreen extends StatefulWidget {
+  const PrivacyPolicyScreen({Key? key}) : super(key: key);
 
   @override
-  State<TermsAndConditionsScreen> createState() =>
-      _TermsAndConditionsScreenState();
+  State<PrivacyPolicyScreen> createState() => _PrivacyPolicyScreenState();
 }
 
-class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
-  late final TermsAndConditionsStore termsAndConditionsStore;
+class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
+  late final PrivacyPolicyStore privacyPolicyStore;
 
   @override
   void initState() {
-    termsAndConditionsStore = TermsAndConditionsStore();
+    privacyPolicyStore = PrivacyPolicyStore();
     super.initState();
   }
 
@@ -41,7 +41,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
       ),
     );
   }
-
   Widget _upperSideContent() {
     return Container(
       decoration: BoxDecoration(
@@ -53,35 +52,33 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StringProvider.termsAndConditions
-                  .text(AppTextStyle.enterNumberStyle),
+              StringProvider.privacyPolicy.text(AppTextStyle.enterNumberStyle),
               StringProvider.accountSummaryDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(
               insets:
-                  EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
+              EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
         ),
       ),
     );
   }
-
   Widget _lowerSideContent() {
     return Observer(
       builder: (BuildContext context) {
-        if (termsAndConditionsStore.isLoader) {
+        if (privacyPolicyStore.isLoader) {
           return Align(
             alignment: Alignment.center,
             child: SizedBox(
               height: 0.10.sw,
               width: 0.10.sw,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             ),
           );
         } else {
           return Padding(
             padding:
-                EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+            EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
             child: Column(
               children: [
                 Container(
@@ -100,7 +97,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         vertical: 0.05.sw, horizontal: 0.05.sw),
                     child: Column(
                       children: [
-                        termsAndConditionsStore.conditionsTxt
+                        privacyPolicyStore.privacyPolicyTxt
                             .text(AppTextStyle.enterNumberSubHeadingStyle)
                       ],
                     ),

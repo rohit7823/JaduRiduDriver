@@ -74,19 +74,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/repository/amount_transffered_by_day_repository.dart';
 import '../core/repository/current_balance_repository.dart';
 import '../core/repository/driver_refer_repository.dart';
+import '../core/repository/emergency_repository.dart';
+import '../core/repository/help_repository.dart';
 import '../core/repository/payment_summery_repository.dart';
+import '../core/repository/privacy-policy_repository.dart';
 import '../core/repository/profile_details_repository.dart';
 import '../core/repository/profile_repository.dart';
+import '../core/repository/refund_policy_repository.dart';
 import '../core/repository/schedule_repository.dart';
+import '../core/repository/terms_and_conditions_repository.dart';
 import '../core/repository/todays_payment_repository.dart';
 import '../core/repository/trips_details_repository.dart';
 import '../repository_impls/amount_transferred_repository_impl.dart';
 import '../repository_impls/current_balance_repository_impl.dart';
 import '../repository_impls/driver_refer_repository_impl.dart';
+import '../repository_impls/emergency_repository_impl.dart';
+import '../repository_impls/help_number_repository_impl.dart';
 import '../repository_impls/location_schudule_repository_impl.dart';
 import '../repository_impls/payment_summery_impl.dart';
+import '../repository_impls/privacy_policy_repository_impl.dart';
 import '../repository_impls/profile_details_repository_impl.dart';
 import '../repository_impls/profile_short_repository_impl.dart';
+import '../repository_impls/refund_policy_repository_impl.dart';
+import '../repository_impls/terms_and_conditions_repository_impl.dart';
 import '../repository_impls/todays_payment_repository_impl.dart';
 import '../repository_impls/trips_details_repository_impl.dart';
 
@@ -209,5 +219,11 @@ class AppModule {
     dependency.registerLazySingleton<ProfileDetailsRepository>(() => ProfileDetailsRepositoryImpl());
     dependency.registerLazySingleton<DriverReferRepository>(() => DriverReferRepositoryImpl());
     dependency.registerLazySingleton<TripsDetailsRepository>(() => TripsDetailsRepositoryImpl());
+    dependency.registerLazySingleton<TermsAndConditionsRepository>(() => TermsAndContionsRepositoryImpl());
+    dependency.registerLazySingleton<PrivacyPolicyRepository>(() => PrivacyPolicyRepositoryImpl());
+    dependency.registerLazySingleton<RefundPolicyRepository>(() => RefundPolicyRepositoryImpl());
+    dependency.registerLazySingleton<HelpRepository>(() => HelpPhoneNumberRepositoryImpl());
+    dependency.registerLazySingleton<EmergencyRepository>(() => EmergencyRepositoryImpl());
+
   }
 }

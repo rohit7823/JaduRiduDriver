@@ -74,6 +74,23 @@ mixin _$TripsDetailsStore on _TripsViewModel, Store {
     });
   }
 
+  late final _$tripDetailsArrayListAtom =
+      Atom(name: '_TripsViewModel.tripDetailsArrayList', context: context);
+
+  @override
+  List<TripsDetails> get tripDetailsArrayList {
+    _$tripDetailsArrayListAtom.reportRead();
+    return super.tripDetailsArrayList;
+  }
+
+  @override
+  set tripDetailsArrayList(List<TripsDetails> value) {
+    _$tripDetailsArrayListAtom.reportWrite(value, super.tripDetailsArrayList,
+        () {
+      super.tripDetailsArrayList = value;
+    });
+  }
+
   late final _$_initialDataAsyncAction =
       AsyncAction('_TripsViewModel._initialData', context: context);
 
@@ -124,7 +141,8 @@ mixin _$TripsDetailsStore on _TripsViewModel, Store {
 isLoading: ${isLoading},
 selected: ${selected},
 datesSelectedListLoader: ${datesSelectedListLoader},
-finalCurrentDate: ${finalCurrentDate}
+finalCurrentDate: ${finalCurrentDate},
+tripDetailsArrayList: ${tripDetailsArrayList}
     ''';
   }
 }

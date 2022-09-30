@@ -30,17 +30,10 @@ abstract class _TripsViewModel with Store{
   onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
     if (selectedValue == null) {
       selected = DriverTransactionPaymentSummeryType.none;
-      /*datelistItem();*/
-      MyUtils.toastMessage("hahaa....");
     } else {
-      selected = selectedValue;
-      if(selected.name=="cash"){
-        //datelistItem();
-        MyUtils.toastMessage("cash");
-      }else{
-        MyUtils.toastMessage("online");
-        //datelistItem();
-      }
+      selected = selectedValue!;
+      _initialData();
+      //MyUtils.toastMessage(selected.name);
     }
   }
 
@@ -67,8 +60,8 @@ abstract class _TripsViewModel with Store{
     if (selected != null) {
       //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
       finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
-      MyUtils.toastMessage(finalCurrentDate);
-      //datelistItem();
+      //MyUtils.toastMessage(finalCurrentDate);
+      _initialData();
     } else {
       currentDate();
     }
@@ -80,7 +73,7 @@ abstract class _TripsViewModel with Store{
 
   @action
   _initialData() async {
-    isLoading = true;
+    datesSelectedListLoader = true;
     var userId = _prefs.userId();
     var response = await _repository.getTripsDetailsInittialData(userId);
     //debugPrint(response.toString());

@@ -31,6 +31,7 @@ import '../screens/current_balance_details_screen.dart';
 import '../screens/emergency_support_screen.dart';
 import '../screens/help_screen.dart';
 import '../screens/payment_summery_screen.dart';
+import '../screens/privacy_policy_screen.dart';
 import '../screens/profile_details_screen.dart';
 import '../screens/refer_screen.dart';
 import '../screens/refund_policy_screen.dart';
@@ -136,7 +137,7 @@ class DefaultNav {
 
       case AppRoute.privacyPolicyScreen:
         return ScreenTransitions.rightToLeftTransition(
-            const TermsAndConditionsScreen());
+            const PrivacyPolicyScreen());
 
       case AppRoute.refundPolicyScreen:
         return ScreenTransitions.rightToLeftTransition(

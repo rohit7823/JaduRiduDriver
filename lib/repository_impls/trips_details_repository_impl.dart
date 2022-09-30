@@ -17,10 +17,10 @@ class TripsDetailsRepositoryImpl extends TripsDetailsRepository {
             (index) => TripsDetails(
                 date: "Monday 18th June , 2022",
                 time: "Today: 5:15 pm",
-                id: "ID: 5431443675434214",
-                destinationAddress: "To - V-xplore Technologies",
-                farePrice: "₹400.00",
+                id: "5431443675434214",
+                destinationAddress: "V-xplore Technologies",
+                farePrice: "400.00",
                 paymentType: "CASH",
-                sourceAddress: "From - Howrah Railway Station"))));
+                sourceAddress: "Howrah Railway Station"))));
   }
 }

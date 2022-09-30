@@ -36,6 +36,8 @@ class StringProvider {
       "This number will be used to contact you and\ncommunicate all ride related details";
 
   static const mobileNumber = "Mobile Number";
+  static const tollFreeMobileNumber = "Toll Free";
+  static const orTxt = "or";
 
   static const next = "NEXT";
 
@@ -46,6 +48,8 @@ class StringProvider {
   static const recieveing = "Receiving...";
 
   static const recieve = "Receive";
+  static const from = "From -";
+  static const to = "To -";
   static const customarName = "Customer Name : ";
   static const pickUpLocation = "PICKUP LOCATION";
   static const navigatesTxt = "NAVIGATE";
@@ -261,8 +265,10 @@ class StringProvider {
   static var save = "Save";
 
   static var saveAndProcced = "Save and Proceed";
+  static var tripId = "ID: ";
 
   static var rechargeNow = "RECHARGE NOW";
+  static var callNowTxt = "Call Now";
 
   static var thisQuestionIsMandatory = "*This question is mandatory.";
 
@@ -333,6 +339,11 @@ class StringProvider {
   static var paymentsSummery = "Payment Summery";
   static var referList = "Refer List";
   static var refer = "Refer";
+  static var termsAndConditions = "Terms and Condition";
+  static var refundPolicy = "Refund Policy";
+  static var helpTxt = "Help";
+  static var emergencyTxt = "Emergency Support";
+  static var privacyPolicy = "Privacy Policy";
   static var tripsTxt = "Trips";
 
   static var currentBalanceTitle = "Balance";
@@ -343,6 +354,7 @@ class StringProvider {
 
   static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
   static var toDriver = "1";
+  static var terms = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.";
 
   StringProvider._();
 

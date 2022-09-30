@@ -213,9 +213,9 @@ class _CurrentBalanceDetailsScreenState
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
                               border: Border.all(color: AppColors.appGreens),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     color: Color(0x1a000000),
                                     blurRadius: 20,

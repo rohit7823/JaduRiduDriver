@@ -30,6 +30,7 @@ class _ReferScreenState extends State<ReferScreen> {
     _referStore = ReferStore();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,11 +121,25 @@ class _ReferScreenState extends State<ReferScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Observer(
-                                builder: (BuildContext context){
-                                  return Expanded(
-                                      flex: 4,
-                                      child: _referStore.driverToDriver.toString()
-                                          .text(AppTextStyle.toDriverTxtStyle));
+                                builder: (BuildContext context) {
+                                  if (_referStore.isLoading) {
+                                    return Align(
+                                      alignment: Alignment.center,
+                                      child: SizedBox(
+                                        height: 0.05.sw,
+                                        width: 0.05.sw,
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  } else {
+                                    return Expanded(
+                                        flex: 4,
+                                        child: _referStore.driverToDriver
+                                            .toString()
+                                            .text(
+                                                AppTextStyle.toDriverTxtStyle));
+                                  }
                                 },
                               ),
                             )
@@ -171,11 +186,25 @@ class _ReferScreenState extends State<ReferScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Observer(
-                                builder: (BuildContext context){
-                                  return Expanded(
-                                      flex: 4,
-                                      child: _referStore.driverToCustomer.toString()
-                                          .text(AppTextStyle.toDriverTxtStyle));
+                                builder: (BuildContext context) {
+                                  if (_referStore.isLoading) {
+                                    return Align(
+                                      alignment: Alignment.center,
+                                      child: SizedBox(
+                                        height: 0.05.sw,
+                                        width: 0.05.sw,
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  } else {
+                                    return Expanded(
+                                        flex: 4,
+                                        child: _referStore.driverToCustomer
+                                            .toString()
+                                            .text(
+                                                AppTextStyle.toDriverTxtStyle));
+                                  }
                                 },
                               ),
                             )
@@ -228,11 +257,12 @@ class _ReferScreenState extends State<ReferScreen> {
                                     flex: 8,
                                     child: InkWell(
                                       onTap: () async {
-                                        await Clipboard.setData(ClipboardData(text: _referStore.driverToDriverReferCode));
+                                        await Clipboard.setData(ClipboardData(
+                                            text: _referStore
+                                                .driverToDriverReferCode));
                                         MyUtils.toastMessage("Copy");
                                       },
                                       child: Container(
-
                                         decoration: BoxDecoration(
                                           color: AppColors.Mercury,
                                           borderRadius: const BorderRadius.all(
@@ -248,13 +278,29 @@ class _ReferScreenState extends State<ReferScreen> {
                                             children: [
                                               Observer(
                                                 builder: (context) {
-                                                  return Text(_referStore.driverToDriverReferCode,
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .appGreery,
-                                                          fontSize: 20.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold));
+                                                  if (_referStore.isLoading) {
+                                                    return Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: SizedBox(
+                                                        height: 0.05.sw,
+                                                        width: 0.05.sw,
+                                                        child:
+                                                            const CircularProgressIndicator(),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return Text(
+                                                        _referStore
+                                                            .driverToDriverReferCode,
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .appGreery,
+                                                            fontSize: 20.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold));
+                                                  }
                                                 },
                                               ),
                                               Padding(
@@ -281,14 +327,16 @@ class _ReferScreenState extends State<ReferScreen> {
                                         padding: EdgeInsets.only(left: 0.02.sw),
                                         child: InkWell(
                                           onTap: () {
-                                            Share.share(_referStore.driverToDriverReferCode);
+                                            Share.share(_referStore
+                                                .driverToDriverReferCode);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(0.04.sw),
                                             decoration: BoxDecoration(
                                               color: AppColors.primary,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(100)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(100)),
                                               border: Border.all(
                                                   color: AppColors.appGreens),
                                             ),
@@ -316,9 +364,9 @@ class _ReferScreenState extends State<ReferScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     border: Border.all(color: AppColors.appGreens),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Color(0x1a000000),
                           blurRadius: 20,
@@ -349,7 +397,9 @@ class _ReferScreenState extends State<ReferScreen> {
                                     flex: 8,
                                     child: InkWell(
                                       onTap: () async {
-                                        await Clipboard.setData(ClipboardData(text: _referStore.driverToCustomerReferCode));
+                                        await Clipboard.setData(ClipboardData(
+                                            text: _referStore
+                                                .driverToCustomerReferCode));
                                         MyUtils.toastMessage("Copy");
                                       },
                                       child: Container(
@@ -368,13 +418,29 @@ class _ReferScreenState extends State<ReferScreen> {
                                             children: [
                                               Observer(
                                                 builder: (context) {
-                                                  return Text(_referStore.driverToCustomerReferCode,
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .appGreery,
-                                                          fontSize: 20.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold));
+                                                  if (_referStore.isLoading) {
+                                                    return Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: SizedBox(
+                                                        height: 0.05.sw,
+                                                        width: 0.05.sw,
+                                                        child:
+                                                            const CircularProgressIndicator(),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return Text(
+                                                        _referStore
+                                                            .driverToCustomerReferCode,
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .appGreery,
+                                                            fontSize: 20.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold));
+                                                  }
                                                 },
                                               ),
                                               Padding(
@@ -399,16 +465,19 @@ class _ReferScreenState extends State<ReferScreen> {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                          Share.share(_referStore.driverToCustomerReferCode);
+                                          Share.share(_referStore
+                                              .driverToCustomerReferCode);
                                         },
                                         child: Padding(
-                                          padding: EdgeInsets.only(left: 0.02.sw),
+                                          padding:
+                                              EdgeInsets.only(left: 0.02.sw),
                                           child: Container(
                                             padding: EdgeInsets.all(0.04.sw),
                                             decoration: BoxDecoration(
                                               color: AppColors.primary,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(100)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(100)),
                                               border: Border.all(
                                                   color: AppColors.appGreens),
                                             ),

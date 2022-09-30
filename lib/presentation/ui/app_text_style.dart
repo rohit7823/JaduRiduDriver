@@ -283,6 +283,27 @@ class AppTextStyle {
       fontSize: 16.sp,
       decoration: TextDecoration.none);
 
+  static var helpMobileStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontWeight: FontWeight.w800,
+      color: AppColors.Acadia,
+      fontSize: 36.sp,
+      decoration: TextDecoration.none);
+
+  static var tollFreeMobileStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontWeight: FontWeight.w400,
+      color: AppColors.Abbey,
+      fontSize: 30.sp,
+      decoration: TextDecoration.none);
+
+  static var orTxtStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontWeight: FontWeight.w800,
+      color: AppColors.Acadia,
+      fontSize: 30.sp,
+      decoration: TextDecoration.none);
+
   static var toDriverTxtStyle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontWeight: FontWeight.w800,
@@ -380,6 +401,13 @@ class AppTextStyle {
   static var partnerButtonTxt = TextStyle(
     fontFamily: AppFonts.poppins,
     fontWeight: FontWeight.w600,
+    color: const Color(0xFFFFFFFF),
+    fontSize: 20.sp,
+  );
+
+  static var helpNumberTxt = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w400,
     color: const Color(0xFFFFFFFF),
     fontSize: 20.sp,
   );

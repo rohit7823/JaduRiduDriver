@@ -269,11 +269,11 @@ class _TripsScreenState extends State<TripsScreen> {
             Row(
               children: [
                 Expanded(
-                  flex: 5,
+                  flex: 3,
                   child: Text(
                       _stores
                           .tripDetailsArrayList[index].date,
-                      style: TextStyle(
+                        style: TextStyle(
                         color: AppColors.lightBlack,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,)),
@@ -285,20 +285,58 @@ class _TripsScreenState extends State<TripsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                            _stores
-                                .tripDetailsArrayList[index].paymentType,
-                            style: TextStyle(
-                              color: AppColors.primaryVariant,
-                              fontSize: 13.sp,)),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                              _stores.tripDetailsArrayList[index].paymentType,
+                              style: TextStyle(
+                              color: AppColors.tripsPaymentTxtColor,
+                              fontSize: 13.sp)),
+                        ),
                       ],
                     ),
                   ),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text(
-                      "₹${_stores.tripDetailsArrayList[index].farePrice}",
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        "₹${_stores.tripDetailsArrayList[index].farePrice}",
+                        style: TextStyle(
+                          color: AppColors.lightGrays,
+                          fontSize: 13.sp,)),
+                  ),
+                )
+              ],
+            ),
+            Divider(color: AppColors.deviderColor, ),
+            Row(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 0.02.sw,
+                    height: 0.02.sw,
+                      decoration: const BoxDecoration(
+                          color: Colors.green,
+                            shape: BoxShape.circle,
+                      ),
+
+                  ),
+                ),
+                Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0.03.sw),
+                      child: Text(StringProvider.from,
+                          style: TextStyle(
+                            color: AppColors.lightGrays,
+                            fontSize: 13.sp,)),
+                    ),),
+                Expanded(
+                  flex: 9,
+                  child: Text(_stores.tripDetailsArrayList[index].sourceAddress,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),
@@ -308,37 +346,60 @@ class _TripsScreenState extends State<TripsScreen> {
             Divider(color: AppColors.deviderColor, ),
             Row(
               children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 0.02.sw,
+                    height: 0.02.sw,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+
+                  ),
+                ),
                 Expanded(
-                  flex: 5,
-                  child: Text(StringProvider.customarName,
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0.03.sw),
+                    child: Text(StringProvider.to,
+                        style: TextStyle(
+                          color: AppColors.lightGrays,
+                          fontSize: 13.sp,)),
+                  ),),
+                Expanded(
+                  flex: 9,
+                  child: Text(_stores.tripDetailsArrayList[index].destinationAddress,
+                      style: TextStyle(
+                        color: AppColors.lightGrays,
+                        fontSize: 13.sp,)),
+                )
+              ],
+            ),
+            Divider(color: AppColors.deviderColor, ),
+            Row(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(StringProvider.tripId,
                       style: TextStyle(
                         color: AppColors.lightBlack,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,)),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(_stores.tripDetailsArrayList[index].id,
+                        style: TextStyle(
+                          color: AppColors.lightBlack,
+                          fontSize: 12.sp,)),
+                  ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text(_stores.tripDetailsArrayList[index].time,
-                      style: TextStyle(
-                        color: AppColors.lightGrays,
-                        fontSize: 13.sp,)),
-                )
-              ],
-            ),
-            Divider(color: AppColors.deviderColor, ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Text(StringProvider.customarBookingId,
-                      style: TextStyle(
-                        color: AppColors.lightBlack,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,)),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(_stores.tripDetailsArrayList[index].id,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),

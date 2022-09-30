@@ -49,7 +49,7 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
               countryImage: ImageAssets.flagIndia/*"assets/images/flag_india.png"*/,
               code: "+91")
         ],
-        dob: "25th june 1990", email: "abc@gmail.com", gender: "female", mobileNumber: "1234567890", states: List.generate(2,
+        dob: "25th june 1990", email: "abc@gmail.com", gender: "male", mobileNumber: "1234567890", states: List.generate(2,
                 (index) => Package(id: "${index + 1}", name: "State ${index + 1}"))));
   }
 
