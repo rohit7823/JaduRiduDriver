@@ -1,6 +1,8 @@
 class AppConstants {
   static const unknownPlatform = "Unknown Platform";
 
+  static const socketKey = "KEY_DRIVER";
+
   AppConstants._();
 
   static const xApiKey = "X-API-KEY";

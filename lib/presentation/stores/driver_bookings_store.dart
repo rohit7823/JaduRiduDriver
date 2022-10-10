@@ -17,7 +17,6 @@ part 'driver_bookings_store.g.dart';
 class DriverBookingStore = _DriverBookingsStore with _$DriverBookingStore;
 
 abstract class _DriverBookingsStore with Store {
-  
   final _repository = dependency<DriverBookingsRepository>();
 
   @observable
@@ -38,8 +37,7 @@ abstract class _DriverBookingsStore with Store {
   final googleMap = const Key("GOOGLE_MAP");
   late final GoogleMapController? _controller;
 
-
-  StreamSubscription<Resource<DriverBookingDetails>>? _streamDisposer;
+  StreamSubscription<DriverBookingDetails>? _streamDisposer;
 
   @observable
   String vehicleType = "";
@@ -58,37 +56,27 @@ abstract class _DriverBookingsStore with Store {
 
   @action
   _onBooking(GoogleMapController controller, BuildContext context) {
-    _streamDisposer = _repository.booking().listen((response) async {
-      customers.clear();
-      if(response is Success) {
-        var data = response.data;
-        if(data != null) {
-          var bookingDetails = data;
-          var bitMap = await MarkerIcon.svgAsset(
-              assetName: ImageAssets.customerMarker,
-              context: context,
-              size: 48
-          );
-          var customer = Marker(
-              markerId: MarkerId(bookingDetails.bookId),
-              position: LatLng(bookingDetails.lat, bookingDetails.lng),
-              icon: bitMap,
-              draggable: false,
-              consumeTapEvents: false,
-          );
-          details = bookingDetails.customerDetails;
-          vehicleType = bookingDetails.vehicleType;
-          passTimer = bookingDetails.passTimer;
-          pickUpLocation = bookingDetails.pickUpLocation;
-          estimatedKm = bookingDetails.estimateDistance;
-          eta = bookingDetails.eta;
-          customers.add(customer);
-          controller.animateCamera(CameraUpdate.newLatLngZoom(
-              LatLng(bookingDetails.lat, bookingDetails.lng),
-              20
-          ));
-        }
-      }
+    customers.clear();
+    _streamDisposer = _repository.booking().stream.listen((data) async {
+      var bookingDetails = data;
+      var bitMap = await MarkerIcon.svgAsset(
+          assetName: ImageAssets.customerMarker, context: context, size: 48);
+      var customer = Marker(
+        markerId: MarkerId(bookingDetails.bookId),
+        position: LatLng(bookingDetails.lat, bookingDetails.lng),
+        icon: bitMap,
+        draggable: false,
+        consumeTapEvents: false,
+      );
+      details = bookingDetails.customerDetails;
+      vehicleType = bookingDetails.vehicleType;
+      passTimer = bookingDetails.passTimer;
+      pickUpLocation = bookingDetails.pickUpLocation;
+      estimatedKm = bookingDetails.estimateDistance;
+      eta = bookingDetails.eta;
+      customers.add(customer);
+      controller.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(bookingDetails.lat, bookingDetails.lng), 20));
     });
   }
 }

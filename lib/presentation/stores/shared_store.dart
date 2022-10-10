@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,6 +21,7 @@ import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
+import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
@@ -38,6 +38,7 @@ class SharedStore = _SharedStore with _$SharedStore;
 
 abstract class _SharedStore extends AppNavigator with Store {
   final _repository = dependency<BatchCallRepository>();
+  final _driverLocationRepo = dependency<DriverLiveLocationRepository>();
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
@@ -204,23 +205,21 @@ abstract class _SharedStore extends AppNavigator with Store {
   getDashBoardData() async {
     gettingDataLoader = true;
     streamDisposer = _locationService.checkPermission().listen((event) async {
-      if(event == GpsStatus.disabled) {
+      if (event == GpsStatus.disabled) {
         gettingDataLoader = false;
         dialogManager.initData(AlertData(
-                StringProvider.appName,
-                null,
-                StringProvider.appId,
-                StringProvider.enableGpsMessage,
-                StringProvider.okay,
-                null,
-                null,
-                AlertBehaviour(
-                    option: AlertOption.invokeOnBarrier,
-                    isDismissable: false,
-                    action: AlertAction.enableGps
-                )
-            ));
-      } else if(event == LocationPermissionStatus.showRationale) {
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.enableGpsMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.invokeOnBarrier,
+                isDismissable: false,
+                action: AlertAction.enableGps)));
+      } else if (event == LocationPermissionStatus.showRationale) {
         gettingDataLoader = false;
         dialogManager.initData(AlertData(
             StringProvider.appName,
@@ -232,10 +231,8 @@ abstract class _SharedStore extends AppNavigator with Store {
             null,
             AlertBehaviour(
                 option: AlertOption.none,
-                action: AlertAction.locationPermissionRationale
-            )
-        ));
-      } else if(event == LocationPermissionStatus.openSetting) {
+                action: AlertAction.locationPermissionRationale)));
+      } else if (event == LocationPermissionStatus.openSetting) {
         gettingDataLoader = false;
         dialogManager.initData(AlertData(
             StringProvider.appName,
@@ -246,34 +243,31 @@ abstract class _SharedStore extends AppNavigator with Store {
             null,
             null,
             AlertBehaviour(
-                option: AlertOption.none,
-                action: AlertAction.enableGps
-            )
-        ));
+                option: AlertOption.none, action: AlertAction.enableGps)));
       } else {
         currentLocation = await _locationService.getCurrentLocation();
         _sendCurrentLocation();
         gettingDataLoader = false;
         streamDisposer?.cancel();
         debugPrint(currentLocation.toString());
-        onChange(ScreenWithExtras(screen: Screen.dashBoard,
-            option: NavigationOption(option: Option.popAll)
-        ));
+        onChange(ScreenWithExtras(
+            screen: Screen.dashBoard,
+            option: NavigationOption(option: Option.popAll)));
       }
     });
   }
 
   onAction(AlertAction? action) {
-    if(action == AlertAction.enableGps) {
+    if (action == AlertAction.enableGps) {
       _locationService.openSettings();
-    } else if(action == AlertAction.locationServiceDisable) {
+    } else if (action == AlertAction.locationServiceDisable) {
       _locationService.openSettings();
     }
   }
 
   locationStatus() {
     streamDisposer = _locationService.gpsStatusStream().listen((event) {
-      if(event == ServiceStatus.disabled) {
+      if (event == ServiceStatus.disabled) {
         dialogManager.initData(AlertData(
             StringProvider.appName,
             null,
@@ -285,71 +279,59 @@ abstract class _SharedStore extends AppNavigator with Store {
             AlertBehaviour(
                 option: AlertOption.invokeOnBarrier,
                 isDismissable: false,
-                action: AlertAction.locationServiceDisable
-            )
-        ));
+                action: AlertAction.locationServiceDisable)));
       }
     });
   }
 
   @action
   onBottomMenu(int index) {
-    if(index != selectedMenu) {
+    if (index != selectedMenu) {
       selectedMenu = index;
       ScreenWithExtras? screen;
-      if(index == BottomMenus.duty.index) {
+      if (index == BottomMenus.duty.index) {
         screen = ScreenWithExtras(
             screen: Screen.duty,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
-      } else if(index == BottomMenus.accounts.index) {
+            option: NavigationOption(option: Option.popPrevious));
+      } else if (index == BottomMenus.accounts.index) {
         screen = ScreenWithExtras(
             screen: Screen.accounts,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
-      } else if(index == BottomMenus.incentives.index) {
+            option: NavigationOption(option: Option.popPrevious));
+      } else if (index == BottomMenus.incentives.index) {
         screen = ScreenWithExtras(
             screen: Screen.incentives,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
-      } else if(index == BottomMenus.partnerCare.index) {
+            option: NavigationOption(option: Option.popPrevious));
+      } else if (index == BottomMenus.partnerCare.index) {
         screen = ScreenWithExtras(
             screen: Screen.partnerCare,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
-      } else if(index == BottomMenus.schedule.index) {
+            option: NavigationOption(option: Option.popPrevious));
+      } else if (index == BottomMenus.schedule.index) {
         screen = ScreenWithExtras(
             screen: Screen.schedule,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
-      } else if(index == BottomMenus.more.index) {
+            option: NavigationOption(option: Option.popPrevious));
+      } else if (index == BottomMenus.more.index) {
         screen = ScreenWithExtras(
             screen: Screen.more,
-            option: NavigationOption(
-                option: Option.popPrevious
-            )
-        );
+            option: NavigationOption(option: Option.popPrevious));
       }
 
-      if(screen != null) {
+      if (screen != null) {
         onChange(screen);
       }
     }
   }
 
   _sendCurrentLocation() async {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-
+    var driverId = _prefs.userId();
+    Timer.periodic(const Duration(seconds: 30), (timer) async {
+      var currentLocation = await _locationService.getCurrentLocation();
+      await _driverLocationRepo.throwLiveLocation(driverId,
+          LatLng(currentLocation.latitude, currentLocation.longitude));
     });
   }
+
+  connectClientToSocket() {
+    _repository.connectClientToSocket(_prefs.userId());
+  }
+
 }

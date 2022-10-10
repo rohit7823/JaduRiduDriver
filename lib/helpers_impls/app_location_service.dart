@@ -17,7 +17,8 @@ class AppLocationService implements LocationService {
     return isEnabled;
   }
 
-  Stream<ServiceStatus> gpsStatusStream() => Geolocator.getServiceStatusStream();
+  Stream<ServiceStatus> gpsStatusStream() =>
+      Geolocator.getServiceStatusStream();
 
   @override
   Stream checkPermission() async* {

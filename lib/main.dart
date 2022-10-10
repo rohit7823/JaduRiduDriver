@@ -39,19 +39,19 @@ class JaduRideDriver extends StatelessWidget {
         designSize: const Size(428, 926),
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            navigatorKey: AppModule.alice.getNavigatorKey(),
-            localizationsDelegates: context.localizationDelegates,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme,
-            onGenerateRoute:
-                DefaultNav(sharedStore: sharedStore).generatedRoute,
-            themeMode: ThemeMode.light,
-            //initialRoute: AppRoute.welcomeJaduRide,
-            initialRoute: AppRoute.applicationSubmitted,
-            //initialRoute: AppRoute.profilePicture,
-          );
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              navigatorKey: AppModule.alice.getNavigatorKey(),
+              localizationsDelegates: context.localizationDelegates,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.lightTheme,
+              onGenerateRoute:
+                  DefaultNav(sharedStore: sharedStore).generatedRoute,
+              themeMode: ThemeMode.light,
+              //initialRoute: AppRoute.welcomeJaduRide,
+              initialRoute: AppRoute.applicationSubmitted
+              //initialRoute: AppRoute.profilePicture,
+              );
         },
       ),
     );

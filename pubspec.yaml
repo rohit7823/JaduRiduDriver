@@ -64,7 +64,7 @@ dependencies:
   fluttertoast: ^8.0.9
   share_plus: ^4.4.0
   share: ^2.0.4
-
+  socket_io_client: ^2.0.0
 
 
 
