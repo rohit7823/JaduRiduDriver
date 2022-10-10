@@ -35,7 +35,6 @@ class _MoreScreenState extends State<MoreScreen> {
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-
           widget.sharedStore.onChange(
             p0,
           );
@@ -91,8 +90,7 @@ class _MoreScreenState extends State<MoreScreen> {
                           );
                         } else {
                           return CircleAvatar(
-                            foregroundImage:
-                                NetworkImage(_store.imageURL),
+                            foregroundImage: NetworkImage(_store.imageURL),
                             backgroundColor: AppColors.primary,
                             radius: 40,
                           );
@@ -116,7 +114,8 @@ class _MoreScreenState extends State<MoreScreen> {
                             child: SizedBox(
                               height: 0.10.sw,
                               width: 0.10.sw,
-                              child: CircularProgressIndicator(color: Colors.red),
+                              child:
+                                  CircularProgressIndicator(color: Colors.red),
                             ),
                           );
                         } else {
@@ -177,8 +176,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -211,7 +210,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//trip details.....................
+          ), //trip details.....................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -230,8 +229,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -254,7 +253,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         ),
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                         flex: 1,
                         child: Icon(
                           Icons.keyboard_arrow_right,
@@ -264,7 +263,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//wallet.........................
+          ), //wallet.........................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -283,8 +282,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -317,7 +316,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//refer...........................
+          ), //refer...........................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -336,8 +335,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -370,7 +369,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//payment details..............
+          ), //payment details..............
           SizedBox(
             height: 0.01.sw,
           ),
@@ -389,8 +388,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -423,7 +422,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//language......................
+          ), //language......................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -442,8 +441,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -477,7 +476,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//terms & conditions..............
+          ), //terms & conditions..............
           SizedBox(
             height: 0.01.sw,
           ),
@@ -496,8 +495,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -530,7 +529,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//Privacy Policy...............
+          ), //Privacy Policy...............
           SizedBox(
             height: 0.01.sw,
           ),
@@ -549,8 +548,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -583,7 +582,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//refund policy..................
+          ), //refund policy..................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -602,8 +601,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -636,7 +635,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//help...........................
+          ), //help...........................
           SizedBox(
             height: 0.01.sw,
           ),
@@ -655,8 +654,8 @@ class _MoreScreenState extends State<MoreScreen> {
                         offset: Offset(0, 10))
                   ]),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
                 child: Row(
                   children: [
                     Expanded(
@@ -689,7 +688,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ),//emergency support..............
+          ), //emergency support..............
           SizedBox(
             height: 0.01.sw,
           ),
@@ -739,7 +738,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ],
               ),
             ),
-          ),//logout.....................
+          ), //logout.....................
         ],
       ),
     );
