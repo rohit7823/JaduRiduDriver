@@ -37,6 +37,7 @@ enum Screen {
   privacyPolicyScreen,
   refundPolicyScreen,
   helpScreen,
-  tripsScreen, emergencySupportScreen,
-
+  tripsScreen,
+  emergencySupportScreen,
+  rideNavigation,
 }

@@ -103,6 +103,9 @@ class _DashboardScreenState extends State<DashboardScreen>
           } else if (p0.screen == Screen.changeLanguage) {
             ChangeScreen.to(context, p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);
+          } else if (p0.screen == Screen.rideNavigation) {
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);

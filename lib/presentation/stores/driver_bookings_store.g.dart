@@ -57,6 +57,22 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
     });
   }
 
+  late final _$alreadyBookedMsgAtom =
+      Atom(name: '_DriverBookingsStore.alreadyBookedMsg', context: context);
+
+  @override
+  String get alreadyBookedMsg {
+    _$alreadyBookedMsgAtom.reportRead();
+    return super.alreadyBookedMsg;
+  }
+
+  @override
+  set alreadyBookedMsg(String value) {
+    _$alreadyBookedMsgAtom.reportWrite(value, super.alreadyBookedMsg, () {
+      super.alreadyBookedMsg = value;
+    });
+  }
+
   late final _$estimatedKmAtom =
       Atom(name: '_DriverBookingsStore.estimatedKm', context: context);
 
@@ -136,11 +152,23 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
   }
 
   @override
+  dynamic afterBookingAccepted() {
+    final _$actionInfo = _$_DriverBookingsStoreActionController.startAction(
+        name: '_DriverBookingsStore.afterBookingAccepted');
+    try {
+      return super.afterBookingAccepted();
+    } finally {
+      _$_DriverBookingsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 customers: ${customers},
 details: ${details},
 pickUpLocation: ${pickUpLocation},
+alreadyBookedMsg: ${alreadyBookedMsg},
 estimatedKm: ${estimatedKm},
 eta: ${eta},
 vehicleType: ${vehicleType},

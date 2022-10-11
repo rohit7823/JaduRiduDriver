@@ -8,6 +8,7 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
 import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
@@ -19,6 +20,7 @@ import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
+import 'package:jadu_ride_driver/core/domain/ride_id.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
@@ -334,4 +336,15 @@ abstract class _SharedStore extends AppNavigator with Store {
     _repository.connectClientToSocket(_prefs.userId());
   }
 
+  onPass(BookingStatus status) {
+    driverBookings.onBookingPass(status);
+  }
+
+  onOkay(BookingStatus status) {
+    driverBookings.onBookingAccept(status);
+    onChange(ScreenWithExtras(
+      screen: Screen.rideNavigation,
+      argument: RideId(id: driverBookings.currentBookingId),
+    ));
+  }
 }

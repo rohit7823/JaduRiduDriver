@@ -240,6 +240,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: Colors.white);
 
+  static var pickUpLocationStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w400,
+      color: Colors.white);
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

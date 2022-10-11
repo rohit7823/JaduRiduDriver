@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
+import 'package:jadu_ride_driver/core/domain/ride_id.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
 import 'package:jadu_ride_driver/presentation/screens/aadhar_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dart';
@@ -16,6 +17,7 @@ import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/payment_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
@@ -128,8 +130,7 @@ class DefaultNav {
             const TodaysPaymentDetails());
 
       case AppRoute.referScreen:
-        return ScreenTransitions.rightToLeftTransition(
-            const ReferScreen());
+        return ScreenTransitions.rightToLeftTransition(const ReferScreen());
 
       case AppRoute.termsAndConditionsScreen:
         return ScreenTransitions.rightToLeftTransition(
@@ -144,12 +145,10 @@ class DefaultNav {
             const RefundPolicyScreen());
 
       case AppRoute.helpScreen:
-        return ScreenTransitions.rightToLeftTransition(
-            const HelpScreen());
+        return ScreenTransitions.rightToLeftTransition(const HelpScreen());
 
       case AppRoute.emergencySupportScreen:
-        return ScreenTransitions.rightToLeftTransition(
-            const EmergencyScreen());
+        return ScreenTransitions.rightToLeftTransition(const EmergencyScreen());
 
       case AppRoute.paymentSummery:
         return ScreenTransitions.rightToLeftTransition(
@@ -159,8 +158,11 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
       case AppRoute.tripsScreen:
-        return ScreenTransitions.rightToLeftTransition(
-            const TripsScreen());
+        return ScreenTransitions.rightToLeftTransition(const TripsScreen());
+      case AppRoute.rideNavigation:
+        return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
+          rideId: retrievedArgument as RideId,
+        ));
       default:
         return null;
     }
@@ -173,7 +175,10 @@ class DefaultNav {
       }
       if (arguments is ProfileShortDescription) {
         return arguments;
-      }//if()
+      }
+      if (arguments is RideId) {
+        return arguments;
+      }
     }
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:convert';
 
-import 'package:jadu_ride_driver/core/common/response.dart';
-import 'package:jadu_ride_driver/core/domain/customer_details.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:jadu_ride_driver/core/common/booking_status.dart';
+import 'package:jadu_ride_driver/core/common/socket_events.dart';
+import 'package:jadu_ride_driver/core/domain/booking_accepted.dart';
 import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
 import 'package:jadu_ride_driver/core/repository/driver_bookings_repository.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
@@ -12,7 +14,13 @@ class DriverBookingsRepositoryImpl implements DriverBookingsRepository {
   StreamController<DriverBookingDetails> booking() {
     var controller = StreamController<DriverBookingDetails>();
 
-    final random = Random();
+    SocketIO.client.on(SocketEvents.rideReq.value, (data) {
+      debugPrint("rideReq $data");
+      var response = DriverBookingDetails.fromJson(data);
+      controller.add(response);
+    });
+
+    /*final random = Random();
     for (int i = 0; i < 5; i++) {
       double randomLat = -90 + random.nextDouble() * 90 * 2;
       double randomLng = -180 + random.nextDouble() * 180 * 2;
@@ -29,7 +37,24 @@ class DriverBookingsRepositoryImpl implements DriverBookingsRepository {
           lng: randomLng,
           estimateDistance: '${random.nextInt(50)} KM',
           eta: "${random.nextDouble().toStringAsFixed(2)} ETA"));
-    }
+    }*/
+
+    return controller;
+  }
+
+  @override
+  bookingStatus(String status, String rideId, String userId) {
+    SocketIO.client.emit(SocketEvents.triggerResponse.value,
+        {"rideId": rideId, "status": status, "driverId": userId});
+  }
+
+  @override
+  StreamController<BookingAccepted> onBookingAccepted() {
+    StreamController<BookingAccepted> controller = StreamController();
+    SocketIO.client.on(SocketEvents.afterRideAccepted.value, (data) {
+      debugPrint("booking status $data");
+      controller.add(BookingAccepted.fromJson(data));
+    });
 
     return controller;
   }

@@ -63,6 +63,14 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
               close: _store.dialogManager.closeErrorDialog,
               positive: _store.onError);
         }
+      }),
+      reaction((p0) => widget.sharedStore.driverBookings.alreadyBookedMsg,
+          (p0) {
+        if (p0.isNotEmpty) {
+          AppSnackBar.show(context, message: p0, clear: () {
+            widget.sharedStore.driverBookings.alreadyBookedMsg = "";
+          });
+        }
       })
     ];
   }
@@ -101,7 +109,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                 builder: (BuildContext context) {
                   return AnimatedContainer(
                     color: _store.selectedStatus == DriverStatus.offDuty ||
-                        _store.selectedStatus == DriverStatus.goTo
+                            _store.selectedStatus == DriverStatus.goTo
                         ? AppColors.primaryVariant
                         : AppColors.primary,
                     padding: EdgeInsets.symmetric(
@@ -109,7 +117,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                     duration: const Duration(milliseconds: 400),
                     child: Row(
                       children: [
-                        expand(flex: 2, child: SvgPicture.asset(ImageAssets.car)),
+                        expand(
+                            flex: 2, child: SvgPicture.asset(ImageAssets.car)),
                         expand(
                             flex: 7,
                             child: Container(
@@ -117,7 +126,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.circular(20.r),
-                                  border: Border.all(color: AppColors.lightGray)),
+                                  border:
+                                      Border.all(color: AppColors.lightGray)),
                               child: TabBar(
                                 indicator: BoxDecoration(
                                     color: AppColors.primaryVariant,
@@ -151,8 +161,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
               flex: 8,
               child: Container(
                 color: AppColors.white,
-                padding:
-                EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.05.sw),
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.02.sw, horizontal: 0.05.sw),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -170,7 +180,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                       SizedBox(
                                           width: 0.05.sw,
                                           height: 0.05.sw,
-                                          child: const CircularProgressIndicator(
+                                          child:
+                                              const CircularProgressIndicator(
                                             color: AppColors.primaryVariant,
                                           )),
                                     if (!_store.gettingSummaryLoader)
@@ -192,7 +203,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                       SizedBox(
                                           width: 0.05.sw,
                                           height: 0.05.sw,
-                                          child: const CircularProgressIndicator(
+                                          child:
+                                              const CircularProgressIndicator(
                                             color: AppColors.primaryVariant,
                                           )),
                                     if (!_store.gettingSummaryLoader)
@@ -211,7 +223,6 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                   ],
                 ),
               ))
-
         ],
       ),
     );
@@ -245,13 +256,21 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
               ),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 400),
-                child: widget.sharedStore.driverBookings.customers.isNotEmpty ? BookingArrivedWidget(
-                  details: widget.sharedStore.driverBookings.details,
-                  estimateKm: widget.sharedStore.driverBookings.estimatedKm,
-                  eta: widget.sharedStore.driverBookings.eta,
-                  passTimer: widget.sharedStore.driverBookings.passTimer,
-                  vehicleType:widget.sharedStore.driverBookings.vehicleType,
-                ) : const SizedBox.shrink(),
+                child: widget.sharedStore.driverBookings.customers.isNotEmpty
+                    ? BookingArrivedWidget(
+                        details: widget.sharedStore.driverBookings.details,
+                        estimateKm:
+                            widget.sharedStore.driverBookings.estimatedKm,
+                        eta: widget.sharedStore.driverBookings.eta,
+                        passTimer: widget.sharedStore.driverBookings.passTimer,
+                        vehicleType:
+                            widget.sharedStore.driverBookings.vehicleType,
+                        pickUpLocation:
+                            widget.sharedStore.driverBookings.pickUpLocation,
+                        onPass: widget.sharedStore.onPass,
+                        onOkay: widget.sharedStore.onOkay,
+                      )
+                    : const SizedBox.shrink(),
               )
             ],
           );

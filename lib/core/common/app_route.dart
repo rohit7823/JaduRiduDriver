@@ -53,6 +53,8 @@ class AppRoute {
 
   static const more = "/more";
 
+  static const rideNavigation = "/rideNavigation";
+
   AppRoute._();
 
   static const splash = "/splash";

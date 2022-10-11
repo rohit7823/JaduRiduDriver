@@ -3,6 +3,7 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -17,7 +18,6 @@ part 'duty_screen_store.g.dart';
 class DutyStore = _DutyScreenStore with _$DutyStore;
 
 abstract class _DutyScreenStore with Store {
-
   final _storage = dependency<Storage>();
   final _repository = dependency<DriverDutyRepository>();
   final dialogManager = DialogManager();
@@ -52,9 +52,9 @@ abstract class _DutyScreenStore with Store {
 
   _driverStatus() async {
     var currentStatus = _storage.driverStatus();
-    if(currentStatus.isNotEmpty) {
+    if (currentStatus.isNotEmpty) {
       for (var element in DriverStatus.values) {
-        if(element.name == currentStatus) {
+        if (element.name == currentStatus) {
           selectedStatus = element;
           break;
         }
@@ -62,12 +62,12 @@ abstract class _DutyScreenStore with Store {
     } else {
       var userId = _storage.userId();
       var response = await _repository.driverStatus(userId);
-      if(response is Success) {
+      if (response is Success) {
         var data = response.data;
-        switch(data != null && data.status) {
+        switch (data != null && data.status) {
           case true:
             for (var element in DriverStatus.values) {
-              if(element.name == data!.driverStatus.status) {
+              if (element.name == data!.driverStatus.status) {
                 selectedStatus = element;
                 _storage.setDriverStatus(selectedStatus.name);
                 break;
@@ -77,7 +77,7 @@ abstract class _DutyScreenStore with Store {
           default:
             errorMsg = data?.message ?? "";
         }
-      } else if(response is Error) {
+      } else if (response is Error) {
         errorMsg = response.message ?? "";
       }
     }
@@ -92,50 +92,48 @@ abstract class _DutyScreenStore with Store {
 
     var response = await _repository.setStatus(userId, selectedStatus.name);
 
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
-          if(data!.isUpdated) {
+          if (data!.isUpdated) {
             this.selectedStatus = selectedStatus;
             informMessage = data.message;
           } else {
-             errorMsg = data.message;
+            errorMsg = data.message;
           }
           break;
         default:
           errorMsg = data?.message ?? "";
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       errorMsg = response.message ?? "";
     }
   }
 
-  onError(AlertAction? action) {
-
-  }
+  onError(AlertAction? action) {}
 
   @action
   _getBookingSummary() async {
     gettingSummaryLoader = true;
     var userId = _storage.userId();
     var response = await _repository.bookingsSummary(userId);
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
       gettingSummaryLoader = false;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
-         bookingCount = data!.bookingsSummary.bookingCount;
-         operatorBill = data.bookingsSummary.totalIncome;
-         timeStamp = data.bookingsSummary.timeStamp;
-         break;
+          bookingCount = data!.bookingsSummary.bookingCount;
+          operatorBill = data.bookingsSummary.totalIncome;
+          timeStamp = data.bookingsSummary.timeStamp;
+          break;
         default:
           bookingCount = "0";
           operatorBill = "0.0";
           timeStamp = "";
           errorMsg = data?.message ?? "";
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       gettingSummaryLoader = false;
       errorMsg = response.message ?? "";
     }

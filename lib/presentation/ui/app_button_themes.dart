@@ -15,6 +15,18 @@ class AppButtonThemes {
       shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.r))));
 
+  static var passBtnTheme = ButtonStyle(
+      //fixedSize: MaterialStateProperty.all(Size(120.w, 60.h)),
+      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+      shadowColor: MaterialStateProperty.all(AppColors.lightGray),
+      side: MaterialStateProperty.all(const BorderSide(color: AppColors.white)),
+      padding: MaterialStateProperty.all(
+          EdgeInsets.symmetric(horizontal: 0.10.sw, vertical: 0.05.sw)),
+      elevation: MaterialStateProperty.all(7),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          side: const BorderSide(color: Colors.white))));
+
   AppButtonThemes._();
 
   static var outlineButtonStyleUnselect = ButtonStyle(
@@ -22,7 +34,8 @@ class AppButtonThemes {
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))),
     backgroundColor: MaterialStateProperty.all(AppColors.white),
     shadowColor: MaterialStateProperty.all(AppColors.lightGray),
-    side: MaterialStateProperty.all(BorderSide(color: AppColors.lightGray)),
+    side:
+        MaterialStateProperty.all(const BorderSide(color: AppColors.lightGray)),
     padding: MaterialStateProperty.all(
         EdgeInsets.symmetric(horizontal: 0.10.sw, vertical: 0.05.sw)),
     elevation: MaterialStateProperty.all(7),

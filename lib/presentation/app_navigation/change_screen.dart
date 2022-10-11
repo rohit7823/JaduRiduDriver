@@ -7,10 +7,7 @@ class ChangeScreen {
   GlobalKey<NavigatorState> dashBoardNavigator;
   ChangeScreen(this.dashBoardNavigator);
 
-
-  static to(
-      BuildContext context,
-      Screen screen,
+  static to(BuildContext context, Screen screen,
       {Function? onComplete,
       Object? arguments,
       Function(Object)? fromScreen,
@@ -122,136 +119,158 @@ class ChangeScreen {
         _navigate(context, AppRoute.vehiclePollution);
         break;
       case Screen.dashBoard:
-        if(option!=null) {
+        if (option != null) {
           _navigateWithOption(context, AppRoute.dashBoard, option);
         }
         break;
 
-        case Screen.currentBalanceDetails:
-        _navigate(context, AppRoute.currentBalance,
-            arguments: arguments,
-            onComplete: onComplete,);
+      case Screen.currentBalanceDetails:
+        _navigate(
+          context,
+          AppRoute.currentBalance,
+          arguments: arguments,
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.profileDetailsScreen:
-        _navigate(context, AppRoute.profileDetails,
+        _navigate(
+          context,
+          AppRoute.profileDetails,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.todaysPaymentScreen:
-        _navigate(context, AppRoute.todaysPayment,
+        _navigate(
+          context,
+          AppRoute.todaysPayment,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.referScreen:
-        _navigate(context, AppRoute.referScreen,
+        _navigate(
+          context,
+          AppRoute.referScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.termsAndConditionsScreen:
-        _navigate(context, AppRoute.termsAndConditionsScreen,
+        _navigate(
+          context,
+          AppRoute.termsAndConditionsScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.privacyPolicyScreen:
-        _navigate(context, AppRoute.privacyPolicyScreen,
+        _navigate(
+          context,
+          AppRoute.privacyPolicyScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.refundPolicyScreen:
-        _navigate(context, AppRoute.refundPolicyScreen,
+        _navigate(
+          context,
+          AppRoute.refundPolicyScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.helpScreen:
-        _navigate(context, AppRoute.helpScreen,
+        _navigate(
+          context,
+          AppRoute.helpScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.emergencySupportScreen:
-        _navigate(context, AppRoute.emergencySupportScreen,
+        _navigate(
+          context,
+          AppRoute.emergencySupportScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.tripsScreen:
-        _navigate(context, AppRoute.tripsScreen,
+        _navigate(
+          context,
+          AppRoute.tripsScreen,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
 
       case Screen.paymentSummeryScreen:
-        _navigate(context, AppRoute.paymentSummery,
+        _navigate(
+          context,
+          AppRoute.paymentSummery,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
         break;
-
       case Screen.amountTransfferedByDayScreen:
-        _navigate(context, AppRoute.amountTransfferedByDay,
+        _navigate(
+          context,
+          AppRoute.amountTransfferedByDay,
           arguments: arguments,
-          onComplete: onComplete,);
+          onComplete: onComplete,
+        );
+        break;
+      case Screen.rideNavigation:
+        debugPrint("screen: rideNavigation argument: $arguments");
+        _navigate(context, AppRoute.rideNavigation,
+            arguments: arguments, onComplete: onComplete);
         break;
     }
   }
 
   nestedTo(Screen screen,
       {Function? onComplete,
-        Object? arguments,
-        Function(Object)? fromScreen,
-        NavigationOption? option}) async {
-      switch(screen) {
-        case Screen.duty:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.duty,
-              option!
-          );
-          break;
-        case Screen.accounts:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.accounts,
-              option!
-          );
-          break;
-        case Screen.incentives:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.incentives,
-              option!
-          );
-          break;
-        case Screen.partnerCare:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.partnerCare,
-              option!
-          );
-          break;
-        case Screen.schedule:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.schedule,
-              option!
-          );
-          break;
-        case Screen.more:
-          _navigateWithOption(
-              dashBoardNavigator.currentState!.context,
-              AppRoute.more,
-              option!
-          );
-          break;
-      }
+      Object? arguments,
+      Function(Object)? fromScreen,
+      NavigationOption? option}) async {
+    switch (screen) {
+      case Screen.duty:
+        _navigateWithOption(
+            dashBoardNavigator.currentState!.context, AppRoute.duty, option!);
+        break;
+      case Screen.accounts:
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.accounts, option!);
+        break;
+      case Screen.incentives:
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.incentives, option!);
+        break;
+      case Screen.partnerCare:
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.partnerCare, option!);
+        break;
+      case Screen.schedule:
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.schedule, option!);
+        break;
+      case Screen.more:
+        _navigateWithOption(
+            dashBoardNavigator.currentState!.context, AppRoute.more, option!);
+        break;
+    }
 
-      onComplete?.call();
+    onComplete?.call();
   }
 
   static _navigate(BuildContext context, String destination,

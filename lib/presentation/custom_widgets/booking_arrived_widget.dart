@@ -1,21 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jadu_ride_driver/core/common/vehicle_type.dart';
+import 'package:jadu_ride_driver/core/common/booking_status.dart';
+import 'package:jadu_ride_driver/core/common/service_type.dart';
 import 'package:jadu_ride_driver/core/domain/customer_details.dart';
+import 'package:jadu_ride_driver/presentation/ui/app_button_themes.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
-class BookingArrivedWidget extends StatelessWidget {
+class BookingArrivedWidget extends StatefulWidget {
   CustomerDetails? details;
   String estimateKm;
   String eta;
   int passTimer;
   String vehicleType;
+  String pickUpLocation;
+  Function(BookingStatus) onPass;
+  Function(BookingStatus) onOkay;
 
   BookingArrivedWidget(
       {Key? key,
@@ -23,16 +30,49 @@ class BookingArrivedWidget extends StatelessWidget {
       required this.passTimer,
       required this.vehicleType,
       required this.estimateKm,
+      required this.onPass,
+      required this.onOkay,
+      required this.pickUpLocation,
       required this.eta})
       : super(key: key);
 
   @override
+  State<BookingArrivedWidget> createState() => _BookingArrivedWidgetState();
+}
+
+class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
+  late Duration passDuration;
+  late Timer ticker;
+  //String timerStr = "";
+
+  @override
+  void initState() {
+    passDuration = Duration(seconds: widget.passTimer);
+    super.initState();
+    ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
+      const reduceBy = 1;
+      setState(() {
+        final second = passDuration.inSeconds - reduceBy;
+        if (second > 0) {
+          passDuration = Duration(seconds: second);
+        } else {
+          ticker.cancel();
+          widget.onPass(BookingStatus.passBooking);
+        }
+      });
+    });
+  }
+
+  String strDigits(int n) => n.toString().padLeft(2, '0');
+
+  @override
   Widget build(BuildContext context) {
+    final timerStr = strDigits(passDuration.inSeconds.remainder(60));
     return Stack(
       children: [
         ColorFiltered(
             colorFilter: ColorFilter.mode(
-                AppColors.primaryVariant.withOpacity(0.5), BlendMode.srcOut),
+                AppColors.primaryVariant.withOpacity(0.7), BlendMode.srcOut),
             child: Stack(
               fit: StackFit.passthrough,
               children: [
@@ -45,8 +85,8 @@ class BookingArrivedWidget extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    height: 0.5.sw,
-                    width: 0.5.sw,
+                    height: 0.4.sw,
+                    width: 0.4.sw,
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(100.sw),
@@ -58,21 +98,88 @@ class BookingArrivedWidget extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 0.10.sw),
+            padding: EdgeInsets.only(bottom: 0.05.sw),
             child: SizedBox(
-              width: 0.7.sw,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              width: 1.sw,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  OutlinedButton(
-                      onPressed: () {},
-                      child: "Timer".text()
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 0.03.sw),
+                    child: Container(
+                      padding: EdgeInsets.all(0.04.sw),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          //boxShadow: allShadow(),
+                          color: AppColors.white),
+                      child: fitBox(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.details != null)
+                              CircleAvatar(
+                                radius: 30,
+                                foregroundImage:
+                                    NetworkImage(widget.details!.image),
+                              ).padding(
+                                  insets: EdgeInsets.only(right: 0.02.sw)),
+                            if (widget.details != null)
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  widget.details!.name
+                                      .text(AppTextStyle
+                                          .applicationSubmittedStyle)
+                                      .padding(
+                                          insets:
+                                              const EdgeInsets.only(bottom: 5)),
+                                  if (widget.details != null)
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.star,
+                                          color: AppColors.primary,
+                                        ),
+                                        "${widget.details!.rating}".text(
+                                            AppTextStyle
+                                                .applicationSubmittedStyle)
+                                      ],
+                                    )
+                                ],
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: StringProvider.okay.text()
-                  )
+                  fitBox(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                                style: AppButtonThemes.passBtnTheme,
+                                onPressed: () {
+                                  widget.onPass(BookingStatus.passBooking);
+                                },
+                                child: "Pass(00:$timerStr)"
+                                    .text(AppTextStyle.pickUpLocationStyle))
+                            .padding(insets: EdgeInsets.only(right: 0.05.sw)),
+                        ElevatedButton(
+                            style: AppButtonThemes.defaultStyle.copyWith(
+                                fixedSize: MaterialStateProperty.all(
+                                    Size(190.w, 65.h)),
+                                backgroundColor: const MaterialStatePropertyAll(
+                                    AppColors.white)),
+                            onPressed: () {
+                              widget.onOkay(BookingStatus.acceptBooking);
+                            },
+                            child: StringProvider.okay.text())
+                      ],
+                    ).padding(
+                        insets: EdgeInsets.symmetric(horizontal: 0.05.sw)),
+                  ),
                 ],
               ),
             ),
@@ -82,32 +189,40 @@ class BookingArrivedWidget extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: fitBox(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: EdgeInsets.all(0.04.sw),
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(0.5.sw)),
+                  decoration: const BoxDecoration(
+                      color: AppColors.white, shape: BoxShape.circle),
                   child: SvgPicture.asset(
-                    _propagateVehicleType(vehicleType),
+                    _propagateVehicleType(widget.vehicleType),
                     width: 0.03.sw,
                     height: 0.03.sw,
                   ),
                 ),
-                _propagateVehicleTypeName(vehicleType)
+                _propagateVehicleTypeName(widget.vehicleType)
                     .text(AppTextStyle.vehicleTypeStyle)
+                    .padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
+                StringProvider.pickUp
+                    .text(AppTextStyle.pickUpLocationStyle)
+                    .padding(insets: const EdgeInsets.only(bottom: 5)),
+                widget.pickUpLocation.text(AppTextStyle.pickUpLocationStyle
+                    .copyWith(fontWeight: FontWeight.w600, fontSize: 20.sp)),
+                "${widget.estimateKm} • ${widget.eta}"
+                    .text(AppTextStyle.pickUpLocationStyle)
               ],
-            ).padding(insets: EdgeInsets.all(0.10.sw)),
+            ).padding(insets: EdgeInsets.only(top: 0.10.sw, bottom: 0.05.sw)),
           ),
-        )
+        ),
       ],
     );
   }
 
   String _propagateVehicleType(String vehicleType) {
-    if (vehicleType == VehicleType.fourWheelers.value) {
+    if (vehicleType == ServiceType.car.value) {
       return ImageAssets.car;
-    } else if (vehicleType == VehicleType.twoWheelers.value) {
+    } else if (vehicleType == ServiceType.bike.value) {
       return "";
     }
 
@@ -115,9 +230,9 @@ class BookingArrivedWidget extends StatelessWidget {
   }
 
   String _propagateVehicleTypeName(String vehicleType) {
-    if (vehicleType == VehicleType.fourWheelers.value) {
+    if (vehicleType == ServiceType.car.value) {
       return "Car";
-    } else if (vehicleType == VehicleType.twoWheelers.value) {
+    } else if (vehicleType == ServiceType.bike.value) {
       return "Bike";
     }
 

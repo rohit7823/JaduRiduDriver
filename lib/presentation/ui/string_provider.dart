@@ -10,7 +10,7 @@ class StringProvider {
 
   static var appId = Random.secure().toString();
 
-  static const okay = "Okay";
+  static const okay = "OKAY";
 
   static const notYet = "Not yet";
 
@@ -286,7 +286,8 @@ class StringProvider {
 
   static var UpiIsInValid = "Upi is invalid!";
 
-  static var provideYourAlternatePaymentDetails = "Provide Your Alternate Payment Details";
+  static var provideYourAlternatePaymentDetails =
+      "Provide Your Alternate Payment Details";
 
   static var enterUpiId = "Enter UPI ID";
 
@@ -294,17 +295,22 @@ class StringProvider {
 
   static var applicationSubmitted = "Your Application Submitted";
 
-  static var applicationSubmittedDescription = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+  static var applicationSubmittedDescription =
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
 
-  static var enableGpsMessage = "Please enable your Location Service/GPS, We need this for getting your current location.";
+  static var enableGpsMessage =
+      "Please enable your Location Service/GPS, We need this for getting your current location.";
 
-  static var permissionRationaleMessage = "For driving with us we need to access your current location. Without this we can't provide any service to you, so please allow this permission.";
+  static var permissionRationaleMessage =
+      "For driving with us we need to access your current location. Without this we can't provide any service to you, so please allow this permission.";
 
-  static var locationDeniedForever = "To give your location permission, go to app settings and change current setting";
+  static var locationDeniedForever =
+      "To give your location permission, go to app settings and change current setting";
 
   static var appSetting = "App Setting";
 
-  static var enableLocationMessage = "Please enable your GPS/Location Service, Otherwise you might not receive any bookings and cannot use our services either.";
+  static var enableLocationMessage =
+      "Please enable your GPS/Location Service, Otherwise you might not receive any bookings and cannot use our services either.";
 
   static const duty = "Duty";
 
@@ -352,9 +358,13 @@ class StringProvider {
   static var referToDriver = "Refer to Driver";
   static var referToCustomer = "Refer to Customer";
 
-  static var accountSummaryDescription = "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
+  static var accountSummaryDescription =
+      "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
   static var toDriver = "1";
-  static var terms = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.";
+  static var terms =
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.";
+
+  static var pickUp = "PICKUP";
 
   StringProvider._();
 

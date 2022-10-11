@@ -11,6 +11,7 @@ import 'package:jadu_ride_driver/presentation/nested_screens/intro_three.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_two.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 
 extension IntroPage on int {
   Widget getIntroPage(IntroStore store) {
@@ -27,7 +28,8 @@ extension IntroPage on int {
 }
 
 extension MyText on String {
-  Widget text([TextStyle? textStyle, TextOverflow? textOverflow, TextAlign? align]) {
+  Widget text(
+      [TextStyle? textStyle, TextOverflow? textOverflow, TextAlign? align]) {
     return Text(
       this.tr(),
       style: textStyle,
@@ -131,5 +133,30 @@ extension MyApiCall on Future<BusinessObject> {
           return Error(message: ex.message);
       }
     }
+  }
+}
+
+extension FixedBoxShadow on Object {
+  List<BoxShadow> allShadow() {
+    return [
+      BoxShadow(
+        color: AppColors.Gallery,
+        blurRadius: 8.0, // soften the shadow
+        spreadRadius: 0.0, //extend the shadow
+        offset: const Offset(
+          5.0, // Move to right 10  horizontally
+          5.0, // Move to bottom 10 Vertically
+        ),
+      ),
+      BoxShadow(
+        color: AppColors.Gallery,
+        blurRadius: 8.0, // soften the shadow
+        spreadRadius: 0.0, //extend the shadow
+        offset: const Offset(
+          -5.0, // Move to right 10  horizontally
+          -5.0, // Move to bottom 10 Vertically
+        ),
+      ),
+    ];
   }
 }
