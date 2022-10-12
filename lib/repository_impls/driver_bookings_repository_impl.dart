@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/domain/booking_accepted.dart';
 import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
@@ -44,8 +42,11 @@ class DriverBookingsRepositoryImpl implements DriverBookingsRepository {
 
   @override
   bookingStatus(String status, String rideId, String userId) {
-    SocketIO.client.emit(SocketEvents.triggerResponse.value,
-        {"rideId": rideId, "status": status, "driverId": userId});
+    SocketIO.client.emit(SocketEvents.triggerResponse.value, {
+      "rideId": rideId,
+      "status": status,
+      "driverId": userId,
+    });
   }
 
   @override

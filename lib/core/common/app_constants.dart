@@ -3,6 +3,8 @@ class AppConstants {
 
   static const socketKey = "KEY_DRIVER";
 
+  static const googleKey = "GOOGLE_API_KEY";
+
   AppConstants._();
 
   static const xApiKey = "X-API-KEY";

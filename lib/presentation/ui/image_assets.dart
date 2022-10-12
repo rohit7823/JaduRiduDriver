@@ -75,5 +75,5 @@ class ImageAssets {
   static const logoutIcons = "$_root/logout_icon.svg";
   static const editIcons = "$_root/edit_icon.svg";
   static const shareIcons = "$_root/share_icon.svg";
-
+  static const navigation = "$_root/navigate_ic.svg";
 }

@@ -26,6 +26,7 @@ import 'package:jadu_ride_driver/core/repository/partner_care_repository.dart';
 import 'package:jadu_ride_driver/core/repository/payment_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
 import 'package:jadu_ride_driver/core/repository/registration_certificate_repository.dart';
+import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 import 'package:jadu_ride_driver/core/repository/right_side_exterior_repository.dart';
 import 'package:jadu_ride_driver/core/repository/splash_repository.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_audit_repository.dart';
@@ -58,6 +59,7 @@ import 'package:jadu_ride_driver/repository_impls/partner_care_repository_impl.d
 import 'package:jadu_ride_driver/repository_impls/payment_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/registration_certificate_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/ride_navigation_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/right_side_exterior_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/splash_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/vehicle_audit_repository_impl.dart';
@@ -123,6 +125,9 @@ class AppModule {
     final cropper = ImageCropper();
     final env = Environment();
     await env.init();
+
+    dependency.registerLazySingleton<Environment>(() => env);
+
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
     dio.interceptors.add(alice.getDioInterceptor());
@@ -249,5 +254,8 @@ class AppModule {
 
     dependency.registerLazySingleton<DriverLiveLocationRepository>(
         () => DriverLiveLocationRepositoryImpl(dio));
+
+    dependency.registerLazySingleton<RideNavigationRepository>(
+        () => RideNavigationRepositoryImpl());
   }
 }

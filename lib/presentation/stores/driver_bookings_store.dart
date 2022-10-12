@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:custom_marker/marker_icon.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/booking_status.dart';
-import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/customer_details.dart';
 import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -41,8 +39,6 @@ abstract class _DriverBookingsStore with Store {
 
   @observable
   String eta = "";
-
-
 
   final googleMap = const Key("GOOGLE_MAP");
   late final GoogleMapController? _controller;
@@ -101,17 +97,20 @@ abstract class _DriverBookingsStore with Store {
 
   onBookingPass(BookingStatus status) {
     customers.clear();
-    _repository.bookingStatus(status.key, currentBookingId, _prefs.userId());
+    _repository.bookingStatus(
+        status.key, currentBookingId, _prefs.userId());
   }
 
   onBookingAccept(BookingStatus status) {
     customers.clear();
-    _repository.bookingStatus(status.key, currentBookingId, _prefs.userId());
+    _repository.bookingStatus(
+        status.key, currentBookingId, _prefs.userId());
   }
 
   @action
   afterBookingAccepted() {
-    _bookingDisposer = _repository.onBookingAccepted().stream.listen((response) {
+    _bookingDisposer =
+        _repository.onBookingAccepted().stream.listen((response) {
       if (response.status == BookingStatus.passBooking.key) {
         onBookingPass(BookingStatus.passBooking);
         alreadyBookedMsg = response.msg;

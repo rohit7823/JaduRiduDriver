@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/common/ride_stages.dart';
+import 'package:jadu_ride_driver/core/common/service_type.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_one.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_three.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_two.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
+import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 
@@ -158,5 +161,41 @@ extension FixedBoxShadow on Object {
         ),
       ),
     ];
+  }
+}
+
+extension ConvertToRideState on String {
+  RideStages toRideStage() {
+    RideStages found = RideStages.none;
+    for (var element in RideStages.values) {
+      if (element.key == this) {
+        found = element;
+        break;
+      }
+    }
+
+    return found;
+  }
+}
+
+extension ConvertToService on String {
+  String toServiceIconPath() {
+    if (this == ServiceType.car.value) {
+      return ImageAssets.car;
+    } else if (this == ServiceType.bike.value) {
+      return "";
+    }
+
+    return "";
+  }
+
+  String toServiceIconName() {
+    if (this == ServiceType.car.value) {
+      return "Car";
+    } else if (this == ServiceType.bike.value) {
+      return "Bike";
+    }
+
+    return "";
   }
 }

@@ -246,6 +246,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w400,
       color: Colors.white);
 
+  static var rideNavCustomerNameStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColors.Gray);
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

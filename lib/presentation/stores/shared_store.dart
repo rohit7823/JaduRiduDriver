@@ -340,11 +340,17 @@ abstract class _SharedStore extends AppNavigator with Store {
     driverBookings.onBookingPass(status);
   }
 
-  onOkay(BookingStatus status) {
+  @action
+  onOkay(BookingStatus status) async {
     driverBookings.onBookingAccept(status);
     onChange(ScreenWithExtras(
       screen: Screen.rideNavigation,
-      argument: RideId(id: driverBookings.currentBookingId),
+      argument: RideId(
+          tripId: driverBookings.currentBookingId,
+          driverId: _prefs.userId(),
+          customerId: driverBookings.details?.id ?? "",
+          currentLocation:
+              LatLng(currentLocation!.latitude, currentLocation!.longitude)),
     ));
   }
 }

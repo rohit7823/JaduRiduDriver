@@ -28,4 +28,8 @@ class Environment {
   String get apiKey {
     return dotenv.env[AppConstants.apiKey] ?? "";
   }
+
+  String get googleApiKey {
+    return dotenv.env[AppConstants.googleKey] ?? "";
+  }
 }

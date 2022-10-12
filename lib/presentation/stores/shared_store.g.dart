@@ -100,6 +100,14 @@ mixin _$SharedStore on _SharedStore, Store {
     return _$getDashBoardDataAsyncAction.run(() => super.getDashBoardData());
   }
 
+  late final _$onOkayAsyncAction =
+      AsyncAction('_SharedStore.onOkay', context: context);
+
+  @override
+  Future onOkay(BookingStatus status) {
+    return _$onOkayAsyncAction.run(() => super.onOkay(status));
+  }
+
   late final _$_SharedStoreActionController =
       ActionController(name: '_SharedStore', context: context);
 

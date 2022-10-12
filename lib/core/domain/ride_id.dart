@@ -1,5 +1,14 @@
-class RideId {
-  String id;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-  RideId({required this.id});
+class RideId {
+  String tripId;
+  String driverId;
+  String customerId;
+  LatLng currentLocation;
+
+  RideId(
+      {required this.tripId,
+      required this.driverId,
+      required this.customerId,
+      required this.currentLocation});
 }
