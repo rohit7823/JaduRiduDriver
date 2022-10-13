@@ -21,6 +21,7 @@ import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_id.dart';
+import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
@@ -65,6 +66,12 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   @observable
   int selectedMenu = 0;
+
+  StreamSubscription<RideInitiateData>? rideDataSubcription;
+
+  _SharedStore() {
+    driverBookings = DriverBookingStore();
+  }
 
   initiateBatchCall() {
     ApiClientConfiguration.mainConfiguration.baseUrl = _prefs.baseUrl();
@@ -343,12 +350,16 @@ abstract class _SharedStore extends AppNavigator with Store {
   @action
   onOkay(BookingStatus status) async {
     driverBookings.onBookingAccept(status);
+  }
+
+  afterAcceptBooking(RideInitiateData value) {
     onChange(ScreenWithExtras(
       screen: Screen.rideNavigation,
-      argument: RideId(
+      argument: RideNavigationData(
           tripId: driverBookings.currentBookingId,
           driverId: _prefs.userId(),
           customerId: driverBookings.details?.id ?? "",
+          data: value,
           currentLocation:
               LatLng(currentLocation!.latitude, currentLocation!.longitude)),
     ));

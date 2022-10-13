@@ -18,7 +18,6 @@ import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DutyScreen extends StatefulWidget {
   final SharedStore sharedStore;
@@ -40,6 +39,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         TabController(length: DriverStatus.values.length, vsync: this));
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
 
     _disposers = [
@@ -70,6 +70,11 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
           AppSnackBar.show(context, message: p0, clear: () {
             widget.sharedStore.driverBookings.alreadyBookedMsg = "";
           });
+        }
+      }),
+      reaction((p0) => widget.sharedStore.driverBookings.onRideData, (p0) {
+        if (p0 != null) {
+          widget.sharedStore.afterAcceptBooking(p0);
         }
       })
     ];

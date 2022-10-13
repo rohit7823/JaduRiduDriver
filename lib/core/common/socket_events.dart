@@ -4,7 +4,8 @@ enum SocketEvents {
   rideReq("rideReq"),
   triggerResponse("triggerRideResponse"),
   rideNavigation("rideNavigation"),
-  afterRideAccepted("afterRideAccepted");
+  afterRideAccepted("afterRideAccepted"),
+  updateCurrentLocation("updateCurrentLocation");
 
   final String value;
   const SocketEvents(this.value);

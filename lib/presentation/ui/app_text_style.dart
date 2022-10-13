@@ -252,6 +252,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: AppColors.Gray);
 
+  static var timerHeadingStyle = TextStyle(
+      fontFamily: AppFonts.poppins,
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColors.lightGray);
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/domain/booking_accepted.dart';
 import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
+import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/repository/driver_bookings_repository.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 
@@ -50,13 +51,16 @@ class DriverBookingsRepositoryImpl implements DriverBookingsRepository {
   }
 
   @override
-  StreamController<BookingAccepted> onBookingAccepted() {
-    StreamController<BookingAccepted> controller = StreamController();
+  StreamController<Object> onBookingAccepted() {
+    StreamController<Object> controller = StreamController();
     SocketIO.client.on(SocketEvents.afterRideAccepted.value, (data) {
       debugPrint("booking status $data");
       controller.add(BookingAccepted.fromJson(data));
     });
-
+    SocketIO.client.on(SocketEvents.rideNavigation.value, (data) {
+      debugPrint("rideInitiateData $data");
+      controller.add(RideInitiateData.fromJson(data));
+    });
     return controller;
   }
 }

@@ -56,11 +56,16 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
         if (second > 0) {
           passDuration = Duration(seconds: second);
         } else {
-          ticker.cancel();
           widget.onPass(BookingStatus.passBooking);
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    ticker.cancel();
+    super.dispose();
   }
 
   String strDigits(int n) => n.toString().padLeft(2, '0');

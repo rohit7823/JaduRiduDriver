@@ -42,11 +42,11 @@ class _DashboardScreenState extends State<DashboardScreen>
   void initState() {
     widget.sharedStore.locationStatus();
     widget.sharedStore.connectClientToSocket();
-    widget.sharedStore.driverBookings = DriverBookingStore();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 

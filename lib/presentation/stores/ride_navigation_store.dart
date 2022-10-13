@@ -23,10 +23,10 @@ abstract class _RideNavigationStore with Store {
   final _repository = dependency<RideNavigationRepository>();
   final env = dependency<Environment>();
   final AppLocationService _locationService = AppLocationService();
-  final directions = google.Directions();
+  late final google.Directions directions;
   StreamSubscription<Object>? _streamDisposer;
 
-  RideId ids;
+  RideNavigationData rideNavigationData;
 
   //late Position currentPos;
 
@@ -56,7 +56,9 @@ abstract class _RideNavigationStore with Store {
   @observable
   google.Route? pickUpRoute;
 
-  _RideNavigationStore(this.ids);
+  _RideNavigationStore(this.rideNavigationData) {
+    directions = google.Directions(env.googleApiKey);
+  }
 
   dispose() {
     _streamDisposer?.cancel();
@@ -71,27 +73,31 @@ abstract class _RideNavigationStore with Store {
 
   onMapCreated(GoogleMapController mapController) {
     _controller = mapController;
-    _onRide();
+    _placeCoordinates(rideNavigationData.data.pickUpLocation);
+    debugPrint("timer ${rideNavigationData.data.timer}");
+    initiateTimerDuration(rideNavigationData.data.timer);
+    customer = rideNavigationData.data.customerName;
+    currentRideStage = rideNavigationData.data.currentStage.toRideStage();
+    currentServiceIconPath =
+        rideNavigationData.data.serviceType.toServiceIconPath();
+    _updateCurrentLocation(rideNavigationData.data.pickUpLocation);
   }
 
-  @action
-  _onRide() {
-    _streamDisposer = _repository.ride(ids).stream.listen((data) {
+  /*_onRide() {
+    _streamDisposer = _repository.ride(rideNavigationData).stream.listen((data) {
       if (data is RideInitiateData) {
-        _placeCoordinates(data.pickUpLocation);
-        _updateCurrentLocation(data.pickUpLocation);
-        initiateTimerDuration(data.timer);
-        customer = data.customerName;
-        currentRideStage = data.currentStage.toRideStage();
-        currentServiceIconPath = data.serviceType.toServiceIconPath();
+        debugPrint("rideInitiate $data");
+        rideInitializationData = data;
       }
     });
-  }
+  }*/
 
   @action
   _placeCoordinates(LatLong pickUpLocation) async {
-    var locations = await directions.process(
-        [ids.currentLocation, LatLng(pickUpLocation.lat, pickUpLocation.lng)]);
+    var locations = await directions.process([
+      rideNavigationData.currentLocation,
+      LatLng(pickUpLocation.lat, pickUpLocation.lng)
+    ]);
 
     if (locations != null) {
       pickUpRoute = locations.routes.last;
@@ -128,6 +134,10 @@ abstract class _RideNavigationStore with Store {
       var position = await _locationService.getCurrentLocation();
       var cl = LatLng(position.latitude, position.longitude);
       if (cl.latitude != target.lat && cl.longitude != target.lng) {
+        _repository.updateCurrentLocation(
+            LatLong(lat: cl.latitude, lng: cl.longitude),
+            rideNavigationData.customerId,
+            rideNavigationData.driverId);
         points = {
           Marker(
             markerId: MarkerId(cl.hashCode.toString()),
@@ -145,4 +155,12 @@ abstract class _RideNavigationStore with Store {
       }
     }
   }
+
+  onClientLocated() {}
+
+  onArrivedTimeOut() {
+    debugPrint("timeOut");
+  }
+
+  openNavigation() {}
 }

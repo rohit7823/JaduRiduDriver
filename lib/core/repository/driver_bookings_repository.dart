@@ -9,5 +9,5 @@ import '../domain/booking_accepted.dart';
 abstract class DriverBookingsRepository {
   StreamController<DriverBookingDetails> booking();
   bookingStatus(String key, String rideId, String userId);
-  StreamController<BookingAccepted> onBookingAccepted();
+  StreamController<Object> onBookingAccepted();
 }

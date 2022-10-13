@@ -365,13 +365,15 @@ class PolylineModel {
 
 class Directions {
   static const _url = "https://maps.googleapis.com/maps/api/directions/json";
-  static const _key = "AIzaSyB4wfWSn1JKDz3SVVQ9wKds2XKOqPNFsSA";
+  final String _key;
   LatLng? _destination;
   LatLng? _origin;
   var _mode = "driving";
   //var _traffic_model = "best_guess";
   var _units = "metric";
   List<LatLng> _wayPoints = [];
+  Directions(this._key);
+
   Directions destination(LatLng destination) {
     _destination = destination;
     return this;

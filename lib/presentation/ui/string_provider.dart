@@ -366,6 +366,12 @@ class StringProvider {
 
   static var pickUp = "PICKUP";
 
+  static var navigate = "Navigate";
+
+  static var clientLocated = "Client Located";
+
+  static var arrivingToCustomerIn = "Arriving To Customer In";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

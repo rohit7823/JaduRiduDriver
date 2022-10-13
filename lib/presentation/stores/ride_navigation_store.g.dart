@@ -145,17 +145,6 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
       ActionController(name: '_RideNavigationStore', context: context);
 
   @override
-  dynamic _onRide() {
-    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
-        name: '_RideNavigationStore._onRide');
-    try {
-      return super._onRide();
-    } finally {
-      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic initiateTimerDuration(int timer) {
     final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
         name: '_RideNavigationStore.initiateTimerDuration');

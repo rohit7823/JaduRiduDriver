@@ -21,17 +21,24 @@ class DashboardNav {
 
     switch (routeSettings.name) {
       case AppRoute.duty:
-        return ScreenTransitions.normal(DutyScreen(sharedStore: sharedStore, key: UniqueKey(),));
+        return ScreenTransitions.normal(DutyScreen(
+          sharedStore: sharedStore,
+        ));
       case AppRoute.accounts:
-        return ScreenTransitions.normal(AccountsScreen(sharedStore: sharedStore, key: UniqueKey()));
+        return ScreenTransitions.normal(AccountsScreen(
+          sharedStore: sharedStore,
+        ));
       case AppRoute.incentives:
-        return ScreenTransitions.normal(IncentivesScreen(sharedStore: sharedStore, key: UniqueKey()));
+        return ScreenTransitions.normal(
+            IncentivesScreen(sharedStore: sharedStore));
       case AppRoute.partnerCare:
-        return ScreenTransitions.normal(PartnerCareScreen(sharedStore: sharedStore, key: UniqueKey()));
+        return ScreenTransitions.normal(
+            PartnerCareScreen(sharedStore: sharedStore));
       case AppRoute.schedule:
-        return ScreenTransitions.normal(ScheduleScreen(sharedStore: sharedStore, key: UniqueKey()));
+        return ScreenTransitions.normal(
+            ScheduleScreen(sharedStore: sharedStore));
       case AppRoute.more:
-        return ScreenTransitions.normal(MoreScreen(sharedStore: sharedStore, key: UniqueKey()));
+        return ScreenTransitions.normal(MoreScreen(sharedStore: sharedStore));
       default:
         return null;
     }

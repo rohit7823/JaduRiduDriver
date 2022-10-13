@@ -161,7 +161,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
-          rideId: retrievedArgument as RideId,
+          rideId: retrievedArgument as RideNavigationData,
         ));
       default:
         return null;
@@ -176,7 +176,7 @@ class DefaultNav {
       if (arguments is ProfileShortDescription) {
         return arguments;
       }
-      if (arguments is RideId) {
+      if (arguments is RideNavigationData) {
         return arguments;
       }
     }
