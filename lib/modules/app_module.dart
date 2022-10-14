@@ -1,5 +1,6 @@
 import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,6 +71,7 @@ import 'package:jadu_ride_driver/repository_impls/vehicle_pollution_repository_i
 import 'package:jadu_ride_driver/repository_impls/verify_otp_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/welcome_jadu_ride_repository_impl.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/environment.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';

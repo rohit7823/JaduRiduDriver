@@ -199,3 +199,162 @@ extension ConvertToService on String {
     return "";
   }
 }
+
+extension WidgetUitilities on Widget {
+  Widget paddings({
+    double all = 0.0,
+    double horizontal = 0.0,
+    double vertical = 0.0,
+    double left = 0.0,
+    double top = 0.0,
+    double right = 0.0,
+    double bottom = 0.0,
+  }) {
+    horizontal = horizontal == 0.0 ? all : horizontal;
+    vertical = vertical == 0.0 ? all : vertical;
+    left = left == 0.0 ? horizontal : left;
+    right = right == 0.0 ? horizontal : right;
+    top = top == 0.0 ? vertical : top;
+    bottom = bottom == 0.0 ? vertical : bottom;
+    return Padding(
+      padding:
+          EdgeInsets.only(left: left, right: right, top: top, bottom: bottom),
+      child: this,
+    );
+  }
+
+  Widget get faded => ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.purple,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.purple
+            ],
+            stops: [
+              0.0,
+              0.1,
+              0.9,
+              1.0
+            ], // 10% purple, 80% transparent, 10% purple
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: this,
+      );
+
+  Widget get fadedH => ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.purple,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.purple
+            ],
+            stops: [
+              0.0,
+              0.1,
+              0.9,
+              1.0
+            ], // 10% purple, 80% transparent, 10% purple
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: this,
+      );
+
+  Widget get noScrollGlow =>
+      NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: this);
+
+  Widget noScrollGlowEx(bool ret) =>
+      NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowIndicator();
+            return ret;
+          },
+          child: this);
+
+  Widget colored(Color color, {Key? key}) {
+    return Container(
+      key: key,
+      child: this,
+      decoration: BoxDecoration(color: color),
+    );
+  }
+
+  Widget get wrapInCenter {
+    return wrap.center;
+  }
+
+  Widget get wrap {
+    return Wrap(
+      children: [this],
+    );
+  }
+
+  Widget get center {
+    return Center(
+      child: this,
+    );
+  }
+
+  SizedBox sized({double width = 0.0, double height = 0.0}) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: this,
+    );
+  }
+
+  /*Widget padding(EdgeInsetsGeometry padding) {
+    return Padding(
+      padding: padding,
+      child: this,
+    );
+  }*/
+
+  Widget px(double padding) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: padding),
+      child: this,
+    );
+  }
+
+  Widget py(double padding) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: padding),
+      child: this,
+    );
+  }
+
+  Widget p({
+    double left = 0.0,
+    double top = 0.0,
+    double right = 0.0,
+    double bottom = 0.0,
+  }) {
+    return Padding(
+      padding:
+          EdgeInsets.only(left: left, top: top, right: right, bottom: bottom),
+      child: this,
+    );
+  }
+
+  Widget pa(double padding) {
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: this,
+    );
+  }
+}

@@ -1,15 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/default_nav.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
+import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/presentation/ui/translations_asset.dart';
 import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.dart';
+import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

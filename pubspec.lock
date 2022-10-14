@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
+  android_intent_plus:
+    dependency: "direct main"
+    description:
+      name: android_intent_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.4"
   another_flushbar:
     dependency: "direct main"
     description:
@@ -56,7 +63,7 @@ packages:
       name: better_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.83"
+    version: "0.0.81"
   boolean_selector:
     dependency: transitive
     description:
@@ -280,7 +287,7 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.3"
   device_info:
     dependency: transitive
     description:
@@ -358,11 +365,46 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  floating:
+    dependency: "direct main"
+    description:
+      name: floating
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1+1"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_background_service:
+    dependency: "direct main"
+    description:
+      name: flutter_background_service
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.5"
+  flutter_background_service_android:
+    dependency: transitive
+    description:
+      name: flutter_background_service_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
+  flutter_background_service_ios:
+    dependency: transitive
+    description:
+      name: flutter_background_service_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.0"
+  flutter_background_service_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_background_service_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -432,12 +474,12 @@ packages:
     source: hosted
     version: "5.5.4"
   flutter_svg:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.5"
+    version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1390,14 +1432,14 @@ packages:
       name: visibility_detector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.3"
+    version: "0.2.2"
   wakelock:
     dependency: transitive
     description:
       name: wakelock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.2"
+    version: "0.5.6"
   wakelock_macos:
     dependency: transitive
     description:
@@ -1460,7 +1502,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0"
+    version: "5.4.1"
   yaml:
     dependency: transitive
     description:

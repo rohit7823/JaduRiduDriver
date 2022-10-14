@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:floating/floating.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/domain/ride_id.dart';
-import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
+import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/stores/message_informer.dart';
+import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
@@ -25,7 +28,9 @@ abstract class _RideNavigationStore with Store {
   final AppLocationService _locationService = AppLocationService();
   late final google.Directions directions;
   StreamSubscription<Object>? _streamDisposer;
-
+  late final GoogleMapDirectionImpl _directionImpl;
+  final messageInformer = MessageInformer();
+  final pipMode = Floating();
   RideNavigationData rideNavigationData;
 
   //late Position currentPos;
@@ -58,6 +63,7 @@ abstract class _RideNavigationStore with Store {
 
   _RideNavigationStore(this.rideNavigationData) {
     directions = google.Directions(env.googleApiKey);
+    _directionImpl = GoogleMapDirectionImpl(env.googleApiKey);
   }
 
   dispose() {
@@ -156,11 +162,24 @@ abstract class _RideNavigationStore with Store {
     }
   }
 
-  onClientLocated() {}
+  onNavigate() async {
+    await pipMode.enable(const Rational.square());
+    var isSuccessful = await _directionImpl.openDirectionView(
+        rideNavigationData.data.pickUpLocation.lat,
+        rideNavigationData.data.pickUpLocation.lng);
 
-  onArrivedTimeOut() {
-    debugPrint("timeOut");
+    if (!isSuccessful) {
+      messageInformer.informUi("Unable to open map direction, Try again.");
+    } else {}
   }
 
+  onClientLocated() {}
+
+  onArrivedTimeOut() {}
+
   openNavigation() {}
+
+  onPipEnter() {}
+
+  onPipExit() {}
 }
