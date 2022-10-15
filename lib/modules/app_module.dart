@@ -120,9 +120,7 @@ class AppModule {
 
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
-    SocketIO.init(autoConnect: true);
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
-
     final imagePicker = ImagePicker();
     final cropper = ImageCropper();
     final env = Environment();

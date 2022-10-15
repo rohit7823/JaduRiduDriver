@@ -313,6 +313,8 @@ class ChangeScreen {
       _navigatePop(context, result);
     } else if (dest == Screen.vehicleAudit) {
       _navigatePop(context, result);
+    } else if (dest == Screen.dashBoard) {
+      _navigatePop(context, result);
     }
 
     onCompleted?.call();

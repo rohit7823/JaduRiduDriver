@@ -11,6 +11,7 @@ import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_bookings_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
+import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/booking_accepted.dart';
@@ -61,9 +62,7 @@ abstract class _DriverBookingsStore with Store {
 
   DriverBookingDetails? newBooking;
 
-  _DriverBookingsStore() {
-    afterBookingAccepted();
-  }
+  _DriverBookingsStore() {}
 
   onMapCreate(GoogleMapController controller, BuildContext context) async {
     _onBooking(controller, context);
@@ -120,7 +119,7 @@ abstract class _DriverBookingsStore with Store {
   }
 
   @action
-  afterBookingAccepted() {
+  afterBookingAcceptedListen() {
     _bookingDisposer =
         _repository.onBookingAccepted().stream.listen((response) {
       if (response is BookingAccepted &&

@@ -5,24 +5,27 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/ride_id.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/message_informer.dart';
-import 'package:jadu_ride_driver/utills/app_pip_service.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/screen.dart';
 import '../../helpers_impls/app_location_service.dart';
 import '../../utills/environment.dart';
+import '../ui/image_assets.dart';
 
 part 'ride_navigation_store.g.dart';
 
 class RideNavStore = _RideNavigationStore with _$RideNavStore;
 
-abstract class _RideNavigationStore with Store {
+abstract class _RideNavigationStore extends AppNavigator with Store {
   final _repository = dependency<RideNavigationRepository>();
   final env = dependency<Environment>();
   final AppLocationService _locationService = AppLocationService();
@@ -61,14 +64,28 @@ abstract class _RideNavigationStore with Store {
   @observable
   google.Route? pickUpRoute;
 
+  late final BitmapDescriptor _personBitMap;
+  late final BitmapDescriptor _carBitMap;
+
   _RideNavigationStore(this.rideNavigationData) {
+    _createBitMaps();
     directions = google.Directions(env.googleApiKey);
     _directionImpl = GoogleMapDirectionImpl(env.googleApiKey);
+    onCancelRide();
   }
 
   dispose() {
     _streamDisposer?.cancel();
     _controller?.dispose();
+  }
+
+  _createBitMaps() async {
+    _personBitMap = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(), ImageAssets.customerMarkerPng);
+    _carBitMap = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(),
+      ImageAssets.car_icon,
+    );
   }
 
   /*@action
@@ -123,7 +140,7 @@ abstract class _RideNavigationStore with Store {
       Marker(
         markerId: MarkerId(pickUpLocation.hashCode.toString()),
         position: LatLng(pickUpLocation.lat, pickUpLocation.lng),
-        icon: BitmapDescriptor.defaultMarker,
+        icon: _personBitMap,
       )
     };
   }
@@ -133,10 +150,17 @@ abstract class _RideNavigationStore with Store {
     timerDuration = Duration(seconds: timer);
   }
 
+  bool _isSendLiveLocation = true;
+
+  stropLocationSender() {
+    _isSendLiveLocation = false;
+  }
+
   @action
   _updateCurrentLocation(LatLong target) async {
-    while (true) {
-      //await Future.delayed(const Duration(milliseconds: 100));
+    while (_isSendLiveLocation) {
+      await Future.delayed(const Duration(seconds: 5));
+      debugPrint("liveLocation from Store");
       var position = await _locationService.getCurrentLocation();
       var cl = LatLng(position.latitude, position.longitude);
       if (cl.latitude != target.lat && cl.longitude != target.lng) {
@@ -148,12 +172,12 @@ abstract class _RideNavigationStore with Store {
           Marker(
             markerId: MarkerId(cl.hashCode.toString()),
             position: LatLng(cl.latitude, cl.longitude),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: _carBitMap,
           ),
           Marker(
             markerId: MarkerId(target.hashCode.toString()),
             position: LatLng(target.lat, target.lng),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: _personBitMap,
           )
         };
       } else {
@@ -163,7 +187,7 @@ abstract class _RideNavigationStore with Store {
   }
 
   onNavigate() async {
-    await pipMode.enable(const Rational.square());
+    await pipMode.enable(const Rational(1, 1));
     var isSuccessful = await _directionImpl.openDirectionView(
         rideNavigationData.data.pickUpLocation.lat,
         rideNavigationData.data.pickUpLocation.lng);
@@ -171,6 +195,16 @@ abstract class _RideNavigationStore with Store {
     if (!isSuccessful) {
       messageInformer.informUi("Unable to open map direction, Try again.");
     } else {}
+  }
+
+  onCancelRide() {
+    _repository.onCancelRide().stream.listen((res) {
+      if (res.isCanceled) {
+        messageInformer.informUi(res.msg);
+        stropLocationSender();
+        onChange(ScreenWithExtras(screen: Screen.dashBoard));
+      }
+    });
   }
 
   onClientLocated() {}

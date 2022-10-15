@@ -168,11 +168,11 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
   }
 
   @override
-  dynamic afterBookingAccepted() {
+  dynamic afterBookingAcceptedListen() {
     final _$actionInfo = _$_DriverBookingsStoreActionController.startAction(
         name: '_DriverBookingsStore.afterBookingAccepted');
     try {
-      return super.afterBookingAccepted();
+      return super.afterBookingAcceptedListen();
     } finally {
       _$_DriverBookingsStoreActionController.endAction(_$actionInfo);
     }

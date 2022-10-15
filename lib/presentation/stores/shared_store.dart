@@ -33,6 +33,7 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
+import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
 
 part 'shared_store.g.dart';
@@ -339,10 +340,6 @@ abstract class _SharedStore extends AppNavigator with Store {
     });
   }
 
-  connectClientToSocket() {
-    _repository.connectClientToSocket(_prefs.userId());
-  }
-
   onPass(BookingStatus status) {
     driverBookings.onBookingPass(status);
   }
@@ -363,5 +360,10 @@ abstract class _SharedStore extends AppNavigator with Store {
           currentLocation:
               LatLng(currentLocation!.latitude, currentLocation!.longitude)),
     ));
+  }
+
+  connectToSocket() {
+    SocketIO.init(autoConnect: true, userId: _prefs.userId());
+    driverBookings.afterBookingAcceptedListen();
   }
 }

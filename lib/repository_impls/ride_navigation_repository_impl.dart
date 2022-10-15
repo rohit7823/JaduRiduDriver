@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
+import 'package:jadu_ride_driver/core/domain/ride_canceled_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_id.dart';
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
@@ -23,10 +24,23 @@ class RideNavigationRepositoryImpl implements RideNavigationRepository {
 
   @override
   updateCurrentLocation(LatLong latLong, String customerId, String userId) {
+    debugPrint("liveLocation");
     SocketIO.client.emit(SocketEvents.updateCurrentLocation.value, {
-      "latlng": latLong.toJson(),
+      "currentLocation": latLong.toJson(),
       "customerId": customerId,
-      "userId": userId
+      "driverId": userId
     });
+  }
+
+  @override
+  StreamController<RideCanceledResponse> onCancelRide() {
+    StreamController<RideCanceledResponse> controller = StreamController();
+
+    SocketIO.client.on(SocketEvents.rideCanceled.value, (data) {
+      debugPrint("rideCanceled $data");
+      controller.add(RideCanceledResponse.fromJson(data));
+    });
+
+    return controller;
   }
 }

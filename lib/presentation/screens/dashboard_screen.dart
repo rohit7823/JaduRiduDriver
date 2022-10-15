@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     widget.sharedStore.locationStatus();
-    widget.sharedStore.connectClientToSocket();
+    widget.sharedStore.connectToSocket();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =

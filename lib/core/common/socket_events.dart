@@ -5,6 +5,7 @@ enum SocketEvents {
   triggerResponse("triggerRideResponse"),
   rideNavigation("rideNavigation"),
   afterRideAccepted("afterRideAccepted"),
+  rideCanceled("rideCancelled"),
   updateCurrentLocation("updateCurrentLocation");
 
   final String value;

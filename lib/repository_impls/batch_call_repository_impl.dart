@@ -75,9 +75,4 @@ class BatchCallRepositoryImpl implements BatchCallRepository {
     ]));*/
   }
 
-  @override
-  connectClientToSocket(String userId) {
-    SocketIO.client.emit(SocketEvents.afterConnection.value,
-        {"id": userId, "type": AppConstants.socketKey});
-  }
 }
