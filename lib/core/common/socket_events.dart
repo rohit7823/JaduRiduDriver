@@ -6,6 +6,9 @@ enum SocketEvents {
   rideNavigation("rideNavigation"),
   afterRideAccepted("afterRideAccepted"),
   rideCanceled("rideCancelled"),
+  clientLocated("clientLocated"),
+  verifyOtp("verifyOtp"),
+  isOtpVerified("isOtpVerified"),
   updateCurrentLocation("updateCurrentLocation");
 
   final String value;

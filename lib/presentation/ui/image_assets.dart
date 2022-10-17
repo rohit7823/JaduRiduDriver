@@ -76,6 +76,6 @@ class ImageAssets {
   static const editIcons = "$_root/edit_icon.svg";
   static const shareIcons = "$_root/share_icon.svg";
   static const navigation = "$_root/navigate_ic.svg";
-
+  static const swipe = "$_root/swipe.svg";
   static const customerMarkerPng = "$_root/customer_marker.png";
 }

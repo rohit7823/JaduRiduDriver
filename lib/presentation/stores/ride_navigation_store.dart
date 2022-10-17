@@ -6,7 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/core/domain/ride_id.dart';
+import 'package:jadu_ride_driver/core/domain/cilent_waiting_response.dart';
+import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -30,7 +32,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   final env = dependency<Environment>();
   final AppLocationService _locationService = AppLocationService();
   late final google.Directions directions;
-  StreamSubscription<Object>? _streamDisposer;
+  List<StreamSubscription<dynamic>?> _disposers = [];
   late final GoogleMapDirectionImpl _directionImpl;
   final messageInformer = MessageInformer();
   final pipMode = Floating();
@@ -75,7 +77,9 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   dispose() {
-    _streamDisposer?.cancel();
+    for (var element in _disposers) {
+      element?.cancel();
+    }
     _controller?.dispose();
   }
 
@@ -98,7 +102,6 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     _controller = mapController;
     _placeCoordinates(rideNavigationData.data.pickUpLocation);
     debugPrint("timer ${rideNavigationData.data.timer}");
-    initiateTimerDuration(rideNavigationData.data.timer);
     customer = rideNavigationData.data.customerName;
     currentRideStage = rideNavigationData.data.currentStage.toRideStage();
     currentServiceIconPath =
@@ -146,8 +149,8 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   @action
-  initiateTimerDuration(int timer) {
-    timerDuration = Duration(seconds: timer);
+  initiateTimerDuration(int min, int seconds) {
+    timerDuration = Duration(minutes: min, seconds: seconds);
   }
 
   bool _isSendLiveLocation = true;
@@ -198,22 +201,54 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   onCancelRide() {
-    _repository.onCancelRide().stream.listen((res) {
+    _disposers.add(_repository.onCancelRide().stream.listen((res) {
       if (res.isCanceled) {
         messageInformer.informUi(res.msg);
         stropLocationSender();
         onChange(ScreenWithExtras(screen: Screen.dashBoard));
       }
-    });
+    }));
   }
 
-  onClientLocated() {}
+  @action
+  onClientLocated() {
+    _disposers.add(_repository.clientLocated().stream.listen((response) async {
+      if (response is ClientWaitingResponse) {
+        currentRideStage = response.rideStage.toRideStage();
+        initiateTimerDuration(
+            response.clientTimer.min, response.clientTimer.second);
+      }
+    }));
+  }
 
-  onArrivedTimeOut() {}
+  onArrivedTimeOut() {
+    debugPrint("timeOut");
+    initiateTimerDuration(5, 30);
+  }
 
   openNavigation() {}
 
   onPipEnter() {}
 
   onPipExit() {}
+
+  @observable
+  bool tripStartLoader = false;
+
+  @action
+  onStartTrip() async {
+    onChange(ScreenWithExtras(
+        screen: Screen.verifyTripOtp,
+        argument: RideIds(
+            rideId: rideNavigationData.tripId,
+            driverId: rideNavigationData.driverId,
+            customerName: customer)));
+  }
+
+  @action
+  verifyOtp() async {
+    tripStartLoader = false;
+    await Future.delayed(const Duration(seconds: 1));
+    tripStartLoader = true;
+  }
 }

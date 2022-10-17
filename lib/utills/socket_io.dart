@@ -20,7 +20,7 @@ class SocketIO {
   SocketIO._();
 
   static init({bool autoConnect = false, required String userId}) {
-    _socketClient = soc.io("http://18.143.94.131:3000", <String, dynamic>{
+    _socketClient = soc.io("http://192.168.0.103:3000", <String, dynamic>{
       'autoConnect': false,
       'reconnection': true,
       'reconnectionDelay': 100,

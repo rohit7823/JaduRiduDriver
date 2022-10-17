@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/transition_event_detection.dart';
 
 class ScreenTransitions {
@@ -8,6 +9,23 @@ class ScreenTransitions {
     return MaterialPageRoute(builder: (context) {
       return destination;
     });
+  }
+
+  static fadeInTransition(Widget destination) {
+    return PageRouteBuilder(
+        maintainState: true,
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) => destination,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var colorTween =
+              ColorTween(begin: AppColors.primary, end: AppColors.white);
+          animation.drive(colorTween);
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        });
   }
 
   static rightToLeftTransitionWithEvent(Widget destination) {

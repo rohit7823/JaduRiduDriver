@@ -235,6 +235,10 @@ class ChangeScreen {
         _navigate(context, AppRoute.rideNavigation,
             arguments: arguments, onComplete: onComplete);
         break;
+      case Screen.verifyTripOtp:
+        _navigate(context, AppRoute.verifyTripOtp,
+            arguments: arguments, onComplete: onComplete);
+        break;
     }
   }
 

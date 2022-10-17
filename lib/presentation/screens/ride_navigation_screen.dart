@@ -5,10 +5,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jadu_ride_driver/core/domain/ride_id.dart';
+import 'package:jadu_ride_driver/core/common/ride_stages.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
-import 'package:jadu_ride_driver/presentation/custom_widgets/ripple_widget.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/ride_timer_widget.dart';
 import 'package:jadu_ride_driver/presentation/stores/ride_navigation_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
@@ -17,6 +19,7 @@ import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 import '../custom_widgets/app_snack_bar.dart';
 
@@ -48,7 +51,12 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null) {
-          ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
+          if (p0.screen == Screen.verifyTripOtp) {
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument, onComplete: _store.clear);
+          } else {
+            ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
+          }
         }
       })
     ];
@@ -91,29 +99,37 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                       width: 1.sw,
                       padding: EdgeInsets.symmetric(
                           horizontal: 0.05.sw, vertical: 0.05.sw),
-                      decoration: const BoxDecoration(color: AppColors.white),
-                      child: Column(
-                        children: [
-                          Observer(
-                            builder: (BuildContext context) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 0.03.sw),
-                                child: FilterChip(
-                                  label: _store.currentRideStage.name
-                                      .text(AppTextStyle.transactionDateStyle),
-                                  onSelected: null,
-                                  backgroundColor: AppColors.primary,
-                                  avatar: SvgPicture.asset(
-                                      _store.currentServiceIconPath),
-                                ),
-                              );
-                            },
-                          ),
-                          Observer(
-                            builder: (BuildContext context) => _store.customer
-                                .text(AppTextStyle.rideNavCustomerNameStyle),
-                          )
-                        ],
+                      decoration: const BoxDecoration(color: AppColors.primary),
+                      child: fitBox(
+                        child: Column(
+                          children: [
+                            Observer(
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 0.03.sw),
+                                  child: FilterChip(
+                                    elevation: 7.1,
+                                    padding: EdgeInsets.all(0.02.sw),
+                                    disabledColor: AppColors.white,
+                                    label: _store.currentRideStage.name.text(
+                                        AppTextStyle.transactionDateStyle),
+                                    onSelected: null,
+                                    backgroundColor: AppColors.white,
+                                    avatar: SvgPicture.asset(
+                                        _store.currentServiceIconPath),
+                                  ),
+                                );
+                              },
+                            ),
+                            Observer(
+                              builder: (BuildContext context) => _store.customer
+                                  .text(AppTextStyle.rideNavCustomerNameStyle
+                                      .copyWith(
+                                          color: AppColors.Acadia,
+                                          fontWeight: FontWeight.w600)),
+                            )
+                          ],
+                        ),
                       ),
                     )),
                 expand(
@@ -146,12 +162,40 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (_store.pickUpRoute != null)
+                              if (_store.pickUpRoute != null &&
+                                  _store.currentRideStage == RideStages.pickUp)
                                 _pickUpLocation().padding(
                                     insets: EdgeInsets.only(bottom: 0.05.sw)),
-                              AppButton(
-                                  onClick: _store.onClientLocated,
-                                  label: StringProvider.clientLocated)
+                              Observer(builder: (context) {
+                                if (_store.pickUpRoute != null &&
+                                    _store.currentRideStage ==
+                                        RideStages.waiting) {
+                                  return RideTimerWidget(
+                                    key: ObjectKey(_store.timerDuration),
+                                    duration: _store.timerDuration,
+                                    title: "Waiting for ${_store.customer}",
+                                    onTimeout: _store.onArrivedTimeOut,
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              }),
+                              if (_store.pickUpRoute != null &&
+                                  _store.currentRideStage == RideStages.pickUp)
+                                AppButton(
+                                    onClick: _store.onClientLocated,
+                                    label: StringProvider.clientLocated),
+                              if (_store.pickUpRoute != null &&
+                                  _store.currentRideStage == RideStages.waiting)
+                                SwipeableButtonView(
+                                    onFinish: _store.onStartTrip,
+                                    onWaitingProcess: _store.verifyOtp,
+                                    isFinished: _store.tripStartLoader,
+                                    indicatorColor: AlwaysStoppedAnimation(
+                                        AppColors.Acadia),
+                                    activeColor: AppColors.primary,
+                                    buttonWidget:
+                                        SvgPicture.asset(ImageAssets.swipe),
+                                    buttonText: StringProvider.startTrip)
                             ],
                           );
 
@@ -177,7 +221,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.pickUpLocation.text(AppTextStyle.findAccountStyle
-                  .copyWith(fontWeight: FontWeight.w600)),
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp)),
               fitBox(
                 child: _store.pickUpRoute!.summary
                     .text(AppTextStyle.applicationSubmittedStyle),
@@ -189,26 +233,31 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
             flex: 2,
             child: Align(
               alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  fitBox(
-                    child: RippleWidget(
-                      radius: BorderRadius.circular(16.r),
-                      shadowAllowed: true,
-                      paddingAllowed: true,
-                      action: _store.onNavigate,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(ImageAssets.navigation).padding(
-                              insets: const EdgeInsets.only(bottom: 5)),
-                          StringProvider.navigate
-                              .text(AppTextStyle.driveDocumentNameStyle)
-                        ],
-                      ),
+              child: fitBox(
+                child: InkWell(
+                  onTap: _store.onNavigate,
+                  borderRadius: BorderRadius.circular(12.r),
+                  child: Container(
+                    padding: EdgeInsets.all(0.05.sw),
+                    decoration: BoxDecoration(
+                        boxShadow: allShadow(),
+                        color: AppColors.Acadia,
+                        borderRadius: BorderRadius.circular(12.r),
+                        shape: BoxShape.rectangle),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          ImageAssets.navigation,
+                          color: AppColors.white,
+                        ).padding(insets: const EdgeInsets.only(bottom: 5)),
+                        StringProvider.navigate.text(AppTextStyle
+                            .driveDocumentNameStyle
+                            .copyWith(color: AppColors.white))
+                      ],
                     ),
-                  )
-                ],
+                  ),
+                ),
               ),
             ))
       ],

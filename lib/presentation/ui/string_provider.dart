@@ -372,6 +372,12 @@ class StringProvider {
 
   static var arrivingToCustomerIn = "Arriving To Customer In";
 
+  static var waitingForCustomer = "Waiting for Customer";
+
+  static var startTrip = "Start Trip";
+
+  static var verifyOtp = "Verify OTP";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

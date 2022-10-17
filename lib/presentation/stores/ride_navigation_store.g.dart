@@ -122,6 +122,22 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
     });
   }
 
+  late final _$tripStartLoaderAtom =
+      Atom(name: '_RideNavigationStore.tripStartLoader', context: context);
+
+  @override
+  bool get tripStartLoader {
+    _$tripStartLoaderAtom.reportRead();
+    return super.tripStartLoader;
+  }
+
+  @override
+  set tripStartLoader(bool value) {
+    _$tripStartLoaderAtom.reportWrite(value, super.tripStartLoader, () {
+      super.tripStartLoader = value;
+    });
+  }
+
   late final _$_placeCoordinatesAsyncAction =
       AsyncAction('_RideNavigationStore._placeCoordinates', context: context);
 
@@ -141,15 +157,42 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
         .run(() => super._updateCurrentLocation(target));
   }
 
+  late final _$onStartTripAsyncAction =
+      AsyncAction('_RideNavigationStore.onStartTrip', context: context);
+
+  @override
+  Future onStartTrip() {
+    return _$onStartTripAsyncAction.run(() => super.onStartTrip());
+  }
+
+  late final _$verifyOtpAsyncAction =
+      AsyncAction('_RideNavigationStore.verifyOtp', context: context);
+
+  @override
+  Future verifyOtp() {
+    return _$verifyOtpAsyncAction.run(() => super.verifyOtp());
+  }
+
   late final _$_RideNavigationStoreActionController =
       ActionController(name: '_RideNavigationStore', context: context);
 
   @override
-  dynamic initiateTimerDuration(int timer) {
+  dynamic initiateTimerDuration(int min, int seconds) {
     final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
         name: '_RideNavigationStore.initiateTimerDuration');
     try {
-      return super.initiateTimerDuration(timer);
+      return super.initiateTimerDuration(min, seconds);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic onClientLocated() {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore.onClientLocated');
+    try {
+      return super.onClientLocated();
     } finally {
       _$_RideNavigationStoreActionController.endAction(_$actionInfo);
     }
@@ -164,7 +207,8 @@ timerDuration: ${timerDuration},
 customer: ${customer},
 currentRideStage: ${currentRideStage},
 currentServiceIconPath: ${currentServiceIconPath},
-pickUpRoute: ${pickUpRoute}
+pickUpRoute: ${pickUpRoute},
+tripStartLoader: ${tripStartLoader}
     ''';
   }
 }

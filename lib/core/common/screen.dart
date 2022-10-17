@@ -40,4 +40,5 @@ enum Screen {
   tripsScreen,
   emergencySupportScreen,
   rideNavigation,
+  verifyTripOtp
 }

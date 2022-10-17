@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
-import 'package:jadu_ride_driver/core/domain/ride_id.dart';
+import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
 import 'package:jadu_ride_driver/presentation/screens/aadhar_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dart';
@@ -24,6 +25,7 @@ import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.d
 import 'package:jadu_ride_driver/presentation/screens/vehicle_permit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_pollution_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/verify_otp_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/verify_trip_otp_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
@@ -163,6 +165,10 @@ class DefaultNav {
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           rideId: retrievedArgument as RideNavigationData,
         ));
+      case AppRoute.verifyTripOtp:
+        return ScreenTransitions.fadeInTransition(VerifyTripOtpScreen(
+          ids: retrievedArgument as RideIds,
+        ));
       default:
         return null;
     }
@@ -177,6 +183,9 @@ class DefaultNav {
         return arguments;
       }
       if (arguments is RideNavigationData) {
+        return arguments;
+      }
+      if (arguments is RideIds) {
         return arguments;
       }
     }

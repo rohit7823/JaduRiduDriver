@@ -55,6 +55,8 @@ class AppRoute {
 
   static const rideNavigation = "/rideNavigation";
 
+  static const verifyTripOtp = "verifyTrip";
+
   AppRoute._();
 
   static const splash = "/splash";

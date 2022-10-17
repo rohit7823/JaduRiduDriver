@@ -20,7 +20,7 @@ import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
-import 'package:jadu_ride_driver/core/domain/ride_id.dart';
+import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
