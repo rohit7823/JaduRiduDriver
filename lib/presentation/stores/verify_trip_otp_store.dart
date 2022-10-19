@@ -1,19 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/core/domain/verify_trip_otp_response.dart';
 import 'package:jadu_ride_driver/presentation/stores/message_informer.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
-
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import '../../core/common/socket_events.dart';
 
 part 'verify_trip_otp_store.g.dart';
 
 class VerifyTripOtpStore = _IVerifyTripOtpStore with _$VerifyTripOtpStore;
 
-abstract class _IVerifyTripOtpStore with Store {
+abstract class _IVerifyTripOtpStore extends AppNavigator with Store {
   final messageInformer = MessageInformer();
 
   @observable
@@ -54,7 +56,10 @@ abstract class _IVerifyTripOtpStore with Store {
     SocketIO.client.on(SocketEvents.isOtpVerified.value, (data) {
       debugPrint("isOtpVerified $data");
       var response = VerifyTripOtpResponse.fromJson(data);
-      if (response.status) {}
+      if (response.status) {
+        onChange(
+            ScreenWithExtras(screen: Screen.rideNavigation, argument: true));
+      }
       sendingLoader = false;
       messageInformer.informUi(response.msg);
     });

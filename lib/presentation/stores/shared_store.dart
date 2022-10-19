@@ -20,6 +20,7 @@ import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
+import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -69,6 +70,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   int selectedMenu = 0;
 
   StreamSubscription<RideInitiateData>? rideDataSubcription;
+
+  @observable
+  RideLocationResponse? dropLocationData;
 
   _SharedStore() {
     driverBookings = DriverBookingStore();
@@ -365,5 +369,17 @@ abstract class _SharedStore extends AppNavigator with Store {
   connectToSocket() {
     SocketIO.init(autoConnect: true, userId: _prefs.userId());
     driverBookings.afterBookingAcceptedListen();
+  }
+
+  onRideStarted() {
+    _driverLocationRepo.onRideStarted().stream.listen((response) {
+      debugPrint("dropNavigation $response");
+      _setDropLocations(response);
+    });
+  }
+
+  @action
+  _setDropLocations(RideLocationResponse response) {
+    dropLocationData = response;
   }
 }

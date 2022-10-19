@@ -77,5 +77,7 @@ class ImageAssets {
   static const shareIcons = "$_root/share_icon.svg";
   static const navigation = "$_root/navigate_ic.svg";
   static const swipe = "$_root/swipe.svg";
-  static const customerMarkerPng = "$_root/customer_marker.png";
+  static const customerMarkerPng = "$_root/customer _marker.png";
+  static const wayPoint = "$_root/waypoint.png";
+  static const destination = "$_root/destination.png";
 }

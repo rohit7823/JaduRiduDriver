@@ -12,6 +12,7 @@ import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart'
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/ride_timer_widget.dart';
 import 'package:jadu_ride_driver/presentation/stores/ride_navigation_store.dart';
+import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -20,13 +21,17 @@ import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
+import 'package:timelines/timelines.dart';
 
 import '../custom_widgets/app_snack_bar.dart';
 
 class RideNavigationScreen extends StatefulWidget {
   RideNavigationData rideId;
+  SharedStore sharedStore;
 
-  RideNavigationScreen({Key? key, required this.rideId}) : super(key: key);
+  RideNavigationScreen(
+      {Key? key, required this.rideId, required this.sharedStore})
+      : super(key: key);
 
   @override
   State<RideNavigationScreen> createState() => _RideNavigationScreenState();
@@ -39,6 +44,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
 
   @override
   void initState() {
+    widget.sharedStore.onRideStarted();
     _store = RideNavStore(widget.rideId);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -53,10 +59,23 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
         if (p0 != null) {
           if (p0.screen == Screen.verifyTripOtp) {
             ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: _store.clear);
+                arguments: p0.argument,
+                onComplete: _store.clear,
+                fromScreen: _store.onVerifiedOtp);
+          } else if (p0.screen == Screen.payTrip) {
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument,
+                option: p0.option,
+                onComplete: _store.clear);
           } else {
             ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
           }
+        }
+      }),
+      reaction((p0) => widget.sharedStore.dropLocationData,
+          fireImmediately: true, (p0) {
+        if (p0 != null) {
+          _store.placeDropCoordinates(p0);
         }
       })
     ];
@@ -86,7 +105,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
           )),
       childWhenDisabled: WillPopScope(
         onWillPop: () async {
-          _store.stropLocationSender();
+          //_store.stropLocationSender();
           return false;
         },
         child: SafeArea(
@@ -97,43 +116,41 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                     flex: 2,
                     child: Container(
                       width: 1.sw,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 0.05.sw, vertical: 0.05.sw),
+                      padding: EdgeInsets.symmetric(vertical: 0.05.sw),
                       decoration: const BoxDecoration(color: AppColors.primary),
-                      child: fitBox(
-                        child: Column(
-                          children: [
-                            Observer(
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 0.03.sw),
-                                  child: FilterChip(
-                                    elevation: 7.1,
-                                    padding: EdgeInsets.all(0.02.sw),
-                                    disabledColor: AppColors.white,
-                                    label: _store.currentRideStage.name.text(
-                                        AppTextStyle.transactionDateStyle),
-                                    onSelected: null,
-                                    backgroundColor: AppColors.white,
-                                    avatar: SvgPicture.asset(
-                                        _store.currentServiceIconPath),
-                                  ),
-                                );
-                              },
-                            ),
-                            Observer(
-                              builder: (BuildContext context) => _store.customer
-                                  .text(AppTextStyle.rideNavCustomerNameStyle
-                                      .copyWith(
-                                          color: AppColors.Acadia,
-                                          fontWeight: FontWeight.w600)),
-                            )
-                          ],
-                        ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Observer(
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 0.03.sw),
+                                child: FilterChip(
+                                  elevation: 7.1,
+                                  padding: EdgeInsets.all(0.02.sw),
+                                  disabledColor: AppColors.white,
+                                  label: _store.currentRideStage.name
+                                      .text(AppTextStyle.transactionDateStyle),
+                                  onSelected: null,
+                                  backgroundColor: AppColors.white,
+                                  avatar: SvgPicture.asset(
+                                      _store.currentServiceIconPath),
+                                ),
+                              );
+                            },
+                          ),
+                          Observer(
+                            builder: (BuildContext context) => _store.customer
+                                .text(AppTextStyle.rideNavCustomerNameStyle
+                                    .copyWith(
+                                        color: AppColors.Acadia,
+                                        fontWeight: FontWeight.w600)),
+                          )
+                        ],
                       ),
                     )),
                 expand(
-                    flex: 8,
+                    flex: 9,
                     child: Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
@@ -149,60 +166,102 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                   target: _store
                                       .rideNavigationData.currentLocation));
                         }),
-                      ],
-                    )),
-                expand(
-                    flex: 3,
-                    child: Container(
-                      padding: EdgeInsets.all(0.05.sw),
-                      width: 1.sw,
-                      decoration: const BoxDecoration(color: AppColors.white),
-                      child: Observer(
-                        builder: (BuildContext context) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              if (_store.pickUpRoute != null &&
-                                  _store.currentRideStage == RideStages.pickUp)
-                                _pickUpLocation().padding(
-                                    insets: EdgeInsets.only(bottom: 0.05.sw)),
-                              Observer(builder: (context) {
-                                if (_store.pickUpRoute != null &&
-                                    _store.currentRideStage ==
-                                        RideStages.waiting) {
-                                  return RideTimerWidget(
-                                    key: ObjectKey(_store.timerDuration),
-                                    duration: _store.timerDuration,
-                                    title: "Waiting for ${_store.customer}",
-                                    onTimeout: _store.onArrivedTimeOut,
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              }),
-                              if (_store.pickUpRoute != null &&
-                                  _store.currentRideStage == RideStages.pickUp)
-                                AppButton(
-                                    onClick: _store.onClientLocated,
-                                    label: StringProvider.clientLocated),
-                              if (_store.pickUpRoute != null &&
-                                  _store.currentRideStage == RideStages.waiting)
-                                SwipeableButtonView(
-                                    onFinish: _store.onStartTrip,
-                                    onWaitingProcess: _store.verifyOtp,
-                                    isFinished: _store.tripStartLoader,
+                        Observer(builder: (context) {
+                          if (_store.currentRideStage == RideStages.ongoing &&
+                              _store.destinations.isNotEmpty) {
+                            return Column(children: [
+                              expand(flex: 1, child: _dropLocation()),
+                              Container(
+                                width: 1.sw,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 0.05.sw, vertical: 0.05.sw),
+                                decoration:
+                                    const BoxDecoration(color: AppColors.white),
+                                child: SwipeableButtonView(
+                                    onFinish: _store.onEndTrip,
+                                    onWaitingProcess: _store.endTripWaiting,
+                                    isFinished: _store.endTripLoader,
                                     indicatorColor: AlwaysStoppedAnimation(
                                         AppColors.Acadia),
                                     activeColor: AppColors.primary,
                                     buttonWidget:
                                         SvgPicture.asset(ImageAssets.swipe),
-                                    buttonText: StringProvider.startTrip)
-                            ],
-                          );
-
+                                    buttonText: StringProvider.endTrip),
+                              )
+                            ]);
+                          }
                           return const SizedBox.shrink();
-                        },
-                      ),
-                    ))
+                        })
+                      ],
+                    )),
+                Observer(builder: (context) {
+                  if (_store.currentRideStage != RideStages.ongoing) {
+                    return expand(
+                        flex: 3,
+                        child: fitBox(
+                          child: Container(
+                            padding: EdgeInsets.all(0.05.sw),
+                            width: 1.sw,
+                            decoration:
+                                const BoxDecoration(color: AppColors.white),
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                return Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    if (_store.pickUpRoute != null &&
+                                        _store.currentRideStage ==
+                                            RideStages.pickUp)
+                                      _pickUpLocation().padding(
+                                          insets:
+                                              EdgeInsets.only(bottom: 0.05.sw)),
+                                    Observer(builder: (context) {
+                                      if (_store.pickUpRoute != null &&
+                                          _store.currentRideStage ==
+                                              RideStages.waiting) {
+                                        return RideTimerWidget(
+                                          key: ObjectKey(_store.timerDuration),
+                                          duration: _store.timerDuration,
+                                          title:
+                                              "Waiting for ${_store.customer}",
+                                          onTimeout: _store.onArrivedTimeOut,
+                                        ).paddings(bottom: 0.03.sw);
+                                      }
+                                      return const SizedBox.shrink();
+                                    }),
+                                    if (_store.pickUpRoute != null &&
+                                        _store.currentRideStage ==
+                                            RideStages.pickUp)
+                                      AppButton(
+                                          onClick: _store.onClientLocated,
+                                          label: StringProvider.clientLocated),
+                                    if (_store.pickUpRoute != null &&
+                                        _store.currentRideStage ==
+                                            RideStages.waiting)
+                                      SwipeableButtonView(
+                                          onFinish: _store.onStartTrip,
+                                          onWaitingProcess: _store.verifyOtp,
+                                          isFinished: _store.tripStartLoader,
+                                          indicatorColor:
+                                              AlwaysStoppedAnimation(
+                                                  AppColors.Acadia),
+                                          activeColor: AppColors.primary,
+                                          buttonWidget: SvgPicture.asset(
+                                              ImageAssets.swipe),
+                                          buttonText: StringProvider.startTrip),
+                                  ],
+                                );
+
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ));
+                  }
+
+                  return const SizedBox.shrink();
+                })
               ],
             ),
           ),
@@ -261,6 +320,142 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
               ),
             ))
       ],
+    );
+  }
+
+  Widget _dropLocation() {
+    return NotificationListener<DraggableScrollableNotification>(
+      onNotification: (DraggableScrollableNotification notification) {
+        _store.updateSheetExtentFactor(notification.extent);
+        return false;
+      },
+      child: DraggableScrollableSheet(
+          maxChildSize: 1,
+          minChildSize: 0.37,
+          initialChildSize: 0.37,
+          snap: true,
+          snapSizes: const [0.5, 0.75],
+          builder: (context, controller) {
+            return Observer(
+              builder: (BuildContext context) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.lightGray,
+                          offset: Offset(
+                            5.0,
+                            5.0,
+                          ),
+                          blurRadius: 7.0,
+                          spreadRadius: 2.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                              (1.0 - _store.sheetExtentFactor) * 22),
+                          topRight: Radius.circular(
+                              (1.0 - _store.sheetExtentFactor) * 22))),
+                  child: Column(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 0.15.sw,
+                            child: const Divider(
+                              thickness: 5,
+                            ),
+                          ),
+                          fitBox(
+                            child: StringProvider.yourStops
+                                .text(AppTextStyle.tripPaymentMethodStyle),
+                          )
+                        ],
+                      ).paddings(top: 0.05.sw, bottom: 0.02.sw),
+                      expand(
+                        flex: 1,
+                        child: Timeline.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0.05.sw, vertical: 0.03.sw),
+                            controller: controller,
+                            itemBuilder: (context, idx) {
+                              return TimelineTile(
+                                  nodeAlign: TimelineNodeAlign.start,
+                                  contents: Container(
+                                    width: 0.90.sw,
+                                    padding: EdgeInsets.all(0.05.sw),
+                                    decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(16.r),
+                                        boxShadow: allShadow()),
+                                    child: _store.destinations[idx].name.text(
+                                        AppTextStyle.driverPersonalDetailStyle),
+                                  ).paddings(left: 0.03.sw),
+                                  node: TimelineNode(
+                                    indicator: Container(
+                                      width: 15,
+                                      height: 0.15.sw,
+                                      decoration: const BoxDecoration(
+                                          color: AppColors.primaryVariant,
+                                          shape: BoxShape.circle),
+                                    ),
+                                    startConnector: DecoratedLineConnector(
+                                      thickness: 7,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: _store.destinations.first !=
+                                                  _store.destinations[idx]
+                                              ? [
+                                                  AppColors.primaryVariant,
+                                                  AppColors.primary
+                                                      .withOpacity(0.4)
+                                                ]
+                                              : [
+                                                  AppColors.white,
+                                                  AppColors.white
+                                                ],
+                                        ),
+                                      ),
+                                    ),
+                                    endConnector: SizedBox(
+                                      height: 0.05.sw,
+                                      child: DecoratedLineConnector(
+                                        thickness: 7,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: _store.destinations.last !=
+                                                    _store.destinations[idx]
+                                                ? [
+                                                    AppColors.primary
+                                                        .withOpacity(0.4),
+                                                    AppColors.primaryVariant
+                                                  ]
+                                                : [
+                                                    AppColors.white,
+                                                    AppColors.white
+                                                  ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ));
+                            },
+                            itemCount: _store.destinations.length),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }),
     );
   }
 }

@@ -4,10 +4,14 @@ import 'package:floating/floating.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
+import 'package:jadu_ride_driver/core/common/navigation_option.dart';
+import 'package:jadu_ride_driver/core/common/ride_instruction.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
+import 'package:jadu_ride_driver/core/common/ride_stop.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/cilent_waiting_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
@@ -68,6 +72,16 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   late final BitmapDescriptor _personBitMap;
   late final BitmapDescriptor _carBitMap;
+  late final BitmapDescriptor _wayPointBitMap;
+  late final BitmapDescriptor _destinationBitMap;
+
+  @observable
+  double sheetExtentFactor = 0;
+
+  google.DirectionResponse? dropDirectionResponse;
+
+  @observable
+  bool endTripLoader = false;
 
   _RideNavigationStore(this.rideNavigationData) {
     _createBitMaps();
@@ -83,6 +97,11 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     _controller?.dispose();
   }
 
+  @action
+  updateSheetExtentFactor(double extent) {
+    sheetExtentFactor = (extent - 0.75) / 0.25;
+  }
+
   _createBitMaps() async {
     _personBitMap = await BitmapDescriptor.fromAssetImage(
         const ImageConfiguration(), ImageAssets.customerMarkerPng);
@@ -90,6 +109,10 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
       const ImageConfiguration(),
       ImageAssets.car_icon,
     );
+    _wayPointBitMap = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(), ImageAssets.wayPoint);
+    _destinationBitMap = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(), ImageAssets.destination);
   }
 
   /*@action
@@ -101,7 +124,6 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   onMapCreated(GoogleMapController mapController) {
     _controller = mapController;
     _placeCoordinates(rideNavigationData.data.pickUpLocation);
-    debugPrint("timer ${rideNavigationData.data.timer}");
     customer = rideNavigationData.data.customerName;
     currentRideStage = rideNavigationData.data.currentStage.toRideStage();
     currentServiceIconPath =
@@ -125,6 +147,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
       LatLng(pickUpLocation.lat, pickUpLocation.lng)
     ]);
 
+    debugPrint("directionResponse $locations");
     if (locations != null) {
       pickUpRoute = locations.routes.last;
 
@@ -190,7 +213,9 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   onNavigate() async {
-    await pipMode.enable(const Rational(1, 1));
+    if (await pipMode.isPipAvailable) {
+      await pipMode.enable(const Rational(1, 1));
+    }
     var isSuccessful = await _directionImpl.openDirectionView(
         rideNavigationData.data.pickUpLocation.lat,
         rideNavigationData.data.pickUpLocation.lng);
@@ -212,6 +237,8 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   @action
   onClientLocated() {
+    _repository.onRide(
+        RideInstruction.clientLocated.key, rideNavigationData.tripId);
     _disposers.add(_repository.clientLocated().stream.listen((response) async {
       if (response is ClientWaitingResponse) {
         currentRideStage = response.rideStage.toRideStage();
@@ -250,5 +277,114 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     tripStartLoader = false;
     await Future.delayed(const Duration(seconds: 1));
     tripStartLoader = true;
+  }
+
+  @action
+  onVerifiedOtp(Object? result) {
+    if (result != null && result is bool && result) {
+      /*_repository.onRide(
+          RideInstruction.startTrip.key, rideNavigationData.tripId);*/
+      currentRideStage = RideStages.ongoing;
+      tripStartLoader = false;
+    }
+  }
+
+  @action
+  placeDropCoordinates(RideLocationResponse response) async {
+    var locations = <LatLng>[];
+
+    locations.add(rideNavigationData.currentLocation);
+    for (var element in response.waypoints) {
+      locations.add(LatLng(element.lat, element.lng));
+    }
+    locations.add(LatLng(response.destination.lat, response.destination.lng));
+    debugPrint(
+        "dropNavigationInSetter ${response.destination.lat} ${response.destination.lng}");
+    dropDirectionResponse =
+        await google.Directions(env.googleApiKey).process(locations);
+    debugPrint("dropNavigationDirectionResponse $dropDirectionResponse");
+    lines = {};
+    points = {};
+    if (dropDirectionResponse != null) {
+      var route = dropDirectionResponse!.routes.first;
+      if (route.legs.length > 1) {
+        _decodeLeg(route.legs[1], false);
+      }
+      for (var leg in route.legs) {
+        _decodeLeg(leg, true);
+      }
+
+      lines = {
+        Polyline(
+            width: 6,
+            endCap: Cap.roundCap,
+            startCap: Cap.roundCap,
+            jointType: JointType.round,
+            polylineId: PolylineId(
+                dropDirectionResponse!.polylineDecoded.hashCode.toString()),
+            points: dropDirectionResponse!.polylineDecoded!)
+      };
+
+      var markers = <Marker>{};
+
+      markers.add(Marker(
+          markerId: MarkerId(locations.last.hashCode.toString()),
+          anchor: const Offset(0.5, 0.5),
+          position: locations.last,
+          icon: _destinationBitMap,
+          onTap: () {
+            _onDestinationMarkerTaped(locations.last);
+          }));
+
+      for (var location in locations) {
+        if (location != locations.last) {
+          markers.add(Marker(
+              markerId: MarkerId(location.hashCode.toString()),
+              position: location,
+              anchor: const Offset(0.5, 0.5),
+              icon: _wayPointBitMap,
+              onTap: () {
+                _onWaypointTaped(location);
+              }));
+        }
+      }
+
+      points = markers;
+    }
+  }
+
+  @action
+  _onDestinationMarkerTaped(LatLng last) {}
+
+  @action
+  _onWaypointTaped(LatLng location) {}
+
+  @observable
+  ObservableList<RideStop> destinations = ObservableList.of([]);
+
+  @action
+  _decodeLeg(google.Leg leg, bool isEnd) {
+    var address = isEnd ? leg.endAddress : leg.startAddress;
+    var lat = isEnd ? leg.endLocation.lat : leg.startLocation.lat;
+    var lng = isEnd ? leg.endLocation.lng : leg.startLocation.lng;
+    destinations.add(RideStop(name: address, location: LatLng(lat, lng)));
+  }
+
+  onEndTrip() {
+    _repository.onRide(RideInstruction.endTrip.key, rideNavigationData.tripId);
+    onChange(ScreenWithExtras(
+        screen: Screen.payTrip,
+        option: NavigationOption(option: Option.popPrevious),
+        argument: RideIds(
+            rideId: rideNavigationData.tripId,
+            driverId: rideNavigationData.driverId,
+            customerName: customer)));
+  }
+
+  @action
+  endTripWaiting() async {
+    endTripLoader = false;
+    await Future.delayed(const Duration(seconds: 1));
+    endTripLoader = true;
   }
 }

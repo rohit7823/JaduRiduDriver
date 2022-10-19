@@ -378,6 +378,10 @@ class StringProvider {
 
   static var verifyOtp = "Verify OTP";
 
+  static var yourStops = "Swipe Up to see Your Stops";
+
+  static var endTrip = "End Trip";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

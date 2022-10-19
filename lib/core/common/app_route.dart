@@ -55,7 +55,9 @@ class AppRoute {
 
   static const rideNavigation = "/rideNavigation";
 
-  static const verifyTripOtp = "verifyTrip";
+  static const verifyTripOtp = "/verifyTrip";
+
+  static const payTrip = "/payTrip";
 
   AppRoute._();
 

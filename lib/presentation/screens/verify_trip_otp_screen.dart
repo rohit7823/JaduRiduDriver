@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/stores/verify_trip_otp_store.dart';
@@ -39,6 +40,12 @@ class _VerifyTripOtpScreenState extends State<VerifyTripOtpScreen> {
           AppSnackBar.show(context,
               message: p0, clear: _store.messageInformer.clear);
         }
+      }),
+      reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null) {
+          ChangeScreen.from(context, p0.screen,
+              onCompleted: _store.clear, result: p0.argument);
+        }
       })
     ];
   }
@@ -53,14 +60,19 @@ class _VerifyTripOtpScreenState extends State<VerifyTripOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: MyAppBar(),
-      body: Column(
-        children: [
-          expand(flex: 2, child: _upperSideContent()),
-          expand(flex: 9, child: _lowerSideContent())
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: MyAppBar(),
+        body: Column(
+          children: [
+            expand(flex: 2, child: _upperSideContent()),
+            expand(flex: 9, child: _lowerSideContent())
+          ],
+        ),
       ),
     );
   }

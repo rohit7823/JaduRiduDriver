@@ -237,7 +237,17 @@ class ChangeScreen {
         break;
       case Screen.verifyTripOtp:
         _navigate(context, AppRoute.verifyTripOtp,
-            arguments: arguments, onComplete: onComplete);
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
+      case Screen.payTrip:
+        _navigateWithOption(
+            context,
+            AppRoute.payTrip,
+            arguments: arguments,
+            option!,
+            onComplete: onComplete);
         break;
     }
   }
@@ -318,6 +328,8 @@ class ChangeScreen {
     } else if (dest == Screen.vehicleAudit) {
       _navigatePop(context, result);
     } else if (dest == Screen.dashBoard) {
+      _navigatePop(context, result);
+    } else if (dest == Screen.rideNavigation) {
       _navigatePop(context, result);
     }
 

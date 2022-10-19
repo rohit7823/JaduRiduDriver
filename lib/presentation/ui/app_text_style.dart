@@ -258,6 +258,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: AppColors.lightGray);
 
+  static var tripPaymentMethodStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontWeight: FontWeight.w300,
+      fontSize: 13.sp,
+      color: const Color(0xFF303030));
+
   AppTextStyle._();
 
   static var headingTextStyle = TextStyle(

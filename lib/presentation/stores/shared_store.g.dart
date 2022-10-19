@@ -74,6 +74,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$dropLocationDataAtom =
+      Atom(name: '_SharedStore.dropLocationData', context: context);
+
+  @override
+  RideLocationResponse? get dropLocationData {
+    _$dropLocationDataAtom.reportRead();
+    return super.dropLocationData;
+  }
+
+  @override
+  set dropLocationData(RideLocationResponse? value) {
+    _$dropLocationDataAtom.reportWrite(value, super.dropLocationData, () {
+      super.dropLocationData = value;
+    });
+  }
+
   late final _$getIntroPageDataAsyncAction =
       AsyncAction('_SharedStore.getIntroPageData', context: context);
 
@@ -123,12 +139,24 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic _setDropLocations(RideLocationResponse response) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore._setDropLocations');
+    try {
+      return super._setDropLocations(response);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
-selectedMenu: ${selectedMenu}
+selectedMenu: ${selectedMenu},
+dropLocationData: ${dropLocationData}
     ''';
   }
 }

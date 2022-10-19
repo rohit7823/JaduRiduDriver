@@ -2,12 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
-import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
-import 'package:jadu_ride_driver/core/domain/customer_waiting_timer.dart';
 import 'package:jadu_ride_driver/core/domain/ride_canceled_response.dart';
-import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
-import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
+import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 
 import '../core/domain/cilent_waiting_response.dart';
@@ -51,14 +48,22 @@ class RideNavigationRepositoryImpl implements RideNavigationRepository {
   StreamController clientLocated() {
     StreamController<dynamic> listener = StreamController();
 
-    listener.add(ClientWaitingResponse(
+    /*listener.add(ClientWaitingResponse(
         clientTimer: CustomerWaitingTimer(min: 1, second: 0),
-        rideStage: RideStages.waiting.key));
+        rideStage: RideStages.waiting.key));*/
 
     SocketIO.client.on(SocketEvents.clientLocated.value, (data) {
-      listener.add(data);
+      debugPrint("clientLocated $data");
+      var response = ClientWaitingResponse.fromJson(data);
+      listener.add(response);
     });
 
     return listener;
+  }
+
+  @override
+  onRide(String rideInstruction, String rideId) {
+    SocketIO.client.emit(
+        SocketEvents.onRide.value, {"rideId": rideId, "type": rideInstruction});
   }
 }

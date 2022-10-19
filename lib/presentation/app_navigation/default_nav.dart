@@ -15,6 +15,7 @@ import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/pay_trip_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/payment_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
@@ -164,10 +165,15 @@ class DefaultNav {
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           rideId: retrievedArgument as RideNavigationData,
+          sharedStore: sharedStore,
         ));
       case AppRoute.verifyTripOtp:
         return ScreenTransitions.fadeInTransition(VerifyTripOtpScreen(
           ids: retrievedArgument as RideIds,
+        ));
+      case AppRoute.payTrip:
+        return ScreenTransitions.fadeInTransition(PayTripScreen(
+          rideIds: retrievedArgument as RideIds,
         ));
       default:
         return null;

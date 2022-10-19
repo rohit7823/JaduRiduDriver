@@ -122,6 +122,38 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
     });
   }
 
+  late final _$sheetExtentFactorAtom =
+      Atom(name: '_RideNavigationStore.sheetExtentFactor', context: context);
+
+  @override
+  double get sheetExtentFactor {
+    _$sheetExtentFactorAtom.reportRead();
+    return super.sheetExtentFactor;
+  }
+
+  @override
+  set sheetExtentFactor(double value) {
+    _$sheetExtentFactorAtom.reportWrite(value, super.sheetExtentFactor, () {
+      super.sheetExtentFactor = value;
+    });
+  }
+
+  late final _$endTripLoaderAtom =
+      Atom(name: '_RideNavigationStore.endTripLoader', context: context);
+
+  @override
+  bool get endTripLoader {
+    _$endTripLoaderAtom.reportRead();
+    return super.endTripLoader;
+  }
+
+  @override
+  set endTripLoader(bool value) {
+    _$endTripLoaderAtom.reportWrite(value, super.endTripLoader, () {
+      super.endTripLoader = value;
+    });
+  }
+
   late final _$tripStartLoaderAtom =
       Atom(name: '_RideNavigationStore.tripStartLoader', context: context);
 
@@ -135,6 +167,22 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
   set tripStartLoader(bool value) {
     _$tripStartLoaderAtom.reportWrite(value, super.tripStartLoader, () {
       super.tripStartLoader = value;
+    });
+  }
+
+  late final _$destinationsAtom =
+      Atom(name: '_RideNavigationStore.destinations', context: context);
+
+  @override
+  ObservableList<RideStop> get destinations {
+    _$destinationsAtom.reportRead();
+    return super.destinations;
+  }
+
+  @override
+  set destinations(ObservableList<RideStop> value) {
+    _$destinationsAtom.reportWrite(value, super.destinations, () {
+      super.destinations = value;
     });
   }
 
@@ -173,8 +221,37 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
     return _$verifyOtpAsyncAction.run(() => super.verifyOtp());
   }
 
+  late final _$placeDropCoordinatesAsyncAction = AsyncAction(
+      '_RideNavigationStore.placeDropCoordinates',
+      context: context);
+
+  @override
+  Future placeDropCoordinates(RideLocationResponse response) {
+    return _$placeDropCoordinatesAsyncAction
+        .run(() => super.placeDropCoordinates(response));
+  }
+
+  late final _$endTripWaitingAsyncAction =
+      AsyncAction('_RideNavigationStore.endTripWaiting', context: context);
+
+  @override
+  Future endTripWaiting() {
+    return _$endTripWaitingAsyncAction.run(() => super.endTripWaiting());
+  }
+
   late final _$_RideNavigationStoreActionController =
       ActionController(name: '_RideNavigationStore', context: context);
+
+  @override
+  dynamic updateSheetExtentFactor(double extent) {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore.updateSheetExtentFactor');
+    try {
+      return super.updateSheetExtentFactor(extent);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic initiateTimerDuration(int min, int seconds) {
@@ -199,6 +276,50 @@ mixin _$RideNavStore on _RideNavigationStore, Store {
   }
 
   @override
+  dynamic onVerifiedOtp(Object? result) {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore.onVerifiedOtp');
+    try {
+      return super.onVerifiedOtp(result);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _onDestinationMarkerTaped(LatLng last) {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore._onDestinationMarkerTaped');
+    try {
+      return super._onDestinationMarkerTaped(last);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _onWaypointTaped(LatLng location) {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore._onWaypointTaped');
+    try {
+      return super._onWaypointTaped(location);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _decodeLeg(google.Leg leg, bool isEnd) {
+    final _$actionInfo = _$_RideNavigationStoreActionController.startAction(
+        name: '_RideNavigationStore._decodeLeg');
+    try {
+      return super._decodeLeg(leg, isEnd);
+    } finally {
+      _$_RideNavigationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 points: ${points},
@@ -208,7 +329,10 @@ customer: ${customer},
 currentRideStage: ${currentRideStage},
 currentServiceIconPath: ${currentServiceIconPath},
 pickUpRoute: ${pickUpRoute},
-tripStartLoader: ${tripStartLoader}
+sheetExtentFactor: ${sheetExtentFactor},
+endTripLoader: ${endTripLoader},
+tripStartLoader: ${tripStartLoader},
+destinations: ${destinations}
     ''';
   }
 }
