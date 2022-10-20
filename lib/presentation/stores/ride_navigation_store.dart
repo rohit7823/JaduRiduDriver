@@ -121,9 +121,13 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     currentLocation = LatLng(currentPos.latitude, currentPos.longitude);
   }*/
 
-  onMapCreated(GoogleMapController mapController) {
+  onMapCreated(GoogleMapController mapController) async {
     _controller = mapController;
-    _placeCoordinates(rideNavigationData.data.pickUpLocation);
+    debugPrint("onMapCreate called");
+    if (rideNavigationData.data.currentStage.toRideStage() ==
+        RideStages.pickUp) {
+      await _placeCoordinates(rideNavigationData.data.pickUpLocation);
+    }
     customer = rideNavigationData.data.customerName;
     currentRideStage = rideNavigationData.data.currentStage.toRideStage();
     currentServiceIconPath =
@@ -178,7 +182,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   bool _isSendLiveLocation = true;
 
-  stropLocationSender() {
+  stopLocationSender() {
     _isSendLiveLocation = false;
   }
 
@@ -189,26 +193,17 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
       debugPrint("liveLocation from Store");
       var position = await _locationService.getCurrentLocation();
       var cl = LatLng(position.latitude, position.longitude);
-      if (cl.latitude != target.lat && cl.longitude != target.lng) {
-        _repository.updateCurrentLocation(
-            LatLong(lat: cl.latitude, lng: cl.longitude),
-            rideNavigationData.customerId,
-            rideNavigationData.driverId);
-        points = {
-          Marker(
-            markerId: MarkerId(cl.hashCode.toString()),
-            position: LatLng(cl.latitude, cl.longitude),
-            icon: _carBitMap,
-          ),
-          Marker(
-            markerId: MarkerId(target.hashCode.toString()),
-            position: LatLng(target.lat, target.lng),
-            icon: _personBitMap,
-          )
-        };
-      } else {
-        break;
-      }
+      _repository.updateCurrentLocation(
+          LatLong(lat: cl.latitude, lng: cl.longitude),
+          rideNavigationData.customerId,
+          rideNavigationData.driverId);
+      points = {
+        Marker(
+          markerId: MarkerId(cl.hashCode.toString()),
+          position: LatLng(cl.latitude, cl.longitude),
+          icon: _carBitMap,
+        )
+      };
     }
   }
 
@@ -229,7 +224,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     _disposers.add(_repository.onCancelRide().stream.listen((res) {
       if (res.isCanceled) {
         messageInformer.informUi(res.msg);
-        stropLocationSender();
+        stopLocationSender();
         onChange(ScreenWithExtras(screen: Screen.dashBoard));
       }
     }));
@@ -307,9 +302,8 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     points = {};
     if (dropDirectionResponse != null) {
       var route = dropDirectionResponse!.routes.first;
-      if (route.legs.length > 1) {
-        _decodeLeg(route.legs[1], false);
-      }
+      destinations.clear();
+      _decodeLeg(route.legs.first, false);
       for (var leg in route.legs) {
         _decodeLeg(leg, true);
       }
@@ -386,5 +380,21 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     endTripLoader = false;
     await Future.delayed(const Duration(seconds: 1));
     endTripLoader = true;
+  }
+
+  onRideStopNavigateTapped(RideStop stop) async {
+    if (await pipMode.isPipAvailable) {
+      await pipMode.enable(const Rational(1, 1));
+    }
+    var isSuccessful = await _directionImpl.openDirectionView(
+        stop.location.latitude, stop.location.longitude);
+
+    if (!isSuccessful) {
+      messageInformer.informUi("Unable to open map direction, Try again.");
+    } else {}
+  }
+
+  onRideStopTapped(RideStop stop) {
+    _controller?.animateCamera(CameraUpdate.newLatLngZoom(stop.location, 20));
   }
 }

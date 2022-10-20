@@ -192,33 +192,37 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
         ),
         Align(
           alignment: Alignment.topCenter,
-          child: fitBox(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(0.04.sw),
-                  decoration: const BoxDecoration(
-                      color: AppColors.white, shape: BoxShape.circle),
-                  child: SvgPicture.asset(
-                    _propagateVehicleType(widget.vehicleType),
-                    width: 0.03.sw,
-                    height: 0.03.sw,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(0.04.sw),
+                decoration: const BoxDecoration(
+                    color: AppColors.white, shape: BoxShape.circle),
+                child: SvgPicture.asset(
+                  _propagateVehicleType(widget.vehicleType),
+                  width: 0.03.sw,
+                  height: 0.03.sw,
                 ),
-                _propagateVehicleTypeName(widget.vehicleType)
-                    .text(AppTextStyle.vehicleTypeStyle)
-                    .padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
-                StringProvider.pickUp
-                    .text(AppTextStyle.pickUpLocationStyle)
-                    .padding(insets: const EdgeInsets.only(bottom: 5)),
-                widget.pickUpLocation.text(AppTextStyle.pickUpLocationStyle
-                    .copyWith(fontWeight: FontWeight.w600, fontSize: 20.sp)),
-                "${widget.estimateKm} • ${widget.eta}"
-                    .text(AppTextStyle.pickUpLocationStyle)
-              ],
-            ).padding(insets: EdgeInsets.only(top: 0.10.sw, bottom: 0.05.sw)),
-          ),
+              ),
+              _propagateVehicleTypeName(widget.vehicleType)
+                  .text(AppTextStyle.vehicleTypeStyle)
+                  .padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
+              StringProvider.pickUp
+                  .text(AppTextStyle.pickUpLocationStyle, TextOverflow.ellipsis,
+                      TextAlign.center)
+                  .padding(insets: const EdgeInsets.only(bottom: 5)),
+              widget.pickUpLocation.text(
+                  AppTextStyle.pickUpLocationStyle
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 20.sp),
+                  TextOverflow.ellipsis,
+                  TextAlign.center),
+              "${widget.estimateKm} • ${widget.eta}"
+                  .text(AppTextStyle.pickUpLocationStyle)
+            ],
+          ).padding(insets: EdgeInsets.only(top: 0.10.sw, bottom: 0.05.sw)),
         ),
       ],
     );

@@ -20,9 +20,9 @@ import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
+import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
-import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
@@ -260,6 +260,8 @@ abstract class _SharedStore extends AppNavigator with Store {
                 option: AlertOption.none, action: AlertAction.enableGps)));
       } else {
         currentLocation = await _locationService.getCurrentLocation();
+        driverBookings.instantiateCurrentLocation(
+            LatLng(currentLocation!.latitude, currentLocation!.longitude));
         _sendCurrentLocation();
         gettingDataLoader = false;
         streamDisposer?.cancel();

@@ -11,11 +11,12 @@ import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_bookings_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
-import 'package:jadu_ride_driver/utills/socket_io.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/utills/directions.dart';
+import 'package:jadu_ride_driver/utills/environment.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/booking_accepted.dart';
-import 'package:rxdart/subjects.dart';
 
 part 'driver_bookings_store.g.dart';
 
@@ -24,7 +25,7 @@ class DriverBookingStore = _DriverBookingsStore with _$DriverBookingStore;
 abstract class _DriverBookingsStore with Store {
   final _repository = dependency<DriverBookingsRepository>();
   final _prefs = dependency<Storage>();
-
+  final _env = dependency<Environment>();
   @observable
   RideInitiateData? onRideData;
 
@@ -47,7 +48,7 @@ abstract class _DriverBookingsStore with Store {
   String eta = "";
 
   final googleMap = const Key("GOOGLE_MAP");
-  late final GoogleMapController? _controller;
+  final GoogleMapController? _controller = null;
 
   StreamSubscription<DriverBookingDetails>? _streamDisposer;
   StreamSubscription<Object>? _bookingDisposer;
@@ -57,12 +58,12 @@ abstract class _DriverBookingsStore with Store {
 
   String currentBookingId = "";
 
+  LatLng? _currentLocation;
+
   @observable
   int passTimer = 0;
 
   DriverBookingDetails? newBooking;
-
-  _DriverBookingsStore() {}
 
   onMapCreate(GoogleMapController controller, BuildContext context) async {
     _onBooking(controller, context);
@@ -70,6 +71,10 @@ abstract class _DriverBookingsStore with Store {
       controller.animateCamera(CameraUpdate.newLatLngZoom(
           LatLng(newBooking!.lat, newBooking!.lng), 20));
     }
+  }
+
+  instantiateCurrentLocation(LatLng location) {
+    _currentLocation = location;
   }
 
   disposers() {
@@ -84,9 +89,23 @@ abstract class _DriverBookingsStore with Store {
       customers.clear();
       newBooking = data;
       var bookingDetails = data;
+
       var bitMap = await MarkerIcon.svgAsset(
           assetName: ImageAssets.customerMarker, context: context, size: 48);
       currentBookingId = bookingDetails.bookId;
+
+      var directionRes = await Directions(_env.googleApiKey)
+          .origin(_currentLocation!)
+          .destination(LatLng(bookingDetails.lat, bookingDetails.lng))
+          .request();
+
+      if (directionRes != null) {
+        pickUpLocation = directionRes.routes.first.legs.last.endAddress;
+        estimatedKm = directionRes.routes.first.legs.last.distance.text;
+      } else {
+        pickUpLocation = StringProvider.notAvailable;
+      }
+
       var customer = Marker(
         markerId: MarkerId(bookingDetails.bookId),
         position: LatLng(bookingDetails.lat, bookingDetails.lng),
@@ -97,8 +116,6 @@ abstract class _DriverBookingsStore with Store {
       details = bookingDetails.customerDetails;
       vehicleType = bookingDetails.vehicleType;
       passTimer = bookingDetails.passTimer;
-      pickUpLocation = bookingDetails.pickUpLocation;
-      estimatedKm = bookingDetails.estimateDistance;
       eta = bookingDetails.eta;
       customers.add(customer);
       controller.animateCamera(CameraUpdate.newLatLngZoom(

@@ -382,6 +382,8 @@ class StringProvider {
 
   static var endTrip = "End Trip";
 
+  static var notAvailable = "Not Available";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

@@ -17,6 +17,7 @@ import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import 'package:jadu_ride_driver/utills/app_floating.dart';
 import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
@@ -118,35 +119,39 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                       width: 1.sw,
                       padding: EdgeInsets.symmetric(vertical: 0.05.sw),
                       decoration: const BoxDecoration(color: AppColors.primary),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Observer(
-                            builder: (BuildContext context) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 0.03.sw),
-                                child: FilterChip(
-                                  elevation: 7.1,
-                                  padding: EdgeInsets.all(0.02.sw),
-                                  disabledColor: AppColors.white,
-                                  label: _store.currentRideStage.name
-                                      .text(AppTextStyle.transactionDateStyle),
-                                  onSelected: null,
-                                  backgroundColor: AppColors.white,
-                                  avatar: SvgPicture.asset(
-                                      _store.currentServiceIconPath),
-                                ),
-                              );
-                            },
-                          ),
-                          Observer(
-                            builder: (BuildContext context) => _store.customer
-                                .text(AppTextStyle.rideNavCustomerNameStyle
-                                    .copyWith(
-                                        color: AppColors.Acadia,
-                                        fontWeight: FontWeight.w600)),
-                          )
-                        ],
+                      child: fitBox(
+                        fit: BoxFit.contain,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Observer(
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 0.03.sw),
+                                  child: FilterChip(
+                                    elevation: 7.1,
+                                    padding: EdgeInsets.all(0.02.sw),
+                                    disabledColor: AppColors.white,
+                                    label: _store.currentRideStage.name.text(
+                                        AppTextStyle.transactionDateStyle),
+                                    onSelected: null,
+                                    backgroundColor: AppColors.white,
+                                    avatar: SvgPicture.asset(
+                                        _store.currentServiceIconPath),
+                                  ),
+                                );
+                              },
+                            ),
+                            Observer(
+                              builder: (BuildContext context) => _store.customer
+                                  .text(AppTextStyle.rideNavCustomerNameStyle
+                                      .copyWith(
+                                          color: AppColors.Acadia,
+                                          fontWeight: FontWeight.w600)),
+                            )
+                          ],
+                        ),
                       ),
                     )),
                 expand(
@@ -171,6 +176,10 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                               _store.destinations.isNotEmpty) {
                             return Column(children: [
                               expand(flex: 1, child: _dropLocation()),
+                              const Divider(
+                                color: AppColors.lightGray,
+                                height: 0.5,
+                              ),
                               Container(
                                 width: 1.sw,
                                 padding: EdgeInsets.symmetric(
@@ -331,9 +340,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
       },
       child: DraggableScrollableSheet(
           maxChildSize: 1,
-          minChildSize: 0.37,
-          initialChildSize: 0.37,
-          snap: true,
+          minChildSize: 0.27,
+          initialChildSize: 0.27,
+          snap: false,
           snapSizes: const [0.5, 0.75],
           builder: (context, controller) {
             return Observer(
@@ -357,86 +366,103 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                               (1.0 - _store.sheetExtentFactor) * 22),
                           topRight: Radius.circular(
                               (1.0 - _store.sheetExtentFactor) * 22))),
-                  child: Column(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 0.15.sw,
-                            child: const Divider(
-                              thickness: 5,
-                            ),
-                          ),
-                          fitBox(
-                            child: StringProvider.yourStops
-                                .text(AppTextStyle.tripPaymentMethodStyle),
-                          )
-                        ],
-                      ).paddings(top: 0.05.sw, bottom: 0.02.sw),
-                      expand(
-                        flex: 1,
-                        child: Timeline.builder(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 0.05.sw, vertical: 0.03.sw),
-                            controller: controller,
-                            itemBuilder: (context, idx) {
-                              return TimelineTile(
-                                  nodeAlign: TimelineNodeAlign.start,
-                                  contents: Container(
-                                    width: 0.90.sw,
-                                    padding: EdgeInsets.all(0.05.sw),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(16.r),
-                                        boxShadow: allShadow()),
-                                    child: _store.destinations[idx].name.text(
-                                        AppTextStyle.driverPersonalDetailStyle),
-                                  ).paddings(left: 0.03.sw),
-                                  node: TimelineNode(
-                                    indicator: Container(
-                                      width: 15,
-                                      height: 0.15.sw,
-                                      decoration: const BoxDecoration(
-                                          color: AppColors.primaryVariant,
-                                          shape: BoxShape.circle),
-                                    ),
-                                    startConnector: DecoratedLineConnector(
-                                      thickness: 7,
+                  child: Timeline.builder(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 0.05.sw, vertical: 0.03.sw),
+                      controller: controller,
+                      itemBuilder: (context, idx) {
+                        if (idx == 0) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 0.15.sw,
+                                child: const Divider(
+                                  thickness: 5,
+                                ),
+                              ),
+                              fitBox(
+                                child: StringProvider.yourStops
+                                    .text(AppTextStyle.tripPaymentMethodStyle),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  _store.onRideStopTapped(
+                                      _store.destinations[idx]);
+                                },
+                                child: TimelineTile(
+                                    nodeAlign: TimelineNodeAlign.start,
+                                    contents: Container(
+                                      width: 0.90.sw,
+                                      padding: EdgeInsets.all(0.05.sw),
                                       decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: _store.destinations.first !=
-                                                  _store.destinations[idx]
-                                              ? [
-                                                  AppColors.primaryVariant,
-                                                  AppColors.primary
-                                                      .withOpacity(0.4)
-                                                ]
-                                              : [
-                                                  AppColors.white,
-                                                  AppColors.white
-                                                ],
-                                        ),
+                                          color: AppColors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(16.r),
+                                          boxShadow: allShadow()),
+                                      child: Row(
+                                        children: [
+                                          expand(
+                                              flex: 8,
+                                              child: _store
+                                                  .destinations[idx].name
+                                                  .text(AppTextStyle
+                                                      .driverPersonalDetailStyle)
+                                                  .paddings(right: 0.02.sw)),
+                                          expand(
+                                              flex: 2,
+                                              child: fitBox(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    _store.onRideStopTapped(
+                                                        _store
+                                                            .destinations[idx]);
+                                                  },
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.r),
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.all(0.05.sw),
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: allShadow(),
+                                                        color: AppColors.Acadia,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.r),
+                                                        shape:
+                                                            BoxShape.rectangle),
+                                                    child: SvgPicture.asset(
+                                                      ImageAssets.navigation,
+                                                      color: AppColors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ))
+                                        ],
                                       ),
-                                    ),
-                                    endConnector: SizedBox(
-                                      height: 0.05.sw,
-                                      child: DecoratedLineConnector(
-                                        thickness: 7,
+                                    ).paddings(left: 0.03.sw, bottom: 0.03.sw),
+                                    node: TimelineNode(
+                                      indicator: Container(
+                                        width: 15,
+                                        height: 15,
+                                        decoration: const BoxDecoration(
+                                            color: AppColors.primaryVariant,
+                                            shape: BoxShape.circle),
+                                      ),
+                                      startConnector: DecoratedLineConnector(
+                                        thickness: 3,
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
-                                            colors: _store.destinations.last !=
+                                            colors: _store.destinations.first !=
                                                     _store.destinations[idx]
                                                 ? [
+                                                    AppColors.primaryVariant,
                                                     AppColors.primary
-                                                        .withOpacity(0.4),
-                                                    AppColors.primaryVariant
+                                                        .withOpacity(0.4)
                                                   ]
                                                 : [
                                                     AppColors.white,
@@ -445,13 +471,134 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                           ),
                                         ),
                                       ),
+                                      endConnector: SizedBox(
+                                        child: DecoratedLineConnector(
+                                          thickness: 3,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: _store
+                                                          .destinations.last !=
+                                                      _store.destinations[idx]
+                                                  ? [
+                                                      AppColors.primary
+                                                          .withOpacity(0.4),
+                                                      AppColors.primaryVariant
+                                                    ]
+                                                  : [
+                                                      AppColors.white,
+                                                      AppColors.white
+                                                    ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                              ).paddings(top: 0.05.sw)
+                            ],
+                          );
+                        }
+                        return InkWell(
+                          onTap: () {
+                            _store.onRideStopTapped(_store.destinations[idx]);
+                          },
+                          child: TimelineTile(
+                              nodeAlign: TimelineNodeAlign.start,
+                              contents: Container(
+                                width: 0.90.sw,
+                                padding: EdgeInsets.all(0.05.sw),
+                                decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    boxShadow: allShadow()),
+                                child: Row(
+                                  children: [
+                                    expand(
+                                        flex: 8,
+                                        child: _store.destinations[idx].name
+                                            .text(AppTextStyle
+                                                .driverPersonalDetailStyle)
+                                            .paddings(right: 0.02.sw)),
+                                    expand(
+                                        flex: 2,
+                                        child: fitBox(
+                                          child: InkWell(
+                                            onTap: () {
+                                              _store.onRideStopTapped(
+                                                  _store.destinations[idx]);
+                                            },
+                                            borderRadius:
+                                                BorderRadius.circular(12.r),
+                                            child: Container(
+                                              padding: EdgeInsets.all(0.05.sw),
+                                              decoration: BoxDecoration(
+                                                  boxShadow: allShadow(),
+                                                  color: AppColors.Acadia,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.r),
+                                                  shape: BoxShape.rectangle),
+                                              child: SvgPicture.asset(
+                                                ImageAssets.navigation,
+                                                color: AppColors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              ).paddings(left: 0.03.sw, bottom: 0.03.sw),
+                              node: TimelineNode(
+                                indicator: Container(
+                                  width: 15,
+                                  height: 15,
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.primaryVariant,
+                                      shape: BoxShape.circle),
+                                ),
+                                startConnector: DecoratedLineConnector(
+                                  thickness: 3,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: _store.destinations.first !=
+                                              _store.destinations[idx]
+                                          ? [
+                                              AppColors.primaryVariant,
+                                              AppColors.primary.withOpacity(0.4)
+                                            ]
+                                          : [AppColors.white, AppColors.white],
                                     ),
-                                  ));
-                            },
-                            itemCount: _store.destinations.length),
-                      ),
-                    ],
-                  ),
+                                  ),
+                                ),
+                                endConnector: SizedBox(
+                                  child: DecoratedLineConnector(
+                                    thickness: 3,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: _store.destinations.last !=
+                                                _store.destinations[idx]
+                                            ? [
+                                                AppColors.primary
+                                                    .withOpacity(0.4),
+                                                AppColors.primaryVariant
+                                              ]
+                                            : [
+                                                AppColors.white,
+                                                AppColors.white
+                                              ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        );
+                      },
+                      itemCount: _store.destinations.length),
                 );
               },
             );
