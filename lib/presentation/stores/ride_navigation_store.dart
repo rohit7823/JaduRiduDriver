@@ -287,8 +287,9 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   @action
   placeDropCoordinates(RideLocationResponse response) async {
     var locations = <LatLng>[];
-
-    locations.add(rideNavigationData.currentLocation);
+    if (response.waypoints.isEmpty) {
+      locations.add(rideNavigationData.currentLocation);
+    }
     for (var element in response.waypoints) {
       locations.add(LatLng(element.lat, element.lng));
     }

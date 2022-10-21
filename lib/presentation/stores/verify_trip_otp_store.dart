@@ -21,6 +21,8 @@ abstract class _IVerifyTripOtpStore extends AppNavigator with Store {
   @observable
   bool enableBtn = false;
 
+  bool _isCalled = false;
+
   String otp = "";
 
   RideIds ids;
@@ -51,12 +53,14 @@ abstract class _IVerifyTripOtpStore extends AppNavigator with Store {
   @action
   verify() async {
     sendingLoader = true;
+    debugPrint("verifyOtp");
     SocketIO.client.emit(SocketEvents.verifyOtp.value,
         {"rideId": ids.rideId, "driverId": ids.driverId, "otp": otp});
     SocketIO.client.on(SocketEvents.isOtpVerified.value, (data) {
-      debugPrint("isOtpVerified $data");
+      debugPrint("_cabWithDirection $data");
       var response = VerifyTripOtpResponse.fromJson(data);
-      if (response.status) {
+      if (response.status && !_isCalled) {
+        _isCalled = true;
         onChange(
             ScreenWithExtras(screen: Screen.rideNavigation, argument: true));
       }

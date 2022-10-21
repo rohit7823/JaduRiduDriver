@@ -102,6 +102,7 @@ abstract class _DriverBookingsStore with Store {
       if (directionRes != null) {
         pickUpLocation = directionRes.routes.first.legs.last.endAddress;
         estimatedKm = directionRes.routes.first.legs.last.distance.text;
+        eta = directionRes.routes.first.legs.last.duration.text;
       } else {
         pickUpLocation = StringProvider.notAvailable;
       }
@@ -116,7 +117,6 @@ abstract class _DriverBookingsStore with Store {
       details = bookingDetails.customerDetails;
       vehicleType = bookingDetails.vehicleType;
       passTimer = bookingDetails.passTimer;
-      eta = bookingDetails.eta;
       customers.add(customer);
       controller.animateCamera(CameraUpdate.newLatLngZoom(
           LatLng(newBooking!.lat, newBooking!.lng), 20));

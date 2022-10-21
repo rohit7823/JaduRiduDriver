@@ -15,9 +15,7 @@ class _PayTripScreenState extends State<PayTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [
-
-        ],
+        children: [],
       ),
     );
   }

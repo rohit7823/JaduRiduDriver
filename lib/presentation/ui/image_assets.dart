@@ -80,4 +80,7 @@ class ImageAssets {
   static const customerMarkerPng = "$_root/customer_marker.png";
   static const wayPoint = "$_root/waypoint.png";
   static const destination = "$_root/destination.png";
+  static const cash = "$_root/cash.svg";
+  static const upi = "$_root/upi.png";
+  static const wallet = "$_root/wallet.svg";
 }
