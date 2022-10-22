@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
+import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
 import 'package:jadu_ride_driver/data/online/driver_live_location_api.dart';
@@ -34,6 +35,16 @@ class DriverLiveLocationRepositoryImpl implements DriverLiveLocationRepository {
     SocketIO.client.on(SocketEvents.dropNavigation.value, (data) {
       debugPrint("dropNavigation ${RideLocationResponse.fromJson(data)}");
       controller.add(RideLocationResponse.fromJson(data));
+    });
+
+    return controller;
+  }
+
+  @override
+  StreamController<TotalRideFareResponse> onRideFare() {
+    var controller = StreamController<TotalRideFareResponse>();
+    SocketIO.client.on(SocketEvents.totalRideFare.value, (data) {
+      controller.add(TotalRideFareResponse.fromJson(data));
     });
 
     return controller;

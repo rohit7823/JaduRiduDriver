@@ -46,6 +46,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
   @override
   void initState() {
     widget.sharedStore.onRideStarted();
+    widget.sharedStore.onRideFare();
     _store = RideNavStore(widget.rideId);
     super.initState();
     WidgetsBinding.instance.addObserver(this);

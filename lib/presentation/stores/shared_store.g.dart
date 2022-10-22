@@ -90,6 +90,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$rideFareResponseAtom =
+      Atom(name: '_SharedStore.rideFareResponse', context: context);
+
+  @override
+  TotalRideFareResponse? get rideFareResponse {
+    _$rideFareResponseAtom.reportRead();
+    return super.rideFareResponse;
+  }
+
+  @override
+  set rideFareResponse(TotalRideFareResponse? value) {
+    _$rideFareResponseAtom.reportWrite(value, super.rideFareResponse, () {
+      super.rideFareResponse = value;
+    });
+  }
+
   late final _$getIntroPageDataAsyncAction =
       AsyncAction('_SharedStore.getIntroPageData', context: context);
 
@@ -150,13 +166,25 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic _setTotalRideFare(TotalRideFareResponse response) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore._setTotalRideFare');
+    try {
+      return super._setTotalRideFare(response);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
 selectedMenu: ${selectedMenu},
-dropLocationData: ${dropLocationData}
+dropLocationData: ${dropLocationData},
+rideFareResponse: ${rideFareResponse}
     ''';
   }
 }

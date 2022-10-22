@@ -11,6 +11,8 @@ enum SocketEvents {
   isOtpVerified("isOtpVerified"),
   onRide("onRide"),
   dropNavigation("rideDropNavigation"),
+  totalRideFare("totalRideFare"),
+  completeRidePayment("completeRidePayment"),
   updateCurrentLocation("updateCurrentLocation");
 
   final String value;

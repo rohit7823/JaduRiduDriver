@@ -384,6 +384,8 @@ class StringProvider {
 
   static var notAvailable = "Not Available";
 
+  static var amountCollected = "Amount Collected";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

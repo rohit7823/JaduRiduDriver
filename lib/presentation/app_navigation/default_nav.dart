@@ -174,6 +174,7 @@ class DefaultNav {
       case AppRoute.payTrip:
         return ScreenTransitions.fadeInTransition(PayTripScreen(
           rideIds: retrievedArgument as RideIds,
+          sharedStore: sharedStore,
         ));
       default:
         return null;

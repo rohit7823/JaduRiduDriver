@@ -20,6 +20,7 @@ import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
@@ -383,5 +384,20 @@ abstract class _SharedStore extends AppNavigator with Store {
   @action
   _setDropLocations(RideLocationResponse response) {
     dropLocationData = response;
+  }
+
+  @observable
+  TotalRideFareResponse? rideFareResponse;
+
+  onRideFare() {
+    _driverLocationRepo.onRideFare().stream.listen((response) {
+      debugPrint("onRideFare $response");
+      _setTotalRideFare(response);
+    });
+  }
+
+  @action
+  _setTotalRideFare(TotalRideFareResponse response) {
+    rideFareResponse = response;
   }
 }

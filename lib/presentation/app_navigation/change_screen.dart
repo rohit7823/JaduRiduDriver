@@ -331,6 +331,8 @@ class ChangeScreen {
       _navigatePop(context, result);
     } else if (dest == Screen.rideNavigation) {
       _navigatePop(context, result);
+    } else if (dest == Screen.dashBoard) {
+      _navigatePop(context, result);
     }
 
     onCompleted?.call();
