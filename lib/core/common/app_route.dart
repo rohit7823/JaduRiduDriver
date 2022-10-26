@@ -59,6 +59,8 @@ class AppRoute {
 
   static const payTrip = "/payTrip";
 
+  static const rateCustomer = "/rateCustomer";
+
   AppRoute._();
 
   static const splash = "/splash";

@@ -60,14 +60,16 @@ class _VerifyTripOtpScreenState extends State<VerifyTripOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: MyAppBar(),
-        body: Column(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: MyAppBar(
+        onPop: null,
+      ),
+      body: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Column(
           children: [
             expand(flex: 2, child: _upperSideContent()),
             expand(flex: 9, child: _lowerSideContent())

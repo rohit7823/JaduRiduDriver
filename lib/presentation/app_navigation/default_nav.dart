@@ -18,6 +18,7 @@ import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pay_trip_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/payment_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/rate_customer_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
@@ -173,6 +174,12 @@ class DefaultNav {
         ));
       case AppRoute.payTrip:
         return ScreenTransitions.fadeInTransition(PayTripScreen(
+          rideIds: retrievedArgument as RideIds,
+          sharedStore: sharedStore,
+        ));
+      case AppRoute.rateCustomer:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
+            RateCustomerScreen(
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));

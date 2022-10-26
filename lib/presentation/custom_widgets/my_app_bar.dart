@@ -6,15 +6,16 @@ import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  MyAppBar({Key? key, this.onPop}) : super(key: key);
+  MyAppBar({Key? key, this.onPop, this.isPop = false}) : super(key: key);
   Function? onPop;
+  bool isPop;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 0.16.sw,
       backgroundColor: AppColors.primary,
-      leading: NavigateBack(onPop: onPop),
+      leading: isPop ? NavigateBack(onPop: onPop) : const SizedBox.shrink(),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(

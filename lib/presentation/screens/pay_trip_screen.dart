@@ -102,32 +102,48 @@ class _PayTripScreenState extends State<PayTripScreen> {
   }
 
   Widget _lowerSideContent() {
-    return Container(
-      child: Column(children: [
-        expand(
-            flex: 8,
+    return Column(children: [
+      expand(
+          flex: 8,
+          child: Observer(builder: (context) {
+            if (_store.totalRideFareResponse != null) {
+              return Align(
+                child: fitBox(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 0.70.sw,
+                        padding: EdgeInsets.all(0.03.sw),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: AppColors.primary, width: 1)),
+                        child:
+                            Image.network(_store.totalRideFareResponse!.qrCode),
+                      ).paddings(bottom: 0.04.sw),
+                      StringProvider.scanQrCodeToPay.text(AppTextStyle
+                          .btnTextStyle
+                          .copyWith(color: AppColors.primaryVariant))
+                    ],
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          })),
+      expand(
+          flex: 2,
+          child: Align(
             child: Observer(builder: (context) {
-              if (_store.totalRideFareResponse != null) {
-                return Align(
-                  child: Image.network(_store.totalRideFareResponse!.qrCode),
-                );
-              }
-              return const SizedBox.shrink();
-            })),
-        expand(
-            flex: 2,
-            child: Align(
-              child: Observer(builder: (context) {
-                return ElevatedButton(
-                    onPressed: _store.amountCollected,
-                    style: AppButtonThemes.defaultStyle.copyWith(
-                        backgroundColor: const MaterialStatePropertyAll(
-                            AppColors.primaryVariant)),
-                    child: StringProvider.amountCollected
-                        .text(AppTextStyle.btnTextStyleWhite));
-              }),
-            ))
-      ]),
-    );
+              return ElevatedButton(
+                  onPressed: _store.amountCollected,
+                  style: AppButtonThemes.defaultStyle.copyWith(
+                      backgroundColor: const MaterialStatePropertyAll(
+                          AppColors.primaryVariant)),
+                  child: StringProvider.amountCollected
+                      .text(AppTextStyle.btnTextStyleWhite));
+            }),
+          ))
+    ]);
   }
 }

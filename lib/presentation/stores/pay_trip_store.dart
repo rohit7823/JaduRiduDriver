@@ -29,7 +29,7 @@ abstract class IPayTripStore extends AppNavigator with Store {
   amountCollected() {
     SocketIO.client.emit(SocketEvents.completeRidePayment.value, ids.rideId);
     onChange(ScreenWithExtras(
-        screen: Screen.dashBoard,
+        screen: Screen.rateCustomer,
         option: NavigationOption(option: Option.popPrevious)));
   }
 }

@@ -386,6 +386,14 @@ class StringProvider {
 
   static var amountCollected = "Amount Collected";
 
+  static var scanQrCodeToPay = "Scan QR Code to Pay";
+
+  static var rateYourCustomer = "Rate Your Customer";
+
+  static var saySomethingAboutYourExp = "Say something about your experience!";
+
+  static var submit = "Submit";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

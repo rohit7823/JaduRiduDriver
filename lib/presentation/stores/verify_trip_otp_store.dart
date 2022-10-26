@@ -64,8 +64,8 @@ abstract class _IVerifyTripOtpStore extends AppNavigator with Store {
         onChange(
             ScreenWithExtras(screen: Screen.rideNavigation, argument: true));
       }
-      sendingLoader = false;
       messageInformer.informUi(response.msg);
+      sendingLoader = false;
     });
   }
 

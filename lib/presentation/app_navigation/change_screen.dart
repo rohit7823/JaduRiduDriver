@@ -249,6 +249,14 @@ class ChangeScreen {
             option!,
             onComplete: onComplete);
         break;
+      case Screen.rateCustomer:
+        _navigateWithOption(
+            context,
+            AppRoute.rateCustomer,
+            arguments: arguments,
+            option!,
+            onComplete: onComplete);
+        break;
     }
   }
 
@@ -331,7 +339,7 @@ class ChangeScreen {
       _navigatePop(context, result);
     } else if (dest == Screen.rideNavigation) {
       _navigatePop(context, result);
-    } else if (dest == Screen.dashBoard) {
+    } else if (dest == Screen.rateCustomer) {
       _navigatePop(context, result);
     }
 
