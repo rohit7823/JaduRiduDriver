@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/app_constants.dart';
-
 import 'package:rxdart/subjects.dart';
 import 'package:socket_io_client/socket_io_client.dart' as soc;
 
@@ -21,19 +18,21 @@ class SocketIO {
 
   static init({bool autoConnect = false, required String userId}) {
     _socketClient = soc.io("http://192.168.0.114:3000", <String, dynamic>{
-      'autoConnect': false,
+      'autoConnect': autoConnect,
       'reconnection': true,
       'reconnectionDelay': 100,
       'reconnectionAttempts': 10,
       'transports': ['websocket'],
     });
-    if (autoConnect) {
-      connect(userId);
-    }
+    connect(userId, autoConnect);
   }
 
-  static connect(String userId) {
-    _socketClient.connect().onConnect((_) {});
+  static connect(String userId, bool autoConnect) {
+    if (!autoConnect) {
+      _socketClient.connect();
+    }
+    _socketClient.onConnect((data) =>
+        debugPrint("connection established!! ID: ${_socketClient.id}"));
     _socketClient.on(SocketEvents.connectionStatus.value, (data) {
       debugPrint("socket_status $data");
       var response =

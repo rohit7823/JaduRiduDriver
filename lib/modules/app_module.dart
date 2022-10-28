@@ -26,6 +26,7 @@ import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
 import 'package:jadu_ride_driver/core/repository/partner_care_repository.dart';
 import 'package:jadu_ride_driver/core/repository/payment_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/profile_picture_repository.dart';
+import 'package:jadu_ride_driver/core/repository/rate_customer_repository.dart';
 import 'package:jadu_ride_driver/core/repository/registration_certificate_repository.dart';
 import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart';
 import 'package:jadu_ride_driver/core/repository/right_side_exterior_repository.dart';
@@ -59,6 +60,7 @@ import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart'
 import 'package:jadu_ride_driver/repository_impls/partner_care_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/payment_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/profile_picture_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/rate_customer_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/registration_certificate_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/ride_navigation_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/right_side_exterior_repository_impl.dart';
@@ -257,5 +259,8 @@ class AppModule {
 
     dependency.registerLazySingleton<RideNavigationRepository>(
         () => RideNavigationRepositoryImpl());
+
+    dependency.registerLazySingleton<RateCustomerRepository>(
+        () => RateCustomerRepositoryImpl(dio));
   }
 }

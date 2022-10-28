@@ -28,5 +28,6 @@ enum AlertAction {
   locationPermissionRationale,
   locationServiceDisable,
   setDriverStatus,
+  submitCustomerReview,
   none;
 }

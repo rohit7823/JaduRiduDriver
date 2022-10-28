@@ -41,7 +41,13 @@ class _PayTripScreenState extends State<PayTripScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null) {
-          ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
+          ChangeScreen.to(
+            context,
+            p0.screen,
+            option: p0.option,
+            onComplete: _store.clear,
+            arguments: p0.argument,
+          );
         }
       })
     ];
