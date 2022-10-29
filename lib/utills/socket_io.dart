@@ -9,8 +9,8 @@ import '../core/domain/socket_connection_model.dart';
 
 class SocketIO {
   static late final soc.Socket _socketClient;
-
   static soc.Socket get client => _socketClient;
+
   static final BehaviorSubject<SocketStatus> latestStatus =
       BehaviorSubject<SocketStatus>.seeded(SocketStatus.neutral);
 
@@ -19,9 +19,6 @@ class SocketIO {
   static init({bool autoConnect = false, required String userId}) {
     _socketClient = soc.io("http://192.168.0.114:3000", <String, dynamic>{
       'autoConnect': autoConnect,
-      'reconnection': true,
-      'reconnectionDelay': 100,
-      'reconnectionAttempts': 10,
       'transports': ['websocket'],
     });
     connect(userId, autoConnect);
