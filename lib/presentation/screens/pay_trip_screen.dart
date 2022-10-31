@@ -49,6 +49,14 @@ class _PayTripScreenState extends State<PayTripScreen> {
             arguments: p0.argument,
           );
         }
+      }),
+      reaction(
+          (p0) => widget.sharedStore.driverBookings.distinctAfterPayment.data,
+          (p0) {
+        if (p0) {
+          _store.navigateToReviewCustomer();
+          widget.sharedStore.driverBookings.distinctAfterPayment.clear();
+        }
       })
     ];
   }
@@ -58,6 +66,9 @@ class _PayTripScreenState extends State<PayTripScreen> {
     for (var element in _disposers) {
       element();
     }
+    widget.sharedStore.driverBookings.distinctAfterPayment.clearCache();
+    widget.sharedStore.driverBookings.distinctPaymentAcceptance.clearCache();
+    widget.sharedStore.driverBookings.distinctPaymentAcceptance.clear();
     super.dispose();
   }
 
@@ -141,11 +152,26 @@ class _PayTripScreenState extends State<PayTripScreen> {
           flex: 2,
           child: Align(
             child: Observer(builder: (context) {
+              if (widget.sharedStore.driverBookings.distinctPaymentAcceptance
+                      .data !=
+                  null) {
+                return ElevatedButton(
+                    onPressed: widget.sharedStore.driverBookings
+                            .distinctPaymentAcceptance.data
+                        ? _store.amountCollected
+                        : null,
+                    style: widget.sharedStore.driverBookings
+                            .distinctPaymentAcceptance.data
+                        ? AppButtonThemes.defaultStyle.copyWith(
+                            backgroundColor: const MaterialStatePropertyAll(
+                                AppColors.primaryVariant))
+                        : AppButtonThemes.cancelBtnStyle,
+                    child: StringProvider.amountCollected
+                        .text(AppTextStyle.btnTextStyleWhite));
+              }
               return ElevatedButton(
-                  onPressed: _store.amountCollected,
-                  style: AppButtonThemes.defaultStyle.copyWith(
-                      backgroundColor: const MaterialStatePropertyAll(
-                          AppColors.primaryVariant)),
+                  onPressed: null,
+                  style: AppButtonThemes.cancelBtnStyle,
                   child: StringProvider.amountCollected
                       .text(AppTextStyle.btnTextStyleWhite));
             }),

@@ -372,6 +372,8 @@ abstract class _SharedStore extends AppNavigator with Store {
   connectToSocket() {
     SocketIO.init(autoConnect: true, userId: _prefs.userId());
     driverBookings.afterBookingAcceptedListen();
+    driverBookings.onPaymentAcceptance();
+    driverBookings.afterPayment();
   }
 
   onRideStarted() {

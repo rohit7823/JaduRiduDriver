@@ -4,6 +4,7 @@ import 'package:custom_marker/marker_icon.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/booking_status.dart';
+import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/domain/customer_details.dart';
 import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
@@ -13,7 +14,9 @@ import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/directions.dart';
+import 'package:jadu_ride_driver/utills/distinct_data.dart';
 import 'package:jadu_ride_driver/utills/environment.dart';
+import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/booking_accepted.dart';
@@ -148,5 +151,24 @@ abstract class _DriverBookingsStore with Store {
         onRideData = response;
       }
     });
+  }
+
+  DistinctData<bool> distinctPaymentAcceptance = DistinctData();
+
+  onPaymentAcceptance() {
+    SocketIO.client.on(SocketEvents.paymentAcceptanceControl.value, (status) {
+      debugPrint("paymentAcceptanceControl $status");
+      distinctPaymentAcceptance.init(status, test: (cached, newly) => true);
+    });
+  }
+
+  DistinctData<bool> distinctAfterPayment = DistinctData();
+
+  afterPayment() {
+    SocketIO.client.on(
+        SocketEvents.afterPayment.value,
+        (status) => distinctAfterPayment.init(status,
+            test: (cached, newly) =>
+                cached is bool && newly is bool && (!cached && newly)));
   }
 }

@@ -116,6 +116,17 @@ mixin _$RateCustomerStore on IRateCustomerStore, Store {
   }
 
   @override
+  dynamic setEnableBtn(bool status) {
+    final _$actionInfo = _$IRateCustomerStoreActionController.startAction(
+        name: 'IRateCustomerStore.setEnableBtn');
+    try {
+      return super.setEnableBtn(status);
+    } finally {
+      _$IRateCustomerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 customerReview: ${customerReview},

@@ -13,7 +13,9 @@ enum SocketEvents {
   dropNavigation("rideDropNavigation"),
   totalRideFare("totalRideFare"),
   completeRidePayment("completeRidePayment"),
-  updateCurrentLocation("updateCurrentLocation");
+  updateCurrentLocation("updateCurrentLocation"),
+  afterPayment("afterPayment"),
+  paymentAcceptanceControl("paymentAcceptanceControl");
 
   final String value;
   const SocketEvents(this.value);

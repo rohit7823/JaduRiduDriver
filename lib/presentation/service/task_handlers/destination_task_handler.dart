@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/timestamp_with_direction.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/utills/directions.dart';
@@ -10,7 +11,7 @@ class DestinationTaskHandler extends TaskHandler {
   final Directions _directionsApi;
   SendPort? _sendPort;
   final AppLocationService _locationService;
-  Screen screenToRedirect;
+  ScreenWithExtras screenToRedirect;
 
   DestinationTaskHandler(
       this._directionsApi, this._locationService, this.screenToRedirect);
@@ -60,7 +61,7 @@ class DestinationTaskHandler extends TaskHandler {
 
   @override
   void onNotificationPressed() {
+    FlutterForegroundTask.launchApp(screenToRedirect.screen.name);
     _sendPort?.send(screenToRedirect);
-    FlutterForegroundTask.launchApp();
   }
 }

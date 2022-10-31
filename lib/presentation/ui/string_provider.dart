@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:jadu_ride_driver/translations_generated_files/locale_keys.g.dart';
 
 class StringProvider {
@@ -393,6 +392,12 @@ class StringProvider {
   static var saySomethingAboutYourExp = "Say something about your experience!";
 
   static var submit = "Submit";
+
+  static var jaduRideDirectionNavigationServiceID =
+      "jadu_ride_direction_navigation_service_id";
+
+  static var jaduRideDirectionNavigationService =
+      "JaduRide Direction Navigation Service";
 
   StringProvider._();
 

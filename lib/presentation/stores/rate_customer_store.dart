@@ -28,7 +28,7 @@ abstract class IRateCustomerStore extends AppNavigator with Store {
   final dialogMgr = DialogManager();
 
   IRateCustomerStore(this._ids) {
-    _validateInputs();
+    //_validateInputs();
   }
 
   @observable
@@ -38,7 +38,7 @@ abstract class IRateCustomerStore extends AppNavigator with Store {
   double customerRating = 0;
 
   @observable
-  bool enableBtn = false;
+  bool enableBtn = true;
 
   @observable
   bool uploadingReviewLoader = false;
@@ -63,6 +63,11 @@ abstract class IRateCustomerStore extends AppNavigator with Store {
         enableBtn = true;
       }
     }
+  }
+
+  @action
+  setEnableBtn(bool status) {
+    enableBtn = status;
   }
 
   @action

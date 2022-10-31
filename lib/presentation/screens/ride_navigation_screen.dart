@@ -1,6 +1,6 @@
-import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +17,6 @@ import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
-import 'package:jadu_ride_driver/utills/app_floating.dart';
 import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
@@ -89,23 +88,25 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
     for (var element in _disposers) {
       element();
     }
-    WidgetsBinding.instance.removeObserver(this);
+    _store.rideDirectionNavigationService.stop();
     AppPipService.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    debugPrint("AppLifeState $state");
+    if (state == AppLifecycleState.resumed) {
+      _store.rideDirectionNavigationService.stopOverlay();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return PiPSwitcher(
-      childWhenEnabled: Container(
-          decoration:
-              BoxDecoration(color: AppColors.Acadia, shape: BoxShape.circle),
-          child: Image.asset(
-            ImageAssets.logo,
-            width: 50,
-            height: 50,
-          )),
-      childWhenDisabled: WillPopScope(
+    return WithForegroundTask(
+      child: WillPopScope(
         onWillPop: () async {
           //_store.stropLocationSender();
           return false;
@@ -526,7 +527,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                         child: fitBox(
                                           child: InkWell(
                                             onTap: () {
-                                              _store.onRideStopTapped(
+                                              _store.onRideStopNavigateTapped(
                                                   _store.destinations[idx]);
                                             },
                                             borderRadius:

@@ -4,9 +4,9 @@ import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
-import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 
 part 'pay_trip_store.g.dart';
 
@@ -28,6 +28,9 @@ abstract class IPayTripStore extends AppNavigator with Store {
   @action
   amountCollected() {
     SocketIO.client.emit(SocketEvents.completeRidePayment.value, ids.rideId);
+  }
+
+  navigateToReviewCustomer() {
     onChange(ScreenWithExtras(
         screen: Screen.rateCustomer,
         argument: ids,
