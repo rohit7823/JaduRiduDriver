@@ -4,10 +4,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/core/common/overlay_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
+import 'package:jadu_ride_driver/presentation/service/ride_direction_foreground_service.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_button_themes.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
@@ -29,17 +31,17 @@ class ApplicationSubmittedScreen extends StatefulWidget {
 }
 
 class _ApplicationSubmittedScreenState
-    extends State<ApplicationSubmittedScreen> {
+    extends State<ApplicationSubmittedScreen> with WidgetsBindingObserver {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
-
+  final rideDirectionNavigationService = RideDirectionForegroundService();
 
   @override
   void initState() {
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     _disposers = [
       reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
@@ -63,7 +65,26 @@ class _ApplicationSubmittedScreenState
     for (var element in _disposers) {
       element();
     }
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    debugPrint("AppLifeState $state");
+    if (state == AppLifecycleState.resumed) {
+      rideDirectionNavigationService.stopOverlay();
+    }
+  }
+
+  startService() async {
+    var isGranted = await rideDirectionNavigationService.checkPermission();
+    if (isGranted == OverlayPermissionStatus.granted) {
+      await rideDirectionNavigationService.initPort(true);
+      var isRunning =
+      await rideDirectionNavigationService.runOrRestartServiceIfNot();
+    }
   }
 
   @override
@@ -99,9 +120,9 @@ class _ApplicationSubmittedScreenState
                 child: Observer(
                   builder: (BuildContext context) {
                     return ElevatedButton(
-                        onPressed: widget.sharedStore.gettingDataLoader
+                        onPressed: startService /*widget.sharedStore.gettingDataLoader
                             ? null
-                            : widget.sharedStore.getDashBoardData,
+                            : widget.sharedStore.getDashBoardData*/,
                         style: widget.sharedStore.gettingDataLoader
                             ? AppButtonThemes.cancelBtnStyle
                             : AppButtonThemes.defaultStyle,

@@ -71,6 +71,8 @@ dependencies:
   timelines: ^0.1.0
   flutter_rating_bar: ^4.0.1
   flutter_foreground_task: ^3.10.0
+  flutter_overlay_window: ^0.3.2
+
 
 dev_dependencies:
   flutter_test:

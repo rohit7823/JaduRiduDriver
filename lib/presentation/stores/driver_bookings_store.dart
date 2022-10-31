@@ -167,7 +167,8 @@ abstract class _DriverBookingsStore with Store {
   afterPayment() {
     SocketIO.client.on(
         SocketEvents.afterPayment.value,
-        (status) => distinctAfterPayment.init(status,
+        (status) => distinctAfterPayment.init(
+            status,
             test: (cached, newly) =>
                 cached is bool && newly is bool && (!cached && newly)));
   }
