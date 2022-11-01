@@ -1,11 +1,13 @@
 import 'dart:isolate';
+
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/timestamp_with_direction.dart';
+import 'package:jadu_ride_driver/core/service/app_lifecyle_utility_callbacks.dart';
+import 'package:jadu_ride_driver/core/service/constants.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/utills/directions.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 class DestinationTaskHandler extends TaskHandler {
   final Directions _directionsApi;
@@ -33,11 +35,13 @@ class DestinationTaskHandler extends TaskHandler {
 
     if (directionResponse != null) {
       FlutterForegroundTask.updateService(
-        notificationTitle: "You've Reached",
+        notificationTitle:
+            "You've Reached - ${directionResponse.routes.first.summary}",
         notificationText: directionResponse.routes.first.legs.first.endAddress,
       );
       _sendPort?.send(TimeStampWithDirection(
-          timpStamp: timestamp, directionResponse: directionResponse));
+          timpStamp: timestamp, directionResponse: directionResponse)
+      );
     }
   }
 
@@ -60,8 +64,18 @@ class DestinationTaskHandler extends TaskHandler {
   }
 
   @override
+  void onButtonPressed(String id) {
+    if (id == Constants.backToApp) {
+      AppLifeCycleUtilityCallbacks.bringToForeground(
+          screenToRedirect.screen.name
+      );
+    }
+  }
+
+  @override
   void onNotificationPressed() {
-    FlutterForegroundTask.launchApp(screenToRedirect.screen.name);
+    AppLifeCycleUtilityCallbacks.bringToForeground(
+        screenToRedirect.screen.name);
     _sendPort?.send(screenToRedirect);
   }
 }

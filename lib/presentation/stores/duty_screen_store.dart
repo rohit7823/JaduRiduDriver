@@ -53,12 +53,6 @@ abstract class _DutyScreenStore with Store {
   _DutyScreenStore(this.tabController) {
     _driverStatus();
     _getBookingSummary();
-    FlutterOverlayWindow.overlayListener.listen((event) {
-      debugPrint("overlay clicked");
-      if(event is bool && event) {
-        debugPrint("overlay clicked");
-      }
-    });
   }
 
   _driverStatus() async {
@@ -109,22 +103,6 @@ abstract class _DutyScreenStore with Store {
         case true:
           if (data!.isUpdated) {
             this.selectedStatus = selectedStatus;
-            final bool? status = await FlutterOverlayWindow.requestPermission();
-            if (status != null && selectedStatus == DriverStatus.onDuty) {
-              await FlutterOverlayWindow.showOverlay(
-                  enableDrag: true,
-                  width: 200,
-                  height: 200,
-                  flag: OverlayFlag.defaultFlag,
-                  positionGravity: PositionGravity.auto,
-                  alignment: OverlayAlignment.centerRight,
-
-              );
-              GoogleMapDirectionImpl(dependency<Environment>().googleApiKey)
-                  .openDirectionView(22.6573, 88.3624);
-            } else if (selectedStatus == DriverStatus.offDuty) {
-              await FlutterOverlayWindow.closeOverlay();
-            }
             informMessage = data.message;
           } else {
             errorMsg = data.message;

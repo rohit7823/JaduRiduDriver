@@ -189,7 +189,7 @@ class AppModule {
         () => VehiclePermitRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehicleAuditRepository>(
-        () => VehicleAuditRepositoryImpl());
+        () => VehicleAuditRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ChasisNumberRepository>(
         () => ChasisNumberRepositoryImpl());

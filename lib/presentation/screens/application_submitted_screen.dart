@@ -31,17 +31,15 @@ class ApplicationSubmittedScreen extends StatefulWidget {
 }
 
 class _ApplicationSubmittedScreenState
-    extends State<ApplicationSubmittedScreen> with WidgetsBindingObserver {
+    extends State<ApplicationSubmittedScreen> {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
-  final rideDirectionNavigationService = RideDirectionForegroundService();
 
   @override
   void initState() {
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _disposers = [
       reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
@@ -52,7 +50,7 @@ class _ApplicationSubmittedScreenState
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          debugPrint("MyDebug"+p0.option.toString());
+          debugPrint("MyDebug" + p0.option.toString());
           ChangeScreen.to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
         }
@@ -65,26 +63,7 @@ class _ApplicationSubmittedScreenState
     for (var element in _disposers) {
       element();
     }
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    debugPrint("AppLifeState $state");
-    if (state == AppLifecycleState.resumed) {
-      rideDirectionNavigationService.stopOverlay();
-    }
-  }
-
-  startService() async {
-    var isGranted = await rideDirectionNavigationService.checkPermission();
-    if (isGranted == OverlayPermissionStatus.granted) {
-      await rideDirectionNavigationService.initPort(true);
-      var isRunning =
-      await rideDirectionNavigationService.runOrRestartServiceIfNot();
-    }
   }
 
   @override
@@ -120,9 +99,9 @@ class _ApplicationSubmittedScreenState
                 child: Observer(
                   builder: (BuildContext context) {
                     return ElevatedButton(
-                        onPressed: startService /*widget.sharedStore.gettingDataLoader
+                        onPressed: widget.sharedStore.gettingDataLoader
                             ? null
-                            : widget.sharedStore.getDashBoardData*/,
+                            : widget.sharedStore.getDashBoardData,
                         style: widget.sharedStore.gettingDataLoader
                             ? AppButtonThemes.cancelBtnStyle
                             : AppButtonThemes.defaultStyle,

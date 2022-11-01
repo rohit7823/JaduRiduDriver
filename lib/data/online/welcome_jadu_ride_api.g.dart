@@ -57,6 +57,75 @@ class _WelcomeJaduRideApi implements WelcomeJaduRideApi {
     return value;
   }
 
+  @override
+  Future<DistrictsResponse> districts(stateId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'state_id': stateId};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DistrictsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/districts',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DistrictsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CitiesResponse> cities(districtId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'district_id': districtId};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CitiesResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/cities',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CitiesResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<RequiredDataWelcomeJaduRideResponse> initialData(userId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RequiredDataWelcomeJaduRideResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/requiredDataInRegistration',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RequiredDataWelcomeJaduRideResponse.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

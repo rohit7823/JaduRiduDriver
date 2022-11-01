@@ -89,6 +89,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
       element();
     }
     _store.rideDirectionNavigationService.stop();
+    _store.rideDirectionNavigationService.stopOverlay();
     AppPipService.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -188,16 +189,18 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                     horizontal: 0.05.sw, vertical: 0.05.sw),
                                 decoration:
                                     const BoxDecoration(color: AppColors.white),
-                                child: SwipeableButtonView(
-                                    onFinish: _store.onEndTrip,
-                                    onWaitingProcess: _store.endTripWaiting,
-                                    isFinished: _store.endTripLoader,
-                                    indicatorColor: AlwaysStoppedAnimation(
-                                        AppColors.Acadia),
-                                    activeColor: AppColors.primary,
-                                    buttonWidget:
-                                        SvgPicture.asset(ImageAssets.swipe),
-                                    buttonText: StringProvider.endTrip),
+                                child: Align(
+                                  child: SwipeableButtonView(
+                                      onFinish: _store.onEndTrip,
+                                      onWaitingProcess: _store.endTripWaiting,
+                                      isFinished: _store.endTripLoader,
+                                      indicatorColor: AlwaysStoppedAnimation(
+                                          AppColors.Acadia),
+                                      activeColor: AppColors.primary,
+                                      buttonWidget:
+                                          SvgPicture.asset(ImageAssets.swipe),
+                                      buttonText: StringProvider.endTrip),
+                                ),
                               )
                             ]);
                           }
@@ -209,63 +212,80 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                   if (_store.currentRideStage != RideStages.ongoing) {
                     return expand(
                         flex: 3,
-                        child: fitBox(
+                        child: Align(
                           child: Container(
-                            padding: EdgeInsets.all(0.05.sw),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0.05.sw, vertical: 0.02.sw),
                             width: 1.sw,
                             decoration:
                                 const BoxDecoration(color: AppColors.white),
-                            child: Observer(
-                              builder: (BuildContext context) {
-                                return Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    if (_store.pickUpRoute != null &&
-                                        _store.currentRideStage ==
-                                            RideStages.pickUp)
-                                      _pickUpLocation().padding(
-                                          insets:
-                                              EdgeInsets.only(bottom: 0.05.sw)),
-                                    Observer(builder: (context) {
-                                      if (_store.pickUpRoute != null &&
-                                          _store.currentRideStage ==
-                                              RideStages.waiting) {
-                                        return RideTimerWidget(
-                                          key: ObjectKey(_store.timerDuration),
-                                          duration: _store.timerDuration,
-                                          title:
-                                              "Waiting for ${_store.customer}",
-                                          onTimeout: _store.onArrivedTimeOut,
-                                        ).paddings(bottom: 0.03.sw);
-                                      }
-                                      return const SizedBox.shrink();
-                                    }),
-                                    if (_store.pickUpRoute != null &&
-                                        _store.currentRideStage ==
-                                            RideStages.pickUp)
-                                      AppButton(
-                                          onClick: _store.onClientLocated,
-                                          label: StringProvider.clientLocated),
-                                    if (_store.pickUpRoute != null &&
-                                        _store.currentRideStage ==
-                                            RideStages.waiting)
-                                      SwipeableButtonView(
-                                          onFinish: _store.onStartTrip,
-                                          onWaitingProcess: _store.verifyOtp,
-                                          isFinished: _store.tripStartLoader,
-                                          indicatorColor:
-                                              AlwaysStoppedAnimation(
-                                                  AppColors.Acadia),
-                                          activeColor: AppColors.primary,
-                                          buttonWidget: SvgPicture.asset(
-                                              ImageAssets.swipe),
-                                          buttonText: StringProvider.startTrip),
-                                  ],
-                                );
-
-                                return const SizedBox.shrink();
-                              },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Observer(builder: (context) {
+                                  if (_store.pickUpRoute != null &&
+                                      _store.currentRideStage ==
+                                          RideStages.pickUp) {
+                                    return expand(
+                                      flex: 1,
+                                      child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: _pickUpLocation()),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                }),
+                                Observer(builder: (context) {
+                                  if (_store.pickUpRoute != null &&
+                                      _store.currentRideStage ==
+                                          RideStages.waiting) {
+                                    return expand(
+                                      flex: 1,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          expand(
+                                            flex: 6,
+                                            child: Align(
+                                              child: RideTimerWidget(
+                                                key: ObjectKey(
+                                                    _store.timerDuration),
+                                                duration: _store.timerDuration,
+                                                title:
+                                                    "Waiting for ${_store.customer}",
+                                                onTimeout:
+                                                    _store.onArrivedTimeOut,
+                                              ).paddings(bottom: 0.01.sw),
+                                            ),
+                                          ),
+                                          expand(
+                                            flex: 4,
+                                            child: Align(
+                                              child: SwipeableButtonView(
+                                                  onFinish: _store.onStartTrip,
+                                                  onWaitingProcess:
+                                                      _store.verifyOtp,
+                                                  isFinished:
+                                                      _store.tripStartLoader,
+                                                  indicatorColor:
+                                                      AlwaysStoppedAnimation(
+                                                          AppColors.Acadia),
+                                                  activeColor:
+                                                      AppColors.primary,
+                                                  buttonWidget:
+                                                      SvgPicture.asset(
+                                                          ImageAssets.swipe),
+                                                  buttonText:
+                                                      StringProvider.startTrip),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                })
+                              ],
                             ),
                           ),
                         ));
@@ -282,54 +302,73 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
   }
 
   Widget _pickUpLocation() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         expand(
-          flex: 8,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              StringProvider.pickUpLocation.text(AppTextStyle.findAccountStyle
-                  .copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp)),
-              fitBox(
-                child: _store.pickUpRoute!.summary
-                    .text(AppTextStyle.applicationSubmittedStyle),
-              )
-            ],
-          ).paddings(right: 0.03.sw),
-        ),
-        expand(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: fitBox(
-                child: InkWell(
-                  onTap: _store.onNavigate,
-                  borderRadius: BorderRadius.circular(12.r),
-                  child: Container(
-                    padding: EdgeInsets.all(0.05.sw),
-                    decoration: BoxDecoration(
-                        boxShadow: allShadow(),
-                        color: AppColors.Acadia,
-                        borderRadius: BorderRadius.circular(12.r),
-                        shape: BoxShape.rectangle),
+            flex: 6,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                expand(
+                  flex: 9,
+                  child: Align(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(
-                          ImageAssets.navigation,
-                          color: AppColors.white,
-                        ).padding(insets: const EdgeInsets.only(bottom: 5)),
-                        StringProvider.navigate.text(AppTextStyle
-                            .driveDocumentNameStyle
-                            .copyWith(color: AppColors.white))
+                        StringProvider.pickUpLocation.text(
+                            AppTextStyle.findAccountStyle.copyWith(
+                                fontWeight: FontWeight.w600, fontSize: 15.sp)),
+                        _store.pickUpRoute!.legs.first.startAddress.text(
+                          AppTextStyle.applicationSubmittedStyle,
+                          TextOverflow.ellipsis,
+                        )
                       ],
-                    ),
+                    ).paddings(right: 0.01.sw),
                   ),
                 ),
-              ),
-            ))
+                expand(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: fitBox(
+                        child: InkWell(
+                          onTap: _store.onNavigate,
+                          borderRadius: BorderRadius.circular(12.r),
+                          child: Container(
+                            padding: EdgeInsets.all(0.05.sw),
+                            decoration: BoxDecoration(
+                                boxShadow: allShadow(),
+                                color: AppColors.Acadia,
+                                borderRadius: BorderRadius.circular(12.r),
+                                shape: BoxShape.rectangle),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SvgPicture.asset(
+                                  ImageAssets.navigation,
+                                  color: AppColors.white,
+                                ).padding(
+                                    insets: const EdgeInsets.only(bottom: 5)),
+                                StringProvider.navigate.text(AppTextStyle
+                                    .driveDocumentNameStyle
+                                    .copyWith(color: AppColors.white))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ))
+              ],
+            )),
+        expand(
+          flex: 4,
+          child: AppButton(
+              onClick: _store.onClientLocated,
+              label: StringProvider.clientLocated),
+        )
       ],
     );
   }
@@ -417,9 +456,10 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                               child: fitBox(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    _store.onRideStopTapped(
-                                                        _store
-                                                            .destinations[idx]);
+                                                    _store
+                                                        .onRideStopNavigateTapped(
+                                                            _store.destinations[
+                                                                idx]);
                                                   },
                                                   borderRadius:
                                                       BorderRadius.circular(

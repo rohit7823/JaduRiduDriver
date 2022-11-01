@@ -103,25 +103,16 @@ abstract class _VehicleAuditScreenStore extends AppNavigator with Store {
 
   @action
   onStepClicked(VehicleAuditStep step) {
-    switch (step.stepKey) {
-      case AuditStep.chasisNumberImage:
-        requiredStore = _chasisNumberStore;
-        break;
-      case AuditStep.backSideWithNumberPlate:
-        requiredStore = _numberPlateStore;
-        break;
-      case AuditStep.leftSideExterior:
-        requiredStore = _lsExteriorStore;
-        break;
-      case AuditStep.rightSideExterior:
-        requiredStore = _rsExteriorStore;
-        break;
-      case AuditStep.carInside:
-        requiredStore = _insideCarStore;
-        break;
-      default:
-        requiredStore = null;
-        break;
+    if (step.stepKey == AuditStep.chasisNumberImage.key) {
+      requiredStore = _chasisNumberStore;
+    } else if (step.stepKey == AuditStep.backSideWithNumberPlate.key) {
+      requiredStore = _numberPlateStore;
+    } else if (step.stepKey == AuditStep.leftSideExterior.key) {
+      requiredStore = _lsExteriorStore;
+    } else if (step.stepKey == AuditStep.rightSideExterior.key) {
+      requiredStore = _rsExteriorStore;
+    } else if (step.stepKey == AuditStep.carInside.key) {
+      requiredStore = _insideCarStore;
     }
   }
 

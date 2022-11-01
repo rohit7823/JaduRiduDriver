@@ -13,12 +13,10 @@ import 'package:jadu_ride_driver/presentation/app_navigation/default_nav.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_overlay_widget.dart';
 import 'package:jadu_ride_driver/presentation/service/task_handlers/destination_task_handler.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
-import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/presentation/ui/translations_asset.dart';
 import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +48,7 @@ class JaduRideDriver extends StatelessWidget {
           return MaterialApp(
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              //navigatorKey: AppModule.alice.getNavigatorKey(),
+              navigatorKey: AppModule.alice.getNavigatorKey(),
               localizationsDelegates: context.localizationDelegates,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,
@@ -58,7 +56,7 @@ class JaduRideDriver extends StatelessWidget {
                   DefaultNav(sharedStore: sharedStore).generatedRoute,
               themeMode: ThemeMode.light,
               //initialRoute: AppRoute.welcomeJaduRide,
-              initialRoute: AppRoute.applicationSubmitted
+              initialRoute: AppRoute.splash
               //initialRoute: AppRoute.profilePicture,
               );
         },
@@ -67,14 +65,11 @@ class JaduRideDriver extends StatelessWidget {
   }
 }
 
-
 @pragma("vm:entry-point")
 void overlayMain() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AppOverlayWidget()
-  ));
+      debugShowCheckedModeBanner: false, home: AppOverlayWidget()));
 }
 
 @pragma('vm:entry-point')

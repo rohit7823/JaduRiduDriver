@@ -98,20 +98,20 @@ extension DetailsStepKeyMapper on String {
 
 extension AuditStepKeyMapper on VehicleAuditStep {
   String toAuditStepName() {
-    switch (stepKey) {
-      case AuditStep.chasisNumberImage:
-        return name;
-      case AuditStep.backSideWithNumberPlate:
-        return name;
-      case AuditStep.leftSideExterior:
-        return name;
-      case AuditStep.rightSideExterior:
-        return name;
-      case AuditStep.carInside:
-        return name;
-      default:
-        return "";
+    if (stepKey == AuditStep.chasisNumberImage.key) {
+      return name;
+    } else if (stepKey == AuditStep.backSideWithNumberPlate.key) {
+      return name;
+    } else if (stepKey == AuditStep.backSideWithNumberPlate.key) {
+      return name;
+    } else if (stepKey == AuditStep.leftSideExterior.key) {
+      return name;
+    } else if (stepKey == AuditStep.rightSideExterior.key) {
+      return name;
+    } else if (stepKey == AuditStep.carInside.key) {
+      return name;
     }
+    return "";
   }
 }
 

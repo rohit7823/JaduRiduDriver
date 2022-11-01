@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:floating/floating.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/core/common/ride_instruction.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/ride_stop.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/timestamp_with_direction.dart';
 import 'package:jadu_ride_driver/core/domain/cilent_waiting_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
@@ -18,7 +19,6 @@ import 'package:jadu_ride_driver/core/repository/ride_navigation_repository.dart
 import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/service/ride_direction_foreground_service.dart';
-import 'package:jadu_ride_driver/presentation/service/task_handlers/destination_task_handler.dart';
 import 'package:jadu_ride_driver/presentation/stores/message_informer.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -217,25 +217,16 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   onNavigate() async {
-    /*if (await pipMode.isPipAvailable) {
-      await pipMode.enable(const Rational(1, 1));
-    }*/
-
-    var isGranted = await rideDirectionNavigationService.checkPermission();
-    if (isGranted == OverlayPermissionStatus.granted) {
-      await rideDirectionNavigationService.initPort(true);
-      var isRunning =
-          await rideDirectionNavigationService.runOrRestartServiceIfNot();
-      if (isRunning) {
-        var isSuccessful = await _directionImpl.openDirectionView(
-            rideNavigationData.data.pickUpLocation.lat,
-            rideNavigationData.data.pickUpLocation.lng);
-        if (!isSuccessful) {
-          messageInformer.informUi("Unable to open map direction, Try again.");
-        }
-      } else {
-        messageInformer.informUi("Unable to direction service.");
+    var isRunning = await rideDirectionNavigationService.runService();
+    if (isRunning) {
+      var isSuccessful = await _directionImpl.openDirectionView(
+          rideNavigationData.data.pickUpLocation.lat,
+          rideNavigationData.data.pickUpLocation.lng);
+      if (!isSuccessful) {
+        messageInformer.informUi("Unable to open map direction, Try again.");
       }
+    } else {
+      messageInformer.informUi("Unable to open direction service.");
     }
   }
 
@@ -266,12 +257,6 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     debugPrint("timeOut");
     initiateTimerDuration(5, 30);
   }
-
-  openNavigation() {}
-
-  onPipEnter() {}
-
-  onPipExit() {}
 
   @observable
   bool tripStartLoader = false;
@@ -403,27 +388,25 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   onRideStopNavigateTapped(RideStop stop) async {
-    var isGranted = await rideDirectionNavigationService.checkPermission();
-    if (isGranted == OverlayPermissionStatus.granted) {
-      rideDirectionNavigationService.initPort(true);
-      var isRunning =
-          await rideDirectionNavigationService.runOrRestartServiceIfNot();
-
-      if (isRunning) {
-        var isSuccessful = await _directionImpl.openDirectionView(
-            stop.location.latitude, stop.location.longitude);
-        if (!isSuccessful) {
-          messageInformer.informUi("Unable to open map direction, Try again.");
-        }
-      } else {
-        messageInformer.informUi("Unable to direction service.");
+    var isRunning = await rideDirectionNavigationService.runService();
+    if (isRunning) {
+      var isSuccessful = await _directionImpl.openDirectionView(
+          stop.location.latitude, stop.location.longitude);
+      if (!isSuccessful) {
+        messageInformer.informUi("Unable to open map direction, Try again.");
       }
+    } else {
+      messageInformer.informUi("Unable to direction service.");
     }
   }
 
   _listenEvents() {
-    rideDirectionNavigationService.eventPort?.listen((message) {
-      debugPrint("messageFromTaskHandler $message");
+    rideDirectionNavigationService.eventPort?.listen((event) {
+      log("onEventPort $event");
+      if (event is TimeStampWithDirection) {
+      } else if (event is ScreenWithExtras) {
+      } else if (event is String) {
+      } else {}
     });
   }
 

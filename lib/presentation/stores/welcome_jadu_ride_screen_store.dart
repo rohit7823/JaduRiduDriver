@@ -154,8 +154,7 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
-                  action: AlertAction.getDistricts)));
+                  option: AlertOption.none, action: AlertAction.getDistricts)));
       }
     } else if (response is Error) {
       gettingDistrictsLoader = false;
@@ -168,8 +167,7 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.getDistricts)));
+              option: AlertOption.none, action: AlertAction.getDistricts)));
     }
   }
 
@@ -195,8 +193,7 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
-                  action: AlertAction.getCities)));
+                  option: AlertOption.none, action: AlertAction.getCities)));
       }
     } else if (response is Error) {
       gettingCitiesLoader = false;
@@ -209,8 +206,7 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.getCities)));
+              option: AlertOption.none, action: AlertAction.getCities)));
     }
   }
 

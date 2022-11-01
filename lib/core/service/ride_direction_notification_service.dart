@@ -1,4 +1,9 @@
 abstract class RideDirectionNotificationService {
-  init({String channelID, String channelName, String description});
-  stop();
+  Future<bool> get isServiceRunning;
+
+  void init({String channelID, String channelName, String description});
+
+  void runService();
+
+  void stop();
 }

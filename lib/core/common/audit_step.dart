@@ -1,5 +1,5 @@
 enum AuditStep {
-  chasisNumberImage("CHASIS_NUMBER_IMAGE"),
+  chasisNumberImage("CHASSIS_NUMBER_IMAGE"),
   backSideWithNumberPlate("BACK_SIDE_WITH_NUMBER_PLATE"),
   leftSideExterior("LEFT_SIDE_EXTERIOR"),
   rightSideExterior("RIGHT_SIDE_EXTERIOR"),
