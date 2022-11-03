@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
@@ -62,6 +64,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             IntroScreen(sharedStore: sharedStore));
       case AppRoute.loginRegistration:
+        log("SharedStore $sharedStore");
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             LoginRegisterScreen(sharedStore: sharedStore));
       case AppRoute.numberInput:

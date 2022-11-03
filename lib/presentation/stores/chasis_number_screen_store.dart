@@ -10,6 +10,8 @@ import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/uploader_implementation.dart';
+
 part 'chasis_number_screen_store.g.dart';
 
 class ChasisNumberStore = _ChasisNumberScreenStore with _$ChasisNumberStore;
@@ -17,7 +19,6 @@ class ChasisNumberStore = _ChasisNumberScreenStore with _$ChasisNumberStore;
 abstract class _ChasisNumberScreenStore with Store {
   final _repository = dependency<ChasisNumberRepository>();
   final _storage = dependency<Storage>();
-  final _picker = ImageFilePicker();
 
   @observable
   String chasisNumber = "";
@@ -54,7 +55,7 @@ abstract class _ChasisNumberScreenStore with Store {
 
   @action
   onDone(
-      {required Function(bool, int) uploading,
+      {required Function(int, int) uploading,
       required Function(String) success,
       required Function(String) error,
       required Function(String) responseError}) async {

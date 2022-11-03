@@ -3,11 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/ripple_widget.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
+import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/common/screen_wtih_extras.dart';
 import '../stores/more_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
@@ -26,28 +29,40 @@ class MoreScreen extends StatefulWidget {
 class _MoreScreenState extends State<MoreScreen> {
   late final MoreViewModels _store;
   late final List<ReactionDisposer> _disposers;
+  late final DialogController _dialogController;
 
   @override
   void initState() {
     _store = MoreViewModels();
     _store.getShortProfileData();
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
-          widget.sharedStore.onChange(
+        if (p0 != null) {
+          widget.sharedStore.onChange(p0);
+        }
+      }),
+      reaction((p0) => _store.dialogManager.currentState, (p0) {
+        if (p0 == DialogState.displaying) {
+          _dialogController.show(
+            _store.dialogManager.data!,
             p0,
+            positive: _store.logout,
+            negative: _store.closeLogoutDialog,
+            close: _store.dialogManager.closeDialog,
           );
         }
-      })
+      }),
     ];
   }
 
   @override
   void dispose() {
-    _disposers.forEach((element) {
+    for (var element in _disposers) {
       element.call();
-    });
+    }
     super.dispose();
   }
 
@@ -707,35 +722,41 @@ class _MoreScreenState extends State<MoreScreen> {
             child: Padding(
               padding:
                   EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset(ImageAssets.logoutIcons),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Logout",
-                              style: TextStyle(
-                                  color: AppColors.appMore,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w500)),
-                        ],
+              child: RippleWidget(
+                radius: BorderRadius.circular(16.r),
+                action: _store.onLogout,
+                paddingAllowed: false,
+                shadowAllowed: false,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SvgPicture.asset(ImageAssets.logoutIcons),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Logout",
+                                style: TextStyle(
+                                    color: AppColors.appMore,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.secondaryVariant,
-                      ))
-                ],
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.secondaryVariant,
+                        ))
+                  ],
+                ),
               ),
             ),
           ), //logout.....................

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
+import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/service_type.dart';
@@ -356,5 +357,16 @@ extension WidgetUitilities on Widget {
       padding: EdgeInsets.all(padding),
       child: this,
     );
+  }
+}
+
+extension ConvertToDriverAccountStatus on String {
+  DriverAccountStatus toAccountStatus() {
+    for (var s in DriverAccountStatus.values) {
+      if (this == s.status) {
+        return s;
+      }
+    }
+    return DriverAccountStatus.none;
   }
 }

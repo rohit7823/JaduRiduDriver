@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,16 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
-import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
-import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
-import 'package:jadu_ride_driver/utills/extensions.dart';
-import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:mobx/mobx.dart';
 
 import '../ui/theme.dart';
@@ -106,6 +102,11 @@ class _DashboardScreenState extends State<DashboardScreen>
           } else if (p0.screen == Screen.rideNavigation) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
+          } else if (p0.screen == Screen.loginRegistrationScreen) {
+            ChangeScreen.to(context, p0.screen,
+                option: p0.option,
+                onComplete: widget.sharedStore.clear,
+                arguments: p0.argument);
           } else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);

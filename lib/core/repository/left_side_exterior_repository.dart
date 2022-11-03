@@ -4,5 +4,5 @@ import 'package:jadu_ride_driver/core/domain/response/upload_exterior_response.d
 
 abstract class LeftSideExteriorRepository {
   Future<Resource<UploadExteriorResponse>> uploadLeftSideExterior(
-      String userId, File leftSideExterior, Function(bool, int) uploading);
+      String userId, File leftSideExterior, Function(int, int) uploading);
 }

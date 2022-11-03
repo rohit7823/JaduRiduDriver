@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
@@ -8,12 +9,14 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/user_status.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
+import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 import '../../core/common/alert_behaviour.dart';
 import '../../core/repository/verify_otp_repository.dart';
@@ -25,6 +28,7 @@ class VerifyOtpStore = _VerifyOtpScreenStore with _$VerifyOtpStore;
 abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
   final _repository = dependency<VerifyOtpRepository>();
   final _numberInputRepo = dependency<NumberInputRepository>();
+  final _baseRepo = dependency<BaseRepository>();
   final _storage = dependency<Storage>();
   final dialogManager = DialogManager();
 
@@ -47,7 +51,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
   bool _isValid = false;
 
   @observable
-  bool isUserRegister  = false;
+  bool isUserRegister = false;
 
   _VerifyOtpScreenStore(this.number);
 
@@ -96,23 +100,22 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
     var response = await _repository.verifyOtp(number, otp);
     if (response is Success) {
       var data = response.data;
-      sendingLoader = false;
       switch (data != null && data.status) {
         case true:
           if (data!.isVerified) {
             _storage.saveUserId(data.userId);
-
             if (data.userStatus == UserStatus.registered.value) {
-              isUserRegister = true;
-              /*onChange(ScreenWithExtras(
-                  screen: Screen.dashBoard,
-                  option: NavigationOption(option: Option.popPrevious)));*/
+              _retrieveDriverAccountStatus(
+                  success: () => sendingLoader = false,
+                  error: () => sendingLoader = false);
             } else {
+              sendingLoader = false;
               onChange(ScreenWithExtras(
                   screen: Screen.changeLanguage,
                   option: NavigationOption(option: Option.popPrevious)));
             }
           } else {
+            sendingLoader = false;
             dialogManager.initErrorData(AlertData(
                 StringProvider.error,
                 null,
@@ -126,6 +129,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
           }
           break;
         default:
+          sendingLoader = false;
           dialogManager.initErrorData(AlertData(
               StringProvider.error,
               null,
@@ -170,5 +174,30 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
       enableBtn = regEp.hasMatch(otp);
     }
     return null;
+  }
+
+  @action
+  _retrieveDriverAccountStatus(
+      {required Function success, required Function error}) async {
+    var deviceId = await PlatformDeviceId.getDeviceId;
+    var response = await _baseRepo
+        .driverAccountStatus(deviceId ?? "UNABLE_TO_RETRIEVE_DEVICE_ID");
+    if (response is Success) {
+      var data = response.data;
+      switch (data != null && data.status) {
+        case true:
+          success.call();
+          _storage.setAccountStatus(data!.accountStatus.status);
+          break;
+        default:
+          error.call();
+          log("DriverAccountStatus Api Error");
+      }
+    } else if (response is Error) {
+      error.call();
+      log("DriverAccountStatus Api Error");
+    }
+
+    isUserRegister = true;
   }
 }

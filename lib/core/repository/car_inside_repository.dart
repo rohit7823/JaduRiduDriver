@@ -6,5 +6,5 @@ import '../domain/response/upload_inside_car_response.dart';
 
 abstract class CarInsideRepository {
   Future<Resource<UploadInsideCarResponse>> uploadInsideCar(
-      String userId, File carInside, Function(bool, int) uploading);
+      String userId, File carInside, Function(int, int) uploading);
 }

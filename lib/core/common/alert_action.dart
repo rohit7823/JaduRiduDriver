@@ -29,5 +29,6 @@ enum AlertAction {
   locationServiceDisable,
   setDriverStatus,
   submitCustomerReview,
-  none;
+  none,
+  logout;
 }

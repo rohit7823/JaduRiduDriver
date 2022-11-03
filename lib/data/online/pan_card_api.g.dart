@@ -47,12 +47,10 @@ class _PanCardApi implements PanCardApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(
-              _dio.options,
-              '/driver/users/${userId}/document/pan',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+            .compose(_dio.options, '/driver/users/${userId}/document/pan',
+                queryParameters: queryParameters,
+                data: _data,
+                onSendProgress: uploading)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadPanCardResponse.fromJson(_result.data!);
     return value;

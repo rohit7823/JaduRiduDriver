@@ -130,7 +130,7 @@ class AppTextStyle {
       fontFamily: AppFonts.poppins,
       fontSize: 15.sp,
       fontWeight: FontWeight.w400,
-      color: AppColors.white);
+      color: AppColors.Acadia);
 
   static var allCreditTextStyle = TextStyle(
       fontFamily: AppFonts.poppins,

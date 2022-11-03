@@ -10,7 +10,7 @@ import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
 import 'package:jadu_ride_driver/core/repository/accounts_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_all_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/add_vehicle_repository.dart';
-import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
+import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/core/repository/car_inside_repository.dart';
 import 'package:jadu_ride_driver/core/repository/change_app_language_repository.dart';
 import 'package:jadu_ride_driver/core/repository/chasis_number_repository.dart';
@@ -44,7 +44,7 @@ import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.
 import 'package:jadu_ride_driver/repository_impls/accounts_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_vehicle_repository_impl.dart';
-import 'package:jadu_ride_driver/repository_impls/batch_call_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/base_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/car_inside_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/change_app_language_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/chasis_number_repository_impl.dart';
@@ -132,7 +132,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    dio.interceptors.add(alice.getDioInterceptor());
+    //dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 
@@ -141,8 +141,8 @@ class AppModule {
     dependency.registerLazySingleton<SplashRepository>(
         () => SplashRepositoryImpl(dio));
 
-    dependency.registerLazySingleton<BatchCallRepository>(
-        () => BatchCallRepositoryImpl(dio));
+    dependency
+        .registerLazySingleton<BaseRepository>(() => BaseRepositoryImpl(dio));
 
     dependency.registerLazySingleton<NumberInputRepository>(
         () => NumberInputRepositoryImpl(dio));
@@ -192,22 +192,22 @@ class AppModule {
         () => VehicleAuditRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ChasisNumberRepository>(
-        () => ChasisNumberRepositoryImpl());
+        () => ChasisNumberRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehicleNumberPlateRepository>(
-        () => VehicleNumberPlateRepositoryImpl());
+        () => VehicleNumberPlateRepositoryImpl(dio));
 
     dependency.registerLazySingleton<LeftSideExteriorRepository>(
-        () => LeftSideExteriorRepositoryImpl());
+        () => LeftSideExteriorRepositoryImpl(dio));
 
     dependency.registerLazySingleton<RightSideExteriorRepository>(
-        () => RightSideExteriorRepositoryImpl());
+        () => RightSideExteriorRepositoryImpl(dio));
 
     dependency.registerLazySingleton<CarInsideRepository>(
-        () => CarInsideRepositoryImpl());
+        () => CarInsideRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehiclePollutionRepository>(
-        () => VehiclePollutionRepositoryImpl());
+        () => VehiclePollutionRepositoryImpl(dio));
 
     dependency.registerLazySingleton<IdentifyDetailsRepository>(
         () => IdentifyDetailsRepositoryImpl(dio));
@@ -216,7 +216,7 @@ class AppModule {
         () => PaymentDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverDutyRepository>(
-        () => DriverDutyRepositoryImpl());
+        () => DriverDutyRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverBookingsRepository>(
         () => DriverBookingsRepositoryImpl());

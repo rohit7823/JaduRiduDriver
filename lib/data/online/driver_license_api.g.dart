@@ -54,7 +54,7 @@ class _DriverLicenseApi implements DriverLicenseApi {
     )
             .compose(
               _dio.options,
-              '/driver/users/${userId}/vehicleLicence',
+              '/driver/users/${userId}/document/vehicleLicence',
               queryParameters: queryParameters,
               data: _data,
             )

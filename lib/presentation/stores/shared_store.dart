@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,6 +11,7 @@ import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
+import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
 import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
@@ -25,7 +27,6 @@ import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
-import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -34,16 +35,19 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../core/repository/base_repository.dart';
 
 part 'shared_store.g.dart';
 
 class SharedStore = _SharedStore with _$SharedStore;
 
 abstract class _SharedStore extends AppNavigator with Store {
-  final _repository = dependency<BatchCallRepository>();
+  final _repository = dependency<BaseRepository>();
   final _driverLocationRepo = dependency<DriverLiveLocationRepository>();
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
@@ -84,10 +88,16 @@ abstract class _SharedStore extends AppNavigator with Store {
     var isCmplt = _prefs.isIntroComplete();
     var isLogin = _prefs.isLogin();
     var userId = _prefs.userId();
+    var accountStatus = _prefs.accountStatus().toAccountStatus();
     if (!isCmplt) {
       getIntroPageData();
     } else {
+      log("isLogin && userId.isNotEmpty ${isLogin && userId.isNotEmpty}");
       if (isLogin && userId.isNotEmpty) {
+        getDashBoardData();
+      } else if (!isLogin &&
+          userId.isNotEmpty &&
+          accountStatus == DriverAccountStatus.accountFound) {
         getDashBoardData();
       } else {
         getLoginRegistrationPageData();
@@ -107,6 +117,7 @@ abstract class _SharedStore extends AppNavigator with Store {
           gettingIntroDataLoader = false;
           if (introDataResponse is IntroDataResponse) {
             if (introDataResponse.status) {
+              _prefs.introComplete(true);
               introPageData = introDataResponse.introData;
               onChange(ScreenWithExtras(
                   screen: Screen.introScreen,
@@ -170,8 +181,9 @@ abstract class _SharedStore extends AppNavigator with Store {
               loginRegistrationData = pageResponse.data;
               loginRegistrationData!.coverImage =
                   "${Global.baseUrl}${loginRegistrationData!.coverImage}";
-              onChange(
-                  ScreenWithExtras(screen: Screen.loginRegistrationScreen));
+              onChange(ScreenWithExtras(
+                  screen: Screen.loginRegistrationScreen,
+                  option: NavigationOption(option: Option.popAll)));
             } else {
               dialogManager.initErrorData(AlertData(
                   StringProvider.error,

@@ -11,7 +11,7 @@ part 'driver_license_api.g.dart';
 abstract class DriverLicenseApi {
   factory DriverLicenseApi(Dio dio, {String? baseUrl}) = _DriverLicenseApi;
 
-  @POST("${ApiRoutes.parent}/users/{userId}/vehicleLicence")
+  @POST("${ApiRoutes.parent}/users/{userId}/document/vehicleLicence")
   @MultiPart()
   Future<UploadDriverLicenseResponse> driverLicense(
       @Path("userId") String userId,

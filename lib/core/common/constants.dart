@@ -11,6 +11,8 @@ class Constants {
 
   static const driverStatus = "DRIVER_STATUS";
 
+  static const accountStatus = "ACCOUNT_STATUS";
+
   Constants._();
 
   static const baseUrl = "BASE_URL";

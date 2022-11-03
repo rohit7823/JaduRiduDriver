@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/uploader_implementation.dart';
 import 'package:jadu_ride_driver/core/helpers/my_date_time.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_pollution_repository.dart';
@@ -21,12 +22,13 @@ import 'package:mobx/mobx.dart';
 
 part 'vehicle_pollution_screen_store.g.dart';
 
-class VehiclePollutionStore = _VehiclePollutionScreenStore with _$VehiclePollutionStore;
+class VehiclePollutionStore = _VehiclePollutionScreenStore
+    with _$VehiclePollutionStore;
 
 abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
   final _repository = dependency<VehiclePollutionRepository>();
   final _storage = dependency<Storage>();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
   final dialogManager = DialogManager();
   final _picker = ImageFilePicker();
   final _dateTimeHelper = DateTimeHelper();
@@ -49,10 +51,10 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
 
   @action
   _validateInputs() async {
-    while(true) {
-      if(selectedImage == null) {
+    while (true) {
+      if (selectedImage == null) {
         enableBtn = false;
-      } else if(selectedDate == StringProvider.expiryDate) {
+      } else if (selectedDate == StringProvider.expiryDate) {
         enableBtn = false;
       } else {
         enableBtn = true;
@@ -63,8 +65,9 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
 
   @action
   onSelectedDate(DateTime? selected) {
-    if(selected != null) {
-      selectedDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${_dateTimeHelper.getWeekDayName(selected.weekday)}, ${selected.year}";
+    if (selected != null) {
+      selectedDate =
+          "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${_dateTimeHelper.getWeekDayName(selected.weekday)}, ${selected.year}";
     } else {
       selectedDate = StringProvider.expiryDate;
     }
@@ -97,21 +100,16 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
   onDone() async {
     var userId = _storage.userId();
     var response = await _repository.uploadPollution(
-        userId, selectedDate, selectedImage!, (p0, p1) {
-          if(p0) {
-            uploader.startUploader(p1);
-          } else {
-            uploader.stopUploader(p1);
-          }
-    });
+        userId, selectedDate, selectedImage!, uploader.start);
 
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
-          if(data!.isSubmitted) {
+          if (data!.isSubmitted) {
             informMessage = data.message;
-            onChange(ScreenWithExtras(screen: Screen.addAllDetails, argument: true));
+            onChange(
+                ScreenWithExtras(screen: Screen.addAllDetails, argument: true));
           } else {
             dialogManager.initErrorData(AlertData(
                 StringProvider.error,
@@ -119,12 +117,11 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
                 StringProvider.appId,
                 data.message,
                 StringProvider.retry,
-                null, null,
+                null,
+                null,
                 AlertBehaviour(
                     option: AlertOption.none,
-                    action: AlertAction.uploadPollution
-                )
-            ));
+                    action: AlertAction.uploadPollution)));
           }
           break;
         default:
@@ -134,31 +131,28 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
               StringProvider.appId,
               data?.message ?? "",
               StringProvider.retry,
-              null, null,
+              null,
+              null,
               AlertBehaviour(
                   option: AlertOption.none,
-                  action: AlertAction.uploadPollution
-              )
-          ));
+                  action: AlertAction.uploadPollution)));
       }
-    } else if(response is Error) {
+    } else if (response is Error) {
       dialogManager.initErrorData(AlertData(
           StringProvider.error,
           null,
           StringProvider.appId,
           response.message ?? "",
           StringProvider.retry,
-          null, null,
+          null,
+          null,
           AlertBehaviour(
-              option: AlertOption.none,
-              action: AlertAction.uploadPollution
-          )
-      ));
+              option: AlertOption.none, action: AlertAction.uploadPollution)));
     }
   }
 
   onError(AlertAction? action) {
-    if(action == AlertAction.uploadPollution) {
+    if (action == AlertAction.uploadPollution) {
       onDone();
     }
   }

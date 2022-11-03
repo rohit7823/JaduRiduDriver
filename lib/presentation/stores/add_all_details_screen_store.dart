@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
@@ -51,6 +53,7 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
 
   @action
   getInitialData() async {
+    log("addedDetails CALLED");
     gettingDataLoader = true;
     var userId = _storage.userId();
     var response = await _repository.initialData(userId);
@@ -154,6 +157,7 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
     }
 
     if (requiredSteps.length == completes.length) {
+      _storage.login(true);
       onChange(ScreenWithExtras(
           screen: Screen.applicationSubmitted,
           option: NavigationOption(option: Option.popAll)));

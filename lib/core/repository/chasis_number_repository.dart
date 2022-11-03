@@ -5,5 +5,5 @@ import 'package:jadu_ride_driver/core/domain/response/upload_chasis_number_respo
 
 abstract class ChasisNumberRepository {
   Future<Resource<UploadChasisNumberResponse>> uploadChasisNumber(String userId,
-      String number, File chasisNumber, Function(bool, int) onUploading);
+      String number, File chasisNumber, Function(int, int) uploadingProgress);
 }

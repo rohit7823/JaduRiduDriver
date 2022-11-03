@@ -28,6 +28,22 @@ void main() async {
   runApp(JaduRideDriver());
 }
 
+@pragma("vm:entry-point")
+void overlayMain() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false, home: AppOverlayWidget()));
+}
+
+@pragma('vm:entry-point')
+void startCallback() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterForegroundTask.setTaskHandler(DestinationTaskHandler(
+      google.Directions("AIzaSyDCx7UqFSWYeSjVzcXbgBKB5nnarnHZWoM"),
+      AppLocationService(),
+      ScreenWithExtras(screen: Screen.rideNavigation)));
+}
+
 class JaduRideDriver extends StatelessWidget {
   JaduRideDriver({Key? key}) : super(key: key);
   final SharedStore sharedStore = SharedStore();
@@ -48,7 +64,7 @@ class JaduRideDriver extends StatelessWidget {
           return MaterialApp(
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              navigatorKey: AppModule.alice.getNavigatorKey(),
+              //navigatorKey: AppModule.alice.getNavigatorKey(),
               localizationsDelegates: context.localizationDelegates,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,
@@ -63,20 +79,4 @@ class JaduRideDriver extends StatelessWidget {
       ),
     );
   }
-}
-
-@pragma("vm:entry-point")
-void overlayMain() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false, home: AppOverlayWidget()));
-}
-
-@pragma('vm:entry-point')
-void startCallback() {
-  WidgetsFlutterBinding.ensureInitialized();
-  FlutterForegroundTask.setTaskHandler(DestinationTaskHandler(
-      google.Directions("AIzaSyDCx7UqFSWYeSjVzcXbgBKB5nnarnHZWoM"),
-      AppLocationService(),
-      ScreenWithExtras(screen: Screen.rideNavigation)));
 }

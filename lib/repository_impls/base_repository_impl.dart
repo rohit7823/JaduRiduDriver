@@ -1,29 +1,23 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:jadu_ride_driver/core/common/app_constants.dart';
 import 'package:jadu_ride_driver/core/common/batch_call_apis.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
-import 'package:jadu_ride_driver/core/common/socket_events.dart';
-import 'package:jadu_ride_driver/core/common/socket_status.dart';
-import 'package:jadu_ride_driver/core/domain/intro_data.dart';
-import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/response/batch_call_response.dart';
-import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
-import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
-import 'package:jadu_ride_driver/core/repository/batch_call_repository.dart';
+import 'package:jadu_ride_driver/core/domain/response/driver_account_status_response.dart';
+import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/data/online/batch_call_api.dart';
+import 'package:jadu_ride_driver/data/online/driver_account_status_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
-import 'package:jadu_ride_driver/utills/socket_io.dart';
 
-class BatchCallRepositoryImpl implements BatchCallRepository {
+class BaseRepositoryImpl implements BaseRepository {
   final Dio _dio;
   late final BatchCallApi _batchCallApi;
+  late final DriverAccountStatusApi _driverAccountStatusApi;
 
-  BatchCallRepositoryImpl(this._dio) {
+  BaseRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _batchCallApi = BatchCallApi(_dio);
+    _driverAccountStatusApi = DriverAccountStatusApi(_dio);
   }
 
   @override
@@ -75,4 +69,11 @@ class BatchCallRepositoryImpl implements BatchCallRepository {
     ]));*/
   }
 
+  @override
+  Future<Resource<DriverAccountStatusResponse>> driverAccountStatus(
+      String deviceID) async {
+    return _driverAccountStatusApi
+        .accountStatus()
+        .handleResponse<DriverAccountStatusResponse>();
+  }
 }

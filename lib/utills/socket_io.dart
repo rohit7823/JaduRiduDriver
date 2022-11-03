@@ -7,7 +7,7 @@ import '../core/common/socket_status.dart';
 import '../core/domain/socket_connection_model.dart';
 
 class SocketIO {
-  static late final soc.Socket _socketClient;
+  static late soc.Socket _socketClient;
   static soc.Socket get client => _socketClient;
 
   static final BehaviorSubject<SocketStatus> latestStatus =
@@ -16,7 +16,7 @@ class SocketIO {
   SocketIO._();
 
   static init({bool autoConnect = false, required String userId}) {
-    _socketClient = soc.io("http://13.250.30.215:3000", <String, dynamic>{
+    _socketClient = soc.io("http://13.251.123.158:3000", <String, dynamic>{
       'autoConnect': autoConnect,
       'transports': ['websocket'],
     });

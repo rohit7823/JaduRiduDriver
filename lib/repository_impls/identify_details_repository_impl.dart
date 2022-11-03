@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
-import 'package:jadu_ride_driver/core/domain/question.dart';
-import 'package:jadu_ride_driver/core/domain/question_option.dart';
 import 'package:jadu_ride_driver/core/domain/response/identify_detail_questions_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/identify_question_answer_response.dart';
 import 'package:jadu_ride_driver/core/repository/identify_details_repository.dart';
@@ -11,12 +9,12 @@ import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
-
   final Dio _dio;
   late final IdentifyDetailApi _identifyDetailsApi;
 
   IdentifyDetailsRepositoryImpl(this._dio) {
-    debugPrint("baseUrl in number input ${ApiClientConfiguration.mainConfiguration.baseUrl}");
+    debugPrint(
+        "baseUrl in number input ${ApiClientConfiguration.mainConfiguration.baseUrl}");
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _identifyDetailsApi = IdentifyDetailApi(_dio);
   }
@@ -24,7 +22,9 @@ class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
   @override
   Future<Resource<IdentifyDetailQuestionsResponse>> identifyQuestions(
       String userId) async {
-    return await _identifyDetailsApi.questions().handleResponse<IdentifyDetailQuestionsResponse>();
+    return await _identifyDetailsApi
+        .questions()
+        .handleResponse<IdentifyDetailQuestionsResponse>();
 
     /*await Future.delayed(const Duration(seconds: 2));
 
@@ -63,8 +63,9 @@ class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
   @override
   Future<Resource<IdentifyQuestionAnswerResponse>> setAnswer(
       String userId, String questionId, String optionId) async {
-
-    return await _identifyDetailsApi.answer(userId, questionId, optionId).handleResponse<IdentifyQuestionAnswerResponse>();
+    return await _identifyDetailsApi
+        .answer(userId, questionId, optionId)
+        .handleResponse<IdentifyQuestionAnswerResponse>();
 
     /*await Future.delayed(const Duration(seconds: 2));
     return Success(IdentifyQuestionAnswerResponse(

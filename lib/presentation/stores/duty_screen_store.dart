@@ -1,11 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
-import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
-import 'package:jadu_ride_driver/core/common/alert_data.dart';
-import 'package:jadu_ride_driver/core/common/alert_option.dart';
-import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -57,6 +53,7 @@ abstract class _DutyScreenStore with Store {
 
   _driverStatus() async {
     var currentStatus = _storage.driverStatus();
+    log("CurrentStatus $currentStatus");
     if (currentStatus.isNotEmpty) {
       for (var element in DriverStatus.values) {
         if (element.name == currentStatus) {
@@ -102,6 +99,7 @@ abstract class _DutyScreenStore with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.isUpdated) {
+            _storage.setDriverStatus(selectedStatus.name);
             this.selectedStatus = selectedStatus;
             informMessage = data.message;
           } else {

@@ -130,7 +130,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
                         Observer(builder: (BuildContext context) {
                           return ImageViewer(
                               selectedImage: _store.selectedImage,
-                              onClose: _store.onClose);
+                              onClose: _store.clearImage);
                         }),
                         GuideLineView(
                             guildLine: StringProvider.imageChooseGuidLine),

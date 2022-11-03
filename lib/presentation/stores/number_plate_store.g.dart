@@ -56,7 +56,7 @@ mixin _$NumberPlateStore on _BackSideWithNumberPlateStore, Store {
 
   @override
   Future onDone(
-      {required dynamic Function(bool, int) uploading,
+      {required dynamic Function(int, int) uploading,
       required dynamic Function(String) success,
       required dynamic Function(String) error,
       required dynamic Function(String) responseError}) {

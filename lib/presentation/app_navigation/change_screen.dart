@@ -5,6 +5,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 
 class ChangeScreen {
   GlobalKey<NavigatorState> dashBoardNavigator;
+
   ChangeScreen(this.dashBoardNavigator);
 
   static to(BuildContext context, Screen screen,
@@ -21,7 +22,7 @@ class ChangeScreen {
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.loginRegistrationScreen:
-        await _navigate(context, AppRoute.loginRegistration,
+        await _navigateWithOption(context, AppRoute.loginRegistration, option!,
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.numberInputScreen:
@@ -113,10 +114,14 @@ class ChangeScreen {
             fromScreen: fromScreen);
         break;
       case Screen.applicationSubmitted:
-        _navigateWithOption(context, AppRoute.applicationSubmitted, option!);
+        _navigateWithOption(context, AppRoute.applicationSubmitted, option!,
+            arguments: arguments, onComplete: onComplete);
         break;
       case Screen.vehiclePollution:
-        _navigate(context, AppRoute.vehiclePollution);
+        _navigate(context, AppRoute.vehiclePollution,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
         break;
       case Screen.dashBoard:
         if (option != null) {
@@ -132,7 +137,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.profileDetailsScreen:
         _navigate(
           context,
@@ -141,7 +145,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.todaysPaymentScreen:
         _navigate(
           context,
@@ -150,7 +153,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.referScreen:
         _navigate(
           context,
@@ -159,7 +161,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.termsAndConditionsScreen:
         _navigate(
           context,
@@ -168,7 +169,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.privacyPolicyScreen:
         _navigate(
           context,
@@ -177,7 +177,6 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
-
       case Screen.refundPolicyScreen:
         _navigate(
           context,
@@ -342,7 +341,6 @@ class ChangeScreen {
     } else if (dest == Screen.rateCustomer) {
       _navigatePop(context, result);
     }
-
     onCompleted?.call();
   }
 }

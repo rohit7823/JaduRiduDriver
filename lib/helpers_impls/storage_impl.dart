@@ -75,4 +75,14 @@ class StorageImpl implements Storage {
   setDriverStatus(String status) {
     _pref.setString(Constants.driverStatus, status);
   }
+
+  @override
+  String accountStatus() {
+    return _pref.getString(Constants.accountStatus) ?? "";
+  }
+
+  @override
+  setAccountStatus(String status) {
+    _pref.setString(Constants.accountStatus, status);
+  }
 }

@@ -105,6 +105,17 @@ mixin _$VerifyOtpStore on _VerifyOtpScreenStore, Store {
     return _$verifyAsyncAction.run(() => super.verify());
   }
 
+  late final _$_retrieveDriverAccountStatusAsyncAction = AsyncAction(
+      '_VerifyOtpScreenStore._retrieveDriverAccountStatus',
+      context: context);
+
+  @override
+  Future _retrieveDriverAccountStatus(
+      {required Function success, required Function error}) {
+    return _$_retrieveDriverAccountStatusAsyncAction.run(() =>
+        super._retrieveDriverAccountStatus(success: success, error: error));
+  }
+
   late final _$_VerifyOtpScreenStoreActionController =
       ActionController(name: '_VerifyOtpScreenStore', context: context);
 

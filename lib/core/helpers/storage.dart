@@ -19,4 +19,7 @@ abstract class Storage {
 
   setDriverStatus(String status);
   String driverStatus();
+
+  setAccountStatus(String status);
+  String accountStatus();
 }

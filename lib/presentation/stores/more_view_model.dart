@@ -1,8 +1,15 @@
-
+import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
+import 'package:jadu_ride_driver/core/common/alert_data.dart';
+import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/profile_short_description.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
+
 import '../../core/common/navigation_option.dart';
 import '../../core/common/response.dart';
 import '../../core/common/screen_wtih_extras.dart';
@@ -15,9 +22,10 @@ part 'more_view_model.g.dart';
 
 class MoreViewModels = _Profile with _$MoreViewModels;
 
-abstract class _Profile extends AppNavigator with Store{
+abstract class _Profile extends AppNavigator with Store {
   final _repository = dependency<ProfileRepository>();
   final _prefs = dependency<Storage>();
+  final dialogManager = DialogManager();
 
   @observable
   bool isLoading = false;
@@ -53,7 +61,10 @@ abstract class _Profile extends AppNavigator with Store{
   //profile click.......
   onProfileDetails() {
     onChange(ScreenWithExtras(
-        screen: Screen.profileDetailsScreen, argument: ProfileShortDescription(driverName: driverName, driverImageURL: imageURL), ));
+      screen: Screen.profileDetailsScreen,
+      argument: ProfileShortDescription(
+          driverName: driverName, driverImageURL: imageURL),
+    ));
   }
 
   //wallet click.......
@@ -64,8 +75,7 @@ abstract class _Profile extends AppNavigator with Store{
 
   //payment click.......
   onPaymentDetailsScreenRef() {
-    onChange(ScreenWithExtras(
-        screen: Screen.paymentDetails));
+    onChange(ScreenWithExtras(screen: Screen.paymentDetails));
   }
 
   //selected language click.......
@@ -78,43 +88,79 @@ abstract class _Profile extends AppNavigator with Store{
   //current balance click.......
   onRefer() {
     onChange(ScreenWithExtras(
-      screen: Screen.referScreen, ));
+      screen: Screen.referScreen,
+    ));
   }
 
   //terms and conditions................................
   onTermsAndConditions() {
     onChange(ScreenWithExtras(
-      screen: Screen.termsAndConditionsScreen, ));
+      screen: Screen.termsAndConditionsScreen,
+    ));
   }
 
   //Privacy Policy..........................................
   onPrivacyPolicy() {
     onChange(ScreenWithExtras(
-      screen: Screen.privacyPolicyScreen, ));
+      screen: Screen.privacyPolicyScreen,
+    ));
   }
 
   //refund Policy..........................................
   onRefundPolicy() {
     onChange(ScreenWithExtras(
-      screen: Screen.refundPolicyScreen, ));
+      screen: Screen.refundPolicyScreen,
+    ));
   }
 
   //help..........................................
   onHelp() {
     onChange(ScreenWithExtras(
-      screen: Screen.helpScreen, ));
+      screen: Screen.helpScreen,
+    ));
   }
 
   //emergency support..........................................
   onEmergencySupport() {
     onChange(ScreenWithExtras(
-      screen: Screen.emergencySupportScreen, ));
+      screen: Screen.emergencySupportScreen,
+    ));
   }
 
   //trips Details..........................................
   onTripDetails() {
     onChange(ScreenWithExtras(
-      screen: Screen.tripsScreen, ));
+      screen: Screen.tripsScreen,
+    ));
   }
 
+  //log out.......................................
+  onLogout() {
+    dialogManager.initData(AlertData(
+        StringProvider.appName,
+        null,
+        StringProvider.appId,
+        StringProvider.areYouReallyWantToLogout,
+        StringProvider.Yes,
+        null,
+        null,
+        AlertBehaviour(option: AlertOption.none, action: AlertAction.logout)));
+  }
+
+  logout(AlertAction? action) {
+    if (action == AlertAction.logout) {
+      _prefs.login(false);
+      _prefs.saveUserId("");
+      _prefs.setAccountStatus(DriverAccountStatus.accountUnknown.status);
+      onChange(ScreenWithExtras(
+          screen: Screen.loginRegistrationScreen,
+          option: NavigationOption(option: Option.popAll)));
+    }
+  }
+
+  closeLogoutDialog(AlertAction? action) {
+    if (action == AlertAction.logout) {
+      dialogManager.closeDialog();
+    }
+  }
 }

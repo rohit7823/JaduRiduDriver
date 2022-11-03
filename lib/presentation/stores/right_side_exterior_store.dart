@@ -42,7 +42,7 @@ abstract class _RightSideExteriorStore with Store {
 
   @action
   onDone(
-      {required Function(bool, int) uploading,
+      {required Function(int, int) uploading,
       required Function(String) success,
       required Function(String) error,
       required Function(String) responseError}) async {

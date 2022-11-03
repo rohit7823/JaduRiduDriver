@@ -7,5 +7,6 @@ abstract class VehiclePollutionRepository {
   Future<Resource<UploadVehiclePollutionResponse>> uploadPollution(
       String userId,
       String expiryDate,
-      File pollutionPaper, Function(bool, int) onUploading);
+      File pollutionPaper,
+      Function(int, int) onUploading);
 }

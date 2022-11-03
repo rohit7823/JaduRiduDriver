@@ -62,7 +62,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          widget.sharedStore.getDashBoardData();
           ChangeScreen.to(context, p0.screen,
               arguments: p0.argument,
               option: p0.option,

@@ -18,6 +18,7 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/uploader_implementation.dart';
 import 'number_plate_store.dart';
 
 part 'audit_general_store.g.dart';
@@ -27,7 +28,7 @@ class AuditGeneralStore = _AuditGeneralStore with _$AuditGeneralStore;
 abstract class _AuditGeneralStore extends AppNavigator with Store {
   final dialogManager = DialogManager();
   final _picker = ImageFilePicker();
-  final uploader = Uploader();
+  final uploader = Uploader(implementation: UploaderImplementation.real);
 
   @observable
   File? selectedImage;
@@ -144,31 +145,31 @@ abstract class _AuditGeneralStore extends AppNavigator with Store {
   onDone() {
     if (requiredStore is ChasisNumberStore) {
       (requiredStore as ChasisNumberStore).onDone(
-          uploading: _onUploading,
+          uploading: uploader.start, //_onUploading,
           success: _onSuccess,
           error: _onError,
           responseError: _onResponseError);
     } else if (requiredStore is NumberPlateStore) {
       (requiredStore as NumberPlateStore).onDone(
-          uploading: _onUploading,
+          uploading: uploader.start, //_onUploading,
           success: _onSuccess,
           error: _onError,
           responseError: _onResponseError);
     } else if (requiredStore is LSExteriorStore) {
       (requiredStore as LSExteriorStore).onDone(
-          uploading: _onUploading,
+          uploading: uploader.start, //_onUploading
           success: _onSuccess,
           error: _onError,
           responseError: _onResponseError);
     } else if (requiredStore is RSExteriorStore) {
       (requiredStore as RSExteriorStore).onDone(
-          uploading: _onUploading,
+          uploading: uploader.start, //_onUploading,
           success: _onSuccess,
           error: _onError,
           responseError: _onResponseError);
     } else if (requiredStore is InsideCarStore) {
       (requiredStore as InsideCarStore).onDone(
-          uploading: _onUploading,
+          uploading: uploader.start, //_onUploading,
           success: _onSuccess,
           error: _onError,
           responseError: _onResponseError);

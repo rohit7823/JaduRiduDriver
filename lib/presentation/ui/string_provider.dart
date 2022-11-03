@@ -399,6 +399,10 @@ class StringProvider {
   static var jaduRideDirectionNavigationService =
       "JaduRide Direction Navigation Service";
 
+  static var areYouReallyWantToLogout = "Are you really want to Logout ?";
+
+  static var Yes = "Yes";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

@@ -47,12 +47,10 @@ class _AadharNumberApi implements AadharNumberApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(
-              _dio.options,
-              '/driver/users/${userId}/document/aadhar',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+            .compose(_dio.options, '/driver/users/${userId}/document/aadhar',
+                queryParameters: queryParameters,
+                data: _data,
+                onSendProgress: uploading)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadAadharResponse.fromJson(_result.data!);
     return value;
