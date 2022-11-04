@@ -36,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   void initState() {
+    widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
     widget.sharedStore.connectToSocket();
     dashBoardNavigator = GlobalKey<NavigatorState>();
@@ -55,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen>
         }
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
+        if (p0 != null) {
           debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
             ChangeScreen.to(context, p0.screen,
@@ -98,7 +99,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.changeLanguage) {
             ChangeScreen.to(context, p0.screen,
-                option: p0.option, onComplete: widget.sharedStore.clear);
+                arguments: p0.argument,
+                option: p0.option,
+                onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.rideNavigation) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);

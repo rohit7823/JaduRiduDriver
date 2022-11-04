@@ -39,7 +39,7 @@ class ChangeScreen {
         break;
       case Screen.changeLanguage:
         await _navigateWithOption(context, AppRoute.changeLanguage, option!,
-            onComplete: onComplete);
+            arguments: arguments, onComplete: onComplete);
         break;
       case Screen.welcomeJaduRide:
         await _navigate(context, AppRoute.welcomeJaduRide,
@@ -320,6 +320,9 @@ class ChangeScreen {
         await Navigator.of(context)
             .pushNamedAndRemoveUntil(destination, (route) => false);
         break;
+      default:
+        await Navigator.of(context)
+            .pushNamed(destination, arguments: arguments);
     }
     onComplete?.call();
   }

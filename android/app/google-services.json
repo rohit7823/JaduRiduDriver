@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "747172814338",
+    "project_id": "jadu-ride-driver",
+    "storage_bucket": "jadu-ride-driver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747172814338:android:cbba4a1bc2c54a4060911b",
+        "android_client_info": {
+          "package_name": "com.example.jadu_ride_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747172814338-cmgimm0ikf4c97ln0g3lv56hitqtscjj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxp4aRTUqXsDY_-vGcV6bnipEGvXCxAUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747172814338-cmgimm0ikf4c97ln0g3lv56hitqtscjj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jaduRideDriver"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

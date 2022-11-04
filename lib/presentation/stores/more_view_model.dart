@@ -3,6 +3,7 @@ import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/profile_short_description.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
@@ -82,7 +83,8 @@ abstract class _Profile extends AppNavigator with Store {
   onSelectedLanguage() {
     onChange(ScreenWithExtras(
         screen: Screen.changeLanguage,
-        option: NavigationOption(option: Option.popPrevious)));
+        argument: NavigateFrom.moreScreen,
+        option: NavigationOption(option: Option.none)));
   }
 
   //current balance click.......

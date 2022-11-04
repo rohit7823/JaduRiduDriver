@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -17,12 +18,16 @@ import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/presentation/ui/translations_asset.dart';
 import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
+import 'package:jadu_ride_driver/utills/firebase_module.dart';
+import 'package:jadu_ride_driver/utills/notification_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await EasyLocalization.ensureInitialized();
+  await GoogleFirebase.init();
+  await NotificationApi.initNotification(appIcon: 'app_name');
   await AppModule.init();
   EasyLocalization.logger.enableLevels = [];
   runApp(JaduRideDriver());

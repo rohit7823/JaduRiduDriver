@@ -30,6 +30,11 @@ mixin CheckInternet {
     });
   }
 
+  Future<ConnectivityResult> check() async {
+    var result = await Connectivity().checkConnectivity();
+    return result;
+  }
+
   disposeInternetSubscription() {
     _subscription?.cancel();
   }

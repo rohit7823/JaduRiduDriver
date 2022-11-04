@@ -43,10 +43,11 @@ class _NumberPlateApi implements NumberPlateApi {
       contentType: 'multipart/form-data',
     )
             .compose(
-                _dio.options, '/driver/users/${userId}/document/numberPlate',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+              _dio.options,
+              '/driver/users/${userId}/document/numberPlate',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadVehicleNumberPlateResponse.fromJson(_result.data!);
     return value;

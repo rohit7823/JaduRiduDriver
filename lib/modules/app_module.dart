@@ -1,9 +1,11 @@
 import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jadu_ride_driver/core/helpers/push_notification.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/helpers/validator.dart';
 import 'package:jadu_ride_driver/core/repository/aadhar_number_repository.dart';
@@ -38,6 +40,8 @@ import 'package:jadu_ride_driver/core/repository/vehicle_permit_repository.dart'
 import 'package:jadu_ride_driver/core/repository/vehicle_pollution_repository.dart';
 import 'package:jadu_ride_driver/core/repository/verify_otp_repository.dart';
 import 'package:jadu_ride_driver/core/repository/welcome_jadu_ride_repository.dart';
+import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
+import 'package:jadu_ride_driver/helpers_impls/firebase_notification.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
 import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.dart';
@@ -108,6 +112,7 @@ import '../repository_impls/refund_policy_repository_impl.dart';
 import '../repository_impls/terms_and_conditions_repository_impl.dart';
 import '../repository_impls/todays_payment_repository_impl.dart';
 import '../repository_impls/trips_details_repository_impl.dart';
+import '../utills/object_box.dart';
 
 final dependency = GetIt.instance;
 
@@ -125,8 +130,13 @@ class AppModule {
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
     final imagePicker = ImagePicker();
     final cropper = ImageCropper();
+    final fireBaseMessaging = FirebaseMessaging.instance;
     final env = Environment();
+    final objectBox = await ObjectBox.create();
+    final storage = FCMStorage(objectBox);
     await env.init();
+
+    dependency.registerLazySingleton<FCMStorage>(() => storage);
 
     dependency.registerLazySingleton<Environment>(() => env);
 
@@ -253,6 +263,9 @@ class AppModule {
         () => HelpPhoneNumberRepositoryImpl());
     dependency.registerLazySingleton<EmergencyRepository>(
         () => EmergencyRepositoryImpl());
+
+    dependency.registerLazySingleton<PushNotification>(
+        () => FirebaseNotification(fireBaseMessaging));
 
     dependency.registerLazySingleton<DriverLiveLocationRepository>(
         () => DriverLiveLocationRepositoryImpl(dio));

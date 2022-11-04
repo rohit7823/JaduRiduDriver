@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'registration_certificate_api.dart';
+part of 'fcm_token_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'registration_certificate_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _RegistrationCertificateApi implements RegistrationCertificateApi {
-  _RegistrationCertificateApi(
+class _FCMTokenApi implements FCMTokenApi {
+  _FCMTokenApi(
     this._dio, {
     this.baseUrl,
   });
@@ -19,37 +19,29 @@ class _RegistrationCertificateApi implements RegistrationCertificateApi {
   String? baseUrl;
 
   @override
-  Future<UploadRegistrationCertificateResponse> addRegistrationCert(
+  Future<FcmTokenResponse> sendToken(
     userId,
-    documentImage,
-    uploading,
+    deviceToken,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = FormData();
-    _data.files.add(MapEntry(
-      'document_image',
-      MultipartFile.fromFileSync(
-        documentImage.path,
-        filename: documentImage.path.split(Platform.pathSeparator).last,
-      ),
-    ));
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UploadRegistrationCertificateResponse>(Options(
+    final _data = {'device_token': deviceToken};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<FcmTokenResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
-      contentType: 'multipart/form-data',
+      contentType: 'application/x-www-form-urlencoded',
     )
             .compose(
               _dio.options,
-              '/driver/users/${userId}/document/rc',
+              '/driver/users/${userId}/setDeviceToken',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UploadRegistrationCertificateResponse.fromJson(_result.data!);
+    final value = FcmTokenResponse.fromJson(_result.data!);
     return value;
   }
 

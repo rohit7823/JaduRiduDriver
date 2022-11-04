@@ -5,6 +5,7 @@ import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
 import 'package:jadu_ride_driver/core/common/app_languages.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
@@ -41,7 +42,9 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
   @observable
   String languageChangedMsg = "";
 
-  _ChangeAppLanguageScreenStore() {
+  NavigateFrom cameFrom;
+
+  _ChangeAppLanguageScreenStore(this.cameFrom) {
     _mapLangAndCodes();
   }
 

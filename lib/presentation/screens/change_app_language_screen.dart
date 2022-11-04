@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
@@ -23,7 +24,9 @@ import 'package:mobx/mobx.dart';
 
 class ChangeAppLanguageScreen extends StatefulWidget {
   SharedStore sharedStore;
-  ChangeAppLanguageScreen({Key? key, required this.sharedStore})
+  NavigateFrom arg;
+  ChangeAppLanguageScreen(
+      {Key? key, required this.sharedStore, required this.arg})
       : super(key: key);
 
   @override
@@ -37,28 +40,26 @@ class _ChangeAppLanguageState extends State<ChangeAppLanguageScreen> {
 
   @override
   void initState() {
-    _store = ChangeAppLanguageStore();
-    _dialogController = DialogController(dialog: MyDialogImpl(buildContext: context));
+    _store = ChangeAppLanguageStore(widget.arg);
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {
-        if(p0 is DialogState && p0 == DialogState.displaying) {
-          _dialogController.show(_store.dialogManager.errorData!, p0, close: _store.dialogManager.closeErrorDialog);
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          _dialogController.show(_store.dialogManager.errorData!, p0,
+              close: _store.dialogManager.closeErrorDialog);
         }
       }),
       reaction((p0) => _store.currentChange, (p0) {
-        if(p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(
-              context,
-              p0.screen,
-              arguments: p0.argument,
-              onComplete: _store.clear
-          );
+        if (p0 != null && p0 is ScreenWithExtras) {
+          ChangeScreen.to(context, p0.screen,
+              arguments: p0.argument, onComplete: _store.clear);
         }
       }),
       reaction((p0) => _store.languageChangedMsg, (p0) {
-        if(p0 is String && p0.isNotEmpty) {
+        if (p0 is String && p0.isNotEmpty) {
           AppSnackBar.show(context, message: p0, clear: () {
             _store.languageChangedMsg = "";
           });
@@ -66,7 +67,6 @@ class _ChangeAppLanguageState extends State<ChangeAppLanguageScreen> {
       })
     ];
   }
-
 
   @override
   void dispose() {
@@ -84,13 +84,21 @@ class _ChangeAppLanguageState extends State<ChangeAppLanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: Column(
-        children: [
-          expand(child: _upperSideContent(), flex: 2),
-          expand(flex: 8, child: _lowerSideContent())
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        if (_store.cameFrom == NavigateFrom.moreScreen) {
+          return true;
+        }
+        return false;
+      },
+      child: Scaffold(
+        appBar: MyAppBar(),
+        body: Column(
+          children: [
+            expand(child: _upperSideContent(), flex: 2),
+            expand(flex: 8, child: _lowerSideContent())
+          ],
+        ),
       ),
     );
   }
@@ -127,47 +135,56 @@ class _ChangeAppLanguageState extends State<ChangeAppLanguageScreen> {
                   builder: (BuildContext context) {
                     return GridView.count(
                       shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.05.sw),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 0.05.sw, vertical: 0.05.sw),
                       crossAxisCount: 2,
                       crossAxisSpacing: 0.03.sw,
                       mainAxisSpacing: 0.03.sw,
                       childAspectRatio: 40 / 30,
-                      children: _store.locales.entries.map((entry) => LocaleView(
-                        entry: entry,
-                        isSelected: entry.key == _store.selectedAppLocale ? true : false,
-                        onClick: _store.onLocaleClick,)
-                      ).toList(),
+                      children: _store.locales.entries
+                          .map((entry) => LocaleView(
+                                entry: entry,
+                                isSelected:
+                                    entry.key == _store.selectedAppLocale
+                                        ? true
+                                        : false,
+                                onClick: _store.onLocaleClick,
+                              ))
+                          .toList(),
                     );
                   },
                 ),
-              )
-          ),
+              )),
           const Divider(color: AppColors.lightGray, height: 0.05),
-          expand(flex: 2, child: Align(
-            alignment: Alignment.center,
-            child: Observer(
-              builder: (BuildContext obContext) {
-                return ElevatedButton(
-                    style: _store.enableBtn
-                        ? AppButtonThemes.cancelBtnStyle
-                        : AppButtonThemes.defaultStyle,
-                    onPressed: _store.enableBtn ? null : () {
-                      _store.onNext(changeLang: () async {
-                        await context.setLocale(Locale(_store.selectedAppLocale.value));
-
-                      });
-                    },
-                    child: _store.sendingLoader
-                        ? const CircularProgressIndicator(
-                      color: AppColors.white,
-                    )
-                        : Text(
-                      StringProvider.next,
-                      style: AppTextStyle.btnTextStyleWhite,
-                    ));
-              },
-            ),
-          ))
+          expand(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.center,
+                child: Observer(
+                  builder: (BuildContext obContext) {
+                    return ElevatedButton(
+                        style: _store.enableBtn
+                            ? AppButtonThemes.cancelBtnStyle
+                            : AppButtonThemes.defaultStyle,
+                        onPressed: _store.enableBtn
+                            ? null
+                            : () {
+                                _store.onNext(changeLang: () async {
+                                  await context.setLocale(
+                                      Locale(_store.selectedAppLocale.value));
+                                });
+                              },
+                        child: _store.sendingLoader
+                            ? const CircularProgressIndicator(
+                                color: AppColors.white,
+                              )
+                            : Text(
+                                StringProvider.next,
+                                style: AppTextStyle.btnTextStyleWhite,
+                              ));
+                  },
+                ),
+              ))
         ],
       ),
     );

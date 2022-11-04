@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:custom_marker/marker_icon.dart';
 import 'package:flutter/widgets.dart';
@@ -135,6 +136,7 @@ abstract class _DriverBookingsStore with Store {
   onBookingAccept(BookingStatus status) {
     customers.clear();
     newBooking = null;
+    log("bookingAccept ${status.key} ${currentBookingId} ${_prefs.userId()}");
     _repository.bookingStatus(status.key, currentBookingId, _prefs.userId());
   }
 
@@ -167,8 +169,7 @@ abstract class _DriverBookingsStore with Store {
   afterPayment() {
     SocketIO.client.on(
         SocketEvents.afterPayment.value,
-        (status) => distinctAfterPayment.init(
-            status,
+        (status) => distinctAfterPayment.init(status,
             test: (cached, newly) =>
                 cached is bool && newly is bool && (!cached && newly)));
   }

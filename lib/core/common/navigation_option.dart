@@ -1,8 +1,8 @@
 enum Option {
   popPrevious,
-  popAll;
+  popAll,
+  none;
 }
-
 
 class NavigationOption {
   Option option;

@@ -3,20 +3,25 @@ import 'package:jadu_ride_driver/core/common/batch_call_apis.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/batch_call_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/driver_account_status_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/fcm_token_response.dart';
 import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/data/online/batch_call_api.dart';
 import 'package:jadu_ride_driver/data/online/driver_account_status_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
+import '../data/online/fcm_token_api.dart';
+
 class BaseRepositoryImpl implements BaseRepository {
   final Dio _dio;
   late final BatchCallApi _batchCallApi;
+  late final FCMTokenApi _fcmTokenApi;
   late final DriverAccountStatusApi _driverAccountStatusApi;
 
   BaseRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _batchCallApi = BatchCallApi(_dio);
+    _fcmTokenApi = FCMTokenApi(_dio);
     _driverAccountStatusApi = DriverAccountStatusApi(_dio);
   }
 
@@ -75,5 +80,13 @@ class BaseRepositoryImpl implements BaseRepository {
     return _driverAccountStatusApi
         .accountStatus()
         .handleResponse<DriverAccountStatusResponse>();
+  }
+
+  @override
+  Future<Resource<FcmTokenResponse>> sendTokenToServer(
+      String userId, String token) {
+    return _fcmTokenApi
+        .sendToken(userId, token)
+        .handleResponse<FcmTokenResponse>();
   }
 }

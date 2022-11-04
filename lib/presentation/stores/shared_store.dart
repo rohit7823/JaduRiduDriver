@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
@@ -26,8 +27,10 @@ import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.d
 import 'package:jadu_ride_driver/core/domain/ride_initiate_data.dart';
 import 'package:jadu_ride_driver/core/domain/ride_location_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
+import 'package:jadu_ride_driver/core/helpers/push_notification.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_live_location_repository.dart';
+import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
@@ -38,9 +41,12 @@ import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
+import 'package:jadu_ride_driver/utills/token_sender.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/app_constants.dart';
 import '../../core/repository/base_repository.dart';
+import '../../utills/notification_api.dart';
 
 part 'shared_store.g.dart';
 
@@ -50,9 +56,12 @@ abstract class _SharedStore extends AppNavigator with Store {
   final _repository = dependency<BaseRepository>();
   final _driverLocationRepo = dependency<DriverLiveLocationRepository>();
   final _prefs = dependency<Storage>();
+  final _pushNotification = dependency<PushNotification>();
+  final _storage = dependency<FCMStorage>();
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
   late final DriverBookingStore driverBookings;
+  late final TokenSender tokenSender;
 
   @observable
   bool gettingIntroDataLoader = false;
@@ -413,5 +422,39 @@ abstract class _SharedStore extends AppNavigator with Store {
   @action
   _setTotalRideFare(TotalRideFareResponse response) {
     rideFareResponse = response;
+  }
+
+  void initFirebase() async {
+    var userId = _prefs.userId();
+    tokenSender = TokenSender(repository: _repository, storage: _storage);
+    await _pushNotification.init();
+    debugPrint("fcm token: ${_pushNotification.getFirstToken()}");
+    tokenSender
+        .sendToServer(userId, _pushNotification.getFirstToken() ?? "")
+        .forEach((element) {
+      debugPrint("sendTokenStatus $element");
+    });
+    _pushNotification.getUniqueToken(onToken: (Object token) {
+      debugPrint("new token: $token");
+      tokenSender.notifyNewToken.add({
+        AppConstants.userID: userId,
+        AppConstants.fcmToken: token as String
+      });
+    }, onTokenError: (Object error) {
+      debugPrint(error.toString());
+    });
+
+    _pushNotification.onMessageReceived(
+        onMessage: (RemoteMessage message) async {
+      await NotificationApi.showNotification(
+          1,
+          message.data[AppConstants.notificationTitleKey],
+          message.data[AppConstants.notificationBodyKey],
+          image: message.data[AppConstants.notificationImageKey],
+          icon: message.data[AppConstants.notificationIconKey],
+          payload: message.data[AppConstants.notificationActionKey]);
+    }, onBackgroundMessage: (RemoteMessage message) {
+      debugPrint("backgroundMessage $message");
+    });
   }
 }

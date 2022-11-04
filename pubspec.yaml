@@ -26,6 +26,7 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
 dependencies:
   flutter:
     sdk: flutter
@@ -72,6 +73,12 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_foreground_task: ^3.10.0
   flutter_overlay_window: ^0.3.2
+  firebase_messaging: ^14.0.4
+  firebase_core: ^2.1.1
+  firebase_analytics: ^10.0.4
+  objectbox: ^1.6.0
+  objectbox_flutter_libs: any
+
 
 
 dev_dependencies:
@@ -86,6 +93,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   mobx_codegen: ^2.0.7
   json_serializable: ^6.2.0
+  objectbox_generator: any
   build_runner: ^2.1.11
   retrofit_generator: ^4.0.1
   built_value_generator: ^8.3.3

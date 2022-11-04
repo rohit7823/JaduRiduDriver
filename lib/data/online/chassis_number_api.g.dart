@@ -15,11 +15,16 @@ class _ChassisNumberApi implements ChassisNumberApi {
   });
 
   final Dio _dio;
+
   String? baseUrl;
 
   @override
   Future<UploadChasisNumberResponse> uploadChassis(
-      userId, documentNumber, documentImage, uploading) async {
+    userId,
+    documentNumber,
+    documentImage,
+    uploading,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -42,10 +47,12 @@ class _ChassisNumberApi implements ChassisNumberApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(_dio.options, '/driver/users/${userId}/document/chassis',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/document/chassis',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadChasisNumberResponse.fromJson(_result.data!);
     return value;

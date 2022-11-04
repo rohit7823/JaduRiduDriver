@@ -1,0 +1,4 @@
+enum NavigateFrom {
+  moreScreen,
+  none;
+}

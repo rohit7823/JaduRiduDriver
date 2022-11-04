@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
@@ -75,7 +76,10 @@ class DefaultNav {
             sharedStore: sharedStore, number: retrievedArgument));
       case AppRoute.changeLanguage:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
-            ChangeAppLanguageScreen(sharedStore: sharedStore));
+            ChangeAppLanguageScreen(
+          sharedStore: sharedStore,
+          arg: retrievedArgument as NavigateFrom,
+        ));
       case AppRoute.welcomeJaduRide:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             WelcomeJaduRideScreen(sharedStore: sharedStore));
@@ -194,6 +198,9 @@ class DefaultNav {
   _retrieveArgument(Object? arguments) {
     if (arguments != null) {
       if (arguments is String) {
+        return arguments;
+      }
+      if (arguments is NavigateFrom) {
         return arguments;
       }
       if (arguments is ProfileShortDescription) {

@@ -21,5 +21,20 @@ class AppConstants {
 
   static const android = "Android";
 
+  static const notificationChannelId =
+      "jadu_ride_driver_push_notification_channel";
+
+  static const notificationChannelName = "jadu_ride_driver_notification";
+
+  static const notificationIconKey = "largeIcon";
+  static const notificationBodyKey = "body";
+  static const notificationTitleKey = "title";
+  static const notificationImageKey = "image";
+  static const notificationActionKey = "action";
+
   static const ios = "IOS";
+
+  static const userID = "UserID";
+
+  static const fcmToken = "FcmToken";
 }

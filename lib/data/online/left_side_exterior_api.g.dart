@@ -43,10 +43,11 @@ class _LeftSideExteriorApi implements LeftSideExteriorApi {
       contentType: 'multipart/form-data',
     )
             .compose(
-                _dio.options, '/driver/users/${userId}/document/leftExterior',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+              _dio.options,
+              '/driver/users/${userId}/document/leftExterior',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadExteriorResponse.fromJson(_result.data!);
     return value;
