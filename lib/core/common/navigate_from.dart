@@ -1,4 +1,4 @@
 enum NavigateFrom {
   moreScreen,
-  none;
+  none, verifyOtp;
 }

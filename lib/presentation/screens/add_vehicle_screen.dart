@@ -104,6 +104,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                             .text(AppTextStyle.enterNumberSubHeadingStyle))
                   ],
                 )),
+
             Expanded(
                 flex: 2,
                 child: fitBox(
@@ -140,6 +141,15 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                             current: _store.selectedCategory)
                         .padding(
                             insets: EdgeInsets.symmetric(vertical: 0.05.sw));
+                  }),
+                  Observer(builder: (context) {
+                    return VehicleCategoriesView(
+                        categories: _store.vCategories,
+                        onSelected: _store.onSelectCategory,
+                        loader: _store.gettingDataLoader,
+                        current: _store.selectedCategory)
+                        .padding(
+                        insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),
                   MyTextInput(
                       onTextChange: _store.onVehicleNumber,

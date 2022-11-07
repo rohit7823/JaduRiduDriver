@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
@@ -112,6 +113,7 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
               sendingLoader = false;
               onChange(ScreenWithExtras(
                   screen: Screen.changeLanguage,
+                  argument: NavigateFrom.verifyOtp,
                   option: NavigationOption(option: Option.popPrevious)));
             }
           } else {

@@ -32,6 +32,10 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
   List<VehicleCategory> vCategories = [];
 
   @observable
+  List<VehicleCategory> carCategories = [];
+
+
+  @observable
   bool addingLoader = false;
 
   @observable

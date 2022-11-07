@@ -114,7 +114,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 color: Color(0x1a000000),
                                 blurRadius: 20,
                                 spreadRadius: 0,
-                                offset: Offset(0, 10))
+                                offset: Offset(0, 0))
                           ]),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -169,168 +169,185 @@ class _AccountsScreenState extends State<AccountsScreen> {
               SizedBox(
                 height: 0.02.sw,
               ),
-              InkWell(
-                onTap: accountsStore.onCurrentBalance,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0x1a000000),
-                            blurRadius: 20,
-                            spreadRadius: 0,
-                            offset: Offset(0, 10))
-                      ]),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0.05.sw, horizontal: 0.05.sw),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 9,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
-                              Text(StringProvider.currentBalance,
-                                  style: TextStyle(
-                                      color: AppColors.appGreery, fontSize: 16.sp)),
-                              Row(
+              Container(
+                padding: EdgeInsets.all(5),
+                color: Color(0x56ffffff),
+                child: InkWell(
+                  onTap: accountsStore.onCurrentBalance,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0x1a000000),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0))
+                        ]),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.05.sw, horizontal: 0.05.sw),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 9,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
+                                Text(StringProvider.currentBalance,
+                                    style: TextStyle(
+                                        color: AppColors.appGreery, fontSize: 16.sp)),
+                                Row(
+                                  children: [
+                                    Observer(
+                                      builder: (context) {
+                                        return Text(accountsStore.currentBalance,
+                                            style: TextStyle(
+                                                color: AppColors.secondaryVariant,
+                                                fontSize: 30.sp,
+                                                fontWeight: FontWeight.bold));
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: 0.02.sw,
+                                    ),
+                                    Text("KM",
+                                        style: TextStyle(
+                                            color: AppColors.secondaryVariant,
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                              flex: 2,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 0.07.sw),
+                                  child: Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: AppColors.secondaryVariant,
+                                  )))
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 0.02.sw,
+                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
+              ),
+              Container(
+                padding:EdgeInsets.all(5) ,
+                child: InkWell(
+                  onTap: accountsStore.onTodaysPayment,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0x1a000000),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0))
+                        ]),
+                    child: Padding(
+                      padding:
+                      EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SvgPicture.asset(ImageAssets.todaysPayment),
+                          ),
+                          Expanded(
+                            flex: 8,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Observer(
-                                    builder: (context) {
-                                      return Text(accountsStore.currentBalance,
-                                          style: TextStyle(
-                                              color: AppColors.secondaryVariant,
-                                              fontSize: 35.sp,
-                                              fontWeight: FontWeight.bold));
-                                    },
-                                  ),
-                                  Text("KM",
+                                  Text(StringProvider.todaysPayment,
                                       style: TextStyle(
                                           color: AppColors.secondaryVariant,
-                                          fontSize: 15.sp)),
+                                          fontSize: 16.sp)),
+                                  Text(StringProvider.noBalance,
+                                      style: TextStyle(
+                                          color: AppColors.appGreens, fontSize: 11.sp)),
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Padding(
-                                padding: EdgeInsets.only(left: 0.05.sw),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: AppColors.secondaryVariant,
-                                )))
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 0.02.sw,
-              ),
-              InkWell(
-                onTap: accountsStore.onTodaysPayment,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0x1a000000),
-                            blurRadius: 20,
-                            spreadRadius: 0,
-                            offset: Offset(0, 10))
-                      ]),
-                  child: Padding(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(ImageAssets.todaysPayment),
-                        ),
-                        Expanded(
-                          flex: 8,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(StringProvider.todaysPayment,
-                                    style: TextStyle(
-                                        color: AppColors.secondaryVariant,
-                                        fontSize: 16.sp)),
-                                Text(StringProvider.noBalance,
-                                    style: TextStyle(
-                                        color: AppColors.appGreens, fontSize: 11.sp)),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: AppColors.secondaryVariant,
-                            ))
-                      ],
-                    ),
-                  ),
-                ),
+                          Expanded(
+                              flex: 1,
+                              child: Icon(
+                Icons.keyboard_arrow_right,
+                color: AppColors.secondaryVariant,
+      ))
+      ],
+      ),
+      ),
+      ),
+      ),
               ),
-              SizedBox(
+    SizedBox(
                 height: 0.02.sw,
+                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
               ),
-              InkWell(
-                onTap: accountsStore.onPaymentSummery,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      border: Border.all(color: AppColors.appGreens),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0x1a000000),
-                            blurRadius: 20,
-                            spreadRadius: 0,
-                            offset: Offset(0, 10))
-                      ]),
-                  child: Padding(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(ImageAssets.paymentSummery),
-                        ),
-                        Expanded(
-                          flex: 8,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(StringProvider.paymentSummery,
-                                    style: TextStyle(
-                                        color: AppColors.secondaryVariant,
-                                        fontSize: 16.sp)),
-                              ],
+     
+              Container(
+                padding: EdgeInsets.all(5),
+                child: InkWell(
+                  onTap: accountsStore.onPaymentSummery,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        border: Border.all(color: AppColors.appGreens),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0x1a000000),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0))
+                        ]),
+                    child: Padding(
+                      padding:
+                      EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SvgPicture.asset(ImageAssets.paymentSummery),
+                          ),
+                          Expanded(
+                            flex: 8,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(StringProvider.paymentSummery,
+                                      style: TextStyle(
+                                          color: AppColors.secondaryVariant,
+                                          fontSize: 16.sp)),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: AppColors.secondaryVariant,
-                            ))
-                      ],
+                          Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: AppColors.secondaryVariant,
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -349,7 +366,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             color: Color(0x1a000000),
                             blurRadius: 20,
                             spreadRadius: 0,
-                            offset: Offset(0, 10))
+                            offset: Offset(0, 0))
                       ]),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -403,7 +420,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             color: Color(0x1a000000),
                             blurRadius: 20,
                             spreadRadius: 0,
-                            offset: Offset(0, 10))
+                            offset: Offset(0, 0))
                       ]),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -441,8 +458,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   ),
                 ),
               ),
+              // SizedBox(
+              //   height: 0.03.sw,
+              // ),
               SizedBox(
-                height: 0.03.sw,
+                height: 0.02.sw,
+                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
               ),
               InkWell(
                 onTap: accountsStore.onAmountTransfferedByDay,
@@ -456,7 +477,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             color: Color(0x1a000000),
                             blurRadius: 20,
                             spreadRadius: 0,
-                            offset: Offset(0, 10))
+                            offset: Offset(0, 0))
                       ]),
                   child: Padding(
                     padding:
@@ -487,11 +508,16 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             child: Icon(
                               Icons.keyboard_arrow_right,
                               color: AppColors.secondaryVariant,
-                            ))
+                            )),
+
                       ],
                     ),
                   ),
                 ),
+
+              ),
+              SizedBox(
+                height: 0.05.sw,
               ),
             ],
           ),
