@@ -6,6 +6,8 @@ import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/domain/package.dart';
+import 'package:jadu_ride_driver/core/domain/response/car_category.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_category.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -32,14 +34,20 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
   List<VehicleCategory> vCategories = [];
 
   @observable
-  List<VehicleCategory> carCategories = [];
-
+  List<CarCategory> carCategories = [];
 
   @observable
   bool addingLoader = false;
 
   @observable
+  bool addingcLoader = false;
+
+  @observable
   VehicleCategory? selectedCategory;
+
+  @observable
+  CarCategory? selectcar;
+
 
   @observable
   String vehicleNumber = "";
@@ -163,6 +171,49 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
     }
   }
 
+  @action
+  addCar() async{
+    addingcLoader = true;
+    var userId = _storage.userId();
+    var response = await _repository.addCar(selectedCategory?.id ?? "");
+    if (response is Success) {
+      var data = response.data;
+      addingcLoader = false;
+      switch (data != null && data.status) {
+        case true:
+          carCategories = data!.Car;
+          selectcar = data.Car.first;
+          break;
+        default:
+          dialogManager.initErrorData(AlertData(
+              StringProvider.error,
+              null,
+              StringProvider.appId,
+              data?.message ?? "",
+              StringProvider.retry,
+              null,
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none, action: AlertAction.subtypesalert)));
+      }
+    } else if (response is Error) {
+      addingcLoader = false;
+      dialogManager.initErrorData(AlertData(
+          StringProvider.error,
+          null,
+          StringProvider.appId,
+          response.message ?? "",
+          StringProvider.retry,
+          null,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none, action: AlertAction.subtypesalert)));
+    }
+
+
+  }
+
+
   onError(AlertAction? action) {
     if (action == AlertAction.addVehicleInitialData) {
       _getInitialData();
@@ -174,6 +225,11 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
   @action
   onSelectCategory(VehicleCategory? category) {
     selectedCategory = category;
+  }
+
+  @action
+  onSelectcarCategory(CarCategory? carcategory) {
+    selectcar = carcategory;
   }
 
   @action

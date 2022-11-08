@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/domain/response/add_car_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/initial_data_in_add_vehicle_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/user_vehicle_response.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_category.dart';
@@ -46,4 +47,14 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
     return Success(
         UserVehicleResponse(status: true, message: "Success", isAdded: true));*/
   }
+
+  @override
+  Future<Resource<CarResponse>> addCar(
+      String selectedCategoryId) async {
+        return _addVehicleApi
+          .car(selectedCategoryId)
+           .handleResponse<CarResponse>();
+
+  }
+
 }

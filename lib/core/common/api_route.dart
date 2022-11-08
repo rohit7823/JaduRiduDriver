@@ -3,6 +3,7 @@ class ApiRoutes {
 
   static const vehicleTypes = "$parent/vehicleType";
 
+
   static const appVersion = "$parent/appVersion";
 
   static const sendOtp = "$parent/sendOtp";

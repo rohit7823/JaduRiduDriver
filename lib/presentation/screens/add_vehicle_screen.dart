@@ -8,6 +8,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/car_subtypes_view.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_text_input.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/vehicle_categories_view.dart';
@@ -143,11 +144,11 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                             insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),
                   Observer(builder: (context) {
-                    return VehicleCategoriesView(
-                        categories: _store.vCategories,
-                        onSelected: _store.onSelectCategory,
-                        loader: _store.gettingDataLoader,
-                        current: _store.selectedCategory)
+                    return CarCategoriesView(
+                        ccategories: _store.carCategories,
+                        onSelectedcar: _store.onSelectcarCategory,
+                        carloader: _store.addingcLoader,
+                        currentcar: _store.selectcar)
                         .padding(
                         insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),

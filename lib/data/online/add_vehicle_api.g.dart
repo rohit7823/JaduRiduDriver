@@ -84,4 +84,10 @@ class _AddVehicleApi implements AddVehicleApi {
     }
     return requestOptions;
   }
+
+  @override
+  Future<CarResponse> car(String vehicleTypeId) {
+    // TODO: implement car
+    throw UnimplementedError();
+  }
 }

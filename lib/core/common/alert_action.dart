@@ -30,5 +30,6 @@ enum AlertAction {
   setDriverStatus,
   submitCustomerReview,
   none,
+  subtypesalert,
   logout;
 }
