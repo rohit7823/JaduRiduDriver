@@ -65,7 +65,8 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
         if (p0 != null && p0 is ScreenWithExtras) {
           ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
         }
-      })
+      }),
+
     ];
   }
 
@@ -148,6 +149,10 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                       isMandatory: false,
                       placeholderText: StringProvider.enterYourEmail,
                     ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+                    if(!_store.emailValidator ) const Text(
+                      "*Check your Email.",style: TextStyle(color: Colors.red,fontSize: 10),
+                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
+
                     MobileNumberWithCodesTextField(
                             key: ObjectKey(_store.gettingLoader),
                             node: FocusNode(),

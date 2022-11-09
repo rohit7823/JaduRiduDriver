@@ -55,6 +55,9 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
               positive: _store.onError,
               close: _store.dialogManager.closeErrorDialog);
         }
+      }),
+      reaction((p0) => _store.selectedCategory, (p0) {
+        _store.addCar();
       })
     ];
   }
@@ -138,6 +141,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                     return VehicleCategoriesView(
                             categories: _store.vCategories,
                             onSelected: _store.onSelectCategory,
+                            placeHolder: "no items",
                             loader: _store.gettingDataLoader,
                             current: _store.selectedCategory)
                         .padding(
@@ -147,6 +151,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                     return CarCategoriesView(
                         ccategories: _store.carCategories,
                         onSelectedcar: _store.onSelectcarCategory,
+                        carplaceHolder: "no items",
                         carloader: _store.addingcLoader,
                         currentcar: _store.selectcar)
                         .padding(

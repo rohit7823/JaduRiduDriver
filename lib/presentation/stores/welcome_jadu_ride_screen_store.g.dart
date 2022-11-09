@@ -300,6 +300,22 @@ mixin _$WelcomeJaduRideStore on _WelcomeJaduRideScreenStore, Store {
     });
   }
 
+  late final _$emailValidatorAtom = Atom(
+      name: '_WelcomeJaduRideScreenStore.emailValidator', context: context);
+
+  @override
+  bool get emailValidator {
+    _$emailValidatorAtom.reportRead();
+    return super.emailValidator;
+  }
+
+  @override
+  set emailValidator(bool value) {
+    _$emailValidatorAtom.reportWrite(value, super.emailValidator, () {
+      super.emailValidator = value;
+    });
+  }
+
   late final _$_initialDataAsyncAction =
       AsyncAction('_WelcomeJaduRideScreenStore._initialData', context: context);
 
@@ -474,7 +490,8 @@ userEmail: ${userEmail},
 referralCode: ${referralCode},
 isTermsSelected: ${isTermsSelected},
 enableBtn: ${enableBtn},
-uploadingLoader: ${uploadingLoader}
+uploadingLoader: ${uploadingLoader},
+emailValidator: ${emailValidator}
     ''';
   }
 }

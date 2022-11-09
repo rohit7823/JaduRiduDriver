@@ -99,7 +99,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         );
       }else{
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
+          padding: EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
           child: ListView(
             children: [
               Observer(
@@ -170,7 +170,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 height: 0.02.sw,
               ),
               Container(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.only(top: 5, bottom: 10, right: 5, left: 5),
                 color: Color(0x56ffffff),
                 child: InkWell(
                   onTap: accountsStore.onCurrentBalance,
@@ -187,7 +187,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         ]),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 0.05.sw, horizontal: 0.05.sw),
+                          vertical: 0.04.sw, horizontal: 0.04.sw),
                       child: Row(
                         children: [
                           Expanded(
@@ -238,8 +238,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ),
               ),
               SizedBox(
-                height: 0.02.sw,
-                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
+                height: 0.02.sh,
+                child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
               ),
               Container(
                 padding:EdgeInsets.all(5) ,
@@ -296,8 +296,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
       ),
               ),
     SizedBox(
-                height: 0.02.sw,
-                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
+                height: 0.02.sh,
+                child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
               ),
      
               Container(
@@ -356,7 +356,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 height: 0.01.sw,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 0.03.sw),
+                padding: EdgeInsets.only(left: 0.03.sw, right: 0.01.sw),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -410,7 +410,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 height: 0.01.sw,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 0.03.sw),
+                padding: EdgeInsets.only(left: 0.03.sw, right: 0.01.sw),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -462,59 +462,62 @@ class _AccountsScreenState extends State<AccountsScreen> {
               //   height: 0.03.sw,
               // ),
               SizedBox(
-                height: 0.02.sw,
-                child: Divider(height: 6,thickness: 6,color: Color(0xd5e8e8e8),),
+                height: 0.03.sh,
+                child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
               ),
-              InkWell(
-                onTap: accountsStore.onAmountTransfferedByDay,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      border: Border.all(color: AppColors.appGreens),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0x1a000000),
-                            blurRadius: 20,
-                            spreadRadius: 0,
-                            offset: Offset(0, 0))
-                      ]),
-                  child: Padding(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(ImageAssets.amountTransfer),
-                        ),
-                        Expanded(
-                          flex: 8,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(StringProvider.amountTransfer,
-                                    style: TextStyle(
-                                        color: AppColors.secondaryVariant,
-                                        fontSize: 16.sp)),
-                              ],
+              Container(
+                padding: EdgeInsets.only(top: 0.01.sh),
+                child: InkWell(
+                  onTap: accountsStore.onAmountTransfferedByDay,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        border: Border.all(color: AppColors.appGreens),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0x1a000000),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0))
+                        ]),
+                    child: Padding(
+                      padding:
+                      EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SvgPicture.asset(ImageAssets.amountTransfer),
+                          ),
+                          Expanded(
+                            flex: 8,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(StringProvider.amountTransfer,
+                                      style: TextStyle(
+                                          color: AppColors.secondaryVariant,
+                                          fontSize: 16.sp)),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: AppColors.secondaryVariant,
-                            )),
+                          Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: AppColors.secondaryVariant,
+                              )),
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
 
+                ),
               ),
               SizedBox(
                 height: 0.05.sw,

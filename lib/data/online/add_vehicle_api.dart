@@ -15,13 +15,14 @@ abstract class AddVehicleApi {
   @GET(ApiRoutes.vehicleTypes)
   Future<InitialDataInAddVehicleResponse> vehicleTypes();
 
-  @GET("${ApiRoutes.vehicleTypes}/car")
-  Future<CarResponse> car(@Query("vehicle_type_id") String vehicleTypeId);
+  @GET(ApiRoutes.cartype)
+  Future<CarResponse> car(@Query("serviceId") String serviceId);
 
   @POST("${ApiRoutes.parent}/users/{userId}/vehicle/number")
   @FormUrlEncoded()
   Future<UserVehicleResponse> addVehicle(
       @Path("userId") String userId,
       @Field("vehicle_type_id") String vehicleTypeId,
+      @Field("serviceId") String carType,
       @Field("vehicle_number") String vehicleNumber);
 }

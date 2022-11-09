@@ -121,7 +121,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
     addingLoader = true;
     var userId = _storage.userId();
     var response = await _repository.addVehicle(
-        userId, selectedCategory?.id ?? "", vehicleNumber);
+        userId, selectedCategory?.id ?? "", selectcar?.id ?? "", vehicleNumber);
     if (response is Success) {
       var data = response.data;
       addingLoader = false;
@@ -170,6 +170,8 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
               action: AlertAction.addVehicle)));
     }
   }
+
+
 
   @action
   addCar() async{

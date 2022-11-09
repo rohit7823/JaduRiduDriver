@@ -93,46 +93,57 @@ class _TripsScreenState extends State<TripsScreen> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Radio(
-                              value: DriverTransactionPaymentSummeryType
-                                  .online,
-                              groupValue: _stores.selected,
-                              onChanged:
-                              _stores.onRadioSelected,
-                              activeColor: Colors.green,
-                            ),
-                            const Text(
-                              "Online",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: Colors.green),
-                            )
-                          ],
+                        child: GestureDetector(
+                          onTap: (){
+                            _stores.onRadioSelected(DriverTransactionPaymentSummeryType
+                                .online);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: DriverTransactionPaymentSummeryType
+                                    .online,
+                                groupValue: _stores.selected,
+                                onChanged:
+                                _stores.onRadioSelected,
+                                activeColor: Colors.green,
+                              ),
+                              const Text(
+                                "Online",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.green),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Expanded(
                         flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Radio(
-                              value:
-                              DriverTransactionPaymentSummeryType.cash,
-                              groupValue: _stores.selected,
-                              onChanged:
-                              _stores.onRadioSelected,
-                              activeColor: Colors.red,
-                            ),
-                            const Text("Cash",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    color: Colors.red))
-                          ],
+                        child: GestureDetector(
+                          onTap: (){
+                            _stores.onRadioSelected(DriverTransactionPaymentSummeryType.cash);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value:
+                                DriverTransactionPaymentSummeryType.cash,
+                                groupValue: _stores.selected,
+                                onChanged:
+                                _stores.onRadioSelected,
+                                activeColor: Colors.red,
+                              ),
+                              const Text("Cash",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: Colors.red))
+                            ],
+                          ),
                         ),
                       ),
                     ],

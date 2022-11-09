@@ -41,6 +41,22 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
     });
   }
 
+  late final _$carCategoriesAtom =
+      Atom(name: '_AddVehicleScreenStore.carCategories', context: context);
+
+  @override
+  List<CarCategory> get carCategories {
+    _$carCategoriesAtom.reportRead();
+    return super.carCategories;
+  }
+
+  @override
+  set carCategories(List<CarCategory> value) {
+    _$carCategoriesAtom.reportWrite(value, super.carCategories, () {
+      super.carCategories = value;
+    });
+  }
+
   late final _$addingLoaderAtom =
       Atom(name: '_AddVehicleScreenStore.addingLoader', context: context);
 
@@ -57,6 +73,22 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
     });
   }
 
+  late final _$addingcLoaderAtom =
+      Atom(name: '_AddVehicleScreenStore.addingcLoader', context: context);
+
+  @override
+  bool get addingcLoader {
+    _$addingcLoaderAtom.reportRead();
+    return super.addingcLoader;
+  }
+
+  @override
+  set addingcLoader(bool value) {
+    _$addingcLoaderAtom.reportWrite(value, super.addingcLoader, () {
+      super.addingcLoader = value;
+    });
+  }
+
   late final _$selectedCategoryAtom =
       Atom(name: '_AddVehicleScreenStore.selectedCategory', context: context);
 
@@ -70,6 +102,22 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
   set selectedCategory(VehicleCategory? value) {
     _$selectedCategoryAtom.reportWrite(value, super.selectedCategory, () {
       super.selectedCategory = value;
+    });
+  }
+
+  late final _$selectcarAtom =
+      Atom(name: '_AddVehicleScreenStore.selectcar', context: context);
+
+  @override
+  CarCategory? get selectcar {
+    _$selectcarAtom.reportRead();
+    return super.selectcar;
+  }
+
+  @override
+  set selectcar(CarCategory? value) {
+    _$selectcarAtom.reportWrite(value, super.selectcar, () {
+      super.selectcar = value;
     });
   }
 
@@ -129,6 +177,14 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
     return _$addVehicleAsyncAction.run(() => super.addVehicle());
   }
 
+  late final _$addCarAsyncAction =
+      AsyncAction('_AddVehicleScreenStore.addCar', context: context);
+
+  @override
+  Future addCar() {
+    return _$addCarAsyncAction.run(() => super.addCar());
+  }
+
   late final _$_AddVehicleScreenStoreActionController =
       ActionController(name: '_AddVehicleScreenStore', context: context);
 
@@ -138,6 +194,17 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
         name: '_AddVehicleScreenStore.onSelectCategory');
     try {
       return super.onSelectCategory(category);
+    } finally {
+      _$_AddVehicleScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic onSelectcarCategory(CarCategory? carcategory) {
+    final _$actionInfo = _$_AddVehicleScreenStoreActionController.startAction(
+        name: '_AddVehicleScreenStore.onSelectcarCategory');
+    try {
+      return super.onSelectcarCategory(carcategory);
     } finally {
       _$_AddVehicleScreenStoreActionController.endAction(_$actionInfo);
     }
@@ -159,8 +226,11 @@ mixin _$AddVehicleStore on _AddVehicleScreenStore, Store {
     return '''
 gettingDataLoader: ${gettingDataLoader},
 vCategories: ${vCategories},
+carCategories: ${carCategories},
 addingLoader: ${addingLoader},
+addingcLoader: ${addingcLoader},
 selectedCategory: ${selectedCategory},
+selectcar: ${selectcar},
 vehicleNumber: ${vehicleNumber},
 enableBtn: ${enableBtn}
     ''';

@@ -81,7 +81,7 @@ class _IncentivesScreenState extends State<IncentivesScreen> {
         } else {
           return ListView.separated(
             padding:
-                EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
+                EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),
             itemCount: incentivesStore.incentiveList.length,
             itemBuilder: (context, index) => listItem(index),
             separatorBuilder: (BuildContext context, int index) =>
@@ -106,7 +106,7 @@ class _IncentivesScreenState extends State<IncentivesScreen> {
                 color: Color(0x1a000000),
                 blurRadius: 20,
                 spreadRadius: 0,
-                offset: Offset(0, 10))
+                offset: Offset(0, 0))
           ]),
 
       child: Column(

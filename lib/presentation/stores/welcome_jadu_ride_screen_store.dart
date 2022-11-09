@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
@@ -82,6 +83,8 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
   @observable
   bool uploadingLoader = false;
 
+  @observable
+  bool emailValidator = true;
   _WelcomeJaduRideScreenStore() {
     _initialData();
     _validateInputs();
@@ -217,6 +220,8 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
 
   @action
   email(String value) {
+    emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value);
     userEmail = value;
   }
 

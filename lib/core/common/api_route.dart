@@ -3,6 +3,7 @@ class ApiRoutes {
 
   static const vehicleTypes = "$parent/vehicleType";
 
+  static const cartype = "$parent/cabsUnderService";
 
   static const appVersion = "$parent/appVersion";
 
@@ -12,6 +13,7 @@ class ApiRoutes {
   static const identifyDetailQuestions = "$parent/identifyDetailQuestions";
 
   static const upiHandles = "$parent/upiHandle";
+
 
   ApiRoutes._();
   static const parent = "/driver";

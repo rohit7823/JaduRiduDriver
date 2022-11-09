@@ -23,12 +23,12 @@ class CarResponse extends BusinessObject {
         status: json["status"],
         message: json["message"],
         Car: List<CarCategory>.from(
-            json["Car"].map((x) => Package.fromJson(x))),
+            json["data"].map((x) => CarCategory.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Car": List<dynamic>.from(Car.map((x) => x.toJson())),
+    "data": List<dynamic>.from(Car.map((x) => x.toJson())),
   };
 }

@@ -221,7 +221,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                               },
                             ))
                       ],
-                    ).padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
+                    ).padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
                     fitBox(
                       child: "${StringProvider.lastUpdated}${_store.timeStamp}"
                           .text(AppTextStyle.placerHolderStyle),

@@ -163,44 +163,54 @@ class _CurrentBalanceDetailsScreenState
                         children: [
                           Expanded(
                             flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Radio(
-                                  value: DriverTransactionType.received,
-                                  groupValue: currentBalanceStore.selected,
-                                  onChanged:
-                                      currentBalanceStore.onRadioSelected,
-                                  activeColor: Colors.green,
-                                ),
-                                Text(
-                                  "Received",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.green),
-                                )
-                              ],
+                            child: GestureDetector(
+                              onTap: (){
+                                currentBalanceStore.onRadioSelected(DriverTransactionType.received);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Radio(
+                                    value: DriverTransactionType.received,
+                                    groupValue: currentBalanceStore.selected,
+                                    onChanged:
+                                        currentBalanceStore.onRadioSelected,
+                                    activeColor: Colors.green,
+                                  ),
+                                  Text(
+                                    "Received",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        color: Colors.green),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Expanded(
                             flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Radio(
-                                  value: DriverTransactionType.paid,
-                                  groupValue: currentBalanceStore.selected,
-                                  onChanged:
-                                      currentBalanceStore.onRadioSelected,
-                                  activeColor: Colors.red,
-                                ),
-                                Text("Paid",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color: Colors.red))
-                              ],
+                            child: GestureDetector(
+                              onTap: (){
+                                currentBalanceStore.onRadioSelected(DriverTransactionType.paid);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Radio(
+                                    value: DriverTransactionType.paid,
+                                    groupValue: currentBalanceStore.selected,
+                                    onChanged:
+                                        currentBalanceStore.onRadioSelected,
+                                    activeColor: Colors.red,
+                                  ),
+                                  Text("Paid",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                          color: Colors.red))
+                                ],
+                              ),
                             ),
                           ),
                         ],
