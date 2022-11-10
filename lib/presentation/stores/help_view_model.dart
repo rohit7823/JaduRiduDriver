@@ -153,7 +153,7 @@ abstract class _HelpViewModel with Store {
         var data = response.data;
         switch (data != null && data.status) {
           case true:
-            if (data!.isUploaded) {
+            if (data!.isSubmitted) {
               informMessage = data.message;
               _nameController.clear();
               _emailController.clear();

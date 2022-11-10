@@ -188,7 +188,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -227,7 +227,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //trip details.....................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onWallet,
@@ -241,7 +241,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -280,7 +280,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //wallet.........................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onRefer,
@@ -294,7 +294,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -333,7 +333,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //refer...........................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onPaymentDetailsScreenRef,
@@ -347,7 +347,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -386,7 +386,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //payment details..............
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onSelectedLanguage,
@@ -400,7 +400,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -439,7 +439,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //language......................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onTermsAndConditions,
@@ -453,7 +453,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -493,7 +493,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //terms & conditions..............
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onPrivacyPolicy,
@@ -507,7 +507,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -546,7 +546,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //Privacy Policy...............
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onRefundPolicy,
@@ -560,7 +560,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -599,7 +599,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //refund policy..................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onHelp,
@@ -613,7 +613,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -652,7 +652,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //help...........................
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           InkWell(
             onTap: _store.onEmergencySupport,
@@ -666,7 +666,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         color: Color(0x1a000000),
                         blurRadius: 20,
                         spreadRadius: 0,
-                        offset: Offset(0, 10))
+                        offset: Offset(0, 0))
                   ]),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -705,7 +705,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           ), //emergency support..............
           SizedBox(
-            height: 0.01.sw,
+            height: 0.02.sw,
           ),
           Container(
             decoration: BoxDecoration(
@@ -717,7 +717,7 @@ class _MoreScreenState extends State<MoreScreen> {
                       color: Color(0x1a000000),
                       blurRadius: 20,
                       spreadRadius: 0,
-                      offset: Offset(0, 10))
+                      offset: Offset(0, 0))
                 ]),
             child: Padding(
               padding:
@@ -749,6 +749,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         ),
                       ),
                     ),
+
                     Expanded(
                         flex: 1,
                         child: Icon(
@@ -759,7 +760,10 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
               ),
             ),
-          ), //logout.....................
+          ),
+          SizedBox(
+            height: 0.02.sh,
+          ),//logout.....................
         ],
       ),
     );

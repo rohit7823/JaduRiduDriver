@@ -7,6 +7,8 @@ class ApiRoutes {
 
   static const appVersion = "$parent/appVersion";
 
+
+
   static const sendOtp = "$parent/sendOtp";
 
   static const verifyOtp = "$parent/verifyOtp";

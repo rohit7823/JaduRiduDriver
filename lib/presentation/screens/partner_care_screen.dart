@@ -153,6 +153,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                       enabledBorder: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(),
                       labelText: 'Message',
+
                     ),
                     onChanged: partnerCareStore.onMessage,
                   ),
@@ -165,7 +166,8 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                       return Text(partnerCareStore.errorMessageMsg,
                         style: const TextStyle(color: Colors.red),);
                     }
-                    return const SizedBox.shrink();
+
+                     return const SizedBox.shrink();
                   }),
                 ),
               ],

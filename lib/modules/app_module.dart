@@ -142,7 +142,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    //dio.interceptors.add(alice.getDioInterceptor());
+    dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 
@@ -182,7 +182,7 @@ class AppModule {
         () => AadharNumberRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PartnerCareRepository>(
-        () => PartnerCareRepositoryImpl());
+        () => PartnerCareRepositoryImpl(dio));
 
     dependency.registerLazySingleton<Validator>(() => ValidatorImpl());
 
@@ -260,7 +260,7 @@ class AppModule {
     dependency.registerLazySingleton<RefundPolicyRepository>(
         () => RefundPolicyRepositoryImpl());
     dependency.registerLazySingleton<HelpRepository>(
-        () => HelpPhoneNumberRepositoryImpl());
+        () => HelpPhoneNumberRepositoryImpl(dio));
     dependency.registerLazySingleton<EmergencyRepository>(
         () => EmergencyRepositoryImpl());
 

@@ -3,7 +3,7 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/gradient_progress_indicator.dart';
 import 'package:jadu_ride_driver/utills/my_utils.dart';
 import 'package:mobx/mobx.dart';
-
+import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import '../../core/helpers/validator.dart';
 import '../../core/repository/partner_care_repository.dart';
 import '../../modules/app_module.dart';
@@ -15,6 +15,7 @@ class PartnerCareStore = _PartnerCareViewModel with _$PartnerCareStore;
 abstract class _PartnerCareViewModel with Store {
   final _repository = dependency<PartnerCareRepository>();
   final _validator = dependency<Validator>();
+  final _store = dependency<Storage>();
 
   @observable
   bool isLoading = false;
@@ -72,13 +73,13 @@ abstract class _PartnerCareViewModel with Store {
       isLoading = true;
     } else {
       isLoading = true;
-      var response = await _repository.uploadPartnerCare(
+      var response = await _repository.uploadPartnerCare( _store.userId(),
           userInputName, userInputEmail, userInputSubject, userInputMsg);
       if (response is Success) {
         var data = response.data;
         switch (data != null && data.status) {
           case true:
-            if (data!.isUploaded) {
+            if (data!.isSubmitted) {
               informMessage = data.message;
              _nameController.clear();
              _emailController.clear();

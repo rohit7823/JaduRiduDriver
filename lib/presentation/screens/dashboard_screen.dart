@@ -147,6 +147,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             onTap: widget.sharedStore.onBottomMenu,
             currentIndex: widget.sharedStore.selectedMenu,
             unselectedFontSize: 10.sp,
+
             unselectedItemColor: AppColors.Acadia,
             selectedItemColor: AppColors.Amber,
             items: BottomMenus.values.map((menu) {
