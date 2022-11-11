@@ -83,6 +83,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   int selectedMenu = 0;
 
+  @observable
+  bool isVisible = false;
+
   StreamSubscription<RideInitiateData>? rideDataSubcription;
 
   @observable
@@ -174,6 +177,13 @@ abstract class _SharedStore extends AppNavigator with Store {
     dialogManager.closeErrorDialog();
     getIntroPageData();
   }
+
+
+  @action
+  hidePartnercarerNav( bool isFocused) async{
+    isVisible = isFocused;
+  }
+
 
   @action
   getLoginRegistrationPageData() async {

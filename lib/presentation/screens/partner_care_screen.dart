@@ -28,12 +28,33 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
 
   late final PartnerCareStore partnerCareStore;
 
+  late FocusNode _emailFocusNode;
+  late FocusNode _nameFocusNode;
+  late FocusNode _subjectFocusNode;
+  late FocusNode _msgFocusNode;
+
+
   @override
   void initState() {
+    _nameFocusNode = FocusNode();
+    _emailFocusNode = FocusNode();
+    _subjectFocusNode = FocusNode();
+    _msgFocusNode = FocusNode();
     partnerCareStore = PartnerCareStore();
     partnerCareStore.validateInput();
     partnerCareStore.validateInputMessage();
     super.initState();
+
+    _nameFocusNode.addListener(() {
+      if(_nameFocusNode.hasFocus){
+        widget.sharedStore.hidePartnercarerNav(_nameFocusNode.hasFocus);
+      }
+      // if(_nameFocusNode.){
+      //
+      // }
+    });
+
+
 
   }
 
@@ -45,6 +66,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
     _msgController.dispose();
     _nameController.dispose();
     _subjectController.dispose();
+
   }
 
   @override
@@ -101,9 +123,14 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   child: TextField(
                     keyboardType: TextInputType.name,
                     controller: _nameController,
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
+                    focusNode:_nameFocusNode ,
+                    decoration:  InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                          borderRadius: BorderRadius.circular(10)),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide( width: 1,),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
                       labelText: 'Your Name',
                     ),
                     onChanged: partnerCareStore.onName,
@@ -112,9 +139,14 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
+                  focusNode:_emailFocusNode ,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                        borderRadius: BorderRadius.circular(10)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide( width: 1,),
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                     labelText: 'Email',
                   ),
                   onChanged: partnerCareStore.onEmail,
@@ -135,9 +167,12 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   child: TextField(
                     keyboardType: TextInputType.text,
                     controller: _subjectController,
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
+                    focusNode:_subjectFocusNode ,
+                    decoration:  InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                          borderRadius: BorderRadius.circular(10)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                          borderRadius: BorderRadius.circular(10)),
                       labelText: 'Subject',
                     ),
                     onChanged: partnerCareStore.onSubject,
@@ -149,9 +184,12 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
 
                     maxLines: 4,
                     controller: _msgController,
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
+                    focusNode:_msgFocusNode ,
+                    decoration:  InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                          borderRadius: BorderRadius.circular(10)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
+                          borderRadius: BorderRadius.circular(10)),
                       labelText: 'Message',
 
                     ),
