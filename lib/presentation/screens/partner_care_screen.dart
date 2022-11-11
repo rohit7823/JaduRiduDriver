@@ -102,8 +102,12 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                     keyboardType: TextInputType.name,
                     controller: _nameController,
                     decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
+                     // enabledBorder: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+
+                      ),
                       focusedBorder: OutlineInputBorder(),
+
                       labelText: 'Your Name',
                     ),
                     onChanged: partnerCareStore.onName,
