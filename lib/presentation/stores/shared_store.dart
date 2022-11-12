@@ -86,6 +86,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool isVisible = false;
 
+
   StreamSubscription<RideInitiateData>? rideDataSubcription;
 
   @observable
@@ -183,6 +184,8 @@ abstract class _SharedStore extends AppNavigator with Store {
   hidePartnercarerNav( bool isFocused) async{
     isVisible = isFocused;
   }
+
+
 
 
   @action

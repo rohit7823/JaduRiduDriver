@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import '../stores/partner_care_view_model.dart';
 import '../ui/app_text_style.dart';
 import '../ui/theme.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class PartnerCareScreen extends StatefulWidget {
 
@@ -32,7 +33,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
   late FocusNode _nameFocusNode;
   late FocusNode _subjectFocusNode;
   late FocusNode _msgFocusNode;
-
+  var keyboardVisibilityController = KeyboardVisibilityController();
 
   @override
   void initState() {
@@ -45,14 +46,22 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
     partnerCareStore.validateInputMessage();
     super.initState();
 
-    _nameFocusNode.addListener(() {
-      if(_nameFocusNode.hasFocus){
-        widget.sharedStore.hidePartnercarerNav(_nameFocusNode.hasFocus);
-      }
-      // if(_nameFocusNode.){
-      //
-      // }
+    keyboardVisibilityController.onChange.listen((event) {
+      widget.sharedStore.hidePartnercarerNav(event);
     });
+
+    // _nameFocusNode.addListener(() {
+    //   if(_nameFocusNode.hasFocus){
+    //     widget.sharedStore.hidePartnercarerNav(_nameFocusNode.hasFocus);
+    //
+    //
+    //   }else{
+    //       //widget.sharedStore.unhidePartnercareNav(_nameFocusNode.);
+    //   }
+    //   // if(_nameFocusNode.){
+    //   //
+    //   // }
+    // });
 
 
 
@@ -66,6 +75,12 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
     _msgController.dispose();
     _nameController.dispose();
     _subjectController.dispose();
+
+     _nameFocusNode.dispose();
+     _emailFocusNode.dispose();
+     _subjectFocusNode.dispose();
+     _msgFocusNode.dispose();
+
 
   }
 
@@ -124,6 +139,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                     keyboardType: TextInputType.name,
                     controller: _nameController,
                     focusNode:_nameFocusNode ,
+
                     decoration:  InputDecoration(
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide( width: 1,),
                           borderRadius: BorderRadius.circular(10)),

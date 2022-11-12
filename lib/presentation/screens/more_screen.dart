@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../stores/more_view_model.dart';
 import '../ui/app_text_style.dart';
@@ -83,11 +84,11 @@ class _MoreScreenState extends State<MoreScreen> {
   Widget _upperSideContent() {
     return InkWell(
       onTap: _store.onProfileDetails,
-      child: Container(
+      child:Container(
         decoration: BoxDecoration(
             color: AppColors.primary,
             borderRadius:
-                BorderRadius.only(bottomRight: Radius.circular(100.r))),
+            BorderRadius.only(bottomRight: Radius.circular(100.r))),
         child: Row(
           children: [
             Expanded(
@@ -97,11 +98,15 @@ class _MoreScreenState extends State<MoreScreen> {
                     child: Observer(
                       builder: (BuildContext context) {
                         if (_store.imageURL.isEmpty) {
-                          return const CircleAvatar(
-                            foregroundImage:
-                                AssetImage(ImageAssets.placeHolder),
-                            backgroundColor: AppColors.primary,
-                            radius: 40,
+                          return  Shimmer.fromColors(
+                            baseColor: Colors.grey.withOpacity(0.1),
+                            highlightColor: Colors.grey.withOpacity(0.5),
+                            child: CircleAvatar(
+                              foregroundImage:
+                              AssetImage(ImageAssets.placeHolder),
+                              backgroundColor: AppColors.primary,
+                              radius: 40,
+                            ),
                           );
                         } else {
                           return CircleAvatar(
@@ -124,15 +129,26 @@ class _MoreScreenState extends State<MoreScreen> {
                     Observer(
                       builder: ((context) {
                         if (_store.isLoading) {
-                          return Align(
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
-                              height: 0.10.sw,
-                              width: 0.10.sw,
-                              child:
-                                  CircularProgressIndicator(color: Colors.red),
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey.withOpacity(0.1),
+                            highlightColor: Colors.grey.withOpacity(0.5),
+                            child: Container(
+                              height: 20,
+                              width: 180,
+                              color: AppColors.appGreens,
                             ),
                           );
+                          // return Align(
+                          //   alignment: Alignment.topLeft,
+                          //   child: SizedBox(
+                          //     height: 0.10.sw,
+                          //     width: 0.10.sw,
+                          //     child:
+                          //     Text(
+                          //       _store.driverName,
+                          //     ),
+                          //   ),
+                          // );
                         } else {
                           return Text(
                             _store.driverName,
