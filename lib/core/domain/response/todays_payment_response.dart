@@ -10,3 +10,4 @@ class GetTodaysPaymentResponse{
 
   GetTodaysPaymentResponse({required this.status, required this.message, required this.todaysPayment});
 }
+

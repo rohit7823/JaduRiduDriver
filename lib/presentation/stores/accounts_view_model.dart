@@ -43,14 +43,14 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
       isLoading = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.accountSummery.balanceLow) {
+          if (data!.accountSummery.isLow) {
             balanceLow = "My balance is low";
           } else {
             balanceLow = "";
           }
-          onlinePrice = data.accountSummery.onlineCollectPrice;
-          cashPrice = data.accountSummery.cashCollectPrice;
-          currentBalance = data.accountSummery.currentBalance;
+          onlinePrice = data.accountSummery.onlineCollected;
+          cashPrice = data.accountSummery.cashCollected;
+          currentBalance = data.accountSummery.currentKm;
       }
     } else if (response is Error) {
       MyUtils.toastMessage("Error found....");

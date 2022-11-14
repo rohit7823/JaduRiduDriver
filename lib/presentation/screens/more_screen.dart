@@ -138,17 +138,6 @@ class _MoreScreenState extends State<MoreScreen> {
                               color: AppColors.appGreens,
                             ),
                           );
-                          // return Align(
-                          //   alignment: Alignment.topLeft,
-                          //   child: SizedBox(
-                          //     height: 0.10.sw,
-                          //     width: 0.10.sw,
-                          //     child:
-                          //     Text(
-                          //       _store.driverName,
-                          //     ),
-                          //   ),
-                          // );
                         } else {
                           return Text(
                             _store.driverName,

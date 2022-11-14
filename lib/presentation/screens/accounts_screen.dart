@@ -295,7 +295,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
       ),
       ),
               ),
-    SizedBox(
+             SizedBox(
                 height: 0.02.sh,
                 child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
               ),
@@ -385,15 +385,16 @@ class _AccountsScreenState extends State<AccountsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(StringProvider.onlineCollect,
+                                    maxLines: 1,
                                     style: TextStyle(
                                         color: AppColors.secondaryVariant,
-                                        fontSize: 16.sp)),
+                                        fontSize: 15.sp)),
                               ],
                             ),
                           ),
                         ),
                         Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Observer(
                               builder: (context) {
                                 return Text(
@@ -435,19 +436,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
                           flex: 8,
                           child: Align(
                             alignment: Alignment.topLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(StringProvider.cashCollect,
-                                    style: TextStyle(
-                                        color: AppColors.secondaryVariant,
-                                        fontSize: 16.sp)),
-                              ],
-                            ),
+                            child: Text(StringProvider.cashCollect,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: AppColors.secondaryVariant,
+                                    fontSize: 15.sp)),
                           ),
                         ),
                         Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Observer(
                               builder: (context) {
                                 return Text("₹${accountsStore.cashPrice}");

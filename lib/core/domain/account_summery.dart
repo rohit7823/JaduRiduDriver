@@ -1,12 +1,27 @@
 class AccountSummery {
-  bool balanceLow;
-  String currentBalance;
-  String onlineCollectPrice;
-  String cashCollectPrice;
+  bool isLow;
+  String currentKm;
+  String onlineCollected;
+  String cashCollected;
 
   AccountSummery(
-      {required this.balanceLow,
-      required this.currentBalance,
-      required this.cashCollectPrice,
-      required this.onlineCollectPrice});
+      {required this.isLow,
+      required this.currentKm,
+      required this.cashCollected,
+      required this.onlineCollected});
+
+
+  factory AccountSummery.fromJson(Map<String, dynamic> json) => AccountSummery(
+    isLow: json["isLow"],
+    currentKm: json["currentKm"],
+    onlineCollected: json["onlineCollected"],
+    cashCollected: json["cashCollected"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "isLow": isLow,
+    "currentKm": currentKm,
+    "onlineCollected": onlineCollected,
+    "cashCollected": cashCollected,
+  };
 }

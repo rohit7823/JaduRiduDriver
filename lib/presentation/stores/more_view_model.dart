@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
@@ -9,6 +10,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/navigation_option.dart';
@@ -48,9 +50,9 @@ abstract class _Profile extends AppNavigator with Store {
       isLoading = false;
       switch (data != null && data.status) {
         case true:
-          driverName = data!.driverShortProfile.driverName;
-          imageURL = data.driverShortProfile.profileImagePath;
-
+          driverName = data!.details.name;
+          imageURL ="${Global.baseUrl}${data.details.profileImage}";
+          debugPrint("$imageURL");
           break;
       }
     } else if (response is Error) {

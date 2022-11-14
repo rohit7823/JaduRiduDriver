@@ -234,7 +234,7 @@ class AppModule {
     dependency.registerLazySingleton<IncentiveRepository>(
         () => IncentiveRepositoryImpl());
     dependency.registerLazySingleton<AccountsRepository>(
-        () => AccountsRepositoryImpl());
+        () => AccountsRepositoryImpl(dio));
     dependency.registerLazySingleton<CurrentBalanceRepository>(
         () => CurrentBalanceRepositoryImpl());
     dependency.registerLazySingleton<TodaysPaymentRepository>(
@@ -246,7 +246,7 @@ class AppModule {
     dependency.registerLazySingleton<AmountTransfferedByDayRepository>(
         () => AmountTransferredByDayRepositoryImpl());
     dependency.registerLazySingleton<ProfileRepository>(
-        () => ProfileShortRepositoryImpl());
+        () => ProfileShortRepositoryImpl(dio));
     dependency.registerLazySingleton<ProfileDetailsRepository>(
         () => ProfileDetailsRepositoryImpl());
     dependency.registerLazySingleton<DriverReferRepository>(
