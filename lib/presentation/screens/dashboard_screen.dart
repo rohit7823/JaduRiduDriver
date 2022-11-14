@@ -142,22 +142,25 @@ class _DashboardScreenState extends State<DashboardScreen>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Observer(builder: (BuildContext context) {
-        return BottomNavigationBar(
-            showUnselectedLabels: true,
-            onTap: widget.sharedStore.onBottomMenu,
-            currentIndex: widget.sharedStore.selectedMenu,
-            unselectedFontSize: 10.sp,
+        return SizedBox(
+          height: widget.sharedStore.isVisible? 0.0 : 80.0,
+          child: BottomNavigationBar(
+              showUnselectedLabels: true,
+              onTap: widget.sharedStore.onBottomMenu,
+              currentIndex: widget.sharedStore.selectedMenu,
+              unselectedFontSize: 10.sp,
 
-            unselectedItemColor: AppColors.Acadia,
-            selectedItemColor: AppColors.Amber,
-            items: BottomMenus.values.map((menu) {
-              return BottomNavigationBarItem(
-                  tooltip: menu.name,
-                  label: menu.name,
-                  icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
-                  activeIcon:
-                      SvgPicture.asset(menu.icon, color: AppColors.Amber));
-            }).toList());
+              unselectedItemColor: AppColors.Acadia,
+              selectedItemColor: AppColors.Amber,
+              items: BottomMenus.values.map((menu) {
+                return BottomNavigationBarItem(
+                    tooltip: menu.name,
+                    label: menu.name,
+                    icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
+                    activeIcon:
+                        SvgPicture.asset(menu.icon, color: AppColors.Amber));
+              }).toList()),
+        );
       }),
       body: Navigator(
         initialRoute: AppRoute.duty,

@@ -46,7 +46,7 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
         numberCodes: [
           MobileNumberCode(
               id: "312131",
-              countryImage: ImageAssets.flagIndia/*"assets/images/flag_india.png"*/,
+              countryImage: "assets/images/flag_india.png",
               code: "+91")
         ],
         dob: "25th june 1990", email: "abc@gmail.com", gender: "male", mobileNumber: "1234567890", states: List.generate(2,

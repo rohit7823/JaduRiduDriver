@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/transition_event_detection.dart';
@@ -10,6 +12,15 @@ class ScreenTransitions {
       return destination;
     });
   }
+
+
+  static MaterialPageRoute hidenav(Widget navhide) {
+    return MaterialPageRoute(builder: (context) {
+      return navhide;
+    });
+  }
+
+
 
   static fadeInTransition(Widget destination) {
     return PageRouteBuilder(

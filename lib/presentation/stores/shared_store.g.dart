@@ -74,6 +74,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$isVisibleAtom =
+      Atom(name: '_SharedStore.isVisible', context: context);
+
+  @override
+  bool get isVisible {
+    _$isVisibleAtom.reportRead();
+    return super.isVisible;
+  }
+
+  @override
+  set isVisible(bool value) {
+    _$isVisibleAtom.reportWrite(value, super.isVisible, () {
+      super.isVisible = value;
+    });
+  }
+
   late final _$dropLocationDataAtom =
       Atom(name: '_SharedStore.dropLocationData', context: context);
 
@@ -112,6 +128,15 @@ mixin _$SharedStore on _SharedStore, Store {
   @override
   Future getIntroPageData() {
     return _$getIntroPageDataAsyncAction.run(() => super.getIntroPageData());
+  }
+
+  late final _$hidePartnercarerNavAsyncAction =
+      AsyncAction('_SharedStore.hidePartnercarerNav', context: context);
+
+  @override
+  Future hidePartnercarerNav(bool isFocused) {
+    return _$hidePartnercarerNavAsyncAction
+        .run(() => super.hidePartnercarerNav(isFocused));
   }
 
   late final _$getLoginRegistrationPageDataAsyncAction = AsyncAction(
@@ -183,6 +208,7 @@ gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
 selectedMenu: ${selectedMenu},
+isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
 rideFareResponse: ${rideFareResponse}
     ''';
