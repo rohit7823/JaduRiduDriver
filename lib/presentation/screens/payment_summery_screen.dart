@@ -298,7 +298,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                     flex: 5,
                     child: Text(
                         paymentSummaryStores
-                            .pamentSummeryArrayList[index].date,
+                            .pamentSummeryArrayList[index].transationAt,
                         style: TextStyle(
                             color: AppColors.lightBlack,
                             fontSize: 12.sp,
@@ -313,7 +313,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                       children: [
                         Text(
                             paymentSummaryStores
-                                .pamentSummeryArrayList[index].paymentMethodType,
+                                .pamentSummeryArrayList[index].paymentMode,
                             style: TextStyle(
                                 color: AppColors.primaryVariant,
                                 fontSize: 13.sp,)),
@@ -324,7 +324,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                      "₹${paymentSummaryStores.pamentSummeryArrayList[index].price}",
+                      "₹${paymentSummaryStores.pamentSummeryArrayList[index].amount}",
                       style: TextStyle(
                           color: AppColors.lightGrays,
                           fontSize: 13.sp,)),
@@ -364,7 +364,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].bookingId,
+                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].ride_id,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),

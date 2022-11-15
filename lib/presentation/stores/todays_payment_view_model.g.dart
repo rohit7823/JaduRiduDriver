@@ -13,13 +13,13 @@ mixin _$TodaysPaymentss on _TodaysPaymentViewModel, Store {
       Atom(name: '_TodaysPaymentViewModel.todaysPaymentList', context: context);
 
   @override
-  List<TodaysPayment> get todaysPaymentList {
+  List<TodayPaymentHistory> get todaysPaymentList {
     _$todaysPaymentListAtom.reportRead();
     return super.todaysPaymentList;
   }
 
   @override
-  set todaysPaymentList(List<TodaysPayment> value) {
+  set todaysPaymentList(List<TodayPaymentHistory> value) {
     _$todaysPaymentListAtom.reportWrite(value, super.todaysPaymentList, () {
       super.todaysPaymentList = value;
     });

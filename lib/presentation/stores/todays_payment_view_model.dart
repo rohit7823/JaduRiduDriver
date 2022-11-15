@@ -18,7 +18,7 @@ abstract class _TodaysPaymentViewModel with Store{
   final _prefs = dependency<Storage>();
 
   @observable
-  List<TodaysPayment> todaysPaymentList = [];
+  List<TodayPaymentHistory> todaysPaymentList = [];
 
   @observable
   bool isLoading = false;

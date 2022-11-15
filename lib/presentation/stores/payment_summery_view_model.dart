@@ -24,7 +24,7 @@ abstract class _PaymentSummeryViewModel with Store{
   //final _dateTimeHelper = DateTimeHelper();
 
   @observable
-  List<PaymentSummery> pamentSummeryArrayList = [];
+  List<RechargeHistory> pamentSummeryArrayList = [];
 
   @observable
   bool isLoading = false;
@@ -81,7 +81,7 @@ abstract class _PaymentSummeryViewModel with Store{
   datelistItem() async {
     datesSelectedListLoader = true;
     var userId = _prefs.userId();
-    var response = await _repository.getPaymentSummeryResponse();
+    var response = await _repository.getPaymentSummeryResponse(userId, finalCurrentDate);
     if (response is Success) {
       var data = response.data;
       datesSelectedListLoader = false;

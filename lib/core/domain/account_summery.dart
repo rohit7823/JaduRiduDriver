@@ -1,8 +1,8 @@
 class AccountSummery {
   bool isLow;
   String currentKm;
-  String onlineCollected;
-  String cashCollected;
+  int onlineCollected;
+  int cashCollected;
 
   AccountSummery(
       {required this.isLow,

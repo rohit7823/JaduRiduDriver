@@ -48,8 +48,8 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
           } else {
             balanceLow = "";
           }
-          onlinePrice = data.accountSummery.onlineCollected;
-          cashPrice = data.accountSummery.cashCollected;
+          onlinePrice = data.accountSummery.onlineCollected.toString();
+          cashPrice = data.accountSummery.cashCollected.toString();
           currentBalance = data.accountSummery.currentKm;
       }
     } else if (response is Error) {

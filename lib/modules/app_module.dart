@@ -238,9 +238,9 @@ class AppModule {
     dependency.registerLazySingleton<CurrentBalanceRepository>(
         () => CurrentBalanceRepositoryImpl());
     dependency.registerLazySingleton<TodaysPaymentRepository>(
-        () => TodaysPaymentReposityImpl());
+        () => TodaysPaymentReposityImpl(dio));
     dependency.registerLazySingleton<PaymentSummeryRepository>(
-        () => PaymentSummeryRepositoryImpl());
+        () => PaymentSummeryRepositoryImpl(dio));
     dependency.registerLazySingleton<ScheduleRepository>(
         () => LocationSchedulRepositoryImpl());
     dependency.registerLazySingleton<AmountTransfferedByDayRepository>(

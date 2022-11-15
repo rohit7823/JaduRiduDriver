@@ -14,13 +14,13 @@ mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
       context: context);
 
   @override
-  List<PaymentSummery> get pamentSummeryArrayList {
+  List<RechargeHistory> get pamentSummeryArrayList {
     _$pamentSummeryArrayListAtom.reportRead();
     return super.pamentSummeryArrayList;
   }
 
   @override
-  set pamentSummeryArrayList(List<PaymentSummery> value) {
+  set pamentSummeryArrayList(List<RechargeHistory> value) {
     _$pamentSummeryArrayListAtom
         .reportWrite(value, super.pamentSummeryArrayList, () {
       super.pamentSummeryArrayList = value;

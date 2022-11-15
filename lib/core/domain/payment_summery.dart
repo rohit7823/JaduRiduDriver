@@ -1,9 +1,31 @@
-class PaymentSummery{
-String date;
-String paymentMethodType;
-String customerName;
-String bookingId;
-double price;
+class RechargeHistory {
+  RechargeHistory({
+    required this.transationAt,
+    required this.paymentMode,
+    required this.amount,
+    required this.ride_id,
+    required this.customerName,
+  });
 
-PaymentSummery({required this.date, required this.paymentMethodType, required this.customerName, required this.bookingId, required this.price});
+  final String transationAt;
+  final String paymentMode;
+  final String amount;
+  final String ride_id;
+  final String customerName;
+
+  factory RechargeHistory.fromJson(Map<String, dynamic> json) => RechargeHistory(
+    transationAt:json["transationAt"],
+    paymentMode:json["paymentMode"],
+    amount: json["amount"],
+    ride_id: json["ride_id"],
+    customerName:json["customerName"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "transationAt":transationAt,
+    "paymentMode": paymentMode,
+    "amount": amount,
+    "ride_id": ride_id,
+    "customerName":customerName,
+  };
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/payment_method.dart';
 import 'package:jadu_ride_driver/presentation/stores/todays_payment_view_model.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
@@ -103,7 +104,7 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
                 color: Color(0x1a000000),
                 blurRadius: 20,
                 spreadRadius: 0,
-                offset: Offset(0, 10))
+                offset: Offset(0, 0))
           ]),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
@@ -112,9 +113,9 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
             Expanded(
               flex: 8,
               child: Text(
-                todaysPaymentViewModel.todaysPaymentList[index].dateAndTime,
+                todaysPaymentViewModel.todaysPaymentList[index].transationAt,
                 style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 13.sp,
                     color: AppColors.lightGrays,
                     fontWeight: FontWeight.w500),
               ),
@@ -127,10 +128,12 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        todaysPaymentViewModel
-                            .todaysPaymentList[index].paymentMethod,
-                        style: TextStyle(
-                            color: AppColors.appGreen, fontSize: 14.sp)),
+                        todaysPaymentViewModel.todaysPaymentList[index].paymentMode,
+
+                        style:  todaysPaymentViewModel.todaysPaymentList[index].paymentMode == PaymentMethod.online.value? TextStyle(
+                            color: AppColors.appGreen, fontSize: 14.sp) :TextStyle(
+                  color: AppColors.primaryVariant, fontSize: 14.sp)),
+
                   ],
                 ),
               ),
@@ -138,7 +141,7 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
             Expanded(
               flex: 2,
               child: Text(
-                "₹${todaysPaymentViewModel.todaysPaymentList[index].price}",
+                "₹${todaysPaymentViewModel.todaysPaymentList[index].amount}",
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.lightGrays,
