@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/domain/payment_summery.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,7 +25,10 @@ abstract class _PaymentSummeryViewModel with Store{
   //final _dateTimeHelper = DateTimeHelper();
 
   @observable
-  List<RechargeHistory> pamentSummeryArrayList = [];
+  List<RechargeHistory> rechargeHistory = [];
+
+  @observable
+  late Data data;
 
   @observable
   bool isLoading = false;
@@ -55,7 +59,7 @@ abstract class _PaymentSummeryViewModel with Store{
       MyUtils.toastMessage("hahaa....");
     } else {
       selected = selectedValue;
-      if(selected.name=="cash"){
+      if(selected.name=="CASH"){
         datelistItem();
         //MyUtils.toastMessage("cash");
       }else{
@@ -69,7 +73,8 @@ abstract class _PaymentSummeryViewModel with Store{
   onSelectDate(DateTime? selected) {
     if (selected != null) {
       //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
-      finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
+      finalCurrentDate = "${selected.year}-${selected.month}-${selected.day}";
+      debugPrint('daTE: $finalCurrentDate');
       datelistItem();
     } else {
       currentDate();
@@ -87,10 +92,12 @@ abstract class _PaymentSummeryViewModel with Store{
       datesSelectedListLoader = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.paymentSummeryList.isEmpty) {
+          if (data!.data.rechargeHistory.isEmpty) {
             MyUtils.toastMessage("Empty List....");
           } else {
-            pamentSummeryArrayList = data.paymentSummeryList;
+            rechargeHistory = data.data.rechargeHistory;
+            print("****");
+            debugPrint('rechargeHistory: $rechargeHistory');
             //MyUtils.toastMessage("Success....");
           }
       } //switch

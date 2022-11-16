@@ -9,21 +9,35 @@ part of 'payment_summery_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
-  late final _$pamentSummeryArrayListAtom = Atom(
-      name: '_PaymentSummeryViewModel.pamentSummeryArrayList',
-      context: context);
+  late final _$rechargeHistoryAtom =
+      Atom(name: '_PaymentSummeryViewModel.rechargeHistory', context: context);
 
   @override
-  List<RechargeHistory> get pamentSummeryArrayList {
-    _$pamentSummeryArrayListAtom.reportRead();
-    return super.pamentSummeryArrayList;
+  List<RechargeHistory> get rechargeHistory {
+    _$rechargeHistoryAtom.reportRead();
+    return super.rechargeHistory;
   }
 
   @override
-  set pamentSummeryArrayList(List<RechargeHistory> value) {
-    _$pamentSummeryArrayListAtom
-        .reportWrite(value, super.pamentSummeryArrayList, () {
-      super.pamentSummeryArrayList = value;
+  set rechargeHistory(List<RechargeHistory> value) {
+    _$rechargeHistoryAtom.reportWrite(value, super.rechargeHistory, () {
+      super.rechargeHistory = value;
+    });
+  }
+
+  late final _$dataAtom =
+      Atom(name: '_PaymentSummeryViewModel.data', context: context);
+
+  @override
+  Data get data {
+    _$dataAtom.reportRead();
+    return super.data;
+  }
+
+  @override
+  set data(Data value) {
+    _$dataAtom.reportWrite(value, super.data, () {
+      super.data = value;
     });
   }
 
@@ -140,7 +154,8 @@ mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
   @override
   String toString() {
     return '''
-pamentSummeryArrayList: ${pamentSummeryArrayList},
+rechargeHistory: ${rechargeHistory},
+data: ${data},
 isLoading: ${isLoading},
 datesSelectedListLoader: ${datesSelectedListLoader},
 finalCurrentDate: ${finalCurrentDate},

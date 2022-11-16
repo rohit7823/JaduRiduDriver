@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/domain/payment_summery.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
@@ -145,8 +146,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Radio(
-                                  value:
-                                  DriverTransactionPaymentSummeryType.cash,
+                                  value: DriverTransactionPaymentSummeryType.cash,
                                   groupValue: paymentSummaryStores.selected,
                                   onChanged:
                                   paymentSummaryStores.onRadioSelected,
@@ -257,7 +257,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           vertical: 0.02.sw,
                           horizontal: 0.02.sw),
                       itemCount: paymentSummaryStores
-                          .pamentSummeryArrayList.length,
+                          .rechargeHistory.length,
                       itemBuilder: (context, index) =>
                           listItem(index),
                       separatorBuilder:
@@ -298,7 +298,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                     flex: 5,
                     child: Text(
                         paymentSummaryStores
-                            .pamentSummeryArrayList[index].transationAt,
+                            .rechargeHistory[index].transationAt,
                         style: TextStyle(
                             color: AppColors.lightBlack,
                             fontSize: 12.sp,
@@ -313,7 +313,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                       children: [
                         Text(
                             paymentSummaryStores
-                                .pamentSummeryArrayList[index].paymentMode,
+                                .rechargeHistory[index].paymentMode,
                             style: TextStyle(
                                 color: AppColors.primaryVariant,
                                 fontSize: 13.sp,)),
@@ -324,7 +324,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                      "₹${paymentSummaryStores.pamentSummeryArrayList[index].amount}",
+                      "₹${paymentSummaryStores.rechargeHistory[index].amount}",
                       style: TextStyle(
                           color: AppColors.lightGrays,
                           fontSize: 13.sp,)),
@@ -344,7 +344,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].customerName,
+                  child: Text(paymentSummaryStores.rechargeHistory[index].customerName,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),
@@ -364,7 +364,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text(paymentSummaryStores.pamentSummeryArrayList[index].ride_id,
+                  child: Text(paymentSummaryStores.rechargeHistory[index].rideId,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),

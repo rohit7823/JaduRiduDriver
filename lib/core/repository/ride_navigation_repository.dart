@@ -8,7 +8,7 @@ import '../domain/ride_location_response.dart';
 
 abstract class RideNavigationRepository {
   //StreamController<Object> ride(RideNavigationData ids);
-  updateCurrentLocation(LatLong latLong, String customerId, String userId);
+  updateCurrentLocation(String rideId,LatLong latLong, String customerId, String userId);
   StreamController<RideCanceledResponse> onCancelRide();
   StreamController<dynamic> clientLocated();
   onRide(String rideInstruction, String rideId);

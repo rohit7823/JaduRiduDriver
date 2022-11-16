@@ -126,14 +126,14 @@ abstract class _DutyScreenStore with Store {
       gettingSummaryLoader = false;
       switch (data != null && data.status) {
         case true:
-          bookingCount = data!.bookingsSummary.bookingCount;
-          operatorBill = data.bookingsSummary.totalIncome;
-          timeStamp = data.bookingsSummary.timeStamp;
+
+          bookingCount = '${data!.bookingCount}';
+
+          operatorBill = '${data.operatorBill}';
           break;
         default:
           bookingCount = "0";
           operatorBill = "0.0";
-          timeStamp = "";
           errorMsg = data?.message ?? "";
       }
     } else if (response is Error) {

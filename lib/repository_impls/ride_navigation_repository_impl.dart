@@ -23,9 +23,10 @@ class RideNavigationRepositoryImpl implements RideNavigationRepository {
   }*/
 
   @override
-  updateCurrentLocation(LatLong latLong, String customerId, String userId) {
+  updateCurrentLocation(String rideId,LatLong latLong, String customerId, String userId) {
     debugPrint("liveLocation");
     SocketIO.client.emit(SocketEvents.updateCurrentLocation.value, {
+      "rideId":rideId,
       "currentLocation": latLong.toJson(),
       "customerId": customerId,
       "driverId": userId

@@ -199,10 +199,11 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   _updateCurrentLocation(LatLong target) async {
     while (_isSendLiveLocation) {
       await Future.delayed(const Duration(seconds: 5));
-      debugPrint("liveLocation from Store");
+      debugPrint("FliveLocation from Store");
       var position = await _locationService.getCurrentLocation();
       var cl = LatLng(position.latitude, position.longitude);
       _repository.updateCurrentLocation(
+          rideNavigationData.tripId,
           LatLong(lat: cl.latitude, lng: cl.longitude),
           rideNavigationData.customerId,
           rideNavigationData.driverId);

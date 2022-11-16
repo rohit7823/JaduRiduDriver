@@ -4,24 +4,28 @@ import '../payment_summery.dart';
 
 class  GetPaymentSummeryResponse extends BusinessObject{
 
-  bool status;
-  String message;
-  List<RechargeHistory> paymentSummeryList;
-
   GetPaymentSummeryResponse({
-  required this.status,
-  required this.message,
-  required this.paymentSummeryList});
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+
+  final bool status;
+  final String message;
+  final Data data;
 
   factory GetPaymentSummeryResponse.fromJson(Map<String, dynamic> json) => GetPaymentSummeryResponse(
     status: json["status"],
     message: json["message"],
-    paymentSummeryList: List<RechargeHistory>.from(json["rechargeHistory"].map((x) => RechargeHistory.fromJson(x))),
+    data: Data.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "paymentSummeryList": List<dynamic>.from(paymentSummeryList.map((x) => x.toJson())),
+    "data": data.toJson(),
   };
 }
+
+
+

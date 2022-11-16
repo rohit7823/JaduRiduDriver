@@ -106,7 +106,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       getIntroPageData();
     } else {
       log("isLogin && userId.isNotEmpty ${isLogin && userId.isNotEmpty}");
-      if (isLogin && userId.isNotEmpty) {
+      if (/*isLogin && */userId.isNotEmpty) {
         getDashBoardData();
       } else if (!isLogin &&
           userId.isNotEmpty &&
@@ -374,7 +374,7 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   _sendCurrentLocation() async {
     var driverId = _prefs.userId();
-    Timer.periodic(const Duration(seconds: 30), (timer) async {
+    Timer.periodic(const Duration(seconds: 120), (timer) async {
       var currentLocation = await _locationService.getCurrentLocation();
       await _driverLocationRepo.throwLiveLocation(driverId,
           LatLng(currentLocation.latitude, currentLocation.longitude));

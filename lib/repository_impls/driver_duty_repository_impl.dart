@@ -8,16 +8,19 @@ import 'package:jadu_ride_driver/core/domain/response/short_bookings_summary_res
 import 'package:jadu_ride_driver/core/domain/short_bookings_summary.dart';
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
 import 'package:jadu_ride_driver/data/online/driver_status_api.dart';
+import 'package:jadu_ride_driver/data/online/short_booking_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class DriverDutyRepositoryImpl implements DriverDutyRepository {
   final Dio _dio;
   late final DriverStatusApi _driverStatusApi;
+  late final ShortBookingsApi _shortBookingsApi;
 
   DriverDutyRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _driverStatusApi = DriverStatusApi(_dio);
+    _shortBookingsApi = ShortBookingsApi(_dio);
   }
 
   @override
@@ -32,17 +35,19 @@ class DriverDutyRepositoryImpl implements DriverDutyRepository {
   }
 
   @override
-  Future<Resource<ShortBookingsSummaryResponse>> bookingsSummary(
-      String userId) async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    return Success(ShortBookingsSummaryResponse(
-        status: true,
-        message: "Success",
-        bookingsSummary: ShortBookingsSummary(
-            bookingCount: "0",
-            totalIncome: "0.0",
-            timeStamp: "Thus, 01 Jun 22, 06:37 PM")));
+  Future<Resource<ShortBookingsSummaryResponse>> bookingsSummary(String userId) async {
+    return await _shortBookingsApi
+            .bookingcount(userId)
+        .handleResponse<ShortBookingsSummaryResponse>();
+    // await Future.delayed(const Duration(seconds: 2));
+    //
+    // return Success(ShortBookingsSummaryResponse(
+    //     status: true,
+    //     message: "Success",
+    //     bookingsSummary: ShortBookingsSummary(
+    //         bookingCount: "0",
+    //         totalIncome: "0.0",
+    //         timeStamp: "Thus, 01 Jun 22, 06:37 PM")));
   }
 
   @override
