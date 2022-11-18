@@ -1,5 +1,10 @@
 enum  DriverTransactionPaymentSummeryType{
-  online,
-  cash,
-  none,
+  online("online"),
+  cash("cash"),
+  none('none');
+
+  final String name;
+  const DriverTransactionPaymentSummeryType(
+      this.name
+      );
 }

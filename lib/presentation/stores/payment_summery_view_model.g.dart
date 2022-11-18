@@ -130,22 +130,22 @@ mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
   }
 
   @override
-  dynamic onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
+  dynamic onSelectDate(DateTime? selected) {
     final _$actionInfo = _$_PaymentSummeryViewModelActionController.startAction(
-        name: '_PaymentSummeryViewModel.onRadioSelected');
+        name: '_PaymentSummeryViewModel.onSelectDate');
     try {
-      return super.onRadioSelected(selectedValue);
+      return super.onSelectDate(selected);
     } finally {
       _$_PaymentSummeryViewModelActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic onSelectDate(DateTime? selected) {
+  dynamic onPaymentmetodChanged(DriverTransactionPaymentSummeryType? type) {
     final _$actionInfo = _$_PaymentSummeryViewModelActionController.startAction(
-        name: '_PaymentSummeryViewModel.onSelectDate');
+        name: '_PaymentSummeryViewModel.onPaymentmetodChanged');
     try {
-      return super.onSelectDate(selected);
+      return super.onPaymentmetodChanged(type);
     } finally {
       _$_PaymentSummeryViewModelActionController.endAction(_$actionInfo);
     }

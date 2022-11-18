@@ -22,7 +22,7 @@ class ChangeScreen {
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.loginRegistrationScreen:
-        await _navigateWithOption(context, AppRoute.loginRegistration, option!,
+        await _navigate(context, AppRoute.loginRegistration,
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.numberInputScreen:

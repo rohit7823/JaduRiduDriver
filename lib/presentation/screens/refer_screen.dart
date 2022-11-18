@@ -305,7 +305,7 @@ class _ReferScreenState extends State<ReferScreen> {
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: 0.05.sw),
+                                                    left: 0.04.sw),
                                                 child: Text("Tap to Copy",
                                                     style: TextStyle(
                                                         color: AppColors
@@ -445,7 +445,7 @@ class _ReferScreenState extends State<ReferScreen> {
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: 0.05.sw),
+                                                    left: 0.04.sw),
                                                 child: Text("Tap to Copy",
                                                     style: TextStyle(
                                                         color: AppColors

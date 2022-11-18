@@ -68,10 +68,10 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
             flex: 5,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: FittedBox(
+              child:sharedStore.loginRegistrationData != null? FittedBox(
                 child: SvgPicture.network(
-                    sharedStore.loginRegistrationData!.coverImage),
-              ),
+                    sharedStore.loginRegistrationData?.coverImage??''),
+              ) : const SizedBox.shrink(),
             )),
         Expanded(
             flex: 5,
@@ -82,14 +82,14 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FittedBox(
+                   if(sharedStore.loginRegistrationData != null) FittedBox(
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 0.03.sw),
                         child: Text(sharedStore.loginRegistrationData!.heading,
                             style: AppTextStyle.introHeadingStyle),
                       ),
                     ),
-                    FittedBox(
+                    if(sharedStore.loginRegistrationData != null)FittedBox(
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 0.05.sw),
                         child: Text(

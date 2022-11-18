@@ -23,6 +23,9 @@ abstract class _TodaysPaymentViewModel with Store{
   @observable
   bool isLoading = false;
 
+  @observable
+  String Rmessage = '';
+
   @action
   todaysPaymentListItem() async {
     isLoading = true;
@@ -33,9 +36,10 @@ abstract class _TodaysPaymentViewModel with Store{
       isLoading = false;
       switch (data != null && data.status) {
         case true:
+          //data.message
           if (data!.todaysPayment.isEmpty) {
             //MyUtils.toastMessage("Empty....");
-
+             Rmessage = data.message;
           } else {
             todaysPaymentList = data.todaysPayment;
             //MyUtils.toastMessage("Success....");

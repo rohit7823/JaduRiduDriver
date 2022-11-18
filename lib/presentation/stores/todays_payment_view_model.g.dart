@@ -41,6 +41,22 @@ mixin _$TodaysPaymentss on _TodaysPaymentViewModel, Store {
     });
   }
 
+  late final _$RmessageAtom =
+      Atom(name: '_TodaysPaymentViewModel.Rmessage', context: context);
+
+  @override
+  String get Rmessage {
+    _$RmessageAtom.reportRead();
+    return super.Rmessage;
+  }
+
+  @override
+  set Rmessage(String value) {
+    _$RmessageAtom.reportWrite(value, super.Rmessage, () {
+      super.Rmessage = value;
+    });
+  }
+
   late final _$todaysPaymentListItemAsyncAction = AsyncAction(
       '_TodaysPaymentViewModel.todaysPaymentListItem',
       context: context);
@@ -55,7 +71,8 @@ mixin _$TodaysPaymentss on _TodaysPaymentViewModel, Store {
   String toString() {
     return '''
 todaysPaymentList: ${todaysPaymentList},
-isLoading: ${isLoading}
+isLoading: ${isLoading},
+Rmessage: ${Rmessage}
     ''';
   }
 }

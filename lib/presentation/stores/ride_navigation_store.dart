@@ -372,6 +372,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   onEndTrip() {
     _repository.onRide(RideInstruction.endTrip.key, rideNavigationData.tripId);
+    stopLocationSender();
     onChange(ScreenWithExtras(
         screen: Screen.payTrip,
         option: NavigationOption(option: Option.popPrevious),

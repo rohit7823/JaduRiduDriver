@@ -27,6 +27,8 @@ abstract class _PaymentSummeryViewModel with Store{
   @observable
   List<RechargeHistory> rechargeHistory = [];
 
+  List<RechargeHistory> rechargeHistorybackup = [];
+
   @observable
   late Data data;
 
@@ -51,23 +53,6 @@ abstract class _PaymentSummeryViewModel with Store{
   @observable
   DriverTransactionPaymentSummeryType selected = DriverTransactionPaymentSummeryType.none;
 
-  @action
-  onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
-    if (selectedValue == null) {
-      selected = DriverTransactionPaymentSummeryType.none;
-      datelistItem();
-      MyUtils.toastMessage("hahaa....");
-    } else {
-      selected = selectedValue;
-      if(selected.name=="CASH"){
-        datelistItem();
-        //MyUtils.toastMessage("cash");
-      }else{
-        //MyUtils.toastMessage("online");
-        datelistItem();
-      }
-    }
-  }
 
   @action
   onSelectDate(DateTime? selected) {
@@ -96,6 +81,7 @@ abstract class _PaymentSummeryViewModel with Store{
             MyUtils.toastMessage("Empty List....");
           } else {
             rechargeHistory = data.data.rechargeHistory;
+            rechargeHistorybackup = data.data.rechargeHistory;
             print("****");
             debugPrint('rechargeHistory: $rechargeHistory');
             //MyUtils.toastMessage("Success....");
@@ -106,4 +92,22 @@ abstract class _PaymentSummeryViewModel with Store{
       datesSelectedListLoader = false;
     }
   }
+
+  @action
+  onPaymentmetodChanged(DriverTransactionPaymentSummeryType? type){
+    if(type != null){
+      selected = type;
+      var temp = <RechargeHistory>[];
+      for (var element in rechargeHistorybackup) {
+        debugPrint('${type.name} ${element.paymentMode}');
+        if(type.name == element.paymentMode) {
+          temp.add(element);
+        }
+      }
+      rechargeHistory= temp;
+    }
+
+  }
+
+
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/payment_method.dart';
 import 'package:jadu_ride_driver/core/domain/payment_summery.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
@@ -109,23 +110,22 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           flex: 1,
                           child: GestureDetector(
                             onTap: (){
-                              paymentSummaryStores.onRadioSelected(DriverTransactionPaymentSummeryType
-                                  .online);
+
+                              paymentSummaryStores.onPaymentmetodChanged(DriverTransactionPaymentSummeryType.online);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Radio(
-                                  value: DriverTransactionPaymentSummeryType
-                                      .online,
+                                  value: DriverTransactionPaymentSummeryType.online,
                                   groupValue: paymentSummaryStores.selected,
-                                  onChanged:
-                                  paymentSummaryStores.onRadioSelected,
+                                  onChanged: paymentSummaryStores.onPaymentmetodChanged,
                                   activeColor: Colors.green,
+
                                 ),
 
                                   Text(
-                                    "Online",
+                                    "online",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -140,7 +140,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           flex: 1,
                           child: GestureDetector(
                             onTap: (){
-                              paymentSummaryStores.onRadioSelected( DriverTransactionPaymentSummeryType.cash);
+                              paymentSummaryStores.onPaymentmetodChanged( DriverTransactionPaymentSummeryType.cash);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,8 +148,8 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                 Radio(
                                   value: DriverTransactionPaymentSummeryType.cash,
                                   groupValue: paymentSummaryStores.selected,
-                                  onChanged:
-                                  paymentSummaryStores.onRadioSelected,
+                                  //onChanged: paymentSummaryStores.onRadioSelected,
+                                  onChanged: paymentSummaryStores.onPaymentmetodChanged,
                                   activeColor: Colors.red,
                                 ),
                                 const Text("Cash",
@@ -258,11 +258,9 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                           horizontal: 0.02.sw),
                       itemCount: paymentSummaryStores
                           .rechargeHistory.length,
-                      itemBuilder: (context, index) =>
-                          listItem(index),
+                      itemBuilder: (context, index) => listItem(index),
                       separatorBuilder:
-                          (BuildContext context, int index) =>
-                          separatedBox(),
+                          (BuildContext context, int index) => separatedBox(),
                     ),
                   );
                 }),
@@ -295,7 +293,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
             Row(
               children: [
                 Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: Text(
                         paymentSummaryStores
                             .rechargeHistory[index].transationAt,
@@ -312,11 +310,10 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            paymentSummaryStores
-                                .rechargeHistory[index].paymentMode,
-                            style: TextStyle(
-                                color: AppColors.primaryVariant,
-                                fontSize: 13.sp,)),
+                            paymentSummaryStores.rechargeHistory[index].paymentMode.toUpperCase(),
+                            style: paymentSummaryStores.rechargeHistory[index].paymentMode.toUpperCase()== PaymentMethod.online.value? TextStyle(
+                                color: AppColors.appGreen, fontSize: 14.sp) :TextStyle(
+                                color: AppColors.primaryVariant, fontSize: 14.sp)),
                       ],
                     ),
                   ),
@@ -335,7 +332,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
             Row(
               children: [
                 Expanded(
-                  flex: 5,
+                  flex: 4,
                   child: Text(StringProvider.customarName,
                       style: TextStyle(
                         color: AppColors.lightBlack,
@@ -355,7 +352,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
             Row(
               children: [
                 Expanded(
-                  flex: 5,
+                  flex: 4,
                   child: Text(StringProvider.customarBookingId,
                       style: TextStyle(
                         color: AppColors.lightBlack,
@@ -363,8 +360,8 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                         fontWeight: FontWeight.w600,)),
                 ),
                 Expanded(
-                  flex: 2,
-                  child: Text(paymentSummaryStores.rechargeHistory[index].rideId,
+                  flex: 8,
+                  child: Text(paymentSummaryStores.rechargeHistory[index].rideId,maxLines: 1,overflow: TextOverflow.clip,softWrap: true,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,)),
