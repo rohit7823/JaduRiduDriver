@@ -51,7 +51,7 @@ abstract class _Profile extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           driverName = data!.details.name;
-          imageURL ="${Global.baseUrl}${data.details.profileImage}";
+          imageURL = "${Global.baseUrl}${data.details.profileImage}";
           debugPrint("$imageURL");
           break;
       }
@@ -157,7 +157,7 @@ abstract class _Profile extends AppNavigator with Store {
       _prefs.saveUserId("");
       _prefs.setAccountStatus(DriverAccountStatus.accountUnknown.status);
       onChange(ScreenWithExtras(
-          screen: Screen.loginRegistrationScreen,
+          screen: Screen.numberInputScreen,
           option: NavigationOption(option: Option.popAll)));
     }
   }
