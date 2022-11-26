@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '747172814338',
     projectId: 'jadu-ride-driver',
     storageBucket: 'jadu-ride-driver.appspot.com',
-    iosClientId: '747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com',
+    iosClientId:
+        '747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com',
     iosBundleId: 'com.example.jaduRideDriver',
   );
 }

@@ -105,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           } else if (p0.screen == Screen.rideNavigation) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
-          } else if (p0.screen == Screen.loginRegistrationScreen) {
+          } else if (p0.screen == Screen.numberInputScreen) {
             ChangeScreen.to(context, p0.screen,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,
@@ -143,13 +143,12 @@ class _DashboardScreenState extends State<DashboardScreen>
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Observer(builder: (BuildContext context) {
         return SizedBox(
-          height: widget.sharedStore.isVisible? 0.0 : 80.0,
+          height: widget.sharedStore.isVisible ? 0.0 : 80.0,
           child: BottomNavigationBar(
               showUnselectedLabels: true,
               onTap: widget.sharedStore.onBottomMenu,
               currentIndex: widget.sharedStore.selectedMenu,
               unselectedFontSize: 10.sp,
-
               unselectedItemColor: AppColors.Acadia,
               selectedItemColor: AppColors.Amber,
               items: BottomMenus.values.map((menu) {

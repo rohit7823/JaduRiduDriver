@@ -61,7 +61,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
   late final DriverBookingStore driverBookings;
-  late final TokenSender tokenSender;
+  late TokenSender tokenSender;
 
   @observable
   bool gettingIntroDataLoader = false;
@@ -86,7 +86,6 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool isVisible = false;
 
-
   StreamSubscription<RideInitiateData>? rideDataSubcription;
 
   @observable
@@ -106,7 +105,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       getIntroPageData();
     } else {
       log("isLogin && userId.isNotEmpty ${isLogin && userId.isNotEmpty}");
-      if (/*isLogin && */userId.isNotEmpty) {
+      if (/*isLogin && */ userId.isNotEmpty) {
         getDashBoardData();
       } else if (!isLogin &&
           userId.isNotEmpty &&
@@ -179,14 +178,10 @@ abstract class _SharedStore extends AppNavigator with Store {
     getIntroPageData();
   }
 
-
   @action
-  hidePartnercarerNav( bool isFocused) async{
+  hidePartnercarerNav(bool isFocused) async {
     isVisible = isFocused;
   }
-
-
-
 
   @action
   getLoginRegistrationPageData() async {
