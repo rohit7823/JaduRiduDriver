@@ -38,7 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   void initState() {
     widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
-    widget.sharedStore.connectToSocket();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =

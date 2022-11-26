@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/service_type.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
@@ -368,5 +369,17 @@ extension ConvertToDriverAccountStatus on String {
       }
     }
     return DriverAccountStatus.none;
+  }
+}
+
+
+extension ConvertStringToScreenEnum on String {
+  Screen toScreen() {
+    for (var screen in Screen.values) {
+      if(screen.name == this) {
+        return screen;
+      }
+    }
+    return Screen.none;
   }
 }

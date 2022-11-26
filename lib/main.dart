@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -8,8 +8,10 @@ import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/helpers/push_notification.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/default_nav.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_overlay_widget.dart';
 import 'package:jadu_ride_driver/presentation/service/task_handlers/destination_task_handler.dart';
@@ -20,6 +22,7 @@ import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.d
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/firebase_module.dart';
 import 'package:jadu_ride_driver/utills/notification_api.dart';
+import 'package:mobx/mobx.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +31,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await GoogleFirebase.init();
   await NotificationApi.initNotification(appIcon: 'app_name');
+  FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
   EasyLocalization.logger.enableLevels = [];
   runApp(JaduRideDriver());
@@ -49,9 +53,41 @@ void startCallback() {
       ScreenWithExtras(screen: Screen.rideNavigation)));
 }
 
-class JaduRideDriver extends StatelessWidget {
+class JaduRideDriver extends StatefulWidget {
   JaduRideDriver({Key? key}) : super(key: key);
-  final SharedStore sharedStore = SharedStore();
+
+  @override
+  State<JaduRideDriver> createState() => _JaduRideDriverState();
+}
+
+class _JaduRideDriverState extends State<JaduRideDriver> {
+  late final SharedStore sharedStore;
+  late final List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    sharedStore = SharedStore();
+    super.initState();
+
+    _disposers = [
+      reaction((p0) => sharedStore.currentChange, (p0) {
+        if (p0 != null) {
+          if (p0.screen == Screen.dashBoard) {
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument, onComplete: sharedStore.clear);
+          }
+        }
+      })
+    ];
+  }
+
+  @override
+  void dispose() {
+    for (var element in _disposers) {
+      element();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,4 +120,9 @@ class JaduRideDriver extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+  debugPrint(message.toString());
+  PushNotification.backgroundMessage.add(message);
 }

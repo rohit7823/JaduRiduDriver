@@ -61,7 +61,7 @@ class NotificationApi {
     await _notification.initialize(
         InitializationSettings(android: AndroidInitializationSettings(appIcon)),
         onSelectNotification: (payload) {
-      debugPrint("payload: $payload");
+      debugPrint("NotificationPayload: $payload");
       behaviorSubjects.add(payload);
     });
   }

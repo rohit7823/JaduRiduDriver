@@ -77,6 +77,12 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         if (p0 != null) {
           widget.sharedStore.afterAcceptBooking(p0);
         }
+      }),
+      reaction((p0) => widget.sharedStore.notificationPayload, (p0) {
+        if (p0 != null) {
+          widget.sharedStore.driverBookings
+              .initCurrentBooking(p0.bookingDetails, context);
+        }
       })
     ];
   }

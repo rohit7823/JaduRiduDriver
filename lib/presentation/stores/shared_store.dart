@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,6 +22,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
+import 'package:jadu_ride_driver/core/domain/notification_payload.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.dart';
@@ -247,6 +249,7 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   @action
   getDashBoardData() async {
+    connectToSocket();
     gettingDataLoader = true;
     streamDisposer = _locationService.checkPermission().listen((event) async {
       if (event == GpsStatus.disabled) {
@@ -463,6 +466,32 @@ abstract class _SharedStore extends AppNavigator with Store {
           payload: message.data[AppConstants.notificationActionKey]);
     }, onBackgroundMessage: (RemoteMessage message) {
       debugPrint("backgroundMessage $message");
+      handleNotificationPayload(
+          message.data[AppConstants.notificationActionKey]);
     });
+
+    NotificationApi.behaviorSubjects.listen(handleNotificationPayload);
+  }
+
+  @observable
+  NotificationPayload? notificationPayload;
+
+  @action
+  handleNotificationPayload(String? payload) {
+    debugPrint("NotificationPayload $payload}");
+    if (payload != null) {
+      var currentPayload = NotificationPayload.fromJson(json.decode(payload));
+      if (currentPayload.screen == Screen.dashBoard) {
+        if (Screen.dashBoard != visibleScreen) {
+          onChange(ScreenWithExtras(
+              screen: Screen.dashBoard,
+              option: NavigationOption(option: Option.popAll)));
+        } else {
+          onBottomMenu(BottomMenus.duty.index);
+        }
+      }
+
+      //notificationPayload = currentPayload;
+    }
   }
 }

@@ -50,6 +50,7 @@ class FirebaseNotification implements PushNotification {
         debugPrint(event.data[AppConstants.notificationImageKey]);
         onMessage(event);
       });
+
       backgroundMessageSubscription =
           PushNotification.backgroundMessage.listen((value) {
         onBackgroundMessage(value);

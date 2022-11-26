@@ -102,7 +102,9 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
             await changeLang();
             languageChangedMsg = StringProvider.languageChangedSuccessfully;
             enableBtn = false;
-            onChange(ScreenWithExtras(screen: Screen.welcomeJaduRide));
+            if (cameFrom != NavigateFrom.moreScreen) {
+              onChange(ScreenWithExtras(screen: Screen.welcomeJaduRide));
+            }
           } else {
             enableBtn = false;
             dialogManager.initErrorData(AlertData(

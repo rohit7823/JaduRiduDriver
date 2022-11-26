@@ -122,6 +122,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$notificationPayloadAtom =
+      Atom(name: '_SharedStore.notificationPayload', context: context);
+
+  @override
+  NotificationPayload? get notificationPayload {
+    _$notificationPayloadAtom.reportRead();
+    return super.notificationPayload;
+  }
+
+  @override
+  set notificationPayload(NotificationPayload? value) {
+    _$notificationPayloadAtom.reportWrite(value, super.notificationPayload, () {
+      super.notificationPayload = value;
+    });
+  }
+
   late final _$getIntroPageDataAsyncAction =
       AsyncAction('_SharedStore.getIntroPageData', context: context);
 
@@ -202,6 +218,17 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic handleNotificationPayload(String? payload) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.handleNotificationPayload');
+    try {
+      return super.handleNotificationPayload(payload);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 gettingIntroDataLoader: ${gettingIntroDataLoader},
@@ -210,7 +237,8 @@ gettingDataLoader: ${gettingDataLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
-rideFareResponse: ${rideFareResponse}
+rideFareResponse: ${rideFareResponse},
+notificationPayload: ${notificationPayload}
     ''';
   }
 }
