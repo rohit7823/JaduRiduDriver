@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/overlay_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/service/ride_direction_foreground_service.dart';
@@ -51,7 +52,7 @@ class _ApplicationSubmittedScreenState
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
           debugPrint("MyDebug" + p0.option.toString());
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
         }
       })

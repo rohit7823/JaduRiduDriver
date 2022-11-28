@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/car_subtypes_view.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
@@ -46,7 +47,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
+          dependency<ChangeScreen>().to(context, p0.screen, onComplete: _store.clear);
         }
       }),
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {

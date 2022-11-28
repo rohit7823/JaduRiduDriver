@@ -14,6 +14,7 @@ import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen
 import 'package:jadu_ride_driver/presentation/screens/dashboard_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/initital_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
@@ -58,6 +59,10 @@ class DefaultNav {
 
     debugPrint(routeSettings.name);
     switch (routeSettings.name) {
+      /*case AppRoute.initialScreen:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(InitialScreen(
+          sharedStore: sharedStore,
+        ));*/
       case AppRoute.splash:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             SplashScreen(sharedStore: sharedStore));

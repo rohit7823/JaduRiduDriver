@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
@@ -62,7 +63,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               arguments: p0.argument,
               option: p0.option,
               onComplete: _store.clear);
@@ -84,7 +85,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
           debugPrint(p0.option.toString());
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
         }
       })

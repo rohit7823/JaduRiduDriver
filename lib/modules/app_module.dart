@@ -1,6 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -44,6 +45,7 @@ import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/firebase_notification.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
 import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/accounts_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
@@ -125,6 +127,10 @@ class AppModule {
     darkTheme: false,
   );
 
+  static initNavigator(GlobalKey<NavigatorState> mainNav) {
+    dependency.registerLazySingleton<ChangeScreen>(() => ChangeScreen(mainNav));
+  }
+
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
@@ -142,7 +148,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    dio.interceptors.add(alice.getDioInterceptor());
+    //dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 

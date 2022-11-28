@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/ride_timer_widget.dart';
@@ -59,17 +60,18 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null) {
           if (p0.screen == Screen.verifyTripOtp) {
-            ChangeScreen.to(context, p0.screen,
+            dependency<ChangeScreen>().to(context, p0.screen,
                 arguments: p0.argument,
                 onComplete: _store.clear,
                 fromScreen: _store.onVerifiedOtp);
           } else if (p0.screen == Screen.payTrip) {
-            ChangeScreen.to(context, p0.screen,
+            dependency<ChangeScreen>().to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
                 onComplete: _store.clear);
           } else {
-            ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
+            dependency<ChangeScreen>()
+                .from(context, p0.screen, onCompleted: _store.clear);
           }
         }
       }),

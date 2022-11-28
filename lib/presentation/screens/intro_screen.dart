@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/error_popup.dart';
 import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
@@ -40,7 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
     _disposers = [
       reaction((p0) => sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               arguments: p0.argument, onComplete: sharedStore.clear);
         }
       }),

@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/locale_view.dart';
@@ -54,7 +55,7 @@ class _ChangeAppLanguageState extends State<ChangeAppLanguageScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               arguments: p0.argument, onComplete: _store.clear);
         }
       }),

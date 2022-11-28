@@ -3,12 +3,19 @@ import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 
+import '../screens/dashboard_screen.dart';
+
 class ChangeScreen {
-  GlobalKey<NavigatorState> dashBoardNavigator;
+  static GlobalKey<NavigatorState>? dashBoardNavigator;
+  static GlobalKey<NavigatorState> mainNavigator;
 
-  ChangeScreen(this.dashBoardNavigator);
+  ChangeScreen();
 
-  static to(BuildContext context, Screen screen,
+  initNestedNavKey(GlobalKey<NavigatorState> key) {
+    dashBoardNavigator = key;
+  }
+
+  to(BuildContext context, Screen screen,
       {Function? onComplete,
       Object? arguments,
       Function(Object)? fromScreen,
@@ -17,8 +24,12 @@ class ChangeScreen {
       case Screen.none:
         debugPrint("changeScreen: there is nothing");
         break;
+      case Screen.splash:
+        await _navigate(context, AppRoute.splash,
+            onComplete: onComplete, arguments: arguments);
+        break;
       case Screen.introScreen:
-        await _navigateWithOption(context, AppRoute.intro, option!,
+        await _navigateWithOption(AppRoute.intro, option!,
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.loginRegistrationScreen:
@@ -26,19 +37,18 @@ class ChangeScreen {
             onComplete: onComplete, arguments: arguments);
         break;
       case Screen.numberInputScreen:
-        await _navigateWithOption(context, AppRoute.numberInput, option!,
+        await _navigateWithOption(AppRoute.numberInput, option!,
             onComplete: onComplete);
         break;
       case Screen.verifyOtp:
         await _navigateWithOption(
-            context,
             AppRoute.verifyOtp,
             arguments: arguments,
             option!,
             onComplete: onComplete);
         break;
       case Screen.changeLanguage:
-        await _navigateWithOption(context, AppRoute.changeLanguage, option!,
+        await _navigateWithOption(AppRoute.changeLanguage, option!,
             arguments: arguments, onComplete: onComplete);
         break;
       case Screen.welcomeJaduRide:
@@ -114,7 +124,7 @@ class ChangeScreen {
             fromScreen: fromScreen);
         break;
       case Screen.applicationSubmitted:
-        _navigateWithOption(context, AppRoute.applicationSubmitted, option!,
+        _navigateWithOption(AppRoute.applicationSubmitted, option!,
             arguments: arguments, onComplete: onComplete);
         break;
       case Screen.vehiclePollution:
@@ -125,7 +135,7 @@ class ChangeScreen {
         break;
       case Screen.dashBoard:
         if (option != null) {
-          _navigateWithOption(context, AppRoute.dashBoard, option);
+          _navigateWithOption(AppRoute.dashBoard, option);
         }
         break;
 
@@ -242,7 +252,6 @@ class ChangeScreen {
         break;
       case Screen.payTrip:
         _navigateWithOption(
-            context,
             AppRoute.payTrip,
             arguments: arguments,
             option!,
@@ -250,7 +259,6 @@ class ChangeScreen {
         break;
       case Screen.rateCustomer:
         _navigateWithOption(
-            context,
             AppRoute.rateCustomer,
             arguments: arguments,
             option!,
@@ -266,40 +274,34 @@ class ChangeScreen {
       NavigationOption? option}) async {
     switch (screen) {
       case Screen.duty:
-        _navigateWithOption(
-            dashBoardNavigator.currentState!.context, AppRoute.duty, option!);
+        _nestedNavigateWithOption(AppRoute.duty, option!);
         break;
       case Screen.accounts:
-        _navigateWithOption(dashBoardNavigator.currentState!.context,
-            AppRoute.accounts, option!);
+        _nestedNavigateWithOption(AppRoute.accounts, option!);
         break;
       case Screen.incentives:
-        _navigateWithOption(dashBoardNavigator.currentState!.context,
-            AppRoute.incentives, option!);
+        _nestedNavigateWithOption(AppRoute.incentives, option!);
         break;
       case Screen.partnerCare:
-        _navigateWithOption(dashBoardNavigator.currentState!.context,
-            AppRoute.partnerCare, option!);
+        _nestedNavigateWithOption(AppRoute.partnerCare, option!);
         break;
       case Screen.schedule:
-        _navigateWithOption(dashBoardNavigator.currentState!.context,
-            AppRoute.schedule, option!);
+        _nestedNavigateWithOption(AppRoute.schedule, option!);
         break;
       case Screen.more:
-        _navigateWithOption(
-            dashBoardNavigator.currentState!.context, AppRoute.more, option!);
+        _nestedNavigateWithOption(AppRoute.more, option!);
         break;
     }
 
     onComplete?.call();
   }
 
-  static _navigate(BuildContext context, String destination,
+  _navigate(BuildContext context, String destination,
       {Function? onComplete,
       Object? arguments,
       Function(Object)? fromScreen}) async {
-    var returnedValue = await Navigator.of(context)
-        .pushNamed(destination, arguments: arguments);
+    var returnedValue = await mainNavigator.currentState
+        ?.pushNamed(destination, arguments: arguments);
 
     if (returnedValue != null) {
       fromScreen?.call(returnedValue);
@@ -308,30 +310,46 @@ class ChangeScreen {
     onComplete?.call();
   }
 
-  static _navigateWithOption(
-      BuildContext context, String destination, NavigationOption option,
+  _navigateWithOption(String destination, NavigationOption option,
       {Function? onComplete, Object? arguments}) async {
     switch (option.option) {
       case Option.popPrevious:
-        await Navigator.of(context)
-            .popAndPushNamed(destination, arguments: arguments);
+        await mainNavigator.currentState
+            ?.popAndPushNamed(destination, arguments: arguments);
         break;
       case Option.popAll:
-        await Navigator.of(context)
-            .pushNamedAndRemoveUntil(destination, (route) => false);
+        await mainNavigator.currentState
+            ?.pushNamedAndRemoveUntil(destination, (route) => false);
         break;
       default:
-        await Navigator.of(context)
-            .pushNamed(destination, arguments: arguments);
+        await mainNavigator.currentState
+            ?.pushNamed(destination, arguments: arguments);
     }
     onComplete?.call();
   }
 
-  static _navigatePop(BuildContext context, [Object? result]) async {
-    Navigator.of(context).pop(result);
+  _nestedNavigateWithOption(String destination, NavigationOption option,
+      {Function? onComplete, Object? arguments}) async {
+    switch (option.option) {
+      case Option.popPrevious:
+        await navKey.currentState
+            ?.popAndPushNamed(destination, arguments: arguments);
+        break;
+      case Option.popAll:
+        await navKey.currentState
+            ?.pushNamedAndRemoveUntil(destination, (route) => false);
+        break;
+      default:
+        await navKey.currentState?.pushNamed(destination, arguments: arguments);
+    }
+    onComplete?.call();
   }
 
-  static from(BuildContext context, Screen dest,
+  _navigatePop(BuildContext context, [Object? result]) async {
+    mainNavigator.currentState?.pop(result);
+  }
+
+  from(BuildContext context, Screen dest,
       {Function? onCompleted, Object? result}) {
     if (dest == Screen.addAllDetails) {
       _navigatePop(context, result);

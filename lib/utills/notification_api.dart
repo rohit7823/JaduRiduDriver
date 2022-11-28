@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
@@ -54,15 +55,18 @@ class NotificationApi {
       summary: body,
       title: title,
     );
+    debugPrint("NotificationPayload $payload");
     await _notification.show(id, title, body, details, payload: payload);
   }
 
   static initNotification({required String appIcon}) async {
     await _notification.initialize(
-        InitializationSettings(android: AndroidInitializationSettings(appIcon)),
+        InitializationSettings(
+            android: AndroidInitializationSettings(appIcon),
+            iOS: const IOSInitializationSettings()),
         onSelectNotification: (payload) {
-      debugPrint("NotificationPayload: $payload");
-      behaviorSubjects.add(payload);
+      debugPrint("NotificationPayloadClicked: $payload");
+      behaviorSubjects.sink.add(payload);
     });
   }
 

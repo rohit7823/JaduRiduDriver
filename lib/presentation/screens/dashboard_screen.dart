@@ -7,8 +7,8 @@ import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
-import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
@@ -27,19 +27,20 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
+final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
 class _DashboardScreenState extends State<DashboardScreen>
     with WidgetsBindingObserver {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
-  late final GlobalKey<NavigatorState> dashBoardNavigator;
   late final ChangeScreen changeScreen;
 
   @override
   void initState() {
     widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
-    dashBoardNavigator = GlobalKey<NavigatorState>();
-    changeScreen = ChangeScreen(dashBoardNavigator);
+    changeScreen = dependency<ChangeScreen>();
+
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
@@ -54,58 +55,59 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
-      reaction((p0) => widget.sharedStore.currentChange, (p0) {
+      reaction((p0) => widget.sharedStore.currentChange, fireImmediately: true,
+          (p0) {
         if (p0 != null) {
           debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.profileDetailsScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.referScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.termsAndConditionsScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.privacyPolicyScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.refundPolicyScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.helpScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.emergencySupportScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.tripsScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.todaysPaymentScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.paymentSummeryScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.amountTransfferedByDayScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.paymentDetails) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.changeLanguage) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.rideNavigation) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.numberInputScreen) {
-            ChangeScreen.to(context, p0.screen,
+            changeScreen.to(context, p0.screen,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument);
@@ -162,7 +164,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       }),
       body: Navigator(
         initialRoute: AppRoute.duty,
-        key: dashBoardNavigator,
+        key: navKey,
         onGenerateRoute: (setting) {
           return DashboardNav.getRoutes(setting, widget.sharedStore);
         },

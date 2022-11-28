@@ -8,6 +8,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/app_version.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/splash_screen_store.dart';
@@ -71,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
       }),
       reaction((p0) => sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen,
+          dependency<ChangeScreen>().to(context, p0.screen,
               option: p0.option, onComplete: sharedStore.clear);
         }
       }),

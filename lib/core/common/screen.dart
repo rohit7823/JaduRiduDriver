@@ -42,5 +42,6 @@ enum Screen {
   rideNavigation,
   verifyTripOtp,
   payTrip,
-  rateCustomer
+  rateCustomer,
+  splash
 }

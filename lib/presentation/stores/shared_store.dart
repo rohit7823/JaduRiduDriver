@@ -95,6 +95,7 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   _SharedStore() {
     driverBookings = DriverBookingStore();
+    handlePushNotification();
   }
 
   initiateBatchCall() {
@@ -438,7 +439,6 @@ abstract class _SharedStore extends AppNavigator with Store {
   void initFirebase() async {
     var userId = _prefs.userId();
     tokenSender = TokenSender(repository: _repository, storage: _storage);
-    await _pushNotification.init();
     debugPrint("fcm token: ${_pushNotification.getFirstToken()}");
     tokenSender
         .sendToServer(userId, _pushNotification.getFirstToken() ?? "")
@@ -454,11 +454,14 @@ abstract class _SharedStore extends AppNavigator with Store {
     }, onTokenError: (Object error) {
       debugPrint(error.toString());
     });
+  }
 
+  handlePushNotification() async {
+    await _pushNotification.init();
     _pushNotification.onMessageReceived(
         onMessage: (RemoteMessage message) async {
       await NotificationApi.showNotification(
-          1,
+          message.hashCode,
           message.data[AppConstants.notificationTitleKey],
           message.data[AppConstants.notificationBodyKey],
           image: message.data[AppConstants.notificationImageKey],
@@ -481,16 +484,23 @@ abstract class _SharedStore extends AppNavigator with Store {
     debugPrint("NotificationPayload $payload}");
     if (payload != null) {
       var currentPayload = NotificationPayload.fromJson(json.decode(payload));
+      debugPrint("NotificationPayloadConverted $currentPayload");
+      debugPrint("visibleScreen $visibleScreen");
       if (currentPayload.screen == Screen.dashBoard) {
         if (Screen.dashBoard != visibleScreen) {
-          onChange(ScreenWithExtras(
-              screen: Screen.dashBoard,
-              option: NavigationOption(option: Option.popAll)));
-        } else {
-          onBottomMenu(BottomMenus.duty.index);
+          if (visibleScreen == Screen.partnerCare ||
+              visibleScreen == Screen.incentives ||
+              visibleScreen == Screen.schedule ||
+              visibleScreen == Screen.accounts ||
+              visibleScreen == Screen.more) {
+            onBottomMenu(BottomMenus.duty.index);
+          } else if (visibleScreen != Screen.duty) {
+            onChange(ScreenWithExtras(
+                screen: Screen.dashBoard,
+                option: NavigationOption(option: Option.popAll)));
+          }
         }
       }
-
       //notificationPayload = currentPayload;
     }
   }

@@ -6,11 +6,11 @@ import '../../core/helpers/push_notification.dart';
 import '../core/common/app_constants.dart';
 
 class FirebaseNotification implements PushNotification {
-  late final StreamSubscription? tokenSubscription;
-  late final StreamSubscription? messageSubscription;
-  late final StreamSubscription? backgroundMessageSubscription;
-  late final FirebaseMessaging messaging;
-  late final NotificationSettings notificationSettings;
+  late StreamSubscription? tokenSubscription;
+  late StreamSubscription? messageSubscription;
+  late StreamSubscription? backgroundMessageSubscription;
+  late FirebaseMessaging messaging;
+  late NotificationSettings notificationSettings;
   String? token;
   FirebaseNotification(this.messaging);
 
@@ -46,8 +46,9 @@ class FirebaseNotification implements PushNotification {
     if (notificationSettings.authorizationStatus ==
         AuthorizationStatus.authorized) {
       messageSubscription = FirebaseMessaging.onMessage.listen((event) {
-        debugPrint(event.data[AppConstants.notificationBodyKey]);
-        debugPrint(event.data[AppConstants.notificationImageKey]);
+        debugPrint(
+            "ActionData: ${event.data[AppConstants.notificationActionKey]}");
+
         onMessage(event);
       });
 

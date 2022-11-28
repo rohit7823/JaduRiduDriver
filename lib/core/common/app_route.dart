@@ -61,6 +61,8 @@ class AppRoute {
 
   static const rateCustomer = "/rateCustomer";
 
+  static const initialScreen = "/initialScreen";
+
   AppRoute._();
 
   static const splash = "/splash";

@@ -90,8 +90,8 @@ abstract class _DriverBookingsStore with Store {
   _onBooking(GoogleMapController controller, BuildContext context) {
     _streamDisposer = _repository.booking().stream.listen((data) async {
       initCurrentBooking(data, context);
-      controller.animateCamera(CameraUpdate.newLatLngZoom(
-          LatLng(newBooking!.lat, newBooking!.lng), 20));
+      /*controller.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(newBooking!.lat, newBooking!.lng), 20));*/
     });
   }
 

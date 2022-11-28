@@ -30,7 +30,7 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await EasyLocalization.ensureInitialized();
   await GoogleFirebase.init();
-  await NotificationApi.initNotification(appIcon: 'app_name');
+  await NotificationApi.initNotification(appIcon: '@drawable/app_name');
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
   EasyLocalization.logger.enableLevels = [];
@@ -60,6 +60,8 @@ class JaduRideDriver extends StatefulWidget {
   State<JaduRideDriver> createState() => _JaduRideDriverState();
 }
 
+final GlobalKey<NavigatorState> mainNav = GlobalKey<NavigatorState>();
+
 class _JaduRideDriverState extends State<JaduRideDriver> {
   late final SharedStore sharedStore;
   late final List<ReactionDisposer> _disposers;
@@ -67,14 +69,17 @@ class _JaduRideDriverState extends State<JaduRideDriver> {
   @override
   void initState() {
     sharedStore = SharedStore();
+    AppModule.initNavigator(mainNav);
     super.initState();
 
     _disposers = [
       reaction((p0) => sharedStore.currentChange, (p0) {
         if (p0 != null) {
           if (p0.screen == Screen.dashBoard) {
-            ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: sharedStore.clear);
+            dependency<ChangeScreen>().to(context, p0.screen,
+                arguments: p0.argument,
+                onComplete: sharedStore.clear,
+                option: p0.option);
           }
         }
       })
@@ -103,19 +108,19 @@ class _JaduRideDriverState extends State<JaduRideDriver> {
         designSize: const Size(428, 926),
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              navigatorKey: AppModule.alice.getNavigatorKey(),
-              localizationsDelegates: context.localizationDelegates,
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.lightTheme,
-              onGenerateRoute:
-                  DefaultNav(sharedStore: sharedStore).generatedRoute,
-              themeMode: ThemeMode.light,
-              //initialRoute: AppRoute.welcomeJaduRide,
-              initialRoute: AppRoute.splash
-              //initialRoute: AppRoute.profilePicture,
-              );
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            onGenerateRoute:
+                DefaultNav(sharedStore: sharedStore).generatedRoute,
+            navigatorKey: mainNav,
+            localizationsDelegates: context.localizationDelegates,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            themeMode: ThemeMode.light,
+            //initialRoute: AppRoute.welcomeJaduRide,
+            initialRoute: AppRoute.splash,
+            //initialRoute: AppRoute.profilePicture,
+          );
         },
       ),
     );
@@ -124,5 +129,6 @@ class _JaduRideDriverState extends State<JaduRideDriver> {
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
   debugPrint(message.toString());
+
   PushNotification.backgroundMessage.add(message);
 }
