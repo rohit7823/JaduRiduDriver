@@ -39,15 +39,10 @@ class _SplashScreenState extends State<SplashScreen>
   SharedStore sharedStore;
   late final List<ReactionDisposer> _disposers;
   late final SplashStore _store;
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(seconds: 1));
-  late final Animation<double> _scaleAnimation =
-      CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
 
   @override
   void initState() {
     _store = SplashStore();
-    _controller.forward();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
 
@@ -97,8 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
               flex: 6,
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child:
-                    ScaleTransition(scale: _scaleAnimation, child: _appLogo()),
+                child: _appLogo(),
               )),
           Expanded(
             flex: 4,

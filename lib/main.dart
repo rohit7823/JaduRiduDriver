@@ -13,7 +13,9 @@ import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/default_nav.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_overlay_widget.dart';
+import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/service/task_handlers/destination_task_handler.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
@@ -34,7 +36,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
   EasyLocalization.logger.enableLevels = [];
-  runApp(JaduRideDriver());
+  runApp(const MyApp());
 }
 
 @pragma("vm:entry-point")
@@ -53,37 +55,22 @@ void startCallback() {
       ScreenWithExtras(screen: Screen.rideNavigation)));
 }
 
-class JaduRideDriver extends StatefulWidget {
-  JaduRideDriver({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<JaduRideDriver> createState() => _JaduRideDriverState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-final GlobalKey<NavigatorState> mainNav = GlobalKey<NavigatorState>();
-
-class _JaduRideDriverState extends State<JaduRideDriver> {
+class _MyAppState extends State<MyApp> {
   late final SharedStore sharedStore;
   late final List<ReactionDisposer> _disposers;
 
   @override
   void initState() {
     sharedStore = SharedStore();
-    AppModule.initNavigator(mainNav);
+    AppModule.initNavigator();
     super.initState();
-
-    _disposers = [
-      reaction((p0) => sharedStore.currentChange, (p0) {
-        if (p0 != null) {
-          if (p0.screen == Screen.dashBoard) {
-            dependency<ChangeScreen>().to(context, p0.screen,
-                arguments: p0.argument,
-                onComplete: sharedStore.clear,
-                option: p0.option);
-          }
-        }
-      })
-    ];
   }
 
   @override
@@ -112,7 +99,6 @@ class _JaduRideDriverState extends State<JaduRideDriver> {
             locale: context.locale,
             onGenerateRoute:
                 DefaultNav(sharedStore: sharedStore).generatedRoute,
-            navigatorKey: mainNav,
             localizationsDelegates: context.localizationDelegates,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
@@ -129,6 +115,5 @@ class _JaduRideDriverState extends State<JaduRideDriver> {
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
   debugPrint(message.toString());
-
   PushNotification.backgroundMessage.add(message);
 }

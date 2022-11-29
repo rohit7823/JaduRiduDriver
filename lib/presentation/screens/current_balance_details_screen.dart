@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/destination.dart';
+import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/common/custom_radio_button.dart';
@@ -17,7 +22,9 @@ import '../ui/string_provider.dart';
 import '../ui/theme.dart';
 
 class CurrentBalanceDetailsScreen extends StatefulWidget {
-  CurrentBalanceDetailsScreen({Key? key, required this.currentBalanceKM})
+  SharedStore sharedStore;
+  CurrentBalanceDetailsScreen(
+      {Key? key, required this.currentBalanceKM, required this.sharedStore})
       : super(key: key);
 
   String currentBalanceKM;
@@ -28,7 +35,7 @@ class CurrentBalanceDetailsScreen extends StatefulWidget {
 }
 
 class _CurrentBalanceDetailsScreenState
-    extends State<CurrentBalanceDetailsScreen> {
+    extends State<CurrentBalanceDetailsScreen> with Destination {
   late final CurrentBalanceStore currentBalanceStore;
   late final List<ReactionDisposer> _disposers;
 
@@ -38,7 +45,6 @@ class _CurrentBalanceDetailsScreenState
     currentBalanceStore.allDatelistItem();
     currentBalanceStore.currentDate();
     super.initState();
-
     _disposers = [
       reaction((p0) => currentBalanceStore.dialogManager.datePickerState, (p0) {
         if (p0 is DialogState && p0 == DialogState.displaying) {
@@ -52,13 +58,11 @@ class _CurrentBalanceDetailsScreenState
 
   @override
   void dispose() {
-    _disposers.forEach((element) {
+    for (var element in _disposers) {
       element.call();
-    });
+    }
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -159,13 +163,13 @@ class _CurrentBalanceDetailsScreenState
                   child: Column(
                     children: [
                       Row(
-
                         children: [
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
-                              onTap: (){
-                                currentBalanceStore.onRadioSelected(DriverTransactionType.received);
+                              onTap: () {
+                                currentBalanceStore.onRadioSelected(
+                                    DriverTransactionType.received);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -191,8 +195,9 @@ class _CurrentBalanceDetailsScreenState
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
-                              onTap: (){
-                                currentBalanceStore.onRadioSelected(DriverTransactionType.paid);
+                              onTap: () {
+                                currentBalanceStore.onRadioSelected(
+                                    DriverTransactionType.paid);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +228,8 @@ class _CurrentBalanceDetailsScreenState
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
                               border: Border.all(color: AppColors.appGreens),
                               boxShadow: const [
                                 BoxShadow(
@@ -245,13 +251,14 @@ class _CurrentBalanceDetailsScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Observer(builder: (BuildContext context) {
+                                        Observer(
+                                            builder: (BuildContext context) {
                                           return Text(
                                               currentBalanceStore
                                                   .finalCurrentDate,
                                               style: TextStyle(
-                                                  color:
-                                                      AppColors.secondaryVariant,
+                                                  color: AppColors
+                                                      .secondaryVariant,
                                                   fontSize: 16.sp));
                                         })
                                         /**/
@@ -264,9 +271,7 @@ class _CurrentBalanceDetailsScreenState
                                     child: Icon(
                                       Icons.date_range,
                                       color: Colors.red,
-                                    )
-
-                                ),
+                                    )),
                               ],
                             ),
                           ),
@@ -277,31 +282,34 @@ class _CurrentBalanceDetailsScreenState
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.02.sw),
                           child: Observer(builder: (BuildContext context) {
-                            return currentBalanceStore.datesSelectedListLoader? Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 0.15.sw),
-                                        child: SizedBox(
-                                            height: 0.10.sh,
-                                            width: 0.10.sh,
-                                            child: Padding(
-                                                padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                                                child: const CircularProgressIndicator())),
-                                      ),
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0.02.sw,
-                                          horizontal: 0.02.sw),
-                                      itemCount: currentBalanceStore
-                                          .currentBalanceList.length,
-                                      itemBuilder: (context, index) =>
-                                          listItem(index),
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                              separatedBox(),
-                                    );
+                            return currentBalanceStore.datesSelectedListLoader
+                                ? Align(
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 0.15.sw),
+                                      child: SizedBox(
+                                          height: 0.10.sh,
+                                          width: 0.10.sh,
+                                          child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 0.05.sw,
+                                                  horizontal: 0.05.sw),
+                                              child:
+                                                  const CircularProgressIndicator())),
+                                    ),
+                                  )
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0.02.sw, horizontal: 0.02.sw),
+                                    itemCount: currentBalanceStore
+                                        .currentBalanceList.length,
+                                    itemBuilder: (context, index) =>
+                                        listItem(index),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            separatedBox(),
+                                  );
                             //);
                           }),
                         ),

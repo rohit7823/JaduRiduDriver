@@ -14,7 +14,6 @@ import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen
 import 'package:jadu_ride_driver/presentation/screens/dashboard_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
-import 'package:jadu_ride_driver/presentation/screens/initital_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
@@ -135,7 +134,10 @@ class DefaultNav {
 
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
-            CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
+            CurrentBalanceDetailsScreen(
+          currentBalanceKM: retrievedArgument,
+          sharedStore: sharedStore,
+        ));
 
       case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(

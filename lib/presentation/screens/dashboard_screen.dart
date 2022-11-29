@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,15 +20,11 @@ import '../ui/theme.dart';
 
 class DashboardScreen extends StatefulWidget {
   final SharedStore sharedStore;
-
-  const DashboardScreen({Key? key, required this.sharedStore})
-      : super(key: key);
+  DashboardScreen({Key? key, required this.sharedStore}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
-
-final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
 class _DashboardScreenState extends State<DashboardScreen>
     with WidgetsBindingObserver {
@@ -141,34 +138,32 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      bottomNavigationBar: Observer(builder: (BuildContext context) {
-        return SizedBox(
-          height: widget.sharedStore.isVisible ? 0.0 : 80.0,
-          child: BottomNavigationBar(
-              showUnselectedLabels: true,
-              onTap: widget.sharedStore.onBottomMenu,
-              currentIndex: widget.sharedStore.selectedMenu,
-              unselectedFontSize: 10.sp,
-              unselectedItemColor: AppColors.Acadia,
-              selectedItemColor: AppColors.Amber,
-              items: BottomMenus.values.map((menu) {
-                return BottomNavigationBarItem(
-                    tooltip: menu.name,
-                    label: menu.name,
-                    icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
-                    activeIcon:
-                        SvgPicture.asset(menu.icon, color: AppColors.Amber));
-              }).toList()),
-        );
-      }),
-      body: Navigator(
-        initialRoute: AppRoute.duty,
-        key: navKey,
-        onGenerateRoute: (setting) {
-          return DashboardNav.getRoutes(setting, widget.sharedStore);
-        },
-      ),
-    );
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: Observer(builder: (BuildContext context) {
+          return SizedBox(
+            height: widget.sharedStore.isVisible ? 0.0 : 80.0,
+            child: BottomNavigationBar(
+                showUnselectedLabels: true,
+                onTap: widget.sharedStore.onBottomMenu,
+                currentIndex: widget.sharedStore.selectedMenu,
+                unselectedFontSize: 10.sp,
+                unselectedItemColor: AppColors.Acadia,
+                selectedItemColor: AppColors.Amber,
+                items: BottomMenus.values.map((menu) {
+                  return BottomNavigationBarItem(
+                      tooltip: menu.name,
+                      label: menu.name,
+                      icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
+                      activeIcon:
+                          SvgPicture.asset(menu.icon, color: AppColors.Amber));
+                }).toList()),
+          );
+        }),
+        body: Navigator(
+          key: changeScreen.dashboardNav,
+          initialRoute: AppRoute.duty,
+          onGenerateRoute: (routeSettings) =>
+              DashboardNav.getRoutes(routeSettings, widget.sharedStore),
+        ));
   }
 }

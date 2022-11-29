@@ -480,7 +480,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   NotificationPayload? notificationPayload;
 
   @action
-  handleNotificationPayload(String? payload) {
+  handleNotificationPayload(String? payload) async {
     debugPrint("NotificationPayload $payload}");
     if (payload != null) {
       var currentPayload = NotificationPayload.fromJson(json.decode(payload));
@@ -494,7 +494,7 @@ abstract class _SharedStore extends AppNavigator with Store {
               visibleScreen == Screen.accounts ||
               visibleScreen == Screen.more) {
             onBottomMenu(BottomMenus.duty.index);
-          } else if (visibleScreen != Screen.duty) {
+          } else {
             onChange(ScreenWithExtras(
                 screen: Screen.dashBoard,
                 option: NavigationOption(option: Option.popAll)));

@@ -127,8 +127,8 @@ class AppModule {
     darkTheme: false,
   );
 
-  static initNavigator(GlobalKey<NavigatorState> mainNav) {
-    dependency.registerLazySingleton<ChangeScreen>(() => ChangeScreen(mainNav));
+  static initNavigator() {
+    dependency.registerLazySingleton<ChangeScreen>(() => ChangeScreen());
   }
 
   static init() async {
