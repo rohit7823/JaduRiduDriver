@@ -18,4 +18,9 @@ class DialogController {
     await dialog.show(alertData, state,
         onPositive: positive, onNegative: negative, close: close);
   }
+
+  Future showWithCustomData(AlertData data, DialogState state, Widget ui,
+      {Function? close}) async {
+    await dialog.showWithCustomData(data, state, ui, close: close);
+  }
 }

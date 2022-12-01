@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/payment_dialog.dart';
+import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page.dart';
+import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/common/custom_radio_button.dart';
@@ -27,16 +31,18 @@ class CurrentBalanceDetailsScreen extends StatefulWidget {
       _CurrentBalanceDetailsScreenState();
 }
 
-class _CurrentBalanceDetailsScreenState
-    extends State<CurrentBalanceDetailsScreen> {
+class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScreen> {
   late final CurrentBalanceStore currentBalanceStore;
   late final List<ReactionDisposer> _disposers;
+  late final DialogController _dialogController;
 
   @override
   void initState() {
     currentBalanceStore = CurrentBalanceStore();
     currentBalanceStore.allDatelistItem();
     currentBalanceStore.currentDate();
+    _dialogController =
+        DialogController(dialog: PaymentDialog(buildContext: context));
     super.initState();
 
     _disposers = [
@@ -46,7 +52,29 @@ class _CurrentBalanceDetailsScreenState
               DateTime(2050), currentBalanceStore.onSelectDate,
               dismissed: currentBalanceStore.dialogManager.closeDatePicker);
         }
+      }),
+    reaction((p0) => currentBalanceStore.dialogManager.currentState, (p0) {
+            _dialogController.showWithCustomData(
+            currentBalanceStore.dialogManager.data!,
+            p0,
+            close: currentBalanceStore.dialogManager.closeDialog,
+            JaduWalletPaymentPage(
+            argument: currentBalanceStore.dialogManager.data!,
+            onSelect: currentBalanceStore.onSelectAmount,
+            current: currentBalanceStore.selectd,
+        ));
+    }),
+
+      reaction((p0) =>currentBalanceStore.msgInformer.currentMsg, (p0) {
+        if (p0.isNotEmpty) {
+          AppSnackBar.show(
+            context,
+            message: p0,
+            clear: currentBalanceStore.msgInformer.clear,
+          );
+        }
       })
+
     ];
   }
 
@@ -64,13 +92,11 @@ class _CurrentBalanceDetailsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBarWithOutLogo(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            expand(flex: 3, child: _upperSideContent()),
-            expand(flex: 7, child: _lowerSideContent())
-          ],
-        ),
+      body: Column(
+        children: [
+          expand(flex: 3, child: _upperSideContent()),
+          expand(flex: 7, child: _lowerSideContent())
+        ],
       ),
     );
   }
@@ -134,13 +160,16 @@ class _CurrentBalanceDetailsScreenState
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.20.sw),
-          child: ElevatedButton(
-            onPressed: () {},
-            style: AppButtonThemes.defaultStyle.copyWith(
-                backgroundColor:
-                    MaterialStateProperty.all(AppColors.primaryVariant)),
-            child:
-                StringProvider.rechargeNow.text(AppTextStyle.partnerButtonTxt),
+          child: Observer(
+            builder: (context) =>ElevatedButton(
+              onPressed:  currentBalanceStore.openingPaymentGatewayLoader ? null : currentBalanceStore.onClickRefillWallet,
+              style: AppButtonThemes.defaultStyle.copyWith(
+                  backgroundColor:
+                  MaterialStateProperty.all(AppColors.primaryVariant)),
+              child:
+              StringProvider.rechargeNow.text(AppTextStyle.partnerButtonTxt),
+            ),
+
           ),
         ),
       ],
@@ -259,7 +288,7 @@ class _CurrentBalanceDetailsScreenState
                                     ),
                                   ),
                                 ),
-                                Expanded(
+                                const Expanded(
                                     flex: 1,
                                     child: Icon(
                                       Icons.date_range,
@@ -322,7 +351,7 @@ class _CurrentBalanceDetailsScreenState
       padding: EdgeInsets.symmetric(
         vertical: 0.02.sw,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [
@@ -347,7 +376,7 @@ class _CurrentBalanceDetailsScreenState
                             color: Colors.white,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             border: Border.all(color: AppColors.appGreens),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0x1a000000),
                                   blurRadius: 20,
@@ -358,7 +387,7 @@ class _CurrentBalanceDetailsScreenState
                           padding: EdgeInsets.symmetric(
                               vertical: 0.01.sw, horizontal: 0.01.sw),
                           child: Column(
-                            children: [
+                            children: const [
                               Text("27",
                                   style: TextStyle(
                                       fontSize: 14,

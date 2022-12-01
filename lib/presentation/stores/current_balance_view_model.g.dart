@@ -9,6 +9,22 @@ part of 'current_balance_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
+  late final _$selectdAtom =
+      Atom(name: '_CurrentBalanceViewModel.selectd', context: context);
+
+  @override
+  Package? get selectd {
+    _$selectdAtom.reportRead();
+    return super.selectd;
+  }
+
+  @override
+  set selectd(Package? value) {
+    _$selectdAtom.reportWrite(value, super.selectd, () {
+      super.selectd = value;
+    });
+  }
+
   late final _$allDatesListsAtom =
       Atom(name: '_CurrentBalanceViewModel.allDatesLists', context: context);
 
@@ -123,6 +139,58 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
+  late final _$openingPaymentGatewayLoaderAtom = Atom(
+      name: '_CurrentBalanceViewModel.openingPaymentGatewayLoader',
+      context: context);
+
+  @override
+  bool get openingPaymentGatewayLoader {
+    _$openingPaymentGatewayLoaderAtom.reportRead();
+    return super.openingPaymentGatewayLoader;
+  }
+
+  @override
+  set openingPaymentGatewayLoader(bool value) {
+    _$openingPaymentGatewayLoaderAtom
+        .reportWrite(value, super.openingPaymentGatewayLoader, () {
+      super.openingPaymentGatewayLoader = value;
+    });
+  }
+
+  late final _$gettingWalletDetailsLoaderAtom = Atom(
+      name: '_CurrentBalanceViewModel.gettingWalletDetailsLoader',
+      context: context);
+
+  @override
+  bool get gettingWalletDetailsLoader {
+    _$gettingWalletDetailsLoaderAtom.reportRead();
+    return super.gettingWalletDetailsLoader;
+  }
+
+  @override
+  set gettingWalletDetailsLoader(bool value) {
+    _$gettingWalletDetailsLoaderAtom
+        .reportWrite(value, super.gettingWalletDetailsLoader, () {
+      super.gettingWalletDetailsLoader = value;
+    });
+  }
+
+  late final _$detailsAtom =
+      Atom(name: '_CurrentBalanceViewModel.details', context: context);
+
+  @override
+  WalletDetails? get details {
+    _$detailsAtom.reportRead();
+    return super.details;
+  }
+
+  @override
+  set details(WalletDetails? value) {
+    _$detailsAtom.reportWrite(value, super.details, () {
+      super.details = value;
+    });
+  }
+
   late final _$allDatelistItemAsyncAction =
       AsyncAction('_CurrentBalanceViewModel.allDatelistItem', context: context);
 
@@ -137,6 +205,26 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
   @override
   Future datelistItem(String id) {
     return _$datelistItemAsyncAction.run(() => super.datelistItem(id));
+  }
+
+  late final _$retrieveWalletDetailsAsyncAction = AsyncAction(
+      '_CurrentBalanceViewModel.retrieveWalletDetails',
+      context: context);
+
+  @override
+  Future retrieveWalletDetails() {
+    return _$retrieveWalletDetailsAsyncAction
+        .run(() => super.retrieveWalletDetails());
+  }
+
+  late final _$onClickRefillWalletAsyncAction = AsyncAction(
+      '_CurrentBalanceViewModel.onClickRefillWallet',
+      context: context);
+
+  @override
+  Future onClickRefillWallet() {
+    return _$onClickRefillWalletAsyncAction
+        .run(() => super.onClickRefillWallet());
   }
 
   late final _$_CurrentBalanceViewModelActionController =
@@ -189,13 +277,17 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
   @override
   String toString() {
     return '''
+selectd: ${selectd},
 allDatesLists: ${allDatesLists},
 selectedDates: ${selectedDates},
 currentBalanceList: ${currentBalanceList},
 isLoading: ${isLoading},
 datesSelectedListLoader: ${datesSelectedListLoader},
 finalCurrentDate: ${finalCurrentDate},
-selected: ${selected}
+selected: ${selected},
+openingPaymentGatewayLoader: ${openingPaymentGatewayLoader},
+gettingWalletDetailsLoader: ${gettingWalletDetailsLoader},
+details: ${details}
     ''';
   }
 }

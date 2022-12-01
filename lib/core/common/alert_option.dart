@@ -1,4 +1,5 @@
 enum AlertOption {
   invokeOnBarrier,
-  none;
+  none,
+  noDismissable;
 }

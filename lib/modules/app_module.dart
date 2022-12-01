@@ -82,6 +82,7 @@ import 'package:jadu_ride_driver/utills/environment.dart';
 import 'package:jadu_ride_driver/utills/global.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/repository/amount_transffered_by_day_repository.dart';
@@ -134,6 +135,7 @@ class AppModule {
     final env = Environment();
     final objectBox = await ObjectBox.create();
     final storage = FCMStorage(objectBox);
+    final _razorPay = Razorpay();
     await env.init();
 
     dependency.registerLazySingleton<FCMStorage>(() => storage);
@@ -159,6 +161,8 @@ class AppModule {
 
     dependency.registerLazySingleton<VerifyOtpRepository>(
         () => VerifyOtpRepositoryImpl(dio));
+
+    dependency.registerLazySingleton<Razorpay>(() => _razorPay);
 
     dependency.registerLazySingleton<ChangeAppLanguageRepository>(
         () => ChangeAppLanguageRepositoryImpl(dio));
@@ -232,7 +236,7 @@ class AppModule {
         () => DriverBookingsRepositoryImpl());
 
     dependency.registerLazySingleton<IncentiveRepository>(
-        () => IncentiveRepositoryImpl());
+        () => IncentiveRepositoryImpl(dio));
     dependency.registerLazySingleton<AccountsRepository>(
         () => AccountsRepositoryImpl(dio));
     dependency.registerLazySingleton<CurrentBalanceRepository>(
@@ -275,5 +279,7 @@ class AppModule {
 
     dependency.registerLazySingleton<RateCustomerRepository>(
         () => RateCustomerRepositoryImpl(dio));
+
+
   }
 }

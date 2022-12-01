@@ -98,8 +98,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
         );
       }else{
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
+        return Padding(padding: EdgeInsets.symmetric(vertical: 0.03.sw, horizontal: 0.03.sw),
           child: ListView(
             children: [
               Observer(

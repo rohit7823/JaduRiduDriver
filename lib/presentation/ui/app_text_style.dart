@@ -19,6 +19,13 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.secondaryVariant);
 
+
+  static var packageBtnStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontWeight: FontWeightManager.medium,
+      fontSize: 20.sp,
+      color: AppColors.appBlack);
+
   static var profileNameText = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 16.sp,

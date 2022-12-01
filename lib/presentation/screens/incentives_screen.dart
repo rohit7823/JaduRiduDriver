@@ -119,11 +119,11 @@ class _IncentivesScreenState extends State<IncentivesScreen> {
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold)),
             subtitle: Text(
-              incentivesStore.incentiveList[index].description,
+              incentivesStore.incentiveList[index].body,
               style: TextStyle(color: Colors.grey, fontSize: 15.sp),
             ),
             trailing: Text(
-                "₹${incentivesStore.incentiveList[index].incentivePrice}",
+                "₹${incentivesStore.incentiveList[index].amount}",
                 style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.sp,

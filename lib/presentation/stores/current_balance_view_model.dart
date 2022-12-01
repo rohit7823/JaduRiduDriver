@@ -1,4 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+import 'package:jadu_ride_driver/core/common/alert_data.dart';
+import 'package:jadu_ride_driver/core/common/constants.dart';
+import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
+import 'package:jadu_ride_driver/core/helpers/razorpay_init.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
+import 'package:jadu_ride_driver/utills/message_informer.dart';
 
 import '../../core/common/current_date_time.dart';
 import '../../core/common/custom_radio_button.dart';
@@ -18,10 +26,21 @@ part 'current_balance_view_model.g.dart';
 class CurrentBalanceStore = _CurrentBalanceViewModel with _$CurrentBalanceStore;
 
 abstract class _CurrentBalanceViewModel with Store {
+  static const _walletOption = Constants.walletOption;
   final _repository = dependency<CurrentBalanceRepository>();
   final _prefs = dependency<Storage>();
+  final msgInformer = MessageInformer();
   final dialogManager = DialogManager();
   final _dateTimeHelper = DateTimeHelper();
+  RazorpayInit? _razorpayInit;
+
+
+
+  final walletOption = _walletOption;
+
+  @observable
+  Package? selectd;
+
 
   @observable
   List<Package> allDatesLists = [];
@@ -52,6 +71,25 @@ abstract class _CurrentBalanceViewModel with Store {
 
   @observable
   DriverTransactionType selected = DriverTransactionType.none;
+
+
+  @observable
+  bool openingPaymentGatewayLoader = false;
+
+  @observable
+  bool gettingWalletDetailsLoader = false;
+
+
+  @observable
+  WalletDetails? details;
+
+
+
+  _CurrentBalanceViewModel() {
+    retrieveWalletDetails();
+  }
+
+
 
   @action
   onRadioSelected(DriverTransactionType? selectedValue) {
@@ -107,6 +145,10 @@ abstract class _CurrentBalanceViewModel with Store {
     }
   }
 
+
+
+
+
   //selected item list..............
   @action
   datelistItem(String id) async {
@@ -129,6 +171,83 @@ abstract class _CurrentBalanceViewModel with Store {
     } else if (response is Error) {
       MyUtils.toastMessage("Error found....");
       datesSelectedListLoader = false;
+    }
+  }
+
+
+
+  onSelectAmount(Package? selected) async {
+    msgInformer.informUi(StringProvider.paymentGatewayOpening);
+    var response = await _repository.fetchRazorpayData(_prefs.userId(), selected?.id ?? "");
+    if (response is Success) {
+      var data = response.data;
+      switch (data != null && data.status) {
+        case true:
+          _razorpayInit = RazorpayInit(
+            options: data!.data,
+            successNotify: (PaymentSuccessResponse ) {
+
+            },
+            errorNotify: (PaymentFailureResponse ) {  },
+            walletNotify: (ExternalWalletResponse ) {  },
+
+          );
+          break;
+        default:
+
+      }
+    } else if (response is Error) {
+
+    }
+  }
+
+  @action
+  retrieveWalletDetails() async {
+    gettingWalletDetailsLoader = true;
+    var response = await _repository.walletDetails(_prefs.userId());
+    if (response is Success) {
+      var data = response.data;
+      gettingWalletDetailsLoader = false;
+      switch (data != null && data.status) {
+        case true:
+          details = data!.details;
+          break;
+        default:
+          msgInformer.informUi(data?.message ?? "");
+      }
+    } else if (response is Error) {
+      msgInformer.informUi(response.message ?? "");
+    }
+  }
+
+  @action
+  onClickRefillWallet() async {
+    openingPaymentGatewayLoader = true;
+    var response = await _repository.walletRechargeAmounts(_prefs.userId());
+    log("recharAmount $response");
+    if (response is Success) {
+      var data = response.data;
+      openingPaymentGatewayLoader = false;
+      switch (data != null && data.status) {
+        case true:
+
+          dialogManager.initData(AlertData(
+              StringProvider.rechargeYourWallet,
+              null,
+              StringProvider.appId,
+              StringProvider.selectAnyAmountForRecharge,
+              StringProvider.done,
+              null,
+              null,
+              data?.amount
+          ));
+          break;
+        default:
+          msgInformer.informUi(StringProvider.unableToOpenPaymentGateway);
+      }
+    } else if (response is Error) {
+      openingPaymentGatewayLoader = false;
+      msgInformer.informUi(StringProvider.someNetworkIssueisHappening);
     }
   }
 }

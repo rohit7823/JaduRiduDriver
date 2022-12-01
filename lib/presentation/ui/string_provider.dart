@@ -11,11 +11,25 @@ class StringProvider {
 
   static const okay = "OKAY";
 
+
+  static var recharge = "Recharge";
+
   static const notYet = "Not yet";
+
+  static var paymentGatewayOpening = "Payment Gateway Opening...";
 
   static const noInternet = "No Internet";
 
   static const error = "Error";
+
+  static var unableToOpenPaymentGateway =
+      "Unable to open payment gateway....Try Again";
+
+  static var rechargeYourWallet = "Recharge Your Wallet";
+
+  static var selectAnyAmountForRecharge = "Select Any Amount For Recharge";
+
+  static var someNetworkIssueisHappening = "Some Network Issue is Happening..";
 
   static const retry = "Retry";
 

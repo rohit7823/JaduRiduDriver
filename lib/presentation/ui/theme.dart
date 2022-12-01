@@ -7,6 +7,7 @@ class AppColors {
   static const appGreery = Color(0xFF666666);
   static Color Abbey = Color(0xFF4C4F56);
   static Color Acadia = Color(0xFF1B1404);
+  static const appBlack = Color(0xFF0F0F0F);
   static final shimmerHighlightColor = Colors.grey.shade100;
   static Color Acapulco = Color(0xFF7CB0A1);
   static Color AeroBlue = Color(0xFFC9FFE5);
