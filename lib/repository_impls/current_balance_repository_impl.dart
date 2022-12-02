@@ -1,16 +1,30 @@
+import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/all_dates_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/get_current_balance_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/kilometer_recharge_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/razorpay_necssary_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/wallet_recharge_amount_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/walletdetails_response.dart';
+import 'package:jadu_ride_driver/data/online/km_wallet_api.dart';
+import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../core/domain/current_balance_dates.dart';
 import '../core/domain/package.dart';
 import '../core/repository/current_balance_repository.dart';
 
 class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
+
+  final Dio _dio;
+  late final KMBalanceApi _kmBalanceApi;
+
+  CurrentBalanceRepositoryImpl(this._dio){
+    _dio.options = ApiClientConfiguration.mainConfiguration;
+    _kmBalanceApi = KMBalanceApi(_dio);
+  }
+
 
   @override
   Future<Resource<AllDatesListsResponse>> allDatesResponse(String userId) async {
@@ -39,15 +53,7 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         status: true, message: "Success", data: {}));
   }
 
-  @override
-  Future<Resource<WalletRechargeAmountResponse>> walletRechargeAmounts(String userId) async{
-    await Future.delayed(const Duration(seconds: 2));
-    return Success(WalletRechargeAmountResponse(
-        status: true,
-        message: "Success", amount: [],
-        )
-    );
-  }
+
 
   @override
   Future<Resource<DriverWalletResponse>> walletDetails(String userId)  async{
@@ -58,4 +64,27 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         message: "Success",
         details: WalletDetails(amount: 500, isAvailable: false)));
   }
+
+  @override
+  Future<Resource<KmRechargeResponse>> walletRechargeAmounts(String userId) async {
+    return _kmBalanceApi
+        .refillAmounts()
+        .handleResponse<KmRechargeResponse>();
+  }
+
+  // @override
+  // Future<Resource<KmRechargeResponse>>walletRechargeAmounts(String userId) async{
+  //   return _kmBalanceApi
+  //       .refillAmounts()
+  //       .handleResponse<KmRechargeResponse>();
+  //   // await Future.delayed(const Duration(seconds: 2));
+  //   // return Success(WalletRechargeAmountResponse(
+  //   //     status: true,
+  //   //     message: "Success", amount: [
+  //   //     Package(id: "1", name: "2000"),
+  //   //     Package(id: "2", name: "5000")
+  //   // ],
+  //   //     )
+  //   // );
+  // }
 }

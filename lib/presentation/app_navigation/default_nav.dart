@@ -165,11 +165,13 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             const PaymentSummeryScreen());
 
-      case AppRoute.amountTransfferedByDay:
+        case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
+
       case AppRoute.tripsScreen:
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
+
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           rideId: retrievedArgument as RideNavigationData,
@@ -190,6 +192,11 @@ class DefaultNav {
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+
+      case AppRoute.walletPaymentStatus:
+        return ScreenTransitions.bottomToTopTransition(
+            CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
+
       default:
         return null;
     }

@@ -1,3 +1,4 @@
+import 'package:jadu_ride_driver/core/domain/response/kilometer_recharge_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/razorpay_necssary_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/wallet_recharge_amount_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/walletdetails_response.dart';
@@ -13,7 +14,7 @@ abstract class CurrentBalanceRepository {
 
   Future<Resource<DriverWalletResponse>> walletDetails(String userId);
 
-  Future<Resource<WalletRechargeAmountResponse>> walletRechargeAmounts(String userId);
+  Future<Resource<KmRechargeResponse>> walletRechargeAmounts(String userId);
 
   Future<Resource<RazorpayNecessaryDataResponse>> fetchRazorpayData(String userId, String packageId);
 }

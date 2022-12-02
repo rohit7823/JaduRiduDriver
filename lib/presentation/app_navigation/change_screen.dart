@@ -221,6 +221,17 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
+
+
+      case Screen.walletPaymentStatus:
+        _navigate(
+          context,
+          AppRoute.walletPaymentStatus,
+          arguments: arguments,
+          onComplete: onComplete,
+        );
+        break;
+
       case Screen.amountTransfferedByDayScreen:
         _navigate(
           context,

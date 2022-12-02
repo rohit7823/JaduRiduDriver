@@ -3,10 +3,14 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/constants.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
 import 'package:jadu_ride_driver/core/helpers/razorpay_init.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/message_informer.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../core/common/current_date_time.dart';
 import '../../core/common/custom_radio_button.dart';
@@ -25,12 +29,13 @@ part 'current_balance_view_model.g.dart';
 
 class CurrentBalanceStore = _CurrentBalanceViewModel with _$CurrentBalanceStore;
 
-abstract class _CurrentBalanceViewModel with Store {
+abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   static const _walletOption = Constants.walletOption;
   final _repository = dependency<CurrentBalanceRepository>();
   final _prefs = dependency<Storage>();
   final msgInformer = MessageInformer();
   final dialogManager = DialogManager();
+  // final _navigator = dependency<NavigationService>();
   final _dateTimeHelper = DateTimeHelper();
   RazorpayInit? _razorpayInit;
 
@@ -82,6 +87,17 @@ abstract class _CurrentBalanceViewModel with Store {
 
   @observable
   WalletDetails? details;
+
+  @observable
+  var walletValue = "";
+
+  @observable
+  var updatable = false;
+
+  @action
+  onPaymentMethodSelected(String? value){
+
+  }
 
 
 
@@ -185,12 +201,9 @@ abstract class _CurrentBalanceViewModel with Store {
         case true:
           _razorpayInit = RazorpayInit(
             options: data!.data,
-            successNotify: (PaymentSuccessResponse ) {
-
-            },
-            errorNotify: (PaymentFailureResponse ) {  },
-            walletNotify: (ExternalWalletResponse ) {  },
-
+            successNotify: _onPaymentSuccess,
+            errorNotify: _onPaymentError,
+            walletNotify: _onPaymentWallet,
           );
           break;
         default:
@@ -230,16 +243,16 @@ abstract class _CurrentBalanceViewModel with Store {
       openingPaymentGatewayLoader = false;
       switch (data != null && data.status) {
         case true:
-
+            selectd = data!.packages.first;
           dialogManager.initData(AlertData(
-              StringProvider.rechargeYourWallet,
+              StringProvider.balancetitle,
               null,
               StringProvider.appId,
               StringProvider.selectAnyAmountForRecharge,
               StringProvider.done,
               null,
               null,
-              data?.amount
+              data.packages
           ));
           break;
         default:
@@ -249,5 +262,23 @@ abstract class _CurrentBalanceViewModel with Store {
       openingPaymentGatewayLoader = false;
       msgInformer.informUi(StringProvider.someNetworkIssueisHappening);
     }
+  }
+
+
+
+  _onPaymentSuccess (PaymentSuccessResponse response){
+    onChange(ScreenWithExtras(screen: Screen.walletPaymentStatus, argument: response));
+    _razorpayInit!.dispose();
+    retrieveWalletDetails();
+  }
+
+  _onPaymentError(PaymentFailureResponse response){
+    onChange(ScreenWithExtras(screen: Screen.walletPaymentStatus, argument: response));
+    _razorpayInit!.dispose();
+  }
+
+  _onPaymentWallet(ExternalWalletResponse response){
+    onChange(ScreenWithExtras(screen: Screen.walletPaymentStatus, argument: response));
+    _razorpayInit!.dispose();
   }
 }

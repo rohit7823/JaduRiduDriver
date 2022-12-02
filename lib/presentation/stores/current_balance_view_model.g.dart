@@ -191,6 +191,38 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
+  late final _$walletValueAtom =
+      Atom(name: '_CurrentBalanceViewModel.walletValue', context: context);
+
+  @override
+  String get walletValue {
+    _$walletValueAtom.reportRead();
+    return super.walletValue;
+  }
+
+  @override
+  set walletValue(String value) {
+    _$walletValueAtom.reportWrite(value, super.walletValue, () {
+      super.walletValue = value;
+    });
+  }
+
+  late final _$updatableAtom =
+      Atom(name: '_CurrentBalanceViewModel.updatable', context: context);
+
+  @override
+  bool get updatable {
+    _$updatableAtom.reportRead();
+    return super.updatable;
+  }
+
+  @override
+  set updatable(bool value) {
+    _$updatableAtom.reportWrite(value, super.updatable, () {
+      super.updatable = value;
+    });
+  }
+
   late final _$allDatelistItemAsyncAction =
       AsyncAction('_CurrentBalanceViewModel.allDatelistItem', context: context);
 
@@ -242,6 +274,17 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
   }
 
   @override
+  dynamic onPaymentMethodSelected(String? value) {
+    final _$actionInfo = _$_CurrentBalanceViewModelActionController.startAction(
+        name: '_CurrentBalanceViewModel.onPaymentMethodSelected');
+    try {
+      return super.onPaymentMethodSelected(value);
+    } finally {
+      _$_CurrentBalanceViewModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic onRadioSelected(DriverTransactionType? selectedValue) {
     final _$actionInfo = _$_CurrentBalanceViewModelActionController.startAction(
         name: '_CurrentBalanceViewModel.onRadioSelected');
@@ -287,7 +330,9 @@ finalCurrentDate: ${finalCurrentDate},
 selected: ${selected},
 openingPaymentGatewayLoader: ${openingPaymentGatewayLoader},
 gettingWalletDetailsLoader: ${gettingWalletDetailsLoader},
-details: ${details}
+details: ${details},
+walletValue: ${walletValue},
+updatable: ${updatable}
     ''';
   }
 }

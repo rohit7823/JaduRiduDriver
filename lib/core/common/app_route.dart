@@ -76,5 +76,6 @@ class AppRoute {
   static const emergencySupportScreen = "/emergencySupportScreen";
   static const tripsScreen = "/tripsScreen";
   static const paymentSummery = "/paymentSummery";
+  static const walletPaymentStatus = "/walletPaymentStatus";
   static const amountTransfferedByDay = "/amountTransfferedByDay";
 }
