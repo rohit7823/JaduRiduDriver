@@ -1,10 +1,8 @@
 
-
 import 'package:jadu_ride_driver/core/domain/package.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
-
-class KmRechargeResponse extends BusinessObject {
+class KmRechargeResponse  extends BusinessObject{
   KmRechargeResponse({
     required this.status,
     required this.message,

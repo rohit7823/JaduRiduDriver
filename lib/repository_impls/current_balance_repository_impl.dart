@@ -3,11 +3,13 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/all_dates_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/get_current_balance_response.dart';
-import 'package:jadu_ride_driver/core/domain/response/kilometer_recharge_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/km_recharge_amount_response.dart';
+
 import 'package:jadu_ride_driver/core/domain/response/razorpay_necssary_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/wallet_recharge_amount_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/walletdetails_response.dart';
-import 'package:jadu_ride_driver/data/online/km_wallet_api.dart';
+import 'package:jadu_ride_driver/data/online/kmBalanceApi.dart';
+
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
@@ -46,12 +48,7 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
             3, (index) => CurrentBalanceDates(dates: "June 27", title: "Recived", sub_title: "Lorem Ipsum is simply dummy", price: 1050))));
   }
 
-  @override
-  Future<Resource<RazorpayNecessaryDataResponse>> fetchRazorpayData(String userId, String packageId) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return Success(RazorpayNecessaryDataResponse(
-        status: true, message: "Success", data: {}));
-  }
+
 
 
 
@@ -65,6 +62,21 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         details: WalletDetails(amount: 500, isAvailable: false)));
   }
 
+
+  @override
+  Future<Resource<RazorpayDataResponse>> fetchRazorpayData(String userId, String packageId) async {
+    // await Future.delayed(const Duration(seconds: 2));
+    // return Success(RazorpayNecessaryDataResponse(
+    //     status: true, message: "Success", data: {}));
+  return _kmBalanceApi
+      .razorpayData(userId, packageId)
+      .handleResponse<RazorpayDataResponse>();
+
+
+  }
+
+
+
   @override
   Future<Resource<KmRechargeResponse>> walletRechargeAmounts(String userId) async {
     return _kmBalanceApi
@@ -72,19 +84,4 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         .handleResponse<KmRechargeResponse>();
   }
 
-  // @override
-  // Future<Resource<KmRechargeResponse>>walletRechargeAmounts(String userId) async{
-  //   return _kmBalanceApi
-  //       .refillAmounts()
-  //       .handleResponse<KmRechargeResponse>();
-  //   // await Future.delayed(const Duration(seconds: 2));
-  //   // return Success(WalletRechargeAmountResponse(
-  //   //     status: true,
-  //   //     message: "Success", amount: [
-  //   //     Package(id: "1", name: "2000"),
-  //   //     Package(id: "2", name: "5000")
-  //   // ],
-  //   //     )
-  //   // );
-  // }
 }

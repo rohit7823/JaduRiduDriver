@@ -24,6 +24,7 @@ import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dar
 import 'package:jadu_ride_driver/presentation/screens/rate_customer_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page_status.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
@@ -132,7 +133,11 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
 
-      case AppRoute.profileDetails:
+      case AppRoute.walletPaymentStatus:
+        return ScreenTransitions.bottomToTopTransition(
+            RiderWalletStatus(argument: retrievedArgument));
+
+        case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(
             ProfileDetailsScreen(profileShortDescription: retrievedArgument));
 
@@ -165,13 +170,11 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             const PaymentSummeryScreen());
 
-        case AppRoute.amountTransfferedByDay:
+      case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
-
       case AppRoute.tripsScreen:
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
-
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           rideId: retrievedArgument as RideNavigationData,
@@ -192,11 +195,6 @@ class DefaultNav {
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
-
-      case AppRoute.walletPaymentStatus:
-        return ScreenTransitions.bottomToTopTransition(
-            CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
-
       default:
         return null;
     }
@@ -219,6 +217,7 @@ class DefaultNav {
       if (arguments is RideIds) {
         return arguments;
       }
+      return arguments;
     }
   }
 }

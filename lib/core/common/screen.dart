@@ -28,7 +28,6 @@ enum Screen {
   more,
   vehiclePollution,
   currentBalanceDetails,
-  walletPaymentStatus,
   todaysPaymentScreen,
   paymentSummeryScreen,
   amountTransfferedByDayScreen,
@@ -43,5 +42,6 @@ enum Screen {
   rideNavigation,
   verifyTripOtp,
   payTrip,
-  rateCustomer
+  rateCustomer,
+  walletPaymentStatus
 }

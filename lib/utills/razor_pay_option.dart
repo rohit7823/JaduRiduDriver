@@ -1,4 +1,3 @@
-
 import 'package:jadu_ride_driver/modules/app_module.dart';
 
 import 'environment.dart';

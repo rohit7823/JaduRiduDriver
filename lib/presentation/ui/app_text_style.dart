@@ -20,6 +20,15 @@ class AppTextStyle {
       color: AppColors.secondaryVariant);
 
 
+
+  static var rideSpecificDetailCountStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+      decoration: TextDecoration.none,
+      color: AppColors.primaryVariant);
+
+
   static var packageBtnStyle = TextStyle(
       fontFamily: FontConstants.fontFamilyPoppins,
       fontWeight: FontWeightManager.medium,
@@ -285,13 +294,6 @@ class AppTextStyle {
       fontSize: 18.sp,
       color: AppColors.Gray,
       decoration: TextDecoration.none);
-
-  static var rideSpecificDetailCountStyle = TextStyle(
-      fontFamily: FontConstants.fontFamilyPoppins,
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w500,
-      decoration: TextDecoration.none,
-      color: AppColors.primaryVariant);
 
   static var btnTextStyle = TextStyle(
       fontFamily: AppFonts.poppins,

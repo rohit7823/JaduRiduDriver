@@ -50,7 +50,6 @@ class _JaduWalletPaymentPageState extends State<JaduWalletPaymentPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           widget.argument.title
               .text(AppTextStyle.headingTextStyle)
               .paddings(bottom: 0.01.sw),

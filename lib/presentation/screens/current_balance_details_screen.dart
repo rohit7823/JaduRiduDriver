@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/payment_dialog.dart';
-import 'package:jadu_ride_driver/presentation/screens/driver_wallet_page.dart';
+import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/common/custom_radio_button.dart';
 import '../../core/common/dialog_state.dart';
 import '../../utills/app_date_picker.dart';
+import '../app_navigation/change_screen.dart';
 import '../custom_widgets/my_app_bar_without_logo.dart';
 import '../stores/current_balance_view_model.dart';
 import '../ui/app_button_themes.dart';
@@ -25,7 +27,6 @@ class CurrentBalanceDetailsScreen extends StatefulWidget {
       : super(key: key);
 
   String currentBalanceKM;
-
   @override
   State<CurrentBalanceDetailsScreen> createState() =>
       _CurrentBalanceDetailsScreenState();
@@ -53,18 +54,30 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
               dismissed: currentBalanceStore.dialogManager.closeDatePicker);
         }
       }),
+
+      reaction((p0) => currentBalanceStore.currentChange, (p0) {
+        if (p0 != null) {
+          ChangeScreen.to(context, p0.screen,
+              arguments: p0.argument,
+              option: p0.option,
+              onComplete: currentBalanceStore.clear);
+        }
+      }),
+
     reaction((p0) => currentBalanceStore.dialogManager.currentState, (p0) {
-            _dialogController.showWithCustomData(
+      if(p0 == DialogState.displaying) {
+        _dialogController.showWithCustomData(
             currentBalanceStore.dialogManager.data!,
             p0,
             close: currentBalanceStore.dialogManager.closeDialog,
             JaduWalletPaymentPage(
-            argument: currentBalanceStore.dialogManager.data!,
-            onSelect: currentBalanceStore.onSelectAmount,
-            current: currentBalanceStore.selectd,
-        ));
-    }),
+              argument: currentBalanceStore.dialogManager.data!,
+              onSelect: currentBalanceStore.onSelectAmount,
+              current: currentBalanceStore.selectd,
+            ));
+      }
 
+    }),
       reaction((p0) =>currentBalanceStore.msgInformer.currentMsg, (p0) {
         if (p0.isNotEmpty) {
           AppSnackBar.show(
@@ -73,7 +86,7 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
             clear: currentBalanceStore.msgInformer.clear,
           );
         }
-      })
+      }),
 
     ];
   }
@@ -123,6 +136,7 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                                 vertical: 0.05.sw, horizontal: 0.05.sw),
                             child: fitBox(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   StringProvider.currentBalanceTitle
                                       .text(AppTextStyle.currentBalanceTitle),
