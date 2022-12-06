@@ -56,9 +56,7 @@ class _RiderWalletStatusState extends State<RiderWalletStatus> {
                                 .copyWith(color: AppColors.Acadia)),
                             if (widget.argument is PaymentSuccessResponse)
                               (widget.argument as PaymentSuccessResponse)
-                                  .orderId !=
-                                  null
-                                  ? (widget.argument as PaymentSuccessResponse)
+                                  .orderId != null ? (widget.argument as PaymentSuccessResponse)
                                   .orderId!
                                   .toUpperCase()
                                   .text(AppTextStyle

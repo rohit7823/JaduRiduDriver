@@ -346,12 +346,17 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   @observable
   var updatable = false;
 
+
+
   @action
   onPaymentMethodSelected(String? value){
 
   }
 
-
+  bool backToPrevious() {
+    onChange(ScreenWithExtras(screen: Screen.accounts, argument: details!.amount ?? ""));
+    return false;
+  }
 
   _CurrentBalanceViewModel() {
     retrieveWalletDetails();
@@ -444,11 +449,10 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
 
 
-
-
   @action
   retrieveWalletDetails() async {
     gettingWalletDetailsLoader = true;
+    details = null;
     var response = await _repository.walletDetails(_prefs.userId());
     if (response is Success) {
       var data = response.data;
@@ -521,9 +525,9 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
   _onPaymentSuccess (PaymentSuccessResponse response){
     onChange(ScreenWithExtras(screen: Screen.walletPaymentStatus, argument: response));
+    retrieveWalletDetails();
     _razorpayInit!.dispose();
 
-    retrieveWalletDetails();
   }
 
   _onPaymentError(PaymentFailureResponse response){
@@ -534,5 +538,6 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   _onPaymentWallet(ExternalWalletResponse response){
     onChange(ScreenWithExtras(screen: Screen.walletPaymentStatus, argument: response));
     _razorpayInit!.dispose();
+    retrieveWalletDetails();
   }
 }

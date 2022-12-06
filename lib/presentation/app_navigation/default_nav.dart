@@ -131,7 +131,7 @@ class DefaultNav {
 
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
-            CurrentBalanceDetailsScreen(currentBalanceKM: retrievedArgument));
+            CurrentBalanceDetailsScreen());
 
       case AppRoute.walletPaymentStatus:
         return ScreenTransitions.bottomToTopTransition(

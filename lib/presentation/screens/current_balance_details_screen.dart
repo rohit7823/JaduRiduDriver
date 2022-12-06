@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/service/constants.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/payment_dialog.dart';
 import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page.dart';
@@ -23,16 +24,18 @@ import '../ui/string_provider.dart';
 import '../ui/theme.dart';
 
 class CurrentBalanceDetailsScreen extends StatefulWidget {
-  CurrentBalanceDetailsScreen({Key? key, required this.currentBalanceKM})
-      : super(key: key);
+  CurrentBalanceDetailsScreen({
+    Key? key,
+  }) : super(key: key);
 
-  String currentBalanceKM;
+  //String currentBalanceKM;
   @override
   State<CurrentBalanceDetailsScreen> createState() =>
       _CurrentBalanceDetailsScreenState();
 }
 
-class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScreen> {
+class _CurrentBalanceDetailsScreenState
+    extends State<CurrentBalanceDetailsScreen> {
   late final CurrentBalanceStore currentBalanceStore;
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
@@ -54,31 +57,26 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
               dismissed: currentBalanceStore.dialogManager.closeDatePicker);
         }
       }),
-
       reaction((p0) => currentBalanceStore.currentChange, (p0) {
         if (p0 != null) {
-          ChangeScreen.to(context, p0.screen,
-              arguments: p0.argument,
-              option: p0.option,
-              onComplete: currentBalanceStore.clear);
+          ChangeScreen.from(context, p0.screen,
+              result: p0.argument, onCompleted: currentBalanceStore.clear);
         }
       }),
-
-    reaction((p0) => currentBalanceStore.dialogManager.currentState, (p0) {
-      if(p0 == DialogState.displaying) {
-        _dialogController.showWithCustomData(
-            currentBalanceStore.dialogManager.data!,
-            p0,
-            close: currentBalanceStore.dialogManager.closeDialog,
-            JaduWalletPaymentPage(
-              argument: currentBalanceStore.dialogManager.data!,
-              onSelect: currentBalanceStore.onSelectAmount,
-              current: currentBalanceStore.selectd,
-            ));
-      }
-
-    }),
-      reaction((p0) =>currentBalanceStore.msgInformer.currentMsg, (p0) {
+      reaction((p0) => currentBalanceStore.dialogManager.currentState, (p0) {
+        if (p0 == DialogState.displaying) {
+          _dialogController.showWithCustomData(
+              currentBalanceStore.dialogManager.data!,
+              p0,
+              close: currentBalanceStore.dialogManager.closeDialog,
+              JaduWalletPaymentPage(
+                argument: currentBalanceStore.dialogManager.data!,
+                onSelect: currentBalanceStore.onSelectAmount,
+                current: currentBalanceStore.selectd,
+              ));
+        }
+      }),
+      reaction((p0) => currentBalanceStore.msgInformer.currentMsg, (p0) {
         if (p0.isNotEmpty) {
           AppSnackBar.show(
             context,
@@ -87,7 +85,6 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
           );
         }
       }),
-
     ];
   }
 
@@ -99,17 +96,22 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBarWithOutLogo(),
-      body: Column(
-        children: [
-          expand(flex: 3, child: _upperSideContent()),
-          expand(flex: 7, child: _lowerSideContent())
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        return currentBalanceStore.backToPrevious();
+      },
+      child: Scaffold(
+        appBar: MyAppBarWithOutLogo(
+          onPop: currentBalanceStore.backToPrevious,
+        ),
+        body: Column(
+          children: [
+            expand(flex: 3, child: _upperSideContent()),
+            expand(flex: 7, child: _lowerSideContent())
+          ],
+        ),
       ),
     );
   }
@@ -142,10 +144,21 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                                       .text(AppTextStyle.currentBalanceTitle),
                                   Row(
                                     children: [
-                                      widget.currentBalanceKM.text(
-                                          AppTextStyle.currentBalanceDetails),
-                                      StringProvider.currentBalanceKM_TXT.text(
-                                          AppTextStyle.currentBalanceDetailsKM),
+                                      Observer(
+                                          builder: (BuildContext context) =>
+                                              currentBalanceStore.details !=
+                                                      null
+                                                  ? Text(
+                                                      "${currentBalanceStore.details!.amount}KM",
+                                                      style: AppTextStyle
+                                                          .currentBalanceDetails,
+                                                    )
+                                                  : Text("fetching...")),
+
+                                      // widget.currentBalanceKM.text(
+                                      //     AppTextStyle.currentBalanceDetails),
+                                      // StringProvider.currentBalanceKM_TXT.text(
+                                      //     AppTextStyle.currentBalanceDetailsKM),
                                     ],
                                   )
                                 ],
@@ -175,15 +188,16 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.20.sw),
           child: Observer(
-            builder: (context) =>ElevatedButton(
-              onPressed:  currentBalanceStore.openingPaymentGatewayLoader ? null : currentBalanceStore.onClickRefillWallet,
+            builder: (context) => ElevatedButton(
+              onPressed: currentBalanceStore.openingPaymentGatewayLoader
+                  ? null
+                  : currentBalanceStore.onClickRefillWallet,
               style: AppButtonThemes.defaultStyle.copyWith(
                   backgroundColor:
-                  MaterialStateProperty.all(AppColors.primaryVariant)),
-              child:
-              StringProvider.rechargeNow.text(AppTextStyle.partnerButtonTxt),
+                      MaterialStateProperty.all(AppColors.primaryVariant)),
+              child: StringProvider.rechargeNow
+                  .text(AppTextStyle.partnerButtonTxt),
             ),
-
           ),
         ),
       ],
@@ -202,13 +216,13 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                   child: Column(
                     children: [
                       Row(
-
                         children: [
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
-                              onTap: (){
-                                currentBalanceStore.onRadioSelected(DriverTransactionType.received);
+                              onTap: () {
+                                currentBalanceStore.onRadioSelected(
+                                    DriverTransactionType.received);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -234,8 +248,9 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
-                              onTap: (){
-                                currentBalanceStore.onRadioSelected(DriverTransactionType.paid);
+                              onTap: () {
+                                currentBalanceStore.onRadioSelected(
+                                    DriverTransactionType.paid);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -266,7 +281,8 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
                               border: Border.all(color: AppColors.appGreens),
                               boxShadow: const [
                                 BoxShadow(
@@ -288,13 +304,14 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Observer(builder: (BuildContext context) {
+                                        Observer(
+                                            builder: (BuildContext context) {
                                           return Text(
                                               currentBalanceStore
                                                   .finalCurrentDate,
                                               style: TextStyle(
-                                                  color:
-                                                      AppColors.secondaryVariant,
+                                                  color: AppColors
+                                                      .secondaryVariant,
                                                   fontSize: 16.sp));
                                         })
                                         /**/
@@ -307,9 +324,7 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                                     child: Icon(
                                       Icons.date_range,
                                       color: Colors.red,
-                                    )
-
-                                ),
+                                    )),
                               ],
                             ),
                           ),
@@ -320,31 +335,34 @@ class _CurrentBalanceDetailsScreenState extends State<CurrentBalanceDetailsScree
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.02.sw),
                           child: Observer(builder: (BuildContext context) {
-                            return currentBalanceStore.datesSelectedListLoader? Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 0.15.sw),
-                                        child: SizedBox(
-                                            height: 0.10.sh,
-                                            width: 0.10.sh,
-                                            child: Padding(
-                                                padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                                                child: const CircularProgressIndicator())),
-                                      ),
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0.02.sw,
-                                          horizontal: 0.02.sw),
-                                      itemCount: currentBalanceStore
-                                          .currentBalanceList.length,
-                                      itemBuilder: (context, index) =>
-                                          listItem(index),
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                              separatedBox(),
-                                    );
+                            return currentBalanceStore.datesSelectedListLoader
+                                ? Align(
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 0.15.sw),
+                                      child: SizedBox(
+                                          height: 0.10.sh,
+                                          width: 0.10.sh,
+                                          child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 0.05.sw,
+                                                  horizontal: 0.05.sw),
+                                              child:
+                                                  const CircularProgressIndicator())),
+                                    ),
+                                  )
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0.02.sw, horizontal: 0.02.sw),
+                                    itemCount: currentBalanceStore
+                                        .currentBalanceList.length,
+                                    itemBuilder: (context, index) =>
+                                        listItem(index),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            separatedBox(),
+                                  );
                             //);
                           }),
                         ),

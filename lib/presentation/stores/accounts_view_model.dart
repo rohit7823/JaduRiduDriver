@@ -32,6 +32,15 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
   @observable
   String currentBalance = "";
 
+
+
+  refreshData(Object? flag) {
+    if (flag != null) {
+      debugPrint("FROM CurrentBal $flag");
+      getAcctountSummeryData();
+    }
+  }
+
   @action
   getAcctountSummeryData() async {
     isLoading = true;
@@ -61,8 +70,11 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
   //current balance click........
   onCurrentBalance() {
     onChange(ScreenWithExtras(
-        screen: Screen.currentBalanceDetails, argument: currentBalance));
+        screen: Screen.currentBalanceDetails));
   }
+
+
+
 
   //todays payment click.........
   onTodaysPayment() {

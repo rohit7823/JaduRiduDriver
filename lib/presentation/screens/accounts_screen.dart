@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/accounts_view_model.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -34,10 +35,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
     super.initState();
     _disposers = [
       reaction((p0) => accountsStore.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
+        if (p0 != null) {
           widget.sharedStore.onChange(p0);
         }
-      })
+      }),
+      reaction((p0) => null, (p0) { })
     ];
   }
 

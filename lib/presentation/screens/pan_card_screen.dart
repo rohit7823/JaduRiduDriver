@@ -70,7 +70,7 @@ class _PancardScreenState extends State<PancardScreen> {
         }
       }),
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
+        if (p0 != null) {
           ChangeScreen.from(context, p0.screen,
               result: p0.argument, onCompleted: _store.clear);
         }

@@ -60,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
             ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: widget.sharedStore.clear);
+                arguments: p0.argument, onComplete: widget.sharedStore.clear, fromScreen: (data) {debugPrint("FROMCURRENT Bal $data");});
           } else if (p0.screen == Screen.profileDetailsScreen) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
