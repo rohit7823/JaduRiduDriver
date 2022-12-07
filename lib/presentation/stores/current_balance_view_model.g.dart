@@ -191,6 +191,22 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
+  late final _$amountAtom =
+      Atom(name: '_CurrentBalanceViewModel.amount', context: context);
+
+  @override
+  String? get amount {
+    _$amountAtom.reportRead();
+    return super.amount;
+  }
+
+  @override
+  set amount(String? value) {
+    _$amountAtom.reportWrite(value, super.amount, () {
+      super.amount = value;
+    });
+  }
+
   late final _$walletValueAtom =
       Atom(name: '_CurrentBalanceViewModel.walletValue', context: context);
 
@@ -331,6 +347,7 @@ selected: ${selected},
 openingPaymentGatewayLoader: ${openingPaymentGatewayLoader},
 gettingWalletDetailsLoader: ${gettingWalletDetailsLoader},
 details: ${details},
+amount: ${amount},
 walletValue: ${walletValue},
 updatable: ${updatable}
     ''';

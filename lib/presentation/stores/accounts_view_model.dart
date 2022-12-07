@@ -74,8 +74,6 @@ abstract class _AccountsViewModels extends AppNavigator with Store {
   }
 
 
-
-
   //todays payment click.........
   onTodaysPayment() {
     onChange(ScreenWithExtras(

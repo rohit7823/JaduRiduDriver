@@ -39,7 +39,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
           widget.sharedStore.onChange(p0);
         }
       }),
-      reaction((p0) => null, (p0) { })
+      reaction((p0) => widget.sharedStore.currentBalance, (p0) {
+        if (p0 != null){
+          accountsStore.currentBalance = p0;
+        }
+      })
     ];
   }
 
@@ -174,7 +178,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 padding: EdgeInsets.only(top: 5, bottom: 10, right: 5, left: 5),
                 color: Color(0x56ffffff),
                 child: InkWell(
-                  onTap: accountsStore.onCurrentBalance,
+                 onTap: accountsStore.onCurrentBalance,
                   child: Container(
                     decoration: const BoxDecoration(
                         color: Colors.white,
@@ -204,7 +208,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                   children: [
                                     Observer(
                                       builder: (context) {
-                                        return Text(accountsStore.currentBalance,
+                                        return Text(accountsStore.currentBalance ,
                                             style: TextStyle(
                                                 color: AppColors.secondaryVariant,
                                                 fontSize: 30.sp,

@@ -12,23 +12,27 @@ String driverWalletResponseToJson(DriverWalletResponse data) =>
 
 class DriverWalletResponse extends BusinessObject {
   DriverWalletResponse(
-      {required this.status, required this.message, required this.details});
+      {required this.status, required this.message, required this.amount});
 
   bool status;
   String message;
-  WalletDetails details;
+  String amount;
+  //WalletDetails details;
 
   factory DriverWalletResponse.fromJson(Map<String, dynamic> json) =>
       DriverWalletResponse(
         status: json["status"],
         message: json["message"],
-        details: WalletDetails.fromJson(json["details"]),
+        amount: json["amount"]
+
+       // details: WalletDetails.fromJson(json["details"]),
       );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "details": details.toJson(),
+    "amount": amount,
+    //"details": details.toJson(),
   };
 }
 

@@ -57,5 +57,5 @@ class AppButtonThemes {
       fixedSize: MaterialStateProperty.all(Size(392.w, 65.h)),
       backgroundColor: MaterialStateProperty.all(AppColors.Black),
       shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))));
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r))));
 }

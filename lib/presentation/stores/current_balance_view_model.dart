@@ -341,6 +341,9 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   WalletDetails? details;
 
   @observable
+  String? amount;
+
+  @observable
   var walletValue = "";
 
   @observable
@@ -354,7 +357,7 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   }
 
   bool backToPrevious() {
-    onChange(ScreenWithExtras(screen: Screen.accounts, argument: details!.amount ?? ""));
+    onChange(ScreenWithExtras(screen: Screen.accounts, argument: amount ?? ""));
     return false;
   }
 
@@ -452,14 +455,17 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   @action
   retrieveWalletDetails() async {
     gettingWalletDetailsLoader = true;
-    details = null;
+    //details = null;
+
     var response = await _repository.walletDetails(_prefs.userId());
     if (response is Success) {
       var data = response.data;
       gettingWalletDetailsLoader = false;
       switch (data != null && data.status) {
         case true:
-          details = data!.details;
+          //details = data!.details;
+
+          amount = data!.amount;
           break;
         default:
           msgInformer.informUi(data?.message ?? "");

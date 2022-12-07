@@ -106,6 +106,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$currentBalanceAtom =
+      Atom(name: '_SharedStore.currentBalance', context: context);
+
+  @override
+  String? get currentBalance {
+    _$currentBalanceAtom.reportRead();
+    return super.currentBalance;
+  }
+
+  @override
+  set currentBalance(String? value) {
+    _$currentBalanceAtom.reportWrite(value, super.currentBalance, () {
+      super.currentBalance = value;
+    });
+  }
+
   late final _$rideFareResponseAtom =
       Atom(name: '_SharedStore.rideFareResponse', context: context);
 
@@ -191,6 +207,17 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic onChangeCurrentBalance(String data) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.onChangeCurrentBalance');
+    try {
+      return super.onChangeCurrentBalance(data);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic _setTotalRideFare(TotalRideFareResponse response) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore._setTotalRideFare');
@@ -210,6 +237,7 @@ gettingDataLoader: ${gettingDataLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
+currentBalance: ${currentBalance},
 rideFareResponse: ${rideFareResponse}
     ''';
   }

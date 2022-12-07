@@ -79,7 +79,7 @@ class AppTextStyle {
 
   static var currentBalanceTitle = TextStyle(
       fontFamily: AppFonts.poppins,
-      fontSize: 30.sp,
+      fontSize: 40.sp,
       fontWeight: FontWeight.normal,
       decoration: TextDecoration.none,
       color: AppColors.secondaryVariant);

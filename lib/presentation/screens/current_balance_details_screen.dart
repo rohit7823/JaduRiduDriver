@@ -108,7 +108,7 @@ class _CurrentBalanceDetailsScreenState
         ),
         body: Column(
           children: [
-            expand(flex: 3, child: _upperSideContent()),
+            expand(flex: 4, child: _upperSideContent()),
             expand(flex: 7, child: _lowerSideContent())
           ],
         ),
@@ -135,7 +135,7 @@ class _CurrentBalanceDetailsScreenState
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 0.05.sw, horizontal: 0.05.sw),
+                                vertical: 0.07.sw, horizontal: 0.06.sw),
                             child: fitBox(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,15 +146,24 @@ class _CurrentBalanceDetailsScreenState
                                     children: [
                                       Observer(
                                           builder: (BuildContext context) =>
-                                              currentBalanceStore.details !=
+                                              currentBalanceStore.amount !=
                                                       null
                                                   ? Text(
-                                                      "${currentBalanceStore.details!.amount}KM",
+                                                      "${currentBalanceStore.amount}KM",
                                                       style: AppTextStyle
                                                           .currentBalanceDetails,
                                                     )
                                                   : Text("fetching...")),
-
+                                      // Observer(
+                                      //     builder: (BuildContext context) =>
+                                      //     currentBalanceStore.details !=
+                                      //         null
+                                      //         ? Text(
+                                      //       "${currentBalanceStore.details!.amount}KM",
+                                      //       style: AppTextStyle
+                                      //           .currentBalanceDetails,
+                                      //     )
+                                      //         : Text("fetching...")),
                                       // widget.currentBalanceKM.text(
                                       //     AppTextStyle.currentBalanceDetails),
                                       // StringProvider.currentBalanceKM_TXT.text(
@@ -170,7 +179,7 @@ class _CurrentBalanceDetailsScreenState
                         flex: 3,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: 0.03.sw, horizontal: 0.05.sw),
+                              vertical: 0.04.sw, horizontal: 0.05.sw),
                           child: fitBox(
                               child: SvgPicture.asset(ImageAssets.balanceCar)),
                         ))
@@ -185,8 +194,9 @@ class _CurrentBalanceDetailsScreenState
                 ))
           ],
         ),
+
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.20.sw),
+          padding: EdgeInsets.symmetric(vertical: 0.06.sw, horizontal: 0.25.sw),
           child: Observer(
             builder: (context) => ElevatedButton(
               onPressed: currentBalanceStore.openingPaymentGatewayLoader
@@ -204,108 +214,279 @@ class _CurrentBalanceDetailsScreenState
     );
   }
 
+  // Widget _lowerSideContent1() {
+  //   return Column(
+  //     children: [
+  //       Observer(
+  //         builder: (BuildContext context) {
+  //           return Padding(
+  //             padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+  //             child: Column(
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Expanded(
+  //                       flex: 1,
+  //                       child: GestureDetector(
+  //                         onTap: () {
+  //                           currentBalanceStore.onRadioSelected(
+  //                               DriverTransactionType.received);
+  //                         },
+  //                         child: Row(
+  //                           mainAxisAlignment: MainAxisAlignment.center,
+  //                           children: [
+  //                             Radio(
+  //                               value: DriverTransactionType.received,
+  //                               groupValue: currentBalanceStore.selected,
+  //                               onChanged:
+  //                                   currentBalanceStore.onRadioSelected,
+  //                               activeColor: Colors.green,
+  //                             ),
+  //                             const Text(
+  //                               "Received",
+  //                               style: TextStyle(
+  //                                   fontWeight: FontWeight.w500,
+  //                                   fontSize: 18,
+  //                                   color: Colors.green),
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       flex: 1,
+  //                       child: GestureDetector(
+  //                         onTap: () {
+  //                           currentBalanceStore.onRadioSelected(
+  //                               DriverTransactionType.paid);
+  //                         },
+  //                         child: Row(
+  //                           mainAxisAlignment: MainAxisAlignment.center,
+  //                           children: [
+  //                             Radio(
+  //                               value: DriverTransactionType.paid,
+  //                               groupValue: currentBalanceStore.selected,
+  //                               onChanged:
+  //                                   currentBalanceStore.onRadioSelected,
+  //                               activeColor: Colors.red,
+  //                             ),
+  //                             const Text("Paid",
+  //                                 style: TextStyle(
+  //                                     fontWeight: FontWeight.w500,
+  //                                     fontSize: 18,
+  //                                     color: Colors.red))
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 SizedBox(
+  //                   height: 0.03.sw,
+  //                 ),
+  //                 InkWell(
+  //                   onTap: currentBalanceStore.openDatePicker,
+  //                   child: Container(
+  //                     decoration: BoxDecoration(
+  //                         color: Colors.white,
+  //                         borderRadius:
+  //                             const BorderRadius.all(Radius.circular(15)),
+  //                         border: Border.all(color: AppColors.appGreens),
+  //                         boxShadow: const [
+  //                           BoxShadow(
+  //                               color: Color(0x1a000000),
+  //                               blurRadius: 20,
+  //                               spreadRadius: 0,
+  //                               offset: Offset(0, 10))
+  //                         ]),
+  //                     child: Padding(
+  //                       padding: EdgeInsets.symmetric(
+  //                           vertical: 0.05.sw, horizontal: 0.05.sw),
+  //                       child: Row(
+  //                         children: [
+  //                           Expanded(
+  //                             flex: 8,
+  //                             child: Align(
+  //                               alignment: Alignment.topLeft,
+  //                               child: Column(
+  //                                 crossAxisAlignment:
+  //                                     CrossAxisAlignment.start,
+  //                                 children: [
+  //                                   Observer(
+  //                                       builder: (BuildContext context) {
+  //                                     return Text(
+  //                                         currentBalanceStore
+  //                                             .finalCurrentDate,
+  //                                         style: TextStyle(
+  //                                             color: AppColors
+  //                                                 .secondaryVariant,
+  //                                             fontSize: 16.sp));
+  //                                   })
+  //                                   /**/
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           const Expanded(
+  //                               flex: 1,
+  //                               child: Icon(
+  //                                 Icons.date_range,
+  //                                 color: Colors.red,
+  //                               )),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   color: Colors.orange,
+  //                   child: Padding(
+  //                     padding: EdgeInsets.symmetric(vertical: 0.02.sw),
+  //                     child: Observer(builder: (BuildContext context) {
+  //                       return currentBalanceStore.datesSelectedListLoader
+  //                           ? Align(
+  //                               alignment: Alignment.center,
+  //                               child: Padding(
+  //                                 padding: EdgeInsets.only(top: 0.15.sw),
+  //                                 child: SizedBox(
+  //                                     height: 0.10.sh,
+  //                                     width: 0.10.sh,
+  //                                     child: Padding(
+  //                                         padding: EdgeInsets.symmetric(
+  //                                             vertical: 0.05.sw,
+  //                                             horizontal: 0.05.sw),
+  //                                         child:
+  //                                             const CircularProgressIndicator())),
+  //                               ),
+  //                             )
+  //                           : ListView.separated(
+  //                               shrinkWrap: true,
+  //                               padding: EdgeInsets.symmetric(
+  //                                   vertical: 0.02.sw, horizontal: 0.02.sw),
+  //                               itemCount: currentBalanceStore
+  //                                   .currentBalanceList.length,
+  //                               itemBuilder: (context, index) =>
+  //                                   listItem(index),
+  //                               separatorBuilder:
+  //                                   (BuildContext context, int index) =>
+  //                                       separatedBox(),
+  //                             );
+  //                       //);
+  //                     }),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget _lowerSideContent() {
-    return Container(
-      child: Column(
-        children: [
-          Observer(
-            builder: (BuildContext context) {
-              return Container(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                  child: Column(
+    return Column(
+      children: [
+        Expanded(
+            flex: 4,
+            child:
+            Column(
+              children: [
+                Observer(builder: (BuildContext context){
+                  return Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: GestureDetector(
-                              onTap: () {
-                                currentBalanceStore.onRadioSelected(
-                                    DriverTransactionType.received);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Radio(
-                                    value: DriverTransactionType.received,
-                                    groupValue: currentBalanceStore.selected,
-                                    onChanged:
-                                        currentBalanceStore.onRadioSelected,
-                                    activeColor: Colors.green,
-                                  ),
-                                  Text(
-                                    "Received",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color: Colors.green),
-                                  )
-                                ],
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            currentBalanceStore.onRadioSelected(
+                                DriverTransactionType.received);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: DriverTransactionType.received,
+                                groupValue: currentBalanceStore.selected,
+                                onChanged:
+                                currentBalanceStore.onRadioSelected,
+                                activeColor: Colors.green,
                               ),
-                            ),
+                              const Text(
+                                "Received",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.green),
+                              )
+                            ],
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: GestureDetector(
-                              onTap: () {
-                                currentBalanceStore.onRadioSelected(
-                                    DriverTransactionType.paid);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Radio(
-                                    value: DriverTransactionType.paid,
-                                    groupValue: currentBalanceStore.selected,
-                                    onChanged:
-                                        currentBalanceStore.onRadioSelected,
-                                    activeColor: Colors.red,
-                                  ),
-                                  Text("Paid",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                          color: Colors.red))
-                                ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            currentBalanceStore.onRadioSelected(
+                                DriverTransactionType.paid);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: DriverTransactionType.paid,
+                                groupValue: currentBalanceStore.selected,
+                                onChanged:
+                                currentBalanceStore.onRadioSelected,
+                                activeColor: Colors.red,
                               ),
-                            ),
+                              const Text("Paid",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: Colors.red))
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 0.03.sw,
-                      ),
-                      InkWell(
-                        onTap: currentBalanceStore.openDatePicker,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              border: Border.all(color: AppColors.appGreens),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Color(0x1a000000),
-                                    blurRadius: 20,
-                                    spreadRadius: 0,
-                                    offset: Offset(0, 10))
-                              ]),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 0.05.sw, horizontal: 0.05.sw),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 8,
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Observer(
-                                            builder: (BuildContext context) {
+                    ],
+                  );
+                }),
+                SizedBox(
+                  height: 0.03.sw,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
+                  child: InkWell(
+                    onTap: currentBalanceStore.openDatePicker,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(color: AppColors.appGreens),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color(0x1a000000),
+                                blurRadius: 20,
+                                spreadRadius: 0,
+                                offset: Offset(0, 0))
+                          ]),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.05.sw, horizontal: 0.05.sw),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Observer(
+                                        builder: (BuildContext context) {
                                           return Text(
                                               currentBalanceStore
                                                   .finalCurrentDate,
@@ -314,69 +495,69 @@ class _CurrentBalanceDetailsScreenState
                                                       .secondaryVariant,
                                                   fontSize: 16.sp));
                                         })
-                                        /**/
-                                      ],
-                                    ),
-                                  ),
+                                    /**/
+                                  ],
                                 ),
-                                const Expanded(
-                                    flex: 1,
-                                    child: Icon(
-                                      Icons.date_range,
-                                      color: Colors.red,
-                                    )),
-                              ],
+                              ),
                             ),
-                          ),
+                            const Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.date_range,
+                                  color: Colors.red,
+                                )),
+                          ],
                         ),
                       ),
-                      Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-                          child: Observer(builder: (BuildContext context) {
-                            return currentBalanceStore.datesSelectedListLoader
-                                ? Align(
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(top: 0.15.sw),
-                                      child: SizedBox(
-                                          height: 0.10.sh,
-                                          width: 0.10.sh,
-                                          child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 0.05.sw,
-                                                  horizontal: 0.05.sw),
-                                              child:
-                                                  const CircularProgressIndicator())),
-                                    ),
-                                  )
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 0.02.sw, horizontal: 0.02.sw),
-                                    itemCount: currentBalanceStore
-                                        .currentBalanceList.length,
-                                    itemBuilder: (context, index) =>
-                                        listItem(index),
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            separatedBox(),
-                                  );
-                            //);
-                          }),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+              ],
+            )
+        ),
+        Expanded(
+          flex: 10,
+          child:  Container(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.02.sw),
+              child: Observer(builder: (BuildContext context) {
+                return currentBalanceStore.datesSelectedListLoader
+                    ? Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0.15.sw),
+                    child: SizedBox(
+                        height: 0.10.sh,
+                        width: 0.10.sh,
+                        child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0.05.sw,
+                                horizontal: 0.05.sw),
+                            child:
+                            const CircularProgressIndicator())),
+                  ),
+                )
+                    : ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0.02.sw, horizontal: 0.02.sw),
+                  itemCount: currentBalanceStore
+                      .currentBalanceList.length,
+                  itemBuilder: (context, index) =>
+                      listItem(index),
+                  separatorBuilder:
+                      (BuildContext context, int index) =>
+                      separatedBox(),
+                );
+                //);
+              }),
+            ),
+          ),),
+      ],
     );
   }
+
 
   Widget listItem(int index) {
     return Container(
@@ -391,7 +572,7 @@ class _CurrentBalanceDetailsScreenState
                 color: Color(0x1a000000),
                 blurRadius: 20,
                 spreadRadius: 0,
-                offset: Offset(0, 10))
+                offset: Offset(0, 0))
           ]),
       child: Column(
         children: [
@@ -413,7 +594,7 @@ class _CurrentBalanceDetailsScreenState
                                   color: Color(0x1a000000),
                                   blurRadius: 20,
                                   spreadRadius: 0,
-                                  offset: Offset(0, 10))
+                                  offset: Offset(0, 0))
                             ]),
                         child: Padding(
                           padding: EdgeInsets.symmetric(

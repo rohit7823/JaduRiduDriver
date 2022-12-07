@@ -45,7 +45,7 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         status: true,
         message: "Success",
         currentBalanceDates: List.generate(
-            3, (index) => CurrentBalanceDates(dates: "June 27", title: "Recived", sub_title: "Lorem Ipsum is simply dummy", price: 1050))));
+            10, (index) => CurrentBalanceDates(dates: "June 27", title: "Recived", sub_title: "Lorem Ipsum is simply dummy", price: 1050))));
   }
 
 
@@ -59,7 +59,9 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
     return Success(DriverWalletResponse(
         status: true,
         message: "Success",
-        details: WalletDetails(amount: 500, isAvailable: false)));
+        amount:"1500",
+        //details: WalletDetails(amount: 500, isAvailable: false),
+    ));
   }
 
 
