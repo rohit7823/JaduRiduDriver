@@ -36,10 +36,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _store = DutyStore(
-        TabController(length: DriverStatus.values.length, vsync: this));
-    _dialogController =
-        DialogController(dialog: MyDialogImpl(buildContext: context));
+    _store = DutyStore(TabController(length: DriverStatus.values.length, vsync: this));
+    _dialogController = DialogController(dialog: MyDialogImpl(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
 
@@ -71,6 +69,11 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
           AppSnackBar.show(context, message: p0, clear: () {
             widget.sharedStore.driverBookings.alreadyBookedMsg = "";
           });
+        }
+      }),
+      reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null) {
+          widget.sharedStore.onChange(p0);
         }
       }),
       reaction((p0) => widget.sharedStore.driverBookings.onRideData, (p0) {
@@ -152,11 +155,15 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             )),
                         expand(
                             flex: 2,
-                            child: SvgPicture.asset(
-                              ImageAssets.notifications,
-                              color: AppColors.Acadia,
-                              width: 30,
-                              height: 30,
+
+                            child: GestureDetector(
+                              onTap: _store.onNotificationScreen,
+                              child: SvgPicture.asset(
+                                ImageAssets.notifications,
+                                color: AppColors.Acadia,
+                                width: 30,
+                                height: 30,
+                              ),
                             ))
                       ],
                     ),

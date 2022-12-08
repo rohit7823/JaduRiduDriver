@@ -16,6 +16,7 @@ import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/notification_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pay_trip_screen.dart';
@@ -132,6 +133,10 @@ class DefaultNav {
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
             CurrentBalanceDetailsScreen());
+
+      case AppRoute.notification:
+        return ScreenTransitions.rightToLeftTransition(
+            NotificationScreen());
 
       case AppRoute.walletPaymentStatus:
         return ScreenTransitions.bottomToTopTransition(

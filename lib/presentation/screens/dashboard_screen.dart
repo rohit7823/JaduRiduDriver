@@ -91,9 +91,10 @@ class _DashboardScreenState extends State<DashboardScreen>
           } else if (p0.screen == Screen.todaysPaymentScreen) {
             ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
-          } else if (p0.screen == Screen.paymentSummeryScreen) {
-            ChangeScreen.to(context, p0.screen,
-                onComplete: widget.sharedStore.clear);
+          }else if (p0.screen == Screen.todaysPaymentScreen) {
+            ChangeScreen.to(context, p0.screen, onComplete: widget.sharedStore.clear);
+          } else if (p0.screen == Screen.notification) {
+            ChangeScreen.to(context, p0.screen, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.amountTransfferedByDayScreen) {
             ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);

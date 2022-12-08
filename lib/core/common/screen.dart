@@ -28,6 +28,7 @@ enum Screen {
   more,
   vehiclePollution,
   currentBalanceDetails,
+  notification,
   todaysPaymentScreen,
   paymentSummeryScreen,
   amountTransfferedByDayScreen,

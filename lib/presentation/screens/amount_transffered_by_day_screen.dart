@@ -98,7 +98,7 @@ class _AmountTransfferedbyDayScreenState extends State<AmountTransfferedbyDayScr
                 color: Color(0x1a000000),
                 blurRadius: 20,
                 spreadRadius: 0,
-                offset: Offset(0, 10))
+                offset: Offset(0, 0))
           ]),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),

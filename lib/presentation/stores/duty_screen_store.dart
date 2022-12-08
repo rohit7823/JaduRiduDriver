@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
 import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
@@ -12,13 +14,14 @@ import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:jadu_ride_driver/utills/environment.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:mobx/mobx.dart';
 
 part 'duty_screen_store.g.dart';
 
 class DutyStore = _DutyScreenStore with _$DutyStore;
 
-abstract class _DutyScreenStore with Store {
+abstract class _DutyScreenStore  extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final _repository = dependency<DriverDutyRepository>();
   final dialogManager = DialogManager();
@@ -45,6 +48,10 @@ abstract class _DutyScreenStore with Store {
 
   @observable
   String informMessage = "";
+
+
+  @observable
+  String notificationStatus =  "";
 
   _DutyScreenStore(this.tabController) {
     _driverStatus();
@@ -140,5 +147,11 @@ abstract class _DutyScreenStore with Store {
       gettingSummaryLoader = false;
       errorMsg = response.message ?? "";
     }
+  }
+
+
+  onNotificationScreen(){
+    onChange(ScreenWithExtras(
+        screen: Screen.notification));
   }
 }

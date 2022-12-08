@@ -139,6 +139,15 @@ class ChangeScreen {
         );
         break;
 
+      case Screen.notification:
+        _navigate(
+            context,
+            AppRoute.notification,
+            arguments: arguments,
+            onComplete: onComplete,
+        );
+        break;
+
       case Screen.profileDetailsScreen:
         _navigate(
           context,

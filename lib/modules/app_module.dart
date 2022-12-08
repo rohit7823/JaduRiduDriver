@@ -310,6 +310,7 @@ import 'package:jadu_ride_driver/core/repository/driver_live_location_repository
 import 'package:jadu_ride_driver/core/repository/identify_details_repository.dart';
 import 'package:jadu_ride_driver/core/repository/incentive_repository.dart';
 import 'package:jadu_ride_driver/core/repository/left_side_exterior_repository.dart';
+import 'package:jadu_ride_driver/core/repository/notification_repository.dart';
 import 'package:jadu_ride_driver/core/repository/number_input_repository.dart';
 import 'package:jadu_ride_driver/core/repository/pan_card_repository.dart';
 import 'package:jadu_ride_driver/core/repository/partner_care_repository.dart';
@@ -346,6 +347,7 @@ import 'package:jadu_ride_driver/repository_impls/driver_live_location_repositor
 import 'package:jadu_ride_driver/repository_impls/identify_details_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/incentive_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/left_side_exterior_repository_impl.dart';
+import 'package:jadu_ride_driver/repository_impls/notification_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/number_input_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/pan_card_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/partner_care_repository_impl.dart';
@@ -555,6 +557,9 @@ class AppModule {
             () => HelpPhoneNumberRepositoryImpl(dio));
     dependency.registerLazySingleton<EmergencyRepository>(
             () => EmergencyRepositoryImpl());
+
+    dependency.registerLazySingleton<NotificationRepository>(
+            () => NotificationRepositoryImpl());
 
     dependency.registerLazySingleton<PushNotification>(
             () => FirebaseNotification(fireBaseMessaging));

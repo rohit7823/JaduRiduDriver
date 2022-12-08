@@ -309,6 +309,7 @@ class AppTextStyle {
       color: AppColors.Black,
       decoration: TextDecoration.none);
 
+
   static var introHeadingStyle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontWeight: FontWeight.normal,
@@ -442,6 +443,13 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
     fontWeight: FontWeight.w600,
     color: const Color(0xFFFFFFFF),
+    fontSize: 20.sp,
+  );
+
+  static var backButtonTxt = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xff212121),
     fontSize: 20.sp,
   );
 
