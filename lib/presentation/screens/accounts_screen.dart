@@ -288,7 +288,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                               flex: 1,
                               child: Icon(
                 Icons.keyboard_arrow_right,

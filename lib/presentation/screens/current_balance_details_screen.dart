@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jadu_ride_driver/core/common/amount_method.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/service/constants.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
@@ -43,7 +44,7 @@ class _CurrentBalanceDetailsScreenState
   @override
   void initState() {
     currentBalanceStore = CurrentBalanceStore();
-    currentBalanceStore.allDatelistItem();
+    currentBalanceStore.datelistItem();
     currentBalanceStore.currentDate();
     _dialogController =
         DialogController(dialog: PaymentDialog(buildContext: context));
@@ -214,176 +215,6 @@ class _CurrentBalanceDetailsScreenState
     );
   }
 
-  // Widget _lowerSideContent1() {
-  //   return Column(
-  //     children: [
-  //       Observer(
-  //         builder: (BuildContext context) {
-  //           return Padding(
-  //             padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-  //             child: Column(
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Expanded(
-  //                       flex: 1,
-  //                       child: GestureDetector(
-  //                         onTap: () {
-  //                           currentBalanceStore.onRadioSelected(
-  //                               DriverTransactionType.received);
-  //                         },
-  //                         child: Row(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: [
-  //                             Radio(
-  //                               value: DriverTransactionType.received,
-  //                               groupValue: currentBalanceStore.selected,
-  //                               onChanged:
-  //                                   currentBalanceStore.onRadioSelected,
-  //                               activeColor: Colors.green,
-  //                             ),
-  //                             const Text(
-  //                               "Received",
-  //                               style: TextStyle(
-  //                                   fontWeight: FontWeight.w500,
-  //                                   fontSize: 18,
-  //                                   color: Colors.green),
-  //                             )
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Expanded(
-  //                       flex: 1,
-  //                       child: GestureDetector(
-  //                         onTap: () {
-  //                           currentBalanceStore.onRadioSelected(
-  //                               DriverTransactionType.paid);
-  //                         },
-  //                         child: Row(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: [
-  //                             Radio(
-  //                               value: DriverTransactionType.paid,
-  //                               groupValue: currentBalanceStore.selected,
-  //                               onChanged:
-  //                                   currentBalanceStore.onRadioSelected,
-  //                               activeColor: Colors.red,
-  //                             ),
-  //                             const Text("Paid",
-  //                                 style: TextStyle(
-  //                                     fontWeight: FontWeight.w500,
-  //                                     fontSize: 18,
-  //                                     color: Colors.red))
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 SizedBox(
-  //                   height: 0.03.sw,
-  //                 ),
-  //                 InkWell(
-  //                   onTap: currentBalanceStore.openDatePicker,
-  //                   child: Container(
-  //                     decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius:
-  //                             const BorderRadius.all(Radius.circular(15)),
-  //                         border: Border.all(color: AppColors.appGreens),
-  //                         boxShadow: const [
-  //                           BoxShadow(
-  //                               color: Color(0x1a000000),
-  //                               blurRadius: 20,
-  //                               spreadRadius: 0,
-  //                               offset: Offset(0, 10))
-  //                         ]),
-  //                     child: Padding(
-  //                       padding: EdgeInsets.symmetric(
-  //                           vertical: 0.05.sw, horizontal: 0.05.sw),
-  //                       child: Row(
-  //                         children: [
-  //                           Expanded(
-  //                             flex: 8,
-  //                             child: Align(
-  //                               alignment: Alignment.topLeft,
-  //                               child: Column(
-  //                                 crossAxisAlignment:
-  //                                     CrossAxisAlignment.start,
-  //                                 children: [
-  //                                   Observer(
-  //                                       builder: (BuildContext context) {
-  //                                     return Text(
-  //                                         currentBalanceStore
-  //                                             .finalCurrentDate,
-  //                                         style: TextStyle(
-  //                                             color: AppColors
-  //                                                 .secondaryVariant,
-  //                                             fontSize: 16.sp));
-  //                                   })
-  //                                   /**/
-  //                                 ],
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           const Expanded(
-  //                               flex: 1,
-  //                               child: Icon(
-  //                                 Icons.date_range,
-  //                                 color: Colors.red,
-  //                               )),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Container(
-  //                   color: Colors.orange,
-  //                   child: Padding(
-  //                     padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-  //                     child: Observer(builder: (BuildContext context) {
-  //                       return currentBalanceStore.datesSelectedListLoader
-  //                           ? Align(
-  //                               alignment: Alignment.center,
-  //                               child: Padding(
-  //                                 padding: EdgeInsets.only(top: 0.15.sw),
-  //                                 child: SizedBox(
-  //                                     height: 0.10.sh,
-  //                                     width: 0.10.sh,
-  //                                     child: Padding(
-  //                                         padding: EdgeInsets.symmetric(
-  //                                             vertical: 0.05.sw,
-  //                                             horizontal: 0.05.sw),
-  //                                         child:
-  //                                             const CircularProgressIndicator())),
-  //                               ),
-  //                             )
-  //                           : ListView.separated(
-  //                               shrinkWrap: true,
-  //                               padding: EdgeInsets.symmetric(
-  //                                   vertical: 0.02.sw, horizontal: 0.02.sw),
-  //                               itemCount: currentBalanceStore
-  //                                   .currentBalanceList.length,
-  //                               itemBuilder: (context, index) =>
-  //                                   listItem(index),
-  //                               separatorBuilder:
-  //                                   (BuildContext context, int index) =>
-  //                                       separatedBox(),
-  //                             );
-  //                       //);
-  //                     }),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _lowerSideContent() {
     return Column(
       children: [
@@ -399,8 +230,7 @@ class _CurrentBalanceDetailsScreenState
                         flex: 1,
                         child: GestureDetector(
                           onTap: () {
-                            currentBalanceStore.onRadioSelected(
-                                DriverTransactionType.received);
+                            currentBalanceStore.onRadioSelected(DriverTransactionType.received);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -427,8 +257,7 @@ class _CurrentBalanceDetailsScreenState
                         flex: 1,
                         child: GestureDetector(
                           onTap: () {
-                            currentBalanceStore.onRadioSelected(
-                                DriverTransactionType.paid);
+                            currentBalanceStore.onRadioSelected(DriverTransactionType.paid);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -543,7 +372,7 @@ class _CurrentBalanceDetailsScreenState
                   padding: EdgeInsets.symmetric(
                       vertical: 0.02.sw, horizontal: 0.02.sw),
                   itemCount: currentBalanceStore
-                      .currentBalanceList.length,
+                      .currentBalanceHistory.length,
                   itemBuilder: (context, index) =>
                       listItem(index),
                   separatorBuilder:
@@ -599,20 +428,11 @@ class _CurrentBalanceDetailsScreenState
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 0.01.sw, horizontal: 0.01.sw),
-                          child: Column(
-                            children: const [
-                              Text("27",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.appGreery,
-                                      fontWeight: FontWeight.w500)),
-                              Text("June",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.appGreery,
-                                      fontWeight: FontWeight.w500))
-                            ],
-                          ),
+                          child: Text(currentBalanceStore.currentBalanceHistory[index].tdates,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.appGreery,
+                                  fontWeight: FontWeight.w500)),
                         ),
                       ),
                     ),
@@ -624,13 +444,13 @@ class _CurrentBalanceDetailsScreenState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(currentBalanceStore.currentBalanceList[index].title,
+                      Text(  currentBalanceStore.currentBalanceHistory[index].title,
                           style: TextStyle(
                               color: AppColors.lightBlack,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500)),
                       Text(
-                        currentBalanceStore.currentBalanceList[index].sub_title,
+                        currentBalanceStore.currentBalanceHistory[index].sub_title,
                         style: TextStyle(
                             color: AppColors.appGreery, fontSize: 12.sp),
                       ),
@@ -641,8 +461,8 @@ class _CurrentBalanceDetailsScreenState
               Expanded(
                 flex: 2,
                 child: Text(
-                    "₹${currentBalanceStore.currentBalanceList[index].price}",
-                    style: TextStyle(
+                   "₹${currentBalanceStore.currentBalanceHistory[index].price}",
+                    style:  TextStyle(
                         color: Colors.green,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400)),
@@ -660,3 +480,4 @@ class _CurrentBalanceDetailsScreenState
     );
   }
 }
+

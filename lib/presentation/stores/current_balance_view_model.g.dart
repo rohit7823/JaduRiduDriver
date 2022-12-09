@@ -9,6 +9,23 @@ part of 'current_balance_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
+  late final _$currentBalanceHistoryAtom = Atom(
+      name: '_CurrentBalanceViewModel.currentBalanceHistory', context: context);
+
+  @override
+  List<CurrentBalanceHistory> get currentBalanceHistory {
+    _$currentBalanceHistoryAtom.reportRead();
+    return super.currentBalanceHistory;
+  }
+
+  @override
+  set currentBalanceHistory(List<CurrentBalanceHistory> value) {
+    _$currentBalanceHistoryAtom.reportWrite(value, super.currentBalanceHistory,
+        () {
+      super.currentBalanceHistory = value;
+    });
+  }
+
   late final _$selectdAtom =
       Atom(name: '_CurrentBalanceViewModel.selectd', context: context);
 
@@ -38,38 +55,6 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
   set allDatesLists(List<Package> value) {
     _$allDatesListsAtom.reportWrite(value, super.allDatesLists, () {
       super.allDatesLists = value;
-    });
-  }
-
-  late final _$selectedDatesAtom =
-      Atom(name: '_CurrentBalanceViewModel.selectedDates', context: context);
-
-  @override
-  Package? get selectedDates {
-    _$selectedDatesAtom.reportRead();
-    return super.selectedDates;
-  }
-
-  @override
-  set selectedDates(Package? value) {
-    _$selectedDatesAtom.reportWrite(value, super.selectedDates, () {
-      super.selectedDates = value;
-    });
-  }
-
-  late final _$currentBalanceListAtom = Atom(
-      name: '_CurrentBalanceViewModel.currentBalanceList', context: context);
-
-  @override
-  List<CurrentBalanceDates> get currentBalanceList {
-    _$currentBalanceListAtom.reportRead();
-    return super.currentBalanceList;
-  }
-
-  @override
-  set currentBalanceList(List<CurrentBalanceDates> value) {
-    _$currentBalanceListAtom.reportWrite(value, super.currentBalanceList, () {
-      super.currentBalanceList = value;
     });
   }
 
@@ -239,20 +224,12 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
-  late final _$allDatelistItemAsyncAction =
-      AsyncAction('_CurrentBalanceViewModel.allDatelistItem', context: context);
-
-  @override
-  Future allDatelistItem() {
-    return _$allDatelistItemAsyncAction.run(() => super.allDatelistItem());
-  }
-
   late final _$datelistItemAsyncAction =
       AsyncAction('_CurrentBalanceViewModel.datelistItem', context: context);
 
   @override
-  Future datelistItem(String id) {
-    return _$datelistItemAsyncAction.run(() => super.datelistItem(id));
+  Future datelistItem() {
+    return _$datelistItemAsyncAction.run(() => super.datelistItem());
   }
 
   late final _$retrieveWalletDetailsAsyncAction = AsyncAction(
@@ -323,23 +300,11 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
   }
 
   @override
-  dynamic onState(Package? dates) {
-    final _$actionInfo = _$_CurrentBalanceViewModelActionController.startAction(
-        name: '_CurrentBalanceViewModel.onState');
-    try {
-      return super.onState(dates);
-    } finally {
-      _$_CurrentBalanceViewModelActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
+currentBalanceHistory: ${currentBalanceHistory},
 selectd: ${selectd},
 allDatesLists: ${allDatesLists},
-selectedDates: ${selectedDates},
-currentBalanceList: ${currentBalanceList},
 isLoading: ${isLoading},
 datesSelectedListLoader: ${datesSelectedListLoader},
 finalCurrentDate: ${finalCurrentDate},

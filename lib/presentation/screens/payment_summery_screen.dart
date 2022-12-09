@@ -237,8 +237,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                   return Padding(
                     padding: EdgeInsets.symmetric(
                         vertical: 0.02.sw, horizontal: 0.02.sw),
-                    child: paymentSummaryStores
-                        .datesSelectedListLoader
+                    child: paymentSummaryStores.datesSelectedListLoader
                         ? Align(
                       alignment: Alignment.center,
                       child: SizedBox(

@@ -118,55 +118,55 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Widget listItem(int index) {
-    return Container(
-  
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-        child: Row(
-          children: [
-            Container(
-              height: 0.07.sw,
-              child: expand(
-                  flex: 1,
-                  child: Image.asset("assets/images/tick.png")
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child:Observer(
+              builder: (BuildContext context){
+                return  CircleAvatar(
+                  foregroundImage: AssetImage(notificationStore.NList[index].imagepath),
+                );
+              },
+            ) 
+          ),
+          SizedBox(width: 0.01.sw),
+          Expanded(
+            flex: 4,
+            child: Text(
+              notificationStore.NList[index].info,
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  color: AppColors.lightGrays,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 0.01.sw),
+            child: Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.only(top: 0.06.sw),
+                child: Row(
+                  children: [
+
+                    Icon(Icons.access_time,size: 15.sp,),
+                    Text(
+                        notificationStore.NList[index].time,
+                        style: TextStyle(
+                            color: AppColors.lightGrays, fontSize: 14.sp)),
+                  ],
+
+
+                  ),
               ),
-            ),
-            SizedBox(width: 0.01.sw),
-            Expanded(
-              flex: 4,
-              child: Text(
-                notificationStore.NList[index].info,
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: AppColors.lightGrays,
-                    fontWeight: FontWeight.w500),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 0.01.sw),
-              child: Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 0.06.sw),
-                  child: Row(
-                    children: [
+          ),
+         
 
-                      Icon(Icons.access_time,size: 15.sp,),
-                      Text(
-                          notificationStore.NList[index].time,
-                          style: TextStyle(
-                              color: AppColors.lightGrays, fontSize: 14.sp)),
-                    ],
-
-
-                    ),
-                ),
-                ),
-            ),
-           
-
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -259,6 +259,7 @@ import 'package:jadu_ride_driver/core/common/constants.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/get_current_balance_response.dart';
 import 'package:jadu_ride_driver/core/helpers/razorpay_init.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -268,7 +269,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../core/common/current_date_time.dart';
 import '../../core/common/custom_radio_button.dart';
 import '../../core/common/response.dart';
-import '../../core/domain/current_balance_dates.dart';
+
 import '../../core/domain/package.dart';
 import '../../core/helpers/storage.dart';
 import 'package:mobx/mobx.dart';
@@ -296,17 +297,23 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   final walletOption = _walletOption;
 
   @observable
+  List<CurrentBalanceHistory> currentBalanceHistory =  [];
+
+
+  List<CurrentBalanceHistory> currentBalanceHistorybackup = [];
+
+
+  @observable
   Package? selectd;
 
 
   @observable
   List<Package> allDatesLists = [];
 
-  @observable
-  Package? selectedDates;
+  // @observable
+  // Package? selectedDates;
+  //
 
-  @observable
-  List<CurrentBalanceDates> currentBalanceList = [];
 
   @observable
   bool isLoading = false;
@@ -367,81 +374,63 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
 
 
+  // @action
+  // onRadioSelected(DriverTransactionType? selectedValue) {
+  //   if (selectedValue == null) {
+  //     selected = DriverTransactionType.none;
+  //     datelistItem();
+  //   } else {
+  //     selected = selectedValue;
+  //    datelistItem();
+  //   }
+  // }
   @action
   onRadioSelected(DriverTransactionType? selectedValue) {
-    if (selectedValue == null) {
-      selected = DriverTransactionType.none;
-      allDatelistItem();
-    } else {
+    if(selectedValue != null){
       selected = selectedValue;
-      allDatelistItem();
+      var temp = <CurrentBalanceHistory>[];
+      for (var element in currentBalanceHistorybackup) {
+        debugPrint('${selectedValue.name} ${element.amountmethod}');
+        if(selectedValue.name == element.amountmethod) {
+          temp.add(element);
+        }
+      }
+      currentBalanceHistory= temp;
     }
   }
+
+
+
 
   @action
   onSelectDate(DateTime? selected) {
     if (selected != null) {
-      //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
-      finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
-      allDatelistItem();
+      finalCurrentDate = "${selected.year}-${selected.month}-${selected.day}";
+      debugPrint('daTE: $finalCurrentDate');
+      datelistItem();
     } else {
       currentDate();
     }
   }
 
+
   @action
-  onState(Package? dates) {
-    selectedDates = dates;
-    datelistItem(selectedDates!.id);
-  }
-
-  //drop down...........................
-  @action
-  allDatelistItem() async {
-    isLoading = true;
-    var userId = _prefs.userId();
-    var response = await _repository.allDatesResponse(userId);
-    if (response is Success) {
-      var data = response.data;
-      isLoading = false;
-      switch (data != null && data.status) {
-        case true:
-          if (data!.allDatesList.isEmpty) {
-            MyUtils.toastMessage("Empty....");
-          } else {
-            allDatesLists = data.allDatesList;
-            selectedDates = data.allDatesList.first;
-            datelistItem(selectedDates!.id);
-            //MyUtils.toastMessage("Success....");
-          }
-      } //switch
-    } else if (response is Error) {
-      MyUtils.toastMessage("Error found....");
-      isLoading = false;
-    }
-  }
-
-
-
-
-
-  //selected item list..............
-  @action
-  datelistItem(String id) async {
+  datelistItem() async {
     datesSelectedListLoader = true;
     var userId = _prefs.userId();
-    var response = await _repository.uploadCurrentBalanceResponse(userId, id);
+    var response = await _repository.allDatesResponse(userId, finalCurrentDate);
     if (response is Success) {
       var data = response.data;
       datesSelectedListLoader = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.currentBalanceDates.isEmpty) {
-            //MyUtils.toastMessage("Empty....");
-
+          if (data!.currentBalanceHistory.isEmpty) {
+            MyUtils.toastMessage("Empty List....");
           } else {
-            currentBalanceList = data.currentBalanceDates;
-            //MyUtils.toastMessage("Success....");
+            currentBalanceHistory =  data.currentBalanceHistory;
+            currentBalanceHistorybackup = data.currentBalanceHistory;
+            print("****");
+            debugPrint('currentBalanceHistory: $currentBalanceHistory');
           }
       } //switch
     } else if (response is Error) {
@@ -449,6 +438,12 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
       datesSelectedListLoader = false;
     }
   }
+
+
+
+
+
+
 
 
 
@@ -547,3 +542,37 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
     retrieveWalletDetails();
   }
 }
+
+//selected item list..............
+// @action
+// datelistItem(String id) async {
+//   datesSelectedListLoader = true;
+//   var userId = _prefs.userId();
+//   var response = await _repository.uploadCurrentBalanceResponse(userId, id);
+//   if (response is Success) {
+//     var data = response.data;
+//     datesSelectedListLoader = false;
+//     switch (data != null && data.status) {
+//       case true:
+//         if (data!.currentBalanceDates.isEmpty) {
+//           //MyUtils.toastMessage("Empty....");
+//
+//         } else {
+//           currentBalanceList = data.currentBalanceDates;
+//           //MyUtils.toastMessage("Success....");
+//         }
+//     } //switch
+//   } else if (response is Error) {
+//     MyUtils.toastMessage("Error found....");
+//     datesSelectedListLoader = false;
+//   }
+// }
+
+
+// @action
+// onState(Package? dates) {
+//   selectedDates = dates;
+//  // datelistItem(selectedDates!.id);
+// }
+
+//drop down...........................
