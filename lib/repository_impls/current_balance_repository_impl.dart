@@ -95,11 +95,11 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         message: "Success",
         currentBalanceHistory: List.generate(
             2, (index) => CurrentBalanceHistory(
-            tdates: "18 June ",
+            transactiondate: "18 June",
             title: "Lorem Ipsum",
             amountmethod: "Received",
             sub_title: "Lorem Ipsum is simply dummy",
-            price: 1050))));
+            price: "1050"))));
   }
 
 

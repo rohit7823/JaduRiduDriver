@@ -42,19 +42,33 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
   @override
   Future<Resource<RequiredDataProfileDetailsResponse>> getProfileInittialData(String userId) async{
     await Future.delayed(const Duration(seconds: 2));
-    return Success(RequiredDataProfileDetailsResponse(status: true, message: "Success", name: "Ramesh Janha",
+    return Success(RequiredDataProfileDetailsResponse(status: true, message: "Success",
+        name: "Ramesh Janha",
+        email: "abc@gmail.com",
         numberCodes: [
           MobileNumberCode(
               id: "312131",
               countryImage: "assets/images/india.png",
               code: "+91")
         ],
-        dob: "25th june 1990", email: "abc@gmail.com", gender: "male", mobileNumber: "1234567890", states: List.generate(2,
-                (index) => Package(id: "${index + 1}", name: "State ${index + 1}"))));
+      mobileNumber: "1234567890",
+      states: List.generate(2, (index) => Package(id: "${index + 1}", name: "State ${index + 1}")),
+        dob: "25th june 1990",
+        gender: "male"
+    ));
   }
 
   @override
-  Future<Resource<UploadProfileDetailsResponse>> uploadProfileDetails(String userId, String userName, String userEmail, String userMobileNumber, String stateId, String districtId, String cityId, String gender, String dob) async
+  Future<Resource<UploadProfileDetailsResponse>> uploadProfileDetails(
+      String userId,
+      String userName,
+      String userEmail,
+      String userMobileNumber,
+      String stateId,
+      String districtId,
+      String cityId,
+      String gender,
+      String dob) async
   {
     await Future.delayed(const Duration(seconds: 2));
     return Success(UploadProfileDetailsResponse(status: true, message: "Success", isSaved: true));

@@ -15,7 +15,7 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
 
   AddVehicleRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
-    _addVehicleApi = AddVehicleApi(_dio);
+    _addVehicleApi =  AddVehicleApi(_dio);
   }
 
   @override

@@ -13,15 +13,15 @@ class GetCurrentBalanceResponse {
 
 }
 class CurrentBalanceHistory{
-  String tdates;
+  String transactiondate;
   String title;
   String sub_title;
-  double price;
+  String price;
   String amountmethod;
 
 
   CurrentBalanceHistory({
-    required this.tdates,
+    required this.transactiondate,
     required this.title,
     required this.sub_title,
     required this.amountmethod,
