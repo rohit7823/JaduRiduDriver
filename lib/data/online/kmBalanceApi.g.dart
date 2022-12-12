@@ -42,12 +42,37 @@ class _KMBalanceApi implements KMBalanceApi {
   }
 
   @override
+  Future<KilometerWalletResponse> kmDetails(userId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<KilometerWalletResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/currentPurchasedKm',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = KilometerWalletResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<RazorpayDataResponse> razorpayData(
     userId,
-    packageId,
+    selectedPackageId,
   ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'packageId': packageId};
+    final queryParameters = <String, dynamic>{
+      r'selectedPackageId': selectedPackageId
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -58,12 +83,38 @@ class _KMBalanceApi implements KMBalanceApi {
     )
             .compose(
               _dio.options,
-              '/driver/${userId}/recharge',
+              '/driver/users/${userId}/recharge/own',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = RazorpayDataResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetCurrentBalanceResponse> getCBHistory(
+    userId,
+    date,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'date': date};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetCurrentBalanceResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/recharge/history',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetCurrentBalanceResponse.fromJson(_result.data!);
     return value;
   }
 

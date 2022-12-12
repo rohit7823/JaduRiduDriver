@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/amount_method.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/transaction_type.dart';
 import 'package:jadu_ride_driver/core/service/constants.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/payment_dialog.dart';
@@ -149,25 +150,12 @@ class _CurrentBalanceDetailsScreenState
                                           builder: (BuildContext context) =>
                                               currentBalanceStore.amount != null
                                                   ? Text(
-                                                      "${currentBalanceStore.amount}KM",
+                                                      "${currentBalanceStore.amount}",
                                                       style: AppTextStyle
                                                           .currentBalanceDetails,
                                                     )
                                                   : Text("fetching...")),
-                                      // Observer(
-                                      //     builder: (BuildContext context) =>
-                                      //     currentBalanceStore.details !=
-                                      //         null
-                                      //         ? Text(
-                                      //       "${currentBalanceStore.details!.amount}KM",
-                                      //       style: AppTextStyle
-                                      //           .currentBalanceDetails,
-                                      //     )
-                                      //         : Text("fetching...")),
-                                      // widget.currentBalanceKM.text(
-                                      //     AppTextStyle.currentBalanceDetails),
-                                      // StringProvider.currentBalanceKM_TXT.text(
-                                      //     AppTextStyle.currentBalanceDetailsKM),
+
                                     ],
                                   )
                                 ],
@@ -312,7 +300,7 @@ class _CurrentBalanceDetailsScreenState
                                   children: [
                                     Observer(builder: (BuildContext context) {
                                       return Text(
-                                          currentBalanceStore.finalCurrentDate,
+                                          currentBalanceStore.date,
                                           style: TextStyle(
                                               color: AppColors.secondaryVariant,
                                               fontSize: 16.sp));
@@ -410,7 +398,7 @@ class _CurrentBalanceDetailsScreenState
                       ]),
                   child: Text(
                           currentBalanceStore
-                              .currentBalanceHistory[index].transactiondate,
+                              .currentBalanceHistory[index].transactionDate,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 14,
@@ -432,7 +420,7 @@ class _CurrentBalanceDetailsScreenState
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500)),
                 Text(
-                  currentBalanceStore.currentBalanceHistory[index].sub_title,
+                  currentBalanceStore.currentBalanceHistory[index].description,
                   style: TextStyle(color: AppColors.appGreery, fontSize: 12.sp),
                 ),
               ],
@@ -441,11 +429,13 @@ class _CurrentBalanceDetailsScreenState
           Expanded(
             flex: 2,
             child: Text(
-                "₹${currentBalanceStore.currentBalanceHistory[index].price}",
-                style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400)),
+                    "₹${currentBalanceStore.currentBalanceHistory[index].price}",
+                    style: currentBalanceStore.currentBalanceHistory[index].rechargeType ==  TransactionType.received.value? TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400):TextStyle(
+                        color: AppColors.primaryVariant, fontSize: 14.sp)),
+
           )
         ],
       ),

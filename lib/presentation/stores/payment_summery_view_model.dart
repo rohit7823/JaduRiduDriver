@@ -79,6 +79,8 @@ abstract class _PaymentSummeryViewModel with Store{
         case true:
           if (data!.data.rechargeHistory.isEmpty) {
             MyUtils.toastMessage("Empty List....");
+            rechargeHistory = [];
+            rechargeHistorybackup = [];
           } else {
             rechargeHistory = data.data.rechargeHistory;
             rechargeHistorybackup = data.data.rechargeHistory;

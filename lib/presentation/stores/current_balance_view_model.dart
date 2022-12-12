@@ -297,10 +297,11 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   final walletOption = _walletOption;
 
   @observable
-  List<CurrentBalanceHistory> currentBalanceHistory =  [];
+  List<Datum> currentBalanceHistory =  [];
 
 
-  List<CurrentBalanceHistory> currentBalanceHistorybackup = [];
+  List<Datum> currentBalanceHistorybackup = [];
+
 
 
   @observable
@@ -309,6 +310,10 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
   @observable
   List<Package> allDatesLists = [];
+
+
+
+
 
   // @observable
   // Package? selectedDates;
@@ -322,11 +327,11 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   bool datesSelectedListLoader = false;
 
   @observable
-  String finalCurrentDate = "";
+  String date = "";
 
   @action
   currentDate() {
-    finalCurrentDate = GetDateState.getCurrentDate();
+    date = GetDateState.getCurrentDate();
   }
 
   openDatePicker() {
@@ -356,6 +361,10 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   @observable
   var updatable = false;
 
+  @observable
+  String Rmessage = '';
+
+
 
 
   @action
@@ -374,24 +383,15 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
 
 
-  // @action
-  // onRadioSelected(DriverTransactionType? selectedValue) {
-  //   if (selectedValue == null) {
-  //     selected = DriverTransactionType.none;
-  //     datelistItem();
-  //   } else {
-  //     selected = selectedValue;
-  //    datelistItem();
-  //   }
-  // }
+
   @action
   onRadioSelected(DriverTransactionType? selectedValue) {
     if(selectedValue != null){
       selected = selectedValue;
-      var temp = <CurrentBalanceHistory>[];
+      var temp = <Datum>[];
       for (var element in currentBalanceHistorybackup) {
-        debugPrint('${selectedValue.name} ${element.amountmethod}');
-        if(selectedValue.name == element.amountmethod) {
+        debugPrint('${selectedValue.name} ${element.rechargeType}');
+        if(selectedValue.name == element.rechargeType) {
           temp.add(element);
         }
       }
@@ -405,8 +405,8 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   @action
   onSelectDate(DateTime? selected) {
     if (selected != null) {
-      finalCurrentDate = "${selected.year}-${selected.month}-${selected.day}";
-      debugPrint('daTE: $finalCurrentDate');
+      date = "${selected.year}-${selected.month}-${selected.day}";
+      debugPrint('daTE: $date');
       datelistItem();
     } else {
       currentDate();
@@ -418,17 +418,20 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   datelistItem() async {
     datesSelectedListLoader = true;
     var userId = _prefs.userId();
-    var response = await _repository.allDatesResponse(userId, finalCurrentDate);
+    var response = await _repository.allDatesResponse(userId, date);
     if (response is Success) {
       var data = response.data;
       datesSelectedListLoader = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.currentBalanceHistory.isEmpty) {
+          if (data!.data.isEmpty) {
+            currentBalanceHistory =  [];
+            currentBalanceHistorybackup = [];
             MyUtils.toastMessage("Empty List....");
+
           } else {
-            currentBalanceHistory =  data.currentBalanceHistory;
-            currentBalanceHistorybackup = data.currentBalanceHistory;
+            currentBalanceHistory =  data.data;
+            currentBalanceHistorybackup = data.data;
             print("****");
             debugPrint('currentBalanceHistory: $currentBalanceHistory');
           }
@@ -460,7 +463,7 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
         case true:
           //details = data!.details;
 
-          amount = data!.amount;
+          amount = data!.currentPurchasedKm;
           break;
         default:
           msgInformer.informUi(data?.message ?? "");

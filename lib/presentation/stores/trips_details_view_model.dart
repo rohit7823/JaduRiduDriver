@@ -26,16 +26,7 @@ abstract class _TripsViewModel with Store{
   @observable
   DriverTransactionPaymentSummeryType selected = DriverTransactionPaymentSummeryType.none;
 
-  @action
-  onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
-    if (selectedValue == null) {
-      selected = DriverTransactionPaymentSummeryType.none;
-    } else {
-      selected = selectedValue!;
-      _initialData();
-      //MyUtils.toastMessage(selected.name);
-    }
-  }
+
 
   @observable
   bool datesSelectedListLoader = false;
@@ -55,11 +46,20 @@ abstract class _TripsViewModel with Store{
   @observable
   List<TripsDetails> tripDetailsArrayList = [];
 
+
+  List<TripsDetails> tripDetailsArrayListbackup = [];
+
+
+  _TripsViewModel(){
+    _initialData();
+  }
+
+
   @action
   onSelectDate(DateTime? selected) {
     if (selected != null) {
       //finalCurrentDate = "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
-      finalCurrentDate = "${selected.day}-${selected.month}-${selected.year}";
+      finalCurrentDate = "${selected.year}-${selected.month}-${selected.day}";
       //MyUtils.toastMessage(finalCurrentDate);
       _initialData();
     } else {
@@ -67,15 +67,33 @@ abstract class _TripsViewModel with Store{
     }
   }
 
-  _TripsViewModel(){
-    _initialData();
+
+
+
+
+
+  @action
+  onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
+    if (selectedValue != null) {
+      selected = selectedValue;
+      var temp = <TripsDetails>[];
+      for (var element in tripDetailsArrayListbackup) {
+        debugPrint('${selectedValue.name} ${element.paymentType}');
+        if(selectedValue.name == element.paymentType) {
+          temp.add(element);
+        }
+      }
+      tripDetailsArrayList= temp;
+    }
   }
+
+
 
   @action
   _initialData() async {
     datesSelectedListLoader = true;
     var userId = _prefs.userId();
-    var response = await _repository.getTripsDetailsInittialData(userId);
+    var response = await _repository.getTripsDetailsInittialData(userId, finalCurrentDate);
     //debugPrint(response.toString());
     if (response is Success) {
       var data = response.data;
@@ -83,9 +101,12 @@ abstract class _TripsViewModel with Store{
       switch (data != null && data.status) {
         case true:
           if (data!.tripsDetailsList.isEmpty) {
+            tripDetailsArrayList = [];
+            tripDetailsArrayListbackup = [];
             MyUtils.toastMessage("Empty List....");
           } else {
             tripDetailsArrayList = data.tripsDetailsList;
+            tripDetailsArrayListbackup = data.tripsDetailsList;
             //MyUtils.toastMessage("Success....");
           }
       } //switch

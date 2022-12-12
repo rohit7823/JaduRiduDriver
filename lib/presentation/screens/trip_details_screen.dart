@@ -102,11 +102,9 @@ class _TripsScreenState extends State<TripsScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Radio(
-                                value: DriverTransactionPaymentSummeryType
-                                    .online,
+                                value: DriverTransactionPaymentSummeryType.online,
                                 groupValue: _stores.selected,
-                                onChanged:
-                                _stores.onRadioSelected,
+                                onChanged:_stores.onRadioSelected,
                                 activeColor: Colors.green,
                               ),
                               const Text(
@@ -133,8 +131,7 @@ class _TripsScreenState extends State<TripsScreen> {
                                 value:
                                 DriverTransactionPaymentSummeryType.cash,
                                 groupValue: _stores.selected,
-                                onChanged:
-                                _stores.onRadioSelected,
+                                onChanged: _stores.onRadioSelected,
                                 activeColor: Colors.red,
                               ),
                               const Text("Cash",
@@ -389,6 +386,7 @@ class _TripsScreenState extends State<TripsScreen> {
             ),
             Divider(color: AppColors.deviderColor, ),
             Row(
+
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
@@ -399,7 +397,7 @@ class _TripsScreenState extends State<TripsScreen> {
                         fontWeight: FontWeight.w600,)),
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 4,
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(_stores.tripDetailsArrayList[index].id,
@@ -408,12 +406,15 @@ class _TripsScreenState extends State<TripsScreen> {
                           fontSize: 12.sp,)),
                   ),
                 ),
+                SizedBox(
+                  width: 0.06.sw,
+                ),
                 Expanded(
                   flex: 2,
                   child: Text(_stores.tripDetailsArrayList[index].time,
                       style: TextStyle(
                         color: AppColors.lightGrays,
-                        fontSize: 13.sp,)),
+                        fontSize: 13.sp,)).paddings(vertical: 0.01.sw),
                 )
               ],
             ),

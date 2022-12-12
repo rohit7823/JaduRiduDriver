@@ -19,6 +19,12 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.secondaryVariant);
 
+  static var filterParamStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontWeight: FontWeightManager.regular,
+      fontSize: 13.sp,
+      color: AppColors.white);
+
 
 
   static var rideSpecificDetailCountStyle = TextStyle(

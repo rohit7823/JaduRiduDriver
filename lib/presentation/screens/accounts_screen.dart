@@ -217,11 +217,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                     SizedBox(
                                       width: 0.02.sw,
                                     ),
-                                    Text("KM",
-                                        style: TextStyle(
-                                            color: AppColors.secondaryVariant,
-                                            fontSize: 20.sp,
-                                            fontWeight: FontWeight.bold)),
+
                                   ],
                                 )
                               ],

@@ -13,13 +13,13 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
       name: '_CurrentBalanceViewModel.currentBalanceHistory', context: context);
 
   @override
-  List<CurrentBalanceHistory> get currentBalanceHistory {
+  List<Datum> get currentBalanceHistory {
     _$currentBalanceHistoryAtom.reportRead();
     return super.currentBalanceHistory;
   }
 
   @override
-  set currentBalanceHistory(List<CurrentBalanceHistory> value) {
+  set currentBalanceHistory(List<Datum> value) {
     _$currentBalanceHistoryAtom.reportWrite(value, super.currentBalanceHistory,
         () {
       super.currentBalanceHistory = value;
@@ -92,19 +92,19 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
-  late final _$finalCurrentDateAtom =
-      Atom(name: '_CurrentBalanceViewModel.finalCurrentDate', context: context);
+  late final _$dateAtom =
+      Atom(name: '_CurrentBalanceViewModel.date', context: context);
 
   @override
-  String get finalCurrentDate {
-    _$finalCurrentDateAtom.reportRead();
-    return super.finalCurrentDate;
+  String get date {
+    _$dateAtom.reportRead();
+    return super.date;
   }
 
   @override
-  set finalCurrentDate(String value) {
-    _$finalCurrentDateAtom.reportWrite(value, super.finalCurrentDate, () {
-      super.finalCurrentDate = value;
+  set date(String value) {
+    _$dateAtom.reportWrite(value, super.date, () {
+      super.date = value;
     });
   }
 
@@ -224,6 +224,22 @@ mixin _$CurrentBalanceStore on _CurrentBalanceViewModel, Store {
     });
   }
 
+  late final _$RmessageAtom =
+      Atom(name: '_CurrentBalanceViewModel.Rmessage', context: context);
+
+  @override
+  String get Rmessage {
+    _$RmessageAtom.reportRead();
+    return super.Rmessage;
+  }
+
+  @override
+  set Rmessage(String value) {
+    _$RmessageAtom.reportWrite(value, super.Rmessage, () {
+      super.Rmessage = value;
+    });
+  }
+
   late final _$datelistItemAsyncAction =
       AsyncAction('_CurrentBalanceViewModel.datelistItem', context: context);
 
@@ -307,14 +323,15 @@ selectd: ${selectd},
 allDatesLists: ${allDatesLists},
 isLoading: ${isLoading},
 datesSelectedListLoader: ${datesSelectedListLoader},
-finalCurrentDate: ${finalCurrentDate},
+date: ${date},
 selected: ${selected},
 openingPaymentGatewayLoader: ${openingPaymentGatewayLoader},
 gettingWalletDetailsLoader: ${gettingWalletDetailsLoader},
 details: ${details},
 amount: ${amount},
 walletValue: ${walletValue},
-updatable: ${updatable}
+updatable: ${updatable},
+Rmessage: ${Rmessage}
     ''';
   }
 }

@@ -10,7 +10,7 @@ import '../domain/response/get_current_balance_response.dart';
 abstract class CurrentBalanceRepository {
   Future<Resource<GetCurrentBalanceResponse>> allDatesResponse(String userId, String finalCurrentDate);
 
-  Future<Resource<DriverWalletResponse>> walletDetails(String userId);
+  Future<Resource<KilometerWalletResponse>> walletDetails(String userId);
 
   Future<Resource<KmRechargeResponse>> walletRechargeAmounts(String userId);
 

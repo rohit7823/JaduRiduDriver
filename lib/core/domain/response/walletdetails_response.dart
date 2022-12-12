@@ -1,38 +1,32 @@
 import 'dart:convert';
 
-import 'package:jadu_ride_driver/core/domain/response/aboutwallet_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
+KilometerWalletResponse kilometerWalletResponseFromJson(String str) => KilometerWalletResponse.fromJson(json.decode(str));
 
-DriverWalletResponse driverWalletResponseFromJson(String str) =>
-    DriverWalletResponse.fromJson(json.decode(str));
+String kilometerWalletResponseToJson(KilometerWalletResponse data) => json.encode(data.toJson());
 
-String driverWalletResponseToJson(DriverWalletResponse data) =>
-    json.encode(data.toJson());
+class KilometerWalletResponse extends BusinessObject {
+  KilometerWalletResponse({
+    required this.status,
+    required this.message,
+    required this.currentPurchasedKm,
+  });
 
-class DriverWalletResponse extends BusinessObject {
-  DriverWalletResponse(
-      {required this.status, required this.message, required this.amount});
+  final bool status;
+  final String message;
+  final String currentPurchasedKm;
 
-  bool status;
-  String message;
-  String amount;
-  //WalletDetails details;
-
-  factory DriverWalletResponse.fromJson(Map<String, dynamic> json) =>
-      DriverWalletResponse(
-        status: json["status"],
-        message: json["message"],
-        amount: json["amount"]
-
-       // details: WalletDetails.fromJson(json["details"]),
-      );
+  factory KilometerWalletResponse.fromJson(Map<String, dynamic> json) => KilometerWalletResponse(
+    status: json["status"],
+    message: json["message"],
+    currentPurchasedKm: json["currentPurchasedKm"],
+  );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "amount": amount,
-    //"details": details.toJson(),
+    "currentPurchasedKm": currentPurchasedKm,
   };
 }
 

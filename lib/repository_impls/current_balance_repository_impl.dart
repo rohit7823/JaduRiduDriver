@@ -28,50 +28,19 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
   }
 
 
-  // @override
-  // Future<Resource<AllDatesListsResponse>> allDatesResponse(String userId) async {
-  //   await Future.delayed(const Duration(seconds: 2));
-  //   return Success(AllDatesListsResponse(
-  //       status: true,
-  //       message: "Success",
-  //       allDatesList: List.generate(10, (index) => Package(id: "${index + 1}", name: "June ${index + 17} , 2022"))));
-  // }
-
-  // @override
-  // Future<Resource<GetCurrentBalanceResponse>> uploadCurrentBalanceResponse(
-  //     String userId, String finalCurrentDate) async {
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   return Success(GetCurrentBalanceResponse(
-  //       status: true,
-  //       message: "Success",
-  //       currentBalanceDates: List.generate(
-  //           10, (index) => CurrentBalanceDates( dates: "Monday 18th June , 2022", title: "Recived", sub_title: "Lorem Ipsum is simply dummy", price: 1050))));
-  // }
-
-
-
-
 
   @override
-  Future<Resource<DriverWalletResponse>> walletDetails(String userId)  async{
-    await Future.delayed(const Duration(seconds: 2));
-
-    return Success(DriverWalletResponse(
-        status: true,
-        message: "Success",
-        amount:"1500",
-        //details: WalletDetails(amount: 500, isAvailable: false),
-    ));
+  Future<Resource<KilometerWalletResponse>> walletDetails(String userId)  async{
+    return _kmBalanceApi
+        .kmDetails(userId)
+        .handleResponse<KilometerWalletResponse>();
   }
 
 
   @override
-  Future<Resource<RazorpayDataResponse>> fetchRazorpayData(String userId, String packageId) async {
-    // await Future.delayed(const Duration(seconds: 2));
-    // return Success(RazorpayNecessaryDataResponse(
-    //     status: true, message: "Success", data: {}));
+  Future<Resource<RazorpayDataResponse>> fetchRazorpayData(String userId, String selectedPackageId) async {
   return _kmBalanceApi
-      .razorpayData(userId, packageId)
+      .razorpayData(userId, selectedPackageId)
       .handleResponse<RazorpayDataResponse>();
 
 
@@ -86,20 +55,15 @@ class CurrentBalanceRepositoryImpl implements CurrentBalanceRepository {
         .handleResponse<KmRechargeResponse>();
   }
 
+
+
   @override
   Future<Resource<GetCurrentBalanceResponse>>
-  allDatesResponse( String userId, String finalCurrentDate) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return Success(GetCurrentBalanceResponse(
-        status: true,
-        message: "Success",
-        currentBalanceHistory: List.generate(
-            2, (index) => CurrentBalanceHistory(
-            transactiondate: "18 June",
-            title: "Lorem Ipsum",
-            amountmethod: "Received",
-            sub_title: "Lorem Ipsum is simply dummy",
-            price: "1050"))));
+  allDatesResponse( String userId, String date) async {
+    return _kmBalanceApi
+            .getCBHistory(userId, date)
+            .handleResponse<GetCurrentBalanceResponse>();
+
   }
 
 
