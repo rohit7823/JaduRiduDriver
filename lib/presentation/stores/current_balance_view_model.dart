@@ -425,10 +425,14 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.data.isEmpty) {
+
             currentBalanceHistory =  [];
             currentBalanceHistorybackup = [];
-            MyUtils.toastMessage("Empty List....");
-
+            //MyUtils.toastMessage("Empty List....");
+            // Rmessage = data.message;
+            // debugPrint('Rmessage: $Rmessage');
+            msgInformer.informUi(data.message);
+            debugPrint('data.message');
           } else {
             currentBalanceHistory =  data.data;
             currentBalanceHistorybackup = data.data;

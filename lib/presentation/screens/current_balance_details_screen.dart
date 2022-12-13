@@ -87,6 +87,11 @@ class _CurrentBalanceDetailsScreenState
           );
         }
       }),
+      reaction((p0) => currentBalanceStore.msgInformer.currentMsg, (p0) {
+        if(p0.isEmpty){
+
+        }
+      })
     ];
   }
 
