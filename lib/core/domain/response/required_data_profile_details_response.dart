@@ -12,10 +12,20 @@ class RequiredDataProfileDetailsResponse extends BusinessObject{
   List<Package> states;
   String gender;
   String dob;
+  String profileImage;
 
 
-  RequiredDataProfileDetailsResponse({required this.status, required this.message, required this.name,
-  required this.numberCodes, required this.dob, required this.email, required this.gender, required this.mobileNumber, required this.states});
+  RequiredDataProfileDetailsResponse({
+    required this.status,
+    required this.message,
+    required this.name,
+    required this.numberCodes,
+    required this.dob,
+    required this.email,
+    required this.gender,
+    required this.mobileNumber,
+    required this.profileImage,
+    required this.states});
 
 
 }

@@ -169,6 +169,54 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
     });
   }
 
+  late final _$openImagePickerAtom = Atom(
+      name: '_ProfileDescriptionViewModel.openImagePicker', context: context);
+
+  @override
+  DialogState get openImagePicker {
+    _$openImagePickerAtom.reportRead();
+    return super.openImagePicker;
+  }
+
+  @override
+  set openImagePicker(DialogState value) {
+    _$openImagePickerAtom.reportWrite(value, super.openImagePicker, () {
+      super.openImagePicker = value;
+    });
+  }
+
+  late final _$imageAtom =
+      Atom(name: '_ProfileDescriptionViewModel.image', context: context);
+
+  @override
+  String get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(String value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
+  late final _$selectedImageAtom = Atom(
+      name: '_ProfileDescriptionViewModel.selectedImage', context: context);
+
+  @override
+  File? get selectedImage {
+    _$selectedImageAtom.reportRead();
+    return super.selectedImage;
+  }
+
+  @override
+  set selectedImage(File? value) {
+    _$selectedImageAtom.reportWrite(value, super.selectedImage, () {
+      super.selectedImage = value;
+    });
+  }
+
   late final _$gettingDistrictsLoaderAtom = Atom(
       name: '_ProfileDescriptionViewModel.gettingDistrictsLoader',
       context: context);
@@ -284,38 +332,6 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
     });
   }
 
-  late final _$openImagePickerAtom = Atom(
-      name: '_ProfileDescriptionViewModel.openImagePicker', context: context);
-
-  @override
-  DialogState get openImagePicker {
-    _$openImagePickerAtom.reportRead();
-    return super.openImagePicker;
-  }
-
-  @override
-  set openImagePicker(DialogState value) {
-    _$openImagePickerAtom.reportWrite(value, super.openImagePicker, () {
-      super.openImagePicker = value;
-    });
-  }
-
-  late final _$selectedImageAtom = Atom(
-      name: '_ProfileDescriptionViewModel.selectedImage', context: context);
-
-  @override
-  File? get selectedImage {
-    _$selectedImageAtom.reportRead();
-    return super.selectedImage;
-  }
-
-  @override
-  set selectedImage(File? value) {
-    _$selectedImageAtom.reportWrite(value, super.selectedImage, () {
-      super.selectedImage = value;
-    });
-  }
-
   late final _$selectedGenderAtom = Atom(
       name: '_ProfileDescriptionViewModel.selectedGender', context: context);
 
@@ -412,6 +428,17 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
       ActionController(name: '_ProfileDescriptionViewModel', context: context);
 
   @override
+  dynamic selectImage() {
+    final _$actionInfo = _$_ProfileDescriptionViewModelActionController
+        .startAction(name: '_ProfileDescriptionViewModel.selectImage');
+    try {
+      return super.selectImage();
+    } finally {
+      _$_ProfileDescriptionViewModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic name(String value) {
     final _$actionInfo = _$_ProfileDescriptionViewModelActionController
         .startAction(name: '_ProfileDescriptionViewModel.name');
@@ -500,17 +527,6 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
   }
 
   @override
-  dynamic selectImage() {
-    final _$actionInfo = _$_ProfileDescriptionViewModelActionController
-        .startAction(name: '_ProfileDescriptionViewModel.selectImage');
-    try {
-      return super.selectImage();
-    } finally {
-      _$_ProfileDescriptionViewModelActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic onRadioSelected(GenderRadio? selectedValue) {
     final _$actionInfo = _$_ProfileDescriptionViewModelActionController
         .startAction(name: '_ProfileDescriptionViewModel.onRadioSelected');
@@ -567,6 +583,9 @@ selectedCode: ${selectedCode},
 selectedDistrict: ${selectedDistrict},
 selectedState: ${selectedState},
 selectedCity: ${selectedCity},
+openImagePicker: ${openImagePicker},
+image: ${image},
+selectedImage: ${selectedImage},
 gettingDistrictsLoader: ${gettingDistrictsLoader},
 gettingCitiesLoader: ${gettingCitiesLoader},
 userName: ${userName},
@@ -574,8 +593,6 @@ userEmail: ${userEmail},
 uploadingLoader: ${uploadingLoader},
 genderSelected: ${genderSelected},
 informMessage: ${informMessage},
-openImagePicker: ${openImagePicker},
-selectedImage: ${selectedImage},
 selectedGender: ${selectedGender},
 selected: ${selected},
 finalCurrentDate: ${finalCurrentDate}

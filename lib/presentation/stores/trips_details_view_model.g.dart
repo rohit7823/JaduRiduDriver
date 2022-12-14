@@ -78,13 +78,13 @@ mixin _$TripsDetailsStore on _TripsViewModel, Store {
       Atom(name: '_TripsViewModel.tripDetailsArrayList', context: context);
 
   @override
-  List<TripsDetails> get tripDetailsArrayList {
+  List<Trip> get tripDetailsArrayList {
     _$tripDetailsArrayListAtom.reportRead();
     return super.tripDetailsArrayList;
   }
 
   @override
-  set tripDetailsArrayList(List<TripsDetails> value) {
+  set tripDetailsArrayList(List<Trip> value) {
     _$tripDetailsArrayListAtom.reportWrite(value, super.tripDetailsArrayList,
         () {
       super.tripDetailsArrayList = value;

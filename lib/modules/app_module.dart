@@ -542,11 +542,11 @@ class AppModule {
     dependency.registerLazySingleton<ProfileRepository>(
             () => ProfileShortRepositoryImpl(dio));
     dependency.registerLazySingleton<ProfileDetailsRepository>(
-            () => ProfileDetailsRepositoryImpl());
+            () => ProfileDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<DriverReferRepository>(
             () => DriverReferRepositoryImpl());
     dependency.registerLazySingleton<TripsDetailsRepository>(
-            () => TripsDetailsRepositoryImpl());
+            () => TripsDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<TermsAndConditionsRepository>(
             () => TermsAndContionsRepositoryImpl());
     dependency.registerLazySingleton<PrivacyPolicyRepository>(
