@@ -1,11 +1,23 @@
-import 'dart:ffi';
+class Incentive {
+  Incentive({
+    required this.heading,
+    required this.body,
+    required this.amount,
+  });
 
-class Incentive{
+  final String heading;
+  final String body;
+  final String amount;
 
-  String heading;
-   String description;
-   int incentivePrice;
+  factory Incentive.fromJson(Map<String, dynamic> json) => Incentive(
+    heading: json["heading"],
+    body: json["body"],
+    amount: json["amount"],
+  );
 
-   Incentive({required this.heading, required this.description, required this.incentivePrice});
-
+  Map<String, dynamic> toJson() => {
+    "heading": heading,
+    "body": body,
+    "amount": amount,
+  };
 }

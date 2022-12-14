@@ -16,6 +16,7 @@ import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/notification_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/number_input_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pan_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/pay_trip_screen.dart';
@@ -24,6 +25,7 @@ import 'package:jadu_ride_driver/presentation/screens/profile_picture_screen.dar
 import 'package:jadu_ride_driver/presentation/screens/rate_customer_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page_status.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
@@ -58,10 +60,6 @@ class DefaultNav {
 
     debugPrint(routeSettings.name);
     switch (routeSettings.name) {
-      /*case AppRoute.initialScreen:
-        return ScreenTransitions.rightToLeftTransitionWithEvent(InitialScreen(
-          sharedStore: sharedStore,
-        ));*/
       case AppRoute.splash:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             SplashScreen(sharedStore: sharedStore));
@@ -134,12 +132,17 @@ class DefaultNav {
 
       case AppRoute.currentBalance:
         return ScreenTransitions.rightToLeftTransition(
-            CurrentBalanceDetailsScreen(
-          currentBalanceKM: retrievedArgument,
-          sharedStore: sharedStore,
-        ));
+            CurrentBalanceDetailsScreen());
 
-      case AppRoute.profileDetails:
+      case AppRoute.notification:
+        return ScreenTransitions.rightToLeftTransition(
+            NotificationScreen());
+
+      case AppRoute.walletPaymentStatus:
+        return ScreenTransitions.bottomToTopTransition(
+            RiderWalletStatus(argument: retrievedArgument));
+
+        case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(
             ProfileDetailsScreen(profileShortDescription: retrievedArgument));
 

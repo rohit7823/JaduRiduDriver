@@ -43,5 +43,6 @@ enum Screen {
   verifyTripOtp,
   payTrip,
   rateCustomer,
-  splash
+  walletPaymentStatus,
+  notification
 }

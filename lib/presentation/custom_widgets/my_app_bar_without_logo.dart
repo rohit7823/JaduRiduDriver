@@ -12,7 +12,7 @@ class MyAppBarWithOutLogo extends StatelessWidget implements PreferredSizeWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 0.16.sw,
+      toolbarHeight: 0.10.sw,
       backgroundColor: AppColors.primary,
       leading: NavigateBack(onPop: onPop),
     );

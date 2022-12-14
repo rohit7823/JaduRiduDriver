@@ -9,6 +9,8 @@ class Constants {
 
   static const userName = "UserName";
 
+  static const walletOption = "wallet_option";
+
   static const driverStatus = "DRIVER_STATUS";
 
   static const accountStatus = "ACCOUNT_STATUS";

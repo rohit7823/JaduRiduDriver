@@ -7,20 +7,20 @@ import '../core/domain/trips_details.dart';
 class TripsDetailsRepositoryImpl extends TripsDetailsRepository {
   @override
   Future<Resource<RequiredDataTripsDetailsResponse>> getTripsDetailsInittialData(
-      String userId) async {
+      String userId, String finalCurrentDate) async {
     await Future.delayed(const Duration(seconds: 2));
     return Success(RequiredDataTripsDetailsResponse(
         status: true,
         message: "Success",
         tripsDetailsList: List.generate(
-            5,
+            3,
             (index) => TripsDetails(
                 date: "Monday 18th June , 2022",
                 time: "Today: 5:15 pm",
                 id: "5431443675434214",
                 destinationAddress: "V-xplore Technologies",
                 farePrice: "400.00",
-                paymentType: "CASH",
+                paymentType: "Cash",
                 sourceAddress: "Howrah Railway Station"))));
   }
 }

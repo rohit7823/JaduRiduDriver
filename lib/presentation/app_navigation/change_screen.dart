@@ -4,15 +4,15 @@ import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 
 class ChangeScreen {
-  final GlobalKey<NavigatorState> dashboardNav = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> dashBoardNavigator;
 
-  ChangeScreen();
+  ChangeScreen(this.dashBoardNavigator);
 
-  to(BuildContext context, Screen screen,
+  static to(BuildContext context, Screen screen,
       {Function? onComplete,
-      Object? arguments,
-      Function(Object)? fromScreen,
-      NavigationOption? option}) async {
+        Object? arguments,
+        Function(Object)? fromScreen,
+        NavigationOption? option}) async {
     switch (screen) {
       case Screen.none:
         debugPrint("changeScreen: there is nothing");
@@ -57,6 +57,7 @@ class ChangeScreen {
         await _navigate(context, AppRoute.allDetails,
             arguments: arguments, onComplete: onComplete);
         break;
+
       case Screen.identifyDetails:
         _navigate(context, AppRoute.identifyDetails,
             arguments: arguments,
@@ -137,10 +138,19 @@ class ChangeScreen {
         _navigate(
           context,
           AppRoute.currentBalance,
-          arguments: arguments,
-          onComplete: onComplete,
+          onComplete: onComplete, fromScreen: fromScreen
         );
         break;
+
+      case Screen.notification:
+        _navigate(
+            context,
+            AppRoute.notification,
+            arguments: arguments,
+            onComplete: onComplete,
+        );
+        break;
+
       case Screen.profileDetailsScreen:
         _navigate(
           context,
@@ -225,6 +235,17 @@ class ChangeScreen {
           onComplete: onComplete,
         );
         break;
+
+
+      case Screen.walletPaymentStatus:
+        _navigate(
+          context,
+          AppRoute.walletPaymentStatus,
+          arguments: arguments,
+          onComplete: onComplete,
+        );
+        break;
+
       case Screen.amountTransfferedByDayScreen:
         _navigate(
           context,
@@ -265,39 +286,45 @@ class ChangeScreen {
 
   nestedTo(Screen screen,
       {Function? onComplete,
-      Object? arguments,
-      Function(Object)? fromScreen,
-      NavigationOption? option}) async {
+        Object? arguments,
+        Function(Object)? fromScreen,
+        NavigationOption? option}) async {
     switch (screen) {
       case Screen.duty:
-        _nestedNavigateWithOption(AppRoute.duty, option!);
+        _navigateWithOption(
+            dashBoardNavigator.currentState!.context, AppRoute.duty, option!);
         break;
       case Screen.accounts:
-        _nestedNavigateWithOption(AppRoute.accounts, option!);
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.accounts, option!, fromScreen: fromScreen);
         break;
       case Screen.incentives:
-        _nestedNavigateWithOption(AppRoute.incentives, option!);
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.incentives, option!);
         break;
       case Screen.partnerCare:
-        _nestedNavigateWithOption(AppRoute.partnerCare, option!);
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.partnerCare, option!);
         break;
       case Screen.schedule:
-        _nestedNavigateWithOption(AppRoute.schedule, option!);
+        _navigateWithOption(dashBoardNavigator.currentState!.context,
+            AppRoute.schedule, option!);
         break;
       case Screen.more:
-        _nestedNavigateWithOption(AppRoute.more, option!);
+        _navigateWithOption(
+            dashBoardNavigator.currentState!.context, AppRoute.more, option!);
         break;
     }
 
     onComplete?.call();
   }
 
-  _navigate(BuildContext context, String destination,
+  static _navigate(BuildContext context, String destination,
       {Function? onComplete,
-      Object? arguments,
-      Function(Object)? fromScreen}) async {
-    var returnedValue =
-        Navigator.of(context).pushNamed(destination, arguments: arguments);
+        Object? arguments,
+        Function(Object)? fromScreen}) async {
+    var returnedValue = await Navigator.of(context)
+        .pushNamed(destination, arguments: arguments);
 
     if (returnedValue != null) {
       fromScreen?.call(returnedValue);
@@ -306,9 +333,11 @@ class ChangeScreen {
     onComplete?.call();
   }
 
-  _navigateWithOption(
+  static _navigateWithOption(
       BuildContext context, String destination, NavigationOption option,
-      {Function? onComplete, Object? arguments}) async {
+      {Function? onComplete, Object? arguments, Function(Object)? fromScreen}) async {
+    Object? returnedValue;
+
     switch (option.option) {
       case Option.popPrevious:
         await Navigator.of(context)
@@ -319,35 +348,23 @@ class ChangeScreen {
             .pushNamedAndRemoveUntil(destination, (route) => false);
         break;
       default:
-        await Navigator.of(context)
+        returnedValue = await Navigator.of(context)
             .pushNamed(destination, arguments: arguments);
     }
-    onComplete?.call();
-  }
 
-  _nestedNavigateWithOption(String destination, NavigationOption option,
-      {Function? onComplete, Object? arguments}) async {
-    switch (option.option) {
-      case Option.popPrevious:
-        dashboardNav.currentState
-            ?.popAndPushNamed(destination, arguments: arguments);
-        break;
-      case Option.popAll:
-        await dashboardNav.currentState
-            ?.pushNamedAndRemoveUntil(destination, (route) => false);
-        break;
-      default:
-        await dashboardNav.currentState
-            ?.pushNamed(destination, arguments: arguments);
+    if(returnedValue != null){
+      fromScreen?.call(
+        returnedValue
+      );
     }
     onComplete?.call();
   }
 
-  _navigatePop(BuildContext context, [Object? result]) async {
+  static _navigatePop(BuildContext context, [Object? result]) async {
     Navigator.of(context).pop(result);
   }
 
-  from(BuildContext context, Screen dest,
+  static from(BuildContext context, Screen dest,
       {Function? onCompleted, Object? result}) {
     if (dest == Screen.addAllDetails) {
       _navigatePop(context, result);
@@ -358,6 +375,8 @@ class ChangeScreen {
     } else if (dest == Screen.rideNavigation) {
       _navigatePop(context, result);
     } else if (dest == Screen.rateCustomer) {
+      _navigatePop(context, result);
+    }else if (dest == Screen.accounts) {
       _navigatePop(context, result);
     }
     onCompleted?.call();

@@ -37,13 +37,13 @@ abstract class _AmountTransfferedByDays with Store{
       isLoading = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.amountTransferredByDay.isEmpty) {
+          if (data!.Transferredamount.isEmpty) {
             isEmpty = true;
             msg = data.message;
           } else {
             isEmpty = false;
             msg = data.message;
-            amountTransferredList = data.amountTransferredByDay;
+            amountTransferredList = data.Transferredamount;
           }
       } //switch
     } else if (response is Error) {

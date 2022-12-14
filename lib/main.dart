@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -8,14 +8,10 @@ import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/core/helpers/push_notification.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
-import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/default_nav.dart';
-import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_overlay_widget.dart';
-import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/service/task_handlers/destination_task_handler.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
@@ -95,18 +91,20 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(428, 926),
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            onGenerateRoute:
-                DefaultNav(sharedStore: sharedStore).generatedRoute,
-            localizationsDelegates: context.localizationDelegates,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme,
-            themeMode: ThemeMode.light,
-            //initialRoute: AppRoute.welcomeJaduRide,
-            initialRoute: AppRoute.splash,
-            //initialRoute: AppRoute.profilePicture,
-          );
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              navigatorKey: AppModule.alice.getNavigatorKey(),
+              localizationsDelegates: context.localizationDelegates,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.lightTheme,
+              onGenerateRoute:
+                  DefaultNav(sharedStore: sharedStore).generatedRoute,
+              themeMode: ThemeMode.light,
+              //initialRoute: AppRoute.welcomeJaduRide,
+              //initialRoute: AppRoute.allDetails
+              initialRoute: AppRoute.splash
+              //initialRoute: AppRoute.profilePicture,
+              );
         },
       ),
     );

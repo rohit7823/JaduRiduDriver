@@ -26,20 +26,10 @@ class TodaysPaymentReposityImpl implements TodaysPaymentRepository {
 
   @override
   Future<Resource<GetTodaysPaymentResponse>> getTodaysPaymentResponse(String userInputId) async{
-
-    return await _todaysPaymentApi
+      return await _todaysPaymentApi
         .paymenttoday(userInputId)
         .handleResponse<GetTodaysPaymentResponse>();
 
-
-    // await Future.delayed(const Duration(seconds: 2));
-    // return Success(GetTodaysPaymentResponse(status: true, message: "Success",
-    //     todaysPayment: List.generate(5,
-    //         (index) => TodaysPayment(
-    //             dateAndTime: "Monday 18th June , 2022 5:39 PM", paymentMethod: "ONLINE", price: 400
-    //         ))
-
-    // ));
   }
 
 }

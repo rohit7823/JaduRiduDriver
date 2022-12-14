@@ -122,6 +122,22 @@ mixin _$DutyStore on _DutyScreenStore, Store {
     });
   }
 
+  late final _$notificationStatusAtom =
+      Atom(name: '_DutyScreenStore.notificationStatus', context: context);
+
+  @override
+  String get notificationStatus {
+    _$notificationStatusAtom.reportRead();
+    return super.notificationStatus;
+  }
+
+  @override
+  set notificationStatus(String value) {
+    _$notificationStatusAtom.reportWrite(value, super.notificationStatus, () {
+      super.notificationStatus = value;
+    });
+  }
+
   late final _$onDriverStatusChangedAsyncAction =
       AsyncAction('_DutyScreenStore.onDriverStatusChanged', context: context);
 
@@ -149,7 +165,8 @@ timeStamp: ${timeStamp},
 selectedStatus: ${selectedStatus},
 errorMsg: ${errorMsg},
 gettingSummaryLoader: ${gettingSummaryLoader},
-informMessage: ${informMessage}
+informMessage: ${informMessage},
+notificationStatus: ${notificationStatus}
     ''';
   }
 }

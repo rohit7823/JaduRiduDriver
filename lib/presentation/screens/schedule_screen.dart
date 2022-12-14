@@ -138,29 +138,28 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         fontWeight: FontWeight.w600,
                       )),
                 ),
+                SizedBox(
+                  width: 0.07.sw,
+                ),
                 Expanded(
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.only(left: 5.sp),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("TIME : ",
+                    child: Text("TIME : ",
                             style: TextStyle(
                               color: AppColors.primaryVariant,
                               fontSize: 13.sp,
                             )),
-                      ],
-                    ),
+
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Text(scheduleStore.scheduleArrayList[index].time,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,
-                      )),
+                      )).paddings(vertical: 0.01.sw, horizontal: 0.03.sw),
                 )
               ],
             ),
@@ -221,27 +220,27 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   ),
                 ),
 
-                   Expanded(
-                    flex: 3,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Icon(
-                            size: 60,
-                            Icons.navigation,
-                            color: AppColors.secondaryVariant,
-                          ),
-                          Text(StringProvider.navigatesTxt,
-                              style: TextStyle(
-                                color: AppColors.secondaryVariant,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
+                //  Expanded(
+                  //   flex: 3,
+                  //   child: Align(
+                  //     alignment: Alignment.center,
+                  //     child: Column(
+                  //       children: [
+                  //         Icon(
+                  //           size: 60,
+                  //           Icons.navigation,
+                  //           color: AppColors.secondaryVariant,
+                  //         ),
+                  //         Text(StringProvider.navigatesTxt,
+                  //             style: TextStyle(
+                  //               color: AppColors.secondaryVariant,
+                  //               fontSize: 14.sp,
+                  //               fontWeight: FontWeight.w600,
+                  //             )),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
               ],
             ),
           ],

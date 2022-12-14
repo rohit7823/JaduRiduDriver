@@ -50,7 +50,8 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
               arguments: p0.argument,
               option: p0.option,
               onComplete: _store.clear,
-              fromScreen: _store.refreshData);
+              fromScreen: _store.refreshData
+          );
         }
       }),
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {

@@ -106,6 +106,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$currentBalanceAtom =
+      Atom(name: '_SharedStore.currentBalance', context: context);
+
+  @override
+  String? get currentBalance {
+    _$currentBalanceAtom.reportRead();
+    return super.currentBalance;
+  }
+
+  @override
+  set currentBalance(String? value) {
+    _$currentBalanceAtom.reportWrite(value, super.currentBalance, () {
+      super.currentBalance = value;
+    });
+  }
+
   late final _$rideFareResponseAtom =
       Atom(name: '_SharedStore.rideFareResponse', context: context);
 
@@ -119,22 +135,6 @@ mixin _$SharedStore on _SharedStore, Store {
   set rideFareResponse(TotalRideFareResponse? value) {
     _$rideFareResponseAtom.reportWrite(value, super.rideFareResponse, () {
       super.rideFareResponse = value;
-    });
-  }
-
-  late final _$notificationPayloadAtom =
-      Atom(name: '_SharedStore.notificationPayload', context: context);
-
-  @override
-  NotificationPayload? get notificationPayload {
-    _$notificationPayloadAtom.reportRead();
-    return super.notificationPayload;
-  }
-
-  @override
-  set notificationPayload(NotificationPayload? value) {
-    _$notificationPayloadAtom.reportWrite(value, super.notificationPayload, () {
-      super.notificationPayload = value;
     });
   }
 
@@ -207,22 +207,22 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
-  dynamic _setTotalRideFare(TotalRideFareResponse response) {
+  dynamic onChangeCurrentBalance(String data) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
-        name: '_SharedStore._setTotalRideFare');
+        name: '_SharedStore.onChangeCurrentBalance');
     try {
-      return super._setTotalRideFare(response);
+      return super.onChangeCurrentBalance(data);
     } finally {
       _$_SharedStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic handleNotificationPayload(String? payload) {
+  dynamic _setTotalRideFare(TotalRideFareResponse response) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
-        name: '_SharedStore.handleNotificationPayload');
+        name: '_SharedStore._setTotalRideFare');
     try {
-      return super.handleNotificationPayload(payload);
+      return super._setTotalRideFare(response);
     } finally {
       _$_SharedStoreActionController.endAction(_$actionInfo);
     }
@@ -237,8 +237,8 @@ gettingDataLoader: ${gettingDataLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
-rideFareResponse: ${rideFareResponse},
-notificationPayload: ${notificationPayload}
+currentBalance: ${currentBalance},
+rideFareResponse: ${rideFareResponse}
     ''';
   }
 }

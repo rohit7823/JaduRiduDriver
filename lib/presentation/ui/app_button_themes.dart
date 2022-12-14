@@ -15,6 +15,12 @@ class AppButtonThemes {
       shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.r))));
 
+  static var backBtnStyle = ButtonStyle(
+      fixedSize: MaterialStateProperty.all(Size(0.50.sw, 65.h)),
+      backgroundColor: MaterialStateProperty.all(AppColors.appBlack),
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r))));
+
   static var passBtnTheme = ButtonStyle(
       //fixedSize: MaterialStateProperty.all(Size(120.w, 60.h)),
       backgroundColor: MaterialStateProperty.all(Colors.transparent),
@@ -57,5 +63,11 @@ class AppButtonThemes {
       fixedSize: MaterialStateProperty.all(Size(392.w, 65.h)),
       backgroundColor: MaterialStateProperty.all(AppColors.Black),
       shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))));
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r))));
+
+  static var customdefaultStyle = ButtonStyle(
+      fixedSize: MaterialStateProperty.all(Size(392.w, 65.h)),
+      backgroundColor: MaterialStateProperty.all(AppColors.Black),
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r))));
 }

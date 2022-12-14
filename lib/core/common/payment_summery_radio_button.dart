@@ -1,6 +1,6 @@
 enum  DriverTransactionPaymentSummeryType{
-  online("online"),
-  cash("cash"),
+  online("Online"),
+  cash("Cash"),
   none('none');
 
   final String name;

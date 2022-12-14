@@ -85,4 +85,10 @@ class MyDialogImpl implements MyDialog {
         break;
     }
   }
+
+  @override
+  Future showWithCustomData(AlertData data, DialogState state, Widget ui, {Function? close}) {
+    // TODO: implement showWithCustomData
+    throw UnimplementedError();
+  }
 }

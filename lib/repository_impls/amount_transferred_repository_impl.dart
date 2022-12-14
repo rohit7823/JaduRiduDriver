@@ -12,7 +12,7 @@ class AmountTransferredByDayRepositoryImpl implements AmountTransfferedByDayRepo
 //GetAmountTransferredResponse
     await Future.delayed(const Duration(seconds: 2));
     return Success(GetAmountTransferredResponse(status: true, message: "Success",
-        amountTransferredByDay: List.generate(5, (index) => AmountTransferredByDayResponseClass(date: "Monday 18th June , 2022", time: "5:39 PM", price: 400.00))));
+        Transferredamount: List.generate(5, (index) => AmountTransferredByDayResponseClass(date: "Monday 18th June , 2022", time: "5:39 PM", price: 400.00))));
   }
   
 }

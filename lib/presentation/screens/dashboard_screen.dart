@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,7 +19,9 @@ import '../ui/theme.dart';
 
 class DashboardScreen extends StatefulWidget {
   final SharedStore sharedStore;
-  DashboardScreen({Key? key, required this.sharedStore}) : super(key: key);
+
+  const DashboardScreen({Key? key, required this.sharedStore})
+      : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -30,14 +31,16 @@ class _DashboardScreenState extends State<DashboardScreen>
     with WidgetsBindingObserver {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final GlobalKey<NavigatorState> dashBoardNavigator;
   late final ChangeScreen changeScreen;
 
   @override
   void initState() {
     widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
-    changeScreen = dependency<ChangeScreen>();
-
+    widget.sharedStore.connectToSocket();
+    dashBoardNavigator = GlobalKey<NavigatorState>();
+    changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
@@ -52,59 +55,63 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
-      reaction((p0) => widget.sharedStore.currentChange, fireImmediately: true,
-          (p0) {
+      reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null) {
           debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
-            changeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: widget.sharedStore.clear);
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument, onComplete: widget.sharedStore.clear, fromScreen: (data) {
+              debugPrint("FROMCURRENT Bal $data");
+              widget.sharedStore.onChangeCurrentBalance(data as String);
+            });
           } else if (p0.screen == Screen.profileDetailsScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.referScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.termsAndConditionsScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.privacyPolicyScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.refundPolicyScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.helpScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.emergencySupportScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.tripsScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.todaysPaymentScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
-          } else if (p0.screen == Screen.paymentSummeryScreen) {
-            changeScreen.to(context, p0.screen,
+          }else if (p0.screen == Screen.paymentSummeryScreen) {
+            ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
+          } else if (p0.screen == Screen.notification) {
+            ChangeScreen.to(context, p0.screen, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.amountTransfferedByDayScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.paymentDetails) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.changeLanguage) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.rideNavigation) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.numberInputScreen) {
-            changeScreen.to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument);
@@ -138,32 +145,34 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: Observer(builder: (BuildContext context) {
-          return SizedBox(
-            height: widget.sharedStore.isVisible ? 0.0 : 80.0,
-            child: BottomNavigationBar(
-                showUnselectedLabels: true,
-                onTap: widget.sharedStore.onBottomMenu,
-                currentIndex: widget.sharedStore.selectedMenu,
-                unselectedFontSize: 10.sp,
-                unselectedItemColor: AppColors.Acadia,
-                selectedItemColor: AppColors.Amber,
-                items: BottomMenus.values.map((menu) {
-                  return BottomNavigationBarItem(
-                      tooltip: menu.name,
-                      label: menu.name,
-                      icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
-                      activeIcon:
-                          SvgPicture.asset(menu.icon, color: AppColors.Amber));
-                }).toList()),
-          );
-        }),
-        body: Navigator(
-          key: changeScreen.dashboardNav,
-          initialRoute: AppRoute.duty,
-          onGenerateRoute: (routeSettings) =>
-              DashboardNav.getRoutes(routeSettings, widget.sharedStore),
-        ));
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: Observer(builder: (BuildContext context) {
+        return SizedBox(
+          height: widget.sharedStore.isVisible ? 0.0 : 80.0,
+          child: BottomNavigationBar(
+              showUnselectedLabels: true,
+              onTap: widget.sharedStore.onBottomMenu,
+              currentIndex: widget.sharedStore.selectedMenu,
+              unselectedFontSize: 10.sp,
+              unselectedItemColor: AppColors.Acadia,
+              selectedItemColor: AppColors.Amber,
+              items: BottomMenus.values.map((menu) {
+                return BottomNavigationBarItem(
+                    tooltip: menu.name,
+                    label: menu.name,
+                    icon: SvgPicture.asset(menu.icon, color: AppColors.Gray),
+                    activeIcon:
+                        SvgPicture.asset(menu.icon, color: AppColors.Amber));
+              }).toList()),
+        );
+      }),
+      body: Navigator(
+        initialRoute: AppRoute.duty,
+        key: dashBoardNavigator,
+        onGenerateRoute: (setting) {
+          return DashboardNav.getRoutes(setting, widget.sharedStore);
+        },
+      ),
+    );
   }
 }

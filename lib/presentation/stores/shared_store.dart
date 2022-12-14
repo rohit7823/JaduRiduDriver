@@ -35,6 +35,7 @@ import 'package:jadu_ride_driver/core/repository/driver_live_location_repository
 import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
+import 'package:jadu_ride_driver/presentation/stores/accounts_view_model.dart';
 import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -63,6 +64,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
   late final DriverBookingStore driverBookings;
+
   late TokenSender tokenSender;
 
   @observable
@@ -93,9 +95,13 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   RideLocationResponse? dropLocationData;
 
+  @observable
+  String? currentBalance;
+
   _SharedStore() {
     driverBookings = DriverBookingStore();
     handlePushNotification();
+
   }
 
   initiateBatchCall() {
@@ -334,6 +340,9 @@ abstract class _SharedStore extends AppNavigator with Store {
     });
   }
 
+
+
+
   @action
   onBottomMenu(int index) {
     if (index != selectedMenu) {
@@ -384,6 +393,8 @@ abstract class _SharedStore extends AppNavigator with Store {
     driverBookings.onBookingPass(status);
   }
 
+
+
   @action
   onOkay(BookingStatus status) async {
     driverBookings.onBookingAccept(status);
@@ -421,6 +432,13 @@ abstract class _SharedStore extends AppNavigator with Store {
     dropLocationData = response;
   }
 
+
+
+  @action
+  onChangeCurrentBalance(String data) {
+    currentBalance = data;
+  }
+
   @observable
   TotalRideFareResponse? rideFareResponse;
 
@@ -439,6 +457,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   void initFirebase() async {
     var userId = _prefs.userId();
     tokenSender = TokenSender(repository: _repository, storage: _storage);
+    await _pushNotification.init();
     debugPrint("fcm token: ${_pushNotification.getFirstToken()}");
     tokenSender
         .sendToServer(userId, _pushNotification.getFirstToken() ?? "")

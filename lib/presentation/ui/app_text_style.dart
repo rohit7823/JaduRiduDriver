@@ -19,6 +19,28 @@ class AppTextStyle {
       decoration: TextDecoration.none,
       color: AppColors.secondaryVariant);
 
+  static var filterParamStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontWeight: FontWeightManager.regular,
+      fontSize: 13.sp,
+      color: AppColors.white);
+
+
+
+  static var rideSpecificDetailCountStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+      decoration: TextDecoration.none,
+      color: AppColors.primaryVariant);
+
+
+  static var packageBtnStyle = TextStyle(
+      fontFamily: FontConstants.fontFamilyPoppins,
+      fontWeight: FontWeightManager.medium,
+      fontSize: 20.sp,
+      color: AppColors.appBlack);
+
   static var profileNameText = TextStyle(
       fontFamily: AppFonts.poppins,
       fontSize: 16.sp,
@@ -63,7 +85,7 @@ class AppTextStyle {
 
   static var currentBalanceTitle = TextStyle(
       fontFamily: AppFonts.poppins,
-      fontSize: 30.sp,
+      fontSize: 40.sp,
       fontWeight: FontWeight.normal,
       decoration: TextDecoration.none,
       color: AppColors.secondaryVariant);
@@ -293,6 +315,7 @@ class AppTextStyle {
       color: AppColors.Black,
       decoration: TextDecoration.none);
 
+
   static var introHeadingStyle = TextStyle(
       fontFamily: AppFonts.poppins,
       fontWeight: FontWeight.normal,
@@ -426,6 +449,13 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
     fontWeight: FontWeight.w600,
     color: const Color(0xFFFFFFFF),
+    fontSize: 20.sp,
+  );
+
+  static var backButtonTxt = TextStyle(
+    fontFamily: AppFonts.poppins,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xff212121),
     fontSize: 20.sp,
   );
 

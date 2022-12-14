@@ -7,5 +7,8 @@ class RequiredDataTripsDetailsResponse extends BusinessObject{
   String message;
   List<TripsDetails> tripsDetailsList;
 
-  RequiredDataTripsDetailsResponse({required this.status, required this.message, required this.tripsDetailsList});
+  RequiredDataTripsDetailsResponse({
+    required this.status,
+    required this.message,
+    required this.tripsDetailsList});
 }

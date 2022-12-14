@@ -68,6 +68,7 @@ class AppRoute {
   static const splash = "/splash";
   static const intro = "/intro";
   static const currentBalance = "/currentBalance";
+  static const notification = "/notification";
   static const profileDetails = "/profileDetails";
   static const todaysPayment = "/todaysPayment";
   static const referScreen = "/referScreen";
@@ -78,5 +79,6 @@ class AppRoute {
   static const emergencySupportScreen = "/emergencySupportScreen";
   static const tripsScreen = "/tripsScreen";
   static const paymentSummery = "/paymentSummery";
+  static const walletPaymentStatus = "/walletPaymentStatus";
   static const amountTransfferedByDay = "/amountTransfferedByDay";
 }

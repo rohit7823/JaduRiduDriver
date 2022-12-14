@@ -103,17 +103,6 @@ mixin _$TripsDetailsStore on _TripsViewModel, Store {
       ActionController(name: '_TripsViewModel', context: context);
 
   @override
-  dynamic onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
-    final _$actionInfo = _$_TripsViewModelActionController.startAction(
-        name: '_TripsViewModel.onRadioSelected');
-    try {
-      return super.onRadioSelected(selectedValue);
-    } finally {
-      _$_TripsViewModelActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic currentDate() {
     final _$actionInfo = _$_TripsViewModelActionController.startAction(
         name: '_TripsViewModel.currentDate');
@@ -130,6 +119,17 @@ mixin _$TripsDetailsStore on _TripsViewModel, Store {
         name: '_TripsViewModel.onSelectDate');
     try {
       return super.onSelectDate(selected);
+    } finally {
+      _$_TripsViewModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
+    final _$actionInfo = _$_TripsViewModelActionController.startAction(
+        name: '_TripsViewModel.onRadioSelected');
+    try {
+      return super.onRadioSelected(selectedValue);
     } finally {
       _$_TripsViewModelActionController.endAction(_$actionInfo);
     }
