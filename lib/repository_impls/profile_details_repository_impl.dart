@@ -1,4 +1,6 @@
 
+import 'dart:html';
+
 import 'package:jadu_ride_driver/core/common/response.dart';
 
 import 'package:jadu_ride_driver/core/domain/response/cities_response.dart';
@@ -68,6 +70,7 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
       String districtId,
       String cityId,
       String gender,
+      File? profileImage,
       String dob) async
   {
     await Future.delayed(const Duration(seconds: 2));

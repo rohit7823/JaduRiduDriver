@@ -1,5 +1,7 @@
 
 
+import 'dart:html';
+
 import '../common/response.dart';
 import '../domain/response/cities_response.dart';
 import '../domain/response/districts_response.dart';
@@ -21,5 +23,6 @@ abstract class ProfileDetailsRepository{
       String cityId,
       String gender,
       String dob,
+      File? profileImage,
       );
 }

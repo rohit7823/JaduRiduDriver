@@ -68,6 +68,16 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   Package? selectedCity;
 
   @observable
+  DialogState openImagePicker = DialogState.notDisplaying;
+
+  @observable
+  String image = "";
+
+
+  @observable
+  File? selectedImage;
+
+  @observable
   bool gettingDistrictsLoader = false;
 
   @observable
@@ -91,6 +101,11 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     _picker = ImagePicker();
     _cropper = ImageCropper();
   }
+  @action
+  selectImage() {
+    dialogManager.openFilePicker();
+  }
+
 
   @action
   _initialData() async {
@@ -412,6 +427,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     uploadingLoader = true;
     var response = await _repository.uploadProfileDetails(
         _storage.userId(),
+
         userName,
         userEmail,
         userMobileNumber,
@@ -419,7 +435,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
         selectedDistrict?.id ?? "",
         selectedCity?.id ?? "",
         genderSelected,
-        finalCurrentDate);
+        finalCurrentDate,);
 
     if (response is Success) {
       var data = response.data;

@@ -138,14 +138,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         fontWeight: FontWeight.w600,
                       )),
                 ),
-                SizedBox(
-                  width: 0.07.sw,
-                ),
+
                 Expanded(
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.only(left: 5.sp),
-                    child: Text("TIME : ",
+                    child: Text("TIME:",
                             style: TextStyle(
                               color: AppColors.primaryVariant,
                               fontSize: 13.sp,
@@ -159,7 +157,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,
-                      )).paddings(vertical: 0.01.sw, horizontal: 0.03.sw),
+                      )).paddings(vertical: 0.01.sw, horizontal: 0.01.sw),
                 )
               ],
             ),
