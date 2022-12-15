@@ -372,11 +372,10 @@ extension ConvertToDriverAccountStatus on String {
   }
 }
 
-
 extension ConvertStringToScreenEnum on String {
   Screen toScreen() {
     for (var screen in Screen.values) {
-      if(screen.name == this) {
+      if (screen.name == this) {
         return screen;
       }
     }

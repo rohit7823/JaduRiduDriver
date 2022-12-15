@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/sereen_argument_models/emergency_screen_argument.dart';
 import 'package:jadu_ride_driver/presentation/screens/aadhar_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_vehicle_screen.dart';
@@ -13,6 +14,7 @@ import 'package:jadu_ride_driver/presentation/screens/application_submitted_scre
 import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/dashboard_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/emergengy_place_search_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
@@ -135,14 +137,13 @@ class DefaultNav {
             CurrentBalanceDetailsScreen());
 
       case AppRoute.notification:
-        return ScreenTransitions.rightToLeftTransition(
-            NotificationScreen());
+        return ScreenTransitions.rightToLeftTransition(NotificationScreen());
 
       case AppRoute.walletPaymentStatus:
         return ScreenTransitions.bottomToTopTransition(
             RiderWalletStatus(argument: retrievedArgument));
 
-        case AppRoute.profileDetails:
+      case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(
             ProfileDetailsScreen(profileShortDescription: retrievedArgument));
 
@@ -200,6 +201,11 @@ class DefaultNav {
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+      case AppRoute.emergencyPlacesScreen:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
+            EmergencyPlaceSearchScreen(
+          data: retrievedArgument as EmergencyScreenArgument,
+        ));
       default:
         return null;
     }
@@ -220,6 +226,9 @@ class DefaultNav {
         return arguments;
       }
       if (arguments is RideIds) {
+        return arguments;
+      }
+      if (arguments is EmergencyScreenArgument) {
         return arguments;
       }
     }

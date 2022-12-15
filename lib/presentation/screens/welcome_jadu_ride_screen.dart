@@ -63,9 +63,8 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
         }
       }),
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>()
-              .to(context, p0.screen, onComplete: _store.clear);
+        if (p0 != null) {
+          ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
         }
       }),
     ];

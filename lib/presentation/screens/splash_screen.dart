@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
       }),
       reaction((p0) => sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().to(context, p0.screen,
+          ChangeScreen.to(context, p0.screen,
               option: p0.option, onComplete: sharedStore.clear);
         }
       }),

@@ -441,16 +441,13 @@ class StringProvider {
 
   static const okay = "OKAY";
 
-
   static var paymentId = "Payment ID: ";
-
 
   static var rechargeSuccesful = "RechargeSuccesful";
 
   static var reason = "Reason: ";
 
   static var rechargeSuccessful = "Recharge Successful";
-
 
   static var back = "Back";
 
@@ -509,6 +506,8 @@ class StringProvider {
   static const recieve = "Receive";
   static const from = "From -";
   static const to = "To -";
+  static const origin = "From";
+  static const destination = "To";
   static const customarName = "Customer Name : ";
   static const pickUpLocation = "PICKUP LOCATION";
   static const navigatesTxt = "NAVIGATE";
@@ -864,6 +863,18 @@ class StringProvider {
   static var areYouReallyWantToLogout = "Are you really want to Logout ?";
 
   static var Yes = "Yes";
+
+  static var bookAnEmergencyRide = "Book an emergency ride.";
+
+  static var chooseHospital = "Choose Hospital";
+
+  static var currentLocation = "Current Location";
+
+  static var endingDestination = "Select destination";
+
+  static var currentlyOpen = "Open";
+
+  static var closedNow = "Closed";
 
   StringProvider._();
 

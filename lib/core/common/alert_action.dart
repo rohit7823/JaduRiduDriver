@@ -31,5 +31,6 @@ enum AlertAction {
   submitCustomerReview,
   none,
   subtypesalert,
-  logout;
+  logout,
+  emergencyPlaces;
 }

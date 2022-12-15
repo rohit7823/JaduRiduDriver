@@ -63,6 +63,8 @@ class AppRoute {
 
   static const initialScreen = "/initialScreen";
 
+  static const emergencyPlacesScreen = "/emergencyPlacesScreen";
+
   AppRoute._();
 
   static const splash = "/splash";

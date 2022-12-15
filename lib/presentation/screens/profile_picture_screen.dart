@@ -60,7 +60,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().from(context, p0.screen,
+          ChangeScreen.from(context, p0.screen,
               onCompleted: _store.clear, result: p0.argument);
         }
       }),

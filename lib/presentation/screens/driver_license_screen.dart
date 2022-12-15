@@ -67,7 +67,7 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().from(context, p0.screen,
+          ChangeScreen.from(context, p0.screen,
               result: p0.argument, onCompleted: _store.clear);
         }
       }),

@@ -58,7 +58,7 @@ class _RateCustomerScreenState extends State<RateCustomerScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null) {
-          dependency<ChangeScreen>().from(context, p0.screen, onCompleted: _store.clear);
+          ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
         }
       })
     ];

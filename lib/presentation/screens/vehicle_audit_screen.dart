@@ -70,7 +70,7 @@ class _VehicleAuditScreenState extends State<VehicleAuditScreen> {
       }),
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().from(context, p0.screen, result: p0.argument);
+          ChangeScreen.from(context, p0.screen, result: p0.argument);
         }
       })
     ];

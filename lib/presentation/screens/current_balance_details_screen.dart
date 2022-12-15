@@ -92,9 +92,7 @@ class _CurrentBalanceDetailsScreenState
         }
       }),
       reaction((p0) => currentBalanceStore.msgInformer.currentMsg, (p0) {
-        if(p0.isEmpty){
-
-        }
+        if (p0.isEmpty) {}
       })
     ];
   }
@@ -164,7 +162,6 @@ class _CurrentBalanceDetailsScreenState
                                                           .currentBalanceDetails,
                                                     )
                                                   : Text("fetching...")),
-
                                     ],
                                   )
                                 ],
@@ -308,8 +305,7 @@ class _CurrentBalanceDetailsScreenState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Observer(builder: (BuildContext context) {
-                                      return Text(
-                                          currentBalanceStore.date,
+                                      return Text(currentBalanceStore.date,
                                           style: TextStyle(
                                               color: AppColors.secondaryVariant,
                                               fontSize: 16.sp));
@@ -415,7 +411,6 @@ class _CurrentBalanceDetailsScreenState
                               fontWeight: FontWeight.w500))
                       .paddings(vertical: 0.01.sw, horizontal: 0.01.sw),
                 ),
-
               ).paddings(right: 0.03.sw)),
           Expanded(
             flex: 7,
@@ -438,13 +433,16 @@ class _CurrentBalanceDetailsScreenState
           Expanded(
             flex: 2,
             child: Text(
-                    "₹${currentBalanceStore.currentBalanceHistory[index].price}",
-                    style: currentBalanceStore.currentBalanceHistory[index].rechargeType ==  TransactionType.received.value? TextStyle(
+                "₹${currentBalanceStore.currentBalanceHistory[index].price}",
+                style: currentBalanceStore
+                            .currentBalanceHistory[index].rechargeType ==
+                        TransactionType.received.value
+                    ? TextStyle(
                         color: Colors.green,
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w400):TextStyle(
+                        fontWeight: FontWeight.w400)
+                    : TextStyle(
                         color: AppColors.primaryVariant, fontSize: 14.sp)),
-
           )
         ],
       ),

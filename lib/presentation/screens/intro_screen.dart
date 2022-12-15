@@ -41,7 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
     _disposers = [
       reaction((p0) => sharedStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().to(context, p0.screen,
+          ChangeScreen.to(context, p0.screen,
               arguments: p0.argument, onComplete: sharedStore.clear);
         }
       }),

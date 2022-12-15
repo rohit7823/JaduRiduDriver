@@ -15,7 +15,7 @@ mixin Destination {
         if (p0 != null && p0.screen == Screen.dashBoard) {
           debugPrint("screenChanging to Dashboard");
           Navigator.pop(context);
-          dependency<ChangeScreen>().to(context, p0.screen,
+          ChangeScreen.to(context, p0.screen,
               arguments: p0.argument,
               option: p0.option,
               onComplete: store.clear);

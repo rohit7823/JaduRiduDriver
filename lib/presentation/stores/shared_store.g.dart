@@ -122,6 +122,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$emergencyLoadingAtom =
+      Atom(name: '_SharedStore.emergencyLoading', context: context);
+
+  @override
+  bool get emergencyLoading {
+    _$emergencyLoadingAtom.reportRead();
+    return super.emergencyLoading;
+  }
+
+  @override
+  set emergencyLoading(bool value) {
+    _$emergencyLoadingAtom.reportWrite(value, super.emergencyLoading, () {
+      super.emergencyLoading = value;
+    });
+  }
+
   late final _$rideFareResponseAtom =
       Atom(name: '_SharedStore.rideFareResponse', context: context);
 
@@ -135,6 +151,22 @@ mixin _$SharedStore on _SharedStore, Store {
   set rideFareResponse(TotalRideFareResponse? value) {
     _$rideFareResponseAtom.reportWrite(value, super.rideFareResponse, () {
       super.rideFareResponse = value;
+    });
+  }
+
+  late final _$notificationPayloadAtom =
+      Atom(name: '_SharedStore.notificationPayload', context: context);
+
+  @override
+  NotificationPayload? get notificationPayload {
+    _$notificationPayloadAtom.reportRead();
+    return super.notificationPayload;
+  }
+
+  @override
+  set notificationPayload(NotificationPayload? value) {
+    _$notificationPayloadAtom.reportWrite(value, super.notificationPayload, () {
+      super.notificationPayload = value;
     });
   }
 
@@ -179,6 +211,23 @@ mixin _$SharedStore on _SharedStore, Store {
   @override
   Future onOkay(BookingStatus status) {
     return _$onOkayAsyncAction.run(() => super.onOkay(status));
+  }
+
+  late final _$handleNotificationPayloadAsyncAction =
+      AsyncAction('_SharedStore.handleNotificationPayload', context: context);
+
+  @override
+  Future handleNotificationPayload(String? payload) {
+    return _$handleNotificationPayloadAsyncAction
+        .run(() => super.handleNotificationPayload(payload));
+  }
+
+  late final _$onClickEmergencyAsyncAction =
+      AsyncAction('_SharedStore.onClickEmergency', context: context);
+
+  @override
+  Future onClickEmergency() {
+    return _$onClickEmergencyAsyncAction.run(() => super.onClickEmergency());
   }
 
   late final _$_SharedStoreActionController =
@@ -238,7 +287,9 @@ selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
 currentBalance: ${currentBalance},
-rideFareResponse: ${rideFareResponse}
+emergencyLoading: ${emergencyLoading},
+rideFareResponse: ${rideFareResponse},
+notificationPayload: ${notificationPayload}
     ''';
   }
 }

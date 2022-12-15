@@ -60,18 +60,17 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null) {
           if (p0.screen == Screen.verifyTripOtp) {
-            dependency<ChangeScreen>().to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 onComplete: _store.clear,
                 fromScreen: _store.onVerifiedOtp);
           } else if (p0.screen == Screen.payTrip) {
-            dependency<ChangeScreen>().to(context, p0.screen,
+            ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
                 onComplete: _store.clear);
           } else {
-            dependency<ChangeScreen>()
-                .from(context, p0.screen, onCompleted: _store.clear);
+            ChangeScreen.from(context, p0.screen, onCompleted: _store.clear);
           }
         }
       }),

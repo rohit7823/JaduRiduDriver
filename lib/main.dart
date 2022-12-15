@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -21,6 +22,8 @@ import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/firebase_module.dart';
 import 'package:jadu_ride_driver/utills/notification_api.dart';
 import 'package:mobx/mobx.dart';
+
+import 'core/helpers/push_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +68,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     sharedStore = SharedStore();
-    AppModule.initNavigator();
     super.initState();
   }
 

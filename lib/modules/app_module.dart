@@ -417,10 +417,6 @@ class AppModule {
     darkTheme: false,
   );
 
-  static initNavigator() {
-    dependency.registerLazySingleton<ChangeScreen>(() => ChangeScreen());
-  }
-
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
@@ -446,139 +442,137 @@ class AppModule {
     dependency.registerLazySingleton<ImageCropper>(() => cropper);
 
     dependency.registerLazySingleton<SplashRepository>(
-            () => SplashRepositoryImpl(dio));
+        () => SplashRepositoryImpl(dio));
 
     dependency
         .registerLazySingleton<BaseRepository>(() => BaseRepositoryImpl(dio));
 
     dependency.registerLazySingleton<NumberInputRepository>(
-            () => NumberInputRepositoryImpl(dio));
+        () => NumberInputRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VerifyOtpRepository>(
-            () => VerifyOtpRepositoryImpl(dio));
+        () => VerifyOtpRepositoryImpl(dio));
 
     dependency.registerLazySingleton<Razorpay>(() => _razorPay);
 
     dependency.registerLazySingleton<ChangeAppLanguageRepository>(
-            () => ChangeAppLanguageRepositoryImpl(dio));
+        () => ChangeAppLanguageRepositoryImpl(dio));
 
     dependency.registerLazySingleton<WelcomeJaduRideRepository>(
-            () => WelcomeJaduRideRepositoryImpl(dio));
+        () => WelcomeJaduRideRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AddVehicleRepository>(
-            () => AddVehicleRepositoryImpl(dio));
+        () => AddVehicleRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AddAllDetailsRepository>(
-            () => AddAllDetailsRepositoryImpl(dio));
+        () => AddAllDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ProfilePictureRepository>(
-            () => ProfilePictureRepositoryImpl(dio));
+        () => ProfilePictureRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverLicenseRepository>(
-            () => DriverLicenseRepositoryImpl(dio));
+        () => DriverLicenseRepositoryImpl(dio));
 
     dependency.registerLazySingleton<AadharNumberRepository>(
-            () => AadharNumberRepositoryImpl(dio));
+        () => AadharNumberRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PartnerCareRepository>(
-            () => PartnerCareRepositoryImpl(dio));
+        () => PartnerCareRepositoryImpl(dio));
 
     dependency.registerLazySingleton<Validator>(() => ValidatorImpl());
 
     dependency.registerLazySingleton<VehicleInsuranceRepository>(
-            () => VehicleInsuranceRepositoryImpl(dio));
+        () => VehicleInsuranceRepositoryImpl(dio));
 
     dependency.registerLazySingleton<RegistrationCertificateRepository>(
-            () => RegistrationCeritificateRepositoryImpl(dio));
+        () => RegistrationCeritificateRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PanCardRepository>(
-            () => PanCardRepositoryImpl(dio));
+        () => PanCardRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehiclePermitRepository>(
-            () => VehiclePermitRepositoryImpl(dio));
+        () => VehiclePermitRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehicleAuditRepository>(
-            () => VehicleAuditRepositoryImpl(dio));
+        () => VehicleAuditRepositoryImpl(dio));
 
     dependency.registerLazySingleton<ChasisNumberRepository>(
-            () => ChasisNumberRepositoryImpl(dio));
+        () => ChasisNumberRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehicleNumberPlateRepository>(
-            () => VehicleNumberPlateRepositoryImpl(dio));
+        () => VehicleNumberPlateRepositoryImpl(dio));
 
     dependency.registerLazySingleton<LeftSideExteriorRepository>(
-            () => LeftSideExteriorRepositoryImpl(dio));
+        () => LeftSideExteriorRepositoryImpl(dio));
 
     dependency.registerLazySingleton<RightSideExteriorRepository>(
-            () => RightSideExteriorRepositoryImpl(dio));
+        () => RightSideExteriorRepositoryImpl(dio));
 
     dependency.registerLazySingleton<CarInsideRepository>(
-            () => CarInsideRepositoryImpl(dio));
+        () => CarInsideRepositoryImpl(dio));
 
     dependency.registerLazySingleton<VehiclePollutionRepository>(
-            () => VehiclePollutionRepositoryImpl(dio));
+        () => VehiclePollutionRepositoryImpl(dio));
 
     dependency.registerLazySingleton<IdentifyDetailsRepository>(
-            () => IdentifyDetailsRepositoryImpl(dio));
+        () => IdentifyDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PaymentDetailsRepository>(
-            () => PaymentDetailsRepositoryImpl(dio));
+        () => PaymentDetailsRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverDutyRepository>(
-            () => DriverDutyRepositoryImpl(dio));
+        () => DriverDutyRepositoryImpl(dio));
 
     dependency.registerLazySingleton<DriverBookingsRepository>(
-            () => DriverBookingsRepositoryImpl());
+        () => DriverBookingsRepositoryImpl());
 
     dependency.registerLazySingleton<IncentiveRepository>(
-            () => IncentiveRepositoryImpl(dio));
+        () => IncentiveRepositoryImpl(dio));
     dependency.registerLazySingleton<AccountsRepository>(
-            () => AccountsRepositoryImpl(dio));
+        () => AccountsRepositoryImpl(dio));
     dependency.registerLazySingleton<CurrentBalanceRepository>(
-            () => CurrentBalanceRepositoryImpl(dio));
+        () => CurrentBalanceRepositoryImpl(dio));
 
     dependency.registerLazySingleton<TodaysPaymentRepository>(
-            () => TodaysPaymentReposityImpl(dio));
+        () => TodaysPaymentReposityImpl(dio));
     dependency.registerLazySingleton<PaymentSummeryRepository>(
-            () => PaymentSummeryRepositoryImpl(dio));
+        () => PaymentSummeryRepositoryImpl(dio));
     dependency.registerLazySingleton<ScheduleRepository>(
-            () => LocationSchedulRepositoryImpl());
+        () => LocationSchedulRepositoryImpl());
     dependency.registerLazySingleton<AmountTransfferedByDayRepository>(
-            () => AmountTransferredByDayRepositoryImpl());
+        () => AmountTransferredByDayRepositoryImpl());
     dependency.registerLazySingleton<ProfileRepository>(
-            () => ProfileShortRepositoryImpl(dio));
+        () => ProfileShortRepositoryImpl(dio));
     dependency.registerLazySingleton<ProfileDetailsRepository>(
-            () => ProfileDetailsRepositoryImpl());
+        () => ProfileDetailsRepositoryImpl());
     dependency.registerLazySingleton<DriverReferRepository>(
-            () => DriverReferRepositoryImpl());
+        () => DriverReferRepositoryImpl());
     dependency.registerLazySingleton<TripsDetailsRepository>(
-            () => TripsDetailsRepositoryImpl());
+        () => TripsDetailsRepositoryImpl());
     dependency.registerLazySingleton<TermsAndConditionsRepository>(
-            () => TermsAndContionsRepositoryImpl());
+        () => TermsAndContionsRepositoryImpl());
     dependency.registerLazySingleton<PrivacyPolicyRepository>(
-            () => PrivacyPolicyRepositoryImpl());
+        () => PrivacyPolicyRepositoryImpl());
     dependency.registerLazySingleton<RefundPolicyRepository>(
-            () => RefundPolicyRepositoryImpl());
+        () => RefundPolicyRepositoryImpl());
     dependency.registerLazySingleton<HelpRepository>(
-            () => HelpPhoneNumberRepositoryImpl(dio));
+        () => HelpPhoneNumberRepositoryImpl(dio));
     dependency.registerLazySingleton<EmergencyRepository>(
-            () => EmergencyRepositoryImpl());
+        () => EmergencyRepositoryImpl());
 
     dependency.registerLazySingleton<NotificationRepository>(
-            () => NotificationRepositoryImpl());
+        () => NotificationRepositoryImpl());
 
     dependency.registerLazySingleton<PushNotification>(
-            () => FirebaseNotification(fireBaseMessaging));
+        () => FirebaseNotification(fireBaseMessaging));
 
     dependency.registerLazySingleton<DriverLiveLocationRepository>(
-            () => DriverLiveLocationRepositoryImpl(dio));
+        () => DriverLiveLocationRepositoryImpl(dio));
 
     dependency.registerLazySingleton<RideNavigationRepository>(
-            () => RideNavigationRepositoryImpl());
+        () => RideNavigationRepositoryImpl());
 
     dependency.registerLazySingleton<RateCustomerRepository>(
-            () => RateCustomerRepositoryImpl(dio));
-
-
+        () => RateCustomerRepositoryImpl(dio));
   }
 }

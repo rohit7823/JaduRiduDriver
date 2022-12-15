@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/batch_call_apis.dart';
+import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/batch_call_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/driver_account_status_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/emergency_places_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/fcm_token_response.dart';
 import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/data/online/batch_call_api.dart';
@@ -10,6 +12,7 @@ import 'package:jadu_ride_driver/data/online/driver_account_status_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
+import '../data/online/emergency_places_api.dart';
 import '../data/online/fcm_token_api.dart';
 
 class BaseRepositoryImpl implements BaseRepository {
@@ -17,12 +20,14 @@ class BaseRepositoryImpl implements BaseRepository {
   late final BatchCallApi _batchCallApi;
   late final FCMTokenApi _fcmTokenApi;
   late final DriverAccountStatusApi _driverAccountStatusApi;
+  late final EmergencyPlacesApi _emergencyPlacesApi;
 
   BaseRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _batchCallApi = BatchCallApi(_dio);
     _fcmTokenApi = FCMTokenApi(_dio);
     _driverAccountStatusApi = DriverAccountStatusApi(_dio);
+    _emergencyPlacesApi = EmergencyPlacesApi(_dio);
   }
 
   @override
@@ -88,5 +93,31 @@ class BaseRepositoryImpl implements BaseRepository {
     return _fcmTokenApi
         .sendToken(userId, token)
         .handleResponse<FcmTokenResponse>();
+  }
+
+  @override
+  Future<Resource<EmergencyPlacesResponse>> emergencyPlaces(
+      LatLong currentLocation) async {
+    return await _emergencyPlacesApi
+        .emergencyPlaces(currentLocation.lat, currentLocation.lng)
+        .handleResponse<EmergencyPlacesResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
+
+    return Success(EmergencyPlacesResponse(
+        status: true,
+        message: "Success",
+        places: List.generate(
+            5,
+            (index) => EmergencyPlace(
+                name: "Emergency Place ${index + 1}",
+                types: List.generate(index + 1, (index) => "Type ${index + 1}"),
+                id: "ID${index + 1}",
+                icon: "",
+                address: "Address ${index + 1}",
+                coordinates: LatLong(
+                    lat: Random().nextDouble().ceilToDouble(),
+                    lng: Random().nextDouble().ceilToDouble()),
+                isOpen: index.isEven ? false : true))));*/
   }
 }

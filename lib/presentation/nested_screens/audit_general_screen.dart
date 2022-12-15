@@ -71,7 +71,7 @@ class _AuditGeneralScreenState extends State<AuditGeneralScreen> {
       }),
       reaction((p0) => _auditGeneralStore.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().from(context, p0.screen,
+          ChangeScreen.from(context, p0.screen,
               result: p0.argument, onCompleted: _auditGeneralStore.clear);
         }
       })

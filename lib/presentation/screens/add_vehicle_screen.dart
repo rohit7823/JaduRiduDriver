@@ -47,7 +47,7 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
         if (p0 != null && p0 is ScreenWithExtras) {
-          dependency<ChangeScreen>().to(context, p0.screen, onComplete: _store.clear);
+          ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
         }
       }),
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {

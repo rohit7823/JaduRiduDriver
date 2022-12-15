@@ -10,16 +10,12 @@ class ChangeScreen {
 
   static to(BuildContext context, Screen screen,
       {Function? onComplete,
-        Object? arguments,
-        Function(Object)? fromScreen,
-        NavigationOption? option}) async {
+      Object? arguments,
+      Function(Object)? fromScreen,
+      NavigationOption? option}) async {
     switch (screen) {
       case Screen.none:
         debugPrint("changeScreen: there is nothing");
-        break;
-      case Screen.splash:
-        await _navigate(context, AppRoute.splash,
-            onComplete: onComplete, arguments: arguments);
         break;
       case Screen.introScreen:
         await _navigateWithOption(context, AppRoute.intro, option!,
@@ -135,19 +131,16 @@ class ChangeScreen {
         break;
 
       case Screen.currentBalanceDetails:
-        _navigate(
-          context,
-          AppRoute.currentBalance,
-          onComplete: onComplete, fromScreen: fromScreen
-        );
+        _navigate(context, AppRoute.currentBalance,
+            onComplete: onComplete, fromScreen: fromScreen);
         break;
 
       case Screen.notification:
         _navigate(
-            context,
-            AppRoute.notification,
-            arguments: arguments,
-            onComplete: onComplete,
+          context,
+          AppRoute.notification,
+          arguments: arguments,
+          onComplete: onComplete,
         );
         break;
 
@@ -236,7 +229,6 @@ class ChangeScreen {
         );
         break;
 
-
       case Screen.walletPaymentStatus:
         _navigate(
           context,
@@ -281,14 +273,20 @@ class ChangeScreen {
             option!,
             onComplete: onComplete);
         break;
+      case Screen.emergencyLocationSearch:
+        _navigate(context, AppRoute.emergencyPlacesScreen,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
     }
   }
 
   nestedTo(Screen screen,
       {Function? onComplete,
-        Object? arguments,
-        Function(Object)? fromScreen,
-        NavigationOption? option}) async {
+      Object? arguments,
+      Function(Object)? fromScreen,
+      NavigationOption? option}) async {
     switch (screen) {
       case Screen.duty:
         _navigateWithOption(
@@ -296,7 +294,8 @@ class ChangeScreen {
         break;
       case Screen.accounts:
         _navigateWithOption(dashBoardNavigator.currentState!.context,
-            AppRoute.accounts, option!, fromScreen: fromScreen);
+            AppRoute.accounts, option!,
+            fromScreen: fromScreen);
         break;
       case Screen.incentives:
         _navigateWithOption(dashBoardNavigator.currentState!.context,
@@ -321,8 +320,8 @@ class ChangeScreen {
 
   static _navigate(BuildContext context, String destination,
       {Function? onComplete,
-        Object? arguments,
-        Function(Object)? fromScreen}) async {
+      Object? arguments,
+      Function(Object)? fromScreen}) async {
     var returnedValue = await Navigator.of(context)
         .pushNamed(destination, arguments: arguments);
 
@@ -335,7 +334,9 @@ class ChangeScreen {
 
   static _navigateWithOption(
       BuildContext context, String destination, NavigationOption option,
-      {Function? onComplete, Object? arguments, Function(Object)? fromScreen}) async {
+      {Function? onComplete,
+      Object? arguments,
+      Function(Object)? fromScreen}) async {
     Object? returnedValue;
 
     switch (option.option) {
@@ -352,10 +353,8 @@ class ChangeScreen {
             .pushNamed(destination, arguments: arguments);
     }
 
-    if(returnedValue != null){
-      fromScreen?.call(
-        returnedValue
-      );
+    if (returnedValue != null) {
+      fromScreen?.call(returnedValue);
     }
     onComplete?.call();
   }
@@ -376,7 +375,7 @@ class ChangeScreen {
       _navigatePop(context, result);
     } else if (dest == Screen.rateCustomer) {
       _navigatePop(context, result);
-    }else if (dest == Screen.accounts) {
+    } else if (dest == Screen.accounts) {
       _navigatePop(context, result);
     }
     onCompleted?.call();
