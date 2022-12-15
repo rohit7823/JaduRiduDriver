@@ -77,6 +77,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @observable
   File? selectedImage;
 
+
+
   @observable
   bool gettingDistrictsLoader = false;
 
@@ -88,6 +90,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
 
   @observable
   String userEmail = "";
+
+
 
   @observable
   bool uploadingLoader = false;
@@ -130,6 +134,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
           codes = data.numberCodes;
           selectedCode = data.numberCodes.first;
           selectedState = data.states.first;
+          image = data.profileImage;
           break;
         default:
           dialogManager.initErrorData(AlertData(
@@ -163,7 +168,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @action
   getDistricts() async {
     gettingDistrictsLoader = true;
-    var response = await _repository.districts(selectedState!.id);
+    var response = await _repository.districts("STATE_721445545_3232332");
     if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
@@ -282,6 +287,21 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     selectedCity = city;
   }
 
+
+  @observable
+  String informMessage = "";
+
+
+  @observable
+  String selectedGender = "";
+
+  @observable
+  GenderRadio selected = GenderRadio.none;
+
+  @observable
+  String finalCurrentDate = "";
+
+
   onRetry(AlertAction? action) {
     switch (action) {
       case AlertAction.welcomeJaduRideInitialData:
@@ -304,22 +324,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  @observable
-  String informMessage = "";
 
-  @observable
-  DialogState openImagePicker = DialogState.notDisplaying;
 
-  @observable
-  File? selectedImage;
 
-  @observable
-  String selectedGender = "";
-
-  @action
-  selectImage() {
-    openImagePicker = DialogState.displaying;
-  }
 
   @action
   chooseFromCamera() async {
@@ -338,11 +345,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  @observable
-  GenderRadio selected = GenderRadio.none;
-
-  @observable
-  String finalCurrentDate = "";
 
   @action
   onRadioSelected(GenderRadio? selectedValue) {
@@ -427,7 +429,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     uploadingLoader = true;
     var response = await _repository.uploadProfileDetails(
         _storage.userId(),
-
         userName,
         userEmail,
         userMobileNumber,
@@ -435,7 +436,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
         selectedDistrict?.id ?? "",
         selectedCity?.id ?? "",
         genderSelected,
-        finalCurrentDate,);
+        finalCurrentDate, selectedImage);
 
     if (response is Success) {
       var data = response.data;
