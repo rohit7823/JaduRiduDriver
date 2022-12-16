@@ -45,13 +45,13 @@ mixin _$EmergencyPlaceStore on _IEmergencyPlaceStore, Store {
       Atom(name: '_IEmergencyPlaceStore.scrollToIdx', context: context);
 
   @override
-  int get scrollToIdx {
+  int? get scrollToIdx {
     _$scrollToIdxAtom.reportRead();
     return super.scrollToIdx;
   }
 
   @override
-  set scrollToIdx(int value) {
+  set scrollToIdx(int? value) {
     _$scrollToIdxAtom.reportWrite(value, super.scrollToIdx, () {
       super.scrollToIdx = value;
     });

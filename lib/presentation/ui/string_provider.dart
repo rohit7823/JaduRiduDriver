@@ -876,6 +876,8 @@ class StringProvider {
 
   static var closedNow = "Closed";
 
+  static var noHospitalsFoundNearYour = "No Hospitals Found\nNear You!";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";
