@@ -63,7 +63,7 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
       mobileNumber: "1234567890",
       states: List.generate(2, (index) => Package(id: "${index + 1}", name: "State ${index + 1}")),
         dob: "25th june 1990",
-        gender: "male", profileImage: "asstets/images/flag_india.png"
+        gender: "male", profileImage: "assets/images/flag_india.png"
     ));
   }
 
