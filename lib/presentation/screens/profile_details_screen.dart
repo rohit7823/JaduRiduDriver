@@ -196,6 +196,59 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.all(0.02.sw),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.white),
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      return _store.selectedImage != null
+                          ? CircleAvatar(
+                        radius: 0.15.sw,
+                        backgroundColor: AppColors.lightGray,
+                        foregroundImage: FileImage(_store.selectedImage!),
+                      )
+                          : _store.image.isNotEmpty
+                          ? CircleAvatar(
+                        radius: 0.15.sw,
+                        foregroundImage: NetworkImage(_store.image),
+                        backgroundColor: AppColors.lightGray,
+                      )
+                          : CircleAvatar(
+                        radius: 0.15.sw,
+                        foregroundImage: const AssetImage(
+                            "assets/images/profile.png"),
+                        backgroundColor: AppColors.lightGray,
+                      );
+                    },
+                  ),
+                ),
+                // Observer(builder: (BuildContext context) {
+                //   if (_store.selectedImage != null) {
+                //     return Container(
+                //       height: 0.25.sw,
+                //       width: 0.25.sw,
+                //       decoration: BoxDecoration(
+                //         color: AppColors.primary,
+                //         borderRadius: BorderRadius.circular(500),
+                //         border: Border.all(color: AppColors.appGreens),
+                //       ),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(500),
+                //         child: Image.file(
+                //           _store.selectedImage!,
+                //           fit: BoxFit.cover,
+                //         ),
+                //       ),
+                //     );
+                //   }
+                //   return CircleAvatar(
+                //     foregroundImage: NetworkImage(
+                //         widget.profileShortDescription.driverImageURL),
+                //     backgroundColor: AppColors.primary,
+                //     radius: 45,
+                //   );
+                // }),
+                Container(
                   padding: EdgeInsets.all(0.01.sw),
                   decoration: BoxDecoration(
                     color: AppColors.primary,

@@ -91,8 +91,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @observable
   String userEmail = "";
 
-
-
   @observable
   bool uploadingLoader = false;
 
