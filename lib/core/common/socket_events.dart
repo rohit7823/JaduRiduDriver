@@ -1,6 +1,7 @@
 enum SocketEvents {
   connectionStatus("connectionStatus"),
   afterConnection("afterConnection"),
+  initiateRide("initialiseRide"),
   rideReq("rideReq"),
   triggerResponse("triggerRideResponse"),
   rideNavigation("rideNavigation"),

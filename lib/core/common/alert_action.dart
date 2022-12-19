@@ -32,5 +32,6 @@ enum AlertAction {
   none,
   subtypesalert,
   logout,
-  emergencyPlaces;
+  emergencyPlaces,
+  initiateBooking;
 }

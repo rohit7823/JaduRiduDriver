@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/audit_step.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
@@ -17,6 +18,8 @@ import 'package:jadu_ride_driver/presentation/stores/intro_screen_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import '../core/common/lat_long.dart';
+import 'directions.dart' as dir;
 
 extension IntroPage on int {
   Widget getIntroPage(IntroStore store) {
@@ -50,6 +53,45 @@ extension MyPadding on Widget {
       padding: insets,
       child: this,
     );
+  }
+}
+
+extension LatLngJson on LatLng {
+  Map<String, dynamic> toJsonFormat() {
+    return LatLong(lat: latitude, lng: longitude).toJson();
+  }
+}
+
+extension LatLngListJson on List<LatLng> {
+  List<Map<String, dynamic>> toJsonFormat() {
+    var tmp = <Map<String, dynamic>>[];
+    forEach((e) {
+      tmp.add(LatLong(lat: e.latitude, lng: e.longitude).toJson());
+    });
+    return tmp;
+  }
+}
+
+extension LegsConvertToJson on List<dir.Leg> {
+  List<Map<String, dynamic>> toJson() {
+    var tmp = <Map<String, dynamic>>[];
+    forEach((element) {
+      tmp.add({
+        "startAddress": element.startAddress,
+        "endAddress": element.endAddress
+      });
+    });
+    return tmp;
+  }
+}
+
+extension RoutesCovertToJson on List<dir.Route> {
+  List<Map<String, dynamic>> toJson() {
+    var tmp = <Map<String, dynamic>>[];
+    forEach((element) {
+      tmp.addAll(element.legs.toJson());
+    });
+    return tmp;
   }
 }
 

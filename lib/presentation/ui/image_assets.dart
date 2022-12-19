@@ -84,4 +84,5 @@ class ImageAssets {
   static const upi = "$_root/upi.png";
   static const wallet = "$_root/wallet.svg";
   static const emergency = "$_root/emergency.svg";
+  static const emergencyService = "$_root/emergency_service.png";
 }

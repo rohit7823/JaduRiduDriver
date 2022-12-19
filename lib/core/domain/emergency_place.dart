@@ -39,13 +39,14 @@ class EmergencyPlace {
       };
 }
 
-enum Type { HOSPITAL, HEALTH, POINT_OF_INTEREST, ESTABLISHMENT }
+enum Type { HOSPITAL, HEALTH, POINT_OF_INTEREST, ESTABLISHMENT, DOCTOR }
 
 final typeValues = EnumValues({
   "establishment": Type.ESTABLISHMENT,
   "health": Type.HEALTH,
   "hospital": Type.HOSPITAL,
-  "point_of_interest": Type.POINT_OF_INTEREST
+  "point_of_interest": Type.POINT_OF_INTEREST,
+  "doctor": Type.DOCTOR
 });
 
 class EnumValues<T> {

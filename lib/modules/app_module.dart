@@ -291,6 +291,6 @@ class AppModule {
         () => RateCustomerRepositoryImpl(dio));
 
     dependency.registerLazySingleton<EmergencyPlaceRepository>(
-        () => EmergencyPlaceRepositoryImpl());
+        () => EmergencyPlaceRepositoryImpl(dio));
   }
 }

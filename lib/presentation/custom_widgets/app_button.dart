@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   VoidCallback onClick;
   bool enable;
   bool showLoading;
+  Color loaderColor;
   Widget? child;
   String label;
   Color btnColor;
@@ -20,6 +21,7 @@ class AppButton extends StatelessWidget {
       this.showLoading = false,
       required this.label,
       this.child,
+      this.loaderColor = AppColors.Acadia,
       this.btnColor = AppColors.primary})
       : super(key: key);
 
@@ -33,7 +35,7 @@ class AppButton extends StatelessWidget {
           : AppButtonThemes.cancelBtnStyle,
       child: showLoading
           ? CircularProgressIndicator(
-              color: AppColors.Acadia,
+              color: loaderColor,
             )
           : child ?? label.text(AppTextStyle.btnTextStyleBlack),
     );

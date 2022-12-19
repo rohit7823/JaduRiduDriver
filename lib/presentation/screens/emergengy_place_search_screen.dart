@@ -3,6 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/sereen_argument_models/emergency_screen_argument.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/emgency_ride_location_widget.dart';
@@ -12,6 +15,7 @@ import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
+import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
@@ -30,13 +34,33 @@ class _EmergencyPlaceSearchScreenState
   late final EmergencyPlaceStore _store;
   late final ScrollController _controller;
   late List<ReactionDisposer> _disposers;
+  late final DialogController _dialogController;
 
   @override
   void initState() {
     _store = EmergencyPlaceStore(widget.data);
     _controller = ScrollController();
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
-    _disposers = [];
+    _disposers = [
+      reaction((p0) => _store.currentChange, (p0) {
+        if (p0 != null) {
+          ChangeScreen.from(context, p0.screen,
+              result: p0.argument, onCompleted: _store.clear);
+        }
+      }),
+      reaction((p0) => _store.dialogMgr.currentErrorState, (p0) {
+        if (p0 == DialogState.displaying) {
+          _dialogController.show(
+            _store.dialogMgr.errorData!,
+            p0,
+            positive: _store.onRetry,
+            close: _store.dialogMgr.closeErrorDialog,
+          );
+        }
+      })
+    ];
   }
 
   @override
@@ -208,12 +232,17 @@ class _EmergencyPlaceSearchScreenState
           expand(
               flex: 1,
               child: Align(
-                child: AppButton(
-                  onClick: _store.onProceed,
-                  btnColor: AppColors.Acadia,
-                  label: StringProvider.proceed,
-                  child: StringProvider.proceed
-                      .text(AppTextStyle.btnTextStyleWhite),
+                child: Observer(
+                  builder: (context) => AppButton(
+                    onClick: _store.onProceed,
+                    btnColor: AppColors.Acadia,
+                    label: StringProvider.proceed,
+                    showLoading: _store.bookingLoader,
+                    enable: _store.enableBtn,
+                    loaderColor: AppColors.white,
+                    child: StringProvider.proceed
+                        .text(AppTextStyle.btnTextStyleWhite),
+                  ),
                 ),
               ))
         ],

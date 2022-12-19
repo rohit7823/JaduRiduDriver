@@ -57,6 +57,46 @@ mixin _$EmergencyPlaceStore on _IEmergencyPlaceStore, Store {
     });
   }
 
+  late final _$enableBtnAtom =
+      Atom(name: '_IEmergencyPlaceStore.enableBtn', context: context);
+
+  @override
+  bool get enableBtn {
+    _$enableBtnAtom.reportRead();
+    return super.enableBtn;
+  }
+
+  @override
+  set enableBtn(bool value) {
+    _$enableBtnAtom.reportWrite(value, super.enableBtn, () {
+      super.enableBtn = value;
+    });
+  }
+
+  late final _$bookingLoaderAtom =
+      Atom(name: '_IEmergencyPlaceStore.bookingLoader', context: context);
+
+  @override
+  bool get bookingLoader {
+    _$bookingLoaderAtom.reportRead();
+    return super.bookingLoader;
+  }
+
+  @override
+  set bookingLoader(bool value) {
+    _$bookingLoaderAtom.reportWrite(value, super.bookingLoader, () {
+      super.bookingLoader = value;
+    });
+  }
+
+  late final _$onProceedAsyncAction =
+      AsyncAction('_IEmergencyPlaceStore.onProceed', context: context);
+
+  @override
+  Future onProceed() {
+    return _$onProceedAsyncAction.run(() => super.onProceed());
+  }
+
   late final _$_IEmergencyPlaceStoreActionController =
       ActionController(name: '_IEmergencyPlaceStore', context: context);
 
@@ -98,7 +138,9 @@ mixin _$EmergencyPlaceStore on _IEmergencyPlaceStore, Store {
     return '''
 destination: ${destination},
 origin: ${origin},
-scrollToIdx: ${scrollToIdx}
+scrollToIdx: ${scrollToIdx},
+enableBtn: ${enableBtn},
+bookingLoader: ${bookingLoader}
     ''';
   }
 }
