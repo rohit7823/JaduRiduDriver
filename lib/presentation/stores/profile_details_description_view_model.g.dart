@@ -45,13 +45,13 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
       Atom(name: '_ProfileDescriptionViewModel.states', context: context);
 
   @override
-  List<Package> get states {
+  List<dynamic> get states {
     _$statesAtom.reportRead();
     return super.states;
   }
 
   @override
-  set states(List<Package> value) {
+  set states(List<dynamic> value) {
     _$statesAtom.reportWrite(value, super.states, () {
       super.states = value;
     });
@@ -93,13 +93,13 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
       Atom(name: '_ProfileDescriptionViewModel.codes', context: context);
 
   @override
-  List<MobileNumberCode> get codes {
+  List<NumberCode> get codes {
     _$codesAtom.reportRead();
     return super.codes;
   }
 
   @override
-  set codes(List<MobileNumberCode> value) {
+  set codes(List<NumberCode> value) {
     _$codesAtom.reportWrite(value, super.codes, () {
       super.codes = value;
     });
@@ -109,13 +109,13 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
       Atom(name: '_ProfileDescriptionViewModel.selectedCode', context: context);
 
   @override
-  MobileNumberCode? get selectedCode {
+  NumberCode? get selectedCode {
     _$selectedCodeAtom.reportRead();
     return super.selectedCode;
   }
 
   @override
-  set selectedCode(MobileNumberCode? value) {
+  set selectedCode(NumberCode? value) {
     _$selectedCodeAtom.reportWrite(value, super.selectedCode, () {
       super.selectedCode = value;
     });
@@ -141,13 +141,13 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
       name: '_ProfileDescriptionViewModel.selectedState', context: context);
 
   @override
-  Package? get selectedState {
+  dynamic get selectedState {
     _$selectedStateAtom.reportRead();
     return super.selectedState;
   }
 
   @override
-  set selectedState(Package? value) {
+  set selectedState(dynamic value) {
     _$selectedStateAtom.reportWrite(value, super.selectedState, () {
       super.selectedState = value;
     });
@@ -483,7 +483,7 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
   }
 
   @override
-  dynamic onNumberCode(MobileNumberCode? code) {
+  dynamic onNumberCode(NumberCode? code) {
     final _$actionInfo = _$_ProfileDescriptionViewModelActionController
         .startAction(name: '_ProfileDescriptionViewModel.onNumberCode');
     try {

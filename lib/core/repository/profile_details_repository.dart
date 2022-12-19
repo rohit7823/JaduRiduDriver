@@ -10,7 +10,7 @@ import '../domain/response/upload_profile_details_response.dart';
 
 abstract class ProfileDetailsRepository{
 
-  Future<Resource<RequiredDataProfileDetailsResponse>> getProfileInittialData(String userId);
+  Future<Resource<FetchProfileDetailsResponse>> getProfileInittialData(String userId);
 
   Future<Resource<DistrictsResponse>> districts(String selectedStateId);
 

@@ -328,7 +328,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             onTextChange: _store.mobileNumber,
                             codes: _store.codes,
                             isMandatory: false,
-                            onCodeSelect: _store.onNumberCode,
+                            onCodeSelect: _store.codes,
                             onNumberCleared: _store.mobileNumberCleared,
                             gettingLoader: _store.gettingLoader)
                         .padding(insets: EdgeInsets.only(bottom: 0.04.sw));

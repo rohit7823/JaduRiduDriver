@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jadu_ride_driver/core/domain/response/required_data_profile_details_response.dart';
 import 'package:jadu_ride_driver/utills/my_utils.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/common/alert_action.dart';
@@ -44,7 +45,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   String userMobileNumber = "";
 
   @observable
-  List<Package> states = [];
+  List<State> states = [];
 
   @observable
   List<Package> districts = [];
@@ -53,16 +54,16 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   List<Package> cities = [];
 
   @observable
-  List<MobileNumberCode> codes = [];
+  List<NumberCode> codes = [];
 
   @observable
-  MobileNumberCode? selectedCode;
+  NumberCode? selectedCode;
 
   @observable
   Package? selectedDistrict;
 
   @observable
-  Package? selectedState;
+  State? selectedState;
 
   @observable
   Package? selectedCity;
@@ -119,7 +120,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       gettingLoader = false;
       switch (data != null && data.status) {
         case true:
-          userMobileNumber = data!.mobileNumber;
+          userMobileNumber = data!.mobile;
           userName = data.name;
           userEmail = data.email;
           finalCurrentDate = data.dob;
@@ -129,10 +130,10 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
             selected = GenderRadio.female;
           }
           states = data.states;
-          codes = data.numberCodes;
-          selectedCode = data.numberCodes.first;
+          codes = data.numberCode;
+          selectedCode = data.numberCode.id;
           selectedState = data.states.first;
-          image = data.profileImage;
+          image = data.image;
           break;
         default:
           dialogManager.initErrorData(AlertData(
@@ -266,7 +267,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   @action
-  onNumberCode(MobileNumberCode? code) {
+  onNumberCode(NumberCode? code) {
     selectedCode = code;
   }
 

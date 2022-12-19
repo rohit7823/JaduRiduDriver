@@ -38,33 +38,29 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
     return _manageProfileApi
         .districts(selectedStateId)
         .handleResponse<DistrictsResponse>();
-    // await Future.delayed(const Duration(seconds: 2));
-    // return Success(DistrictsResponse(
-    //     status: true,
-    //     message: "Success",
-    //     districts: List.generate(
-    //         5,
-    //             (index) =>
-    //             Package(id: "${index + 1}", name: "District ${index + 1}"))));
   }
 
   @override
-  Future<Resource<RequiredDataProfileDetailsResponse>> getProfileInittialData(String userId) async{
-    await Future.delayed(const Duration(seconds: 2));
-    return Success(RequiredDataProfileDetailsResponse(status: true, message: "Success",
-        name: "Ramesh Janha",
-        email: "abc@gmail.com",
-        numberCodes: [
-          MobileNumberCode(
-              id: "312131",
-              countryImage: "assets/images/india.png",
-              code: "+91")
-        ],
-      mobileNumber: "1234567890",
-      states: List.generate(2, (index) => Package(id: "${index + 1}", name: "State ${index + 1}")),
-        dob: "25th june 1990",
-        gender: "male", profileImage: "assets/images/flag_india.png"
-    ));
+  Future<Resource<FetchProfileDetailsResponse>> getProfileInittialData(String userId) async{
+   return _manageProfileApi
+       .getProfile(userId)
+       .handleResponse<FetchProfileDetailsResponse>();
+
+    // await Future.delayed(const Duration(seconds: 2));
+    // return Success(FetchProfileDetailsResponse(status: true, message: "Success",
+    //     name: "Ramesh Janha",
+    //     email: "abc@gmail.com",
+    //     numberCodes: [
+    //       MobileNumberCode(
+    //           id: "312131",
+    //           countryImage: "assets/images/india.png",
+    //           code: "+91")
+    //     ],
+    //   mobileNumber: "1234567890",
+    //   states: List.generate(2, (index) => Package(id: "${index + 1}", name: "State ${index + 1}")),
+    //     dob: "25th june 1990",
+    //     gender: "male", profileImage: "assets/images/flag_india.png", numberCode: null
+    // ));
   }
 
   @override
