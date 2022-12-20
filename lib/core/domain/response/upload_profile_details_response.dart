@@ -1,22 +1,31 @@
+import 'dart:convert';
 
-import 'business_object.dart';
+import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
-class UploadProfileDetailsResponse extends BusinessObject {
-  UploadProfileDetailsResponse({required this.status, required this.message, required this.isSaved});
-  bool status;
-  String message;
-  bool isSaved;
+UpdateProfileDetailsResponse updateProfileDetailsResponseFromJson(String str) => UpdateProfileDetailsResponse.fromJson(json.decode(str));
 
-  factory UploadProfileDetailsResponse.fromJson(Map<String, dynamic> json) =>
-      UploadProfileDetailsResponse(
-        status: json["status"],
-        message: json["message"],
-        isSaved: json["isSubmitted"],
-      );
+String updateProfileDetailsResponseToJson(UpdateProfileDetailsResponse data) => json.encode(data.toJson());
+
+class UpdateProfileDetailsResponse  extends BusinessObject{
+  UpdateProfileDetailsResponse({
+    required this.status,
+    required this.message,
+    required this.isSubmitted,
+  });
+
+  final bool status;
+  final String message;
+  final bool isSubmitted;
+
+  factory UpdateProfileDetailsResponse.fromJson(Map<String, dynamic> json) => UpdateProfileDetailsResponse(
+    status: json["status"],
+    message: json["message"],
+    isSubmitted: json["isSubmitted"],
+  );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "isSubmitted": isSaved,
+    "isSubmitted": isSubmitted,
   };
 }

@@ -45,7 +45,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   String userMobileNumber = "";
 
   @observable
-  List<State> states = [];
+  List<Package> states = [];
 
   @observable
   List<Package> districts = [];
@@ -54,16 +54,16 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   List<Package> cities = [];
 
   @observable
-  List<NumberCode> codes = [];
+  List<MobileNumberCode> codes = [];
 
   @observable
-  NumberCode? selectedCode;
+  MobileNumberCode? selectedCode;
 
   @observable
   Package? selectedDistrict;
 
   @observable
-  State? selectedState;
+  Package? selectedState;
 
   @observable
   Package? selectedCity;
@@ -121,6 +121,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           userMobileNumber = data!.mobile;
+          print("${userMobileNumber}");
           userName = data.name;
           userEmail = data.email;
           finalCurrentDate = data.dob;
@@ -130,8 +131,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
             selected = GenderRadio.female;
           }
           states = data.states;
-          codes = data.numberCode;
-          selectedCode = data.numberCode.id;
+          List<MobileNumberCode> numbercodes = [data.numberCode];
+          codes = numbercodes ;
+          selectedCode = data.numberCode;
           selectedState = data.states.first;
           image = data.image;
           break;
@@ -167,7 +169,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @action
   getDistricts() async {
     gettingDistrictsLoader = true;
-    var response = await _repository.districts("STATE_721445545_3232332");
+    var response = await _repository.districts(selectedState!.id);
     if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
@@ -267,7 +269,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   @action
-  onNumberCode(NumberCode? code) {
+  onNumberCode(MobileNumberCode? code) {
     selectedCode = code;
   }
 
@@ -350,6 +352,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     if (selectedValue != null) {
       debugPrint(selectedValue.toString());
       selected = selectedValue;
+
+
     }
   }
 
@@ -434,8 +438,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
         selectedState?.id ?? "",
         selectedDistrict?.id ?? "",
         selectedCity?.id ?? "",
-        genderSelected,
-        finalCurrentDate, selectedImage);
+        selected.value,
+        finalCurrentDate, selectedImage!);
 
     if (response is Success) {
       var data = response.data;
@@ -443,7 +447,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
 
       switch (data != null && data.status) {
         case true:
-          if (data!.isSaved) {
+          if (data!.isSubmitted) {
             /*onChange(ScreenWithExtras(
                 screen: Screen.more, ));*/
             MyUtils.toastMessage("Data submitted...");

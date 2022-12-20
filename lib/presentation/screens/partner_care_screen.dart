@@ -117,8 +117,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(
-              insets:
-                  EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
+              insets: EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
         ),
       ),
     );

@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
-UserPrimaryRegistrationResponse userPrimaryRegistrationResponseFromJson(
-        String str) =>
+UserPrimaryRegistrationResponse userPrimaryRegistrationResponseFromJson(String str) =>
     UserPrimaryRegistrationResponse.fromJson(json.decode(str));
 
 String userPrimaryRegistrationResponseToJson(
