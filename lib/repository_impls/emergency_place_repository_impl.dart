@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/api_methods.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
@@ -33,6 +34,8 @@ class EmergencyPlaceRepositoryImpl implements EmergencyPlaceRepository {
     String service,
     String userId,
   ) async {
+    debugPrint(
+        "origin: ${from.latitude} ${from.longitude} destination: ${to.latitude} ${to.longitude}");
     return await _confirmBookingApi.confirmBooking(from, to, wayPoints, service,
         method: ApiMethods.post,
         driverId: userId,

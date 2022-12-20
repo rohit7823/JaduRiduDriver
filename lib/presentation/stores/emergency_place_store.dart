@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/service.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/domain/emergency_place.dart';
+import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/sereen_argument_models/emergency_screen_argument.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
@@ -16,7 +17,7 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
-import 'package:jadu_ride_driver/core/helpers/storage.dart';
+
 import '../../core/common/screen.dart';
 import '../../core/repository/emergency_place_repository.dart';
 
@@ -70,19 +71,22 @@ abstract class _IEmergencyPlaceStore extends AppNavigator with Store {
   @action
   onTapPlace(EmergencyPlace place) {
     destination = place;
-    enableBtn = place.isOpen;
+    if (!bookingLoader) {
+      enableBtn = place.isOpen;
+    }
   }
 
   @action
   onProceed() async {
     bookingLoader = true;
+    enableBtn = false;
     LatLng? from;
     if (origin is Position) {
       from =
           LatLng((origin as Position).latitude, (origin as Position).longitude);
     } else if (origin is EmergencyPlace) {
       from = LatLng((origin as EmergencyPlace).coordinates.lat,
-          (origin as EmergencyPlace).coordinates.lat);
+          (origin as EmergencyPlace).coordinates.lng);
     }
 
     var to = LatLng(destination!.coordinates.lat, destination!.coordinates.lng);
@@ -93,9 +97,15 @@ abstract class _IEmergencyPlaceStore extends AppNavigator with Store {
     if (response is Success) {
       var data = response.data;
       bookingLoader = false;
+      enableBtn = true;
       switch (data != null && data.status) {
         case true:
-          SocketIO.client.emit(SocketEvents.initiateRide.value, data!.rideId);
+          SocketIO.client
+              .emit(SocketEvents.initialiseEmergencyRideDriver.value, {
+            "rideId": data!.rideId,
+            "serviceId": JaduService.toName(JaduService.Emergency),
+            "driverId": _prefs.userId()
+          });
           onChange(ScreenWithExtras(screen: Screen.dashBoard));
           break;
         default:
@@ -113,6 +123,7 @@ abstract class _IEmergencyPlaceStore extends AppNavigator with Store {
       }
     } else if (response is Error) {
       bookingLoader = false;
+      enableBtn = true;
       dialogMgr.initErrorData(AlertData(
           StringProvider.appName,
           null,

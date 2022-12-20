@@ -183,7 +183,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
-          rideId: retrievedArgument as RideNavigationData,
+          data: retrievedArgument as RideNavigationData,
           sharedStore: sharedStore,
         ));
       case AppRoute.verifyTripOtp:

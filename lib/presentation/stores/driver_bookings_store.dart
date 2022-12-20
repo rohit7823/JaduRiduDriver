@@ -140,7 +140,7 @@ abstract class _DriverBookingsStore with Store {
   onBookingAccept(BookingStatus status) {
     customers.clear();
     newBooking = null;
-    log("bookingAccept ${status.key} ${currentBookingId} ${_prefs.userId()}");
+    log("bookingAccept ${status.key} $currentBookingId ${_prefs.userId()}");
     _repository.bookingStatus(status.key, currentBookingId, _prefs.userId());
   }
 
@@ -153,7 +153,7 @@ abstract class _DriverBookingsStore with Store {
         onBookingPass(BookingStatus.passBooking);
         alreadyBookedMsg = response.msg;
       } else if (response is RideInitiateData) {
-        debugPrint("data initialized $response");
+        debugPrint("data initialized ${response}");
         onRideData = response;
       }
     });

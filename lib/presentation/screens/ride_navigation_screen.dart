@@ -27,13 +27,12 @@ import 'package:timelines/timelines.dart';
 import '../custom_widgets/app_snack_bar.dart';
 
 class RideNavigationScreen extends StatefulWidget {
-  RideNavigationData rideId;
+  RideNavigationData data;
   SharedStore sharedStore;
 
   RideNavigationScreen(
-      {Key? key, required this.rideId, required this.sharedStore})
+      {Key? key, required this.data, required this.sharedStore})
       : super(key: key);
-
   @override
   State<RideNavigationScreen> createState() => _RideNavigationScreenState();
 }
@@ -45,9 +44,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
 
   @override
   void initState() {
-    widget.sharedStore.onRideStarted();
-    widget.sharedStore.onRideFare();
-    _store = RideNavStore(widget.rideId);
+    _store = RideNavStore(widget.data);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _disposers = [
@@ -195,8 +192,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                       onFinish: _store.onEndTrip,
                                       onWaitingProcess: _store.endTripWaiting,
                                       isFinished: _store.endTripLoader,
-                                      indicatorColor: AlwaysStoppedAnimation(
-                                          AppColors.Acadia),
+                                      indicatorColor:
+                                          const AlwaysStoppedAnimation(
+                                              AppColors.Acadia),
                                       activeColor: AppColors.primary,
                                       buttonWidget:
                                           SvgPicture.asset(ImageAssets.swipe),

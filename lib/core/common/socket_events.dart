@@ -2,6 +2,7 @@ enum SocketEvents {
   connectionStatus("connectionStatus"),
   afterConnection("afterConnection"),
   initiateRide("initialiseRide"),
+  initialiseEmergencyRideDriver("initialiseEmergencyRideDriver"),
   rideReq("rideReq"),
   triggerResponse("triggerRideResponse"),
   rideNavigation("rideNavigation"),
@@ -16,6 +17,7 @@ enum SocketEvents {
   completeRidePayment("completeRidePayment"),
   updateCurrentLocation("updateCurrentLocation"),
   afterPayment("afterPayment"),
+  onRideNavigationCreate("onRideNavigationCreate"),
   paymentAcceptanceControl("paymentAcceptanceControl");
 
   final String value;
