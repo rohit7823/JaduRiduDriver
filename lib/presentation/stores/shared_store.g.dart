@@ -58,6 +58,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$checkStatusLoaderAtom =
+      Atom(name: '_SharedStore.checkStatusLoader', context: context);
+
+  @override
+  bool get checkStatusLoader {
+    _$checkStatusLoaderAtom.reportRead();
+    return super.checkStatusLoader;
+  }
+
+  @override
+  set checkStatusLoader(bool value) {
+    _$checkStatusLoaderAtom.reportWrite(value, super.checkStatusLoader, () {
+      super.checkStatusLoader = value;
+    });
+  }
+
   late final _$selectedMenuAtom =
       Atom(name: '_SharedStore.selectedMenu', context: context);
 
@@ -185,6 +201,17 @@ mixin _$SharedStore on _SharedStore, Store {
       ActionController(name: '_SharedStore', context: context);
 
   @override
+  dynamic getdetails(bool status) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.getdetails');
+    try {
+      return super.getdetails(status);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic onBottomMenu(int index) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore.onBottomMenu');
@@ -234,6 +261,7 @@ mixin _$SharedStore on _SharedStore, Store {
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
+checkStatusLoader: ${checkStatusLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},

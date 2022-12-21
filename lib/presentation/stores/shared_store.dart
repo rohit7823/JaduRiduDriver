@@ -78,6 +78,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool gettingDataLoader = false;
 
+  @observable
+  bool checkStatusLoader =  false;
+
   StreamSubscription? streamDisposer;
 
   Position? currentLocation;
@@ -182,6 +185,12 @@ abstract class _SharedStore extends AppNavigator with Store {
   onIntroError() {
     dialogManager.closeErrorDialog();
     getIntroPageData();
+  }
+
+
+  @action
+  getdetails(bool status) {
+    checkStatusLoader = status;
   }
 
   @action

@@ -217,6 +217,22 @@ mixin _$ProfileDescriptionStore on _ProfileDescriptionViewModel, Store {
     });
   }
 
+  late final _$checkStatusAtom =
+      Atom(name: '_ProfileDescriptionViewModel.checkStatus', context: context);
+
+  @override
+  bool get checkStatus {
+    _$checkStatusAtom.reportRead();
+    return super.checkStatus;
+  }
+
+  @override
+  set checkStatus(bool value) {
+    _$checkStatusAtom.reportWrite(value, super.checkStatus, () {
+      super.checkStatus = value;
+    });
+  }
+
   late final _$gettingDistrictsLoaderAtom = Atom(
       name: '_ProfileDescriptionViewModel.gettingDistrictsLoader',
       context: context);
@@ -586,6 +602,7 @@ selectedCity: ${selectedCity},
 openImagePicker: ${openImagePicker},
 image: ${image},
 selectedImage: ${selectedImage},
+checkStatus: ${checkStatus},
 gettingDistrictsLoader: ${gettingDistrictsLoader},
 gettingCitiesLoader: ${gettingCitiesLoader},
 userName: ${userName},

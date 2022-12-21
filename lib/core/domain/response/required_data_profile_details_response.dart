@@ -64,7 +64,7 @@ class FetchProfileDetailsResponse  extends BusinessObject{
   List<Package> states;
   final String gender;
   final String dob;
-  final String image;
+  String image;
 
   factory FetchProfileDetailsResponse.fromJson(Map<String, dynamic> json) => FetchProfileDetailsResponse(
     status: json["status"],

@@ -26,6 +26,6 @@ abstract class ProfileDetailsRepository{
       String cityId,
       String gender,
       String dob,
-      File profileImage,
+      File? profileImage,
       );
 }

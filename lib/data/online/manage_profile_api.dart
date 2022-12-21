@@ -43,6 +43,6 @@ abstract class ManageProfileApi{
         @Part(name: "city_id") String cityId,
         @Part(name: "gender") String gender,
         @Part(name: "dob") String dob,
-        @Part(name: "profile_image") File profileImage,
+        @Part(name: "profile_image") File? profileImage,
       );
 }

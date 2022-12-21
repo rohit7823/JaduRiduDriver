@@ -78,6 +78,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @observable
   File? selectedImage;
 
+  @observable
+  bool checkStatus = false;
+
 
 
   @observable
@@ -109,6 +112,10 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     dialogManager.openFilePicker();
   }
 
+  bool backToPrevious() {
+    onChange(ScreenWithExtras(screen: Screen.dashBoard, argument: checkStatus));
+    return false;
+  }
 
   @action
   _initialData() async {
@@ -163,6 +170,73 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
           AlertBehaviour(
               option: AlertOption.invokeOnBarrier,
               action: AlertAction.welcomeJaduRideInitialData)));
+    }
+  }
+
+
+  onSave() async {
+    uploadingLoader = true;
+    var response = await _repository.uploadProfileDetails(
+        _storage.userId(),
+        userName,
+        userEmail,
+        userMobileNumber,
+        selectedState?.id ?? "",
+        selectedDistrict?.id ?? "",
+        selectedCity?.id ?? "",
+        selected.value,
+        finalCurrentDate,
+        selectedImage);
+
+    if (response is Success) {
+      var data = response.data;
+      uploadingLoader = false;
+
+      switch (data != null && data.status) {
+        case true:
+          checkStatus =  data!.status;
+          if (data!.isSubmitted) {
+            /*onChange(ScreenWithExtras(
+                screen: Screen.more, ));*/
+            MyUtils.toastMessage("Data submitted...");
+          } else {
+            dialogManager.initErrorData(AlertData(
+                StringProvider.error,
+                null,
+                StringProvider.appId,
+                data.message,
+                StringProvider.okay,
+                null,
+                null,
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
+          }
+          break;
+        default:
+          dialogManager.initErrorData(AlertData(
+              StringProvider.error,
+              null,
+              StringProvider.appId,
+              data?.message ?? "",
+              StringProvider.retry,
+              null,
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none,
+                  action: AlertAction.uploadUserData)));
+      }
+    } else if (response is Error) {
+      uploadingLoader = false;
+      dialogManager.initErrorData(AlertData(
+          StringProvider.error,
+          null,
+          StringProvider.appId,
+          response.message ?? "",
+          StringProvider.retry,
+          null,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none, action: AlertAction.uploadUserData)));
     }
   }
 
@@ -428,69 +502,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  onSave() async {
-    uploadingLoader = true;
-    var response = await _repository.uploadProfileDetails(
-        _storage.userId(),
-        userName,
-        userEmail,
-        userMobileNumber,
-        selectedState?.id ?? "",
-        selectedDistrict?.id ?? "",
-        selectedCity?.id ?? "",
-        selected.value,
-        finalCurrentDate, selectedImage!);
 
-    if (response is Success) {
-      var data = response.data;
-      uploadingLoader = false;
-
-      switch (data != null && data.status) {
-        case true:
-          if (data!.isSubmitted) {
-            /*onChange(ScreenWithExtras(
-                screen: Screen.more, ));*/
-            MyUtils.toastMessage("Data submitted...");
-          } else {
-            dialogManager.initErrorData(AlertData(
-                StringProvider.error,
-                null,
-                StringProvider.appId,
-                data.message,
-                StringProvider.okay,
-                null,
-                null,
-                AlertBehaviour(
-                    option: AlertOption.none, action: AlertAction.none)));
-          }
-          break;
-        default:
-          dialogManager.initErrorData(AlertData(
-              StringProvider.error,
-              null,
-              StringProvider.appId,
-              data?.message ?? "",
-              StringProvider.retry,
-              null,
-              null,
-              AlertBehaviour(
-                  option: AlertOption.none,
-                  action: AlertAction.uploadUserData)));
-      }
-    } else if (response is Error) {
-      uploadingLoader = false;
-      dialogManager.initErrorData(AlertData(
-          StringProvider.error,
-          null,
-          StringProvider.appId,
-          response.message ?? "",
-          StringProvider.retry,
-          null,
-          null,
-          AlertBehaviour(
-              option: AlertOption.none, action: AlertAction.uploadUserData)));
-    }
-  }
 
   /*onMore() {
     onChange(ScreenWithExtras(

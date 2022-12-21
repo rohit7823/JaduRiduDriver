@@ -66,7 +66,9 @@ class _DashboardScreenState extends State<DashboardScreen>
             });
           } else if (p0.screen == Screen.profileDetailsScreen) {
             ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: widget.sharedStore.clear);
+                arguments: p0.argument, onComplete: widget.sharedStore.clear, fromScreen: (data){
+              widget.sharedStore.getdetails(data as bool);
+                });
           } else if (p0.screen == Screen.referScreen) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);

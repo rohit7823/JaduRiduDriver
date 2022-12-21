@@ -6,5 +6,8 @@ class ScreenWithExtras {
   Object? argument;
   NavigationOption? option;
 
-  ScreenWithExtras({required this.screen, this.argument, this.option});
+  ScreenWithExtras({
+    required this.screen,
+    this.argument,
+    this.option});
 }

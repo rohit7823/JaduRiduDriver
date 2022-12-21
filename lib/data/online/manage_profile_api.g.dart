@@ -101,7 +101,8 @@ class _ManageProfileApi implements ManageProfileApi {
     profileImage,
   ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'mobile': userMobileNumber};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.fields.add(MapEntry(
@@ -132,13 +133,17 @@ class _ManageProfileApi implements ManageProfileApi {
       'dob',
       dob,
     ));
-    _data.files.add(MapEntry(
-      'profile_image',
-      MultipartFile.fromFileSync(
-        profileImage.path,
-        filename: profileImage.path.split(Platform.pathSeparator).last,
-      ),
-    ));
+    if(profileImage != null) {
+      _data.files.add(MapEntry(
+        'profile_image',
+        MultipartFile.fromFileSync(
+          profileImage.path,
+          filename: profileImage.path
+              .split(Platform.pathSeparator)
+              .last,
+        ),
+      ));
+    }
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileDetailsResponse>(Options(
       method: 'POST',
@@ -148,7 +153,7 @@ class _ManageProfileApi implements ManageProfileApi {
     )
             .compose(
               _dio.options,
-              '/driver/users/${userId}/profile/update',
+              '/driver/users/${userId}/profile/update?mobile=${userMobileNumber}',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -157,7 +157,7 @@ class _CurrentBalanceDetailsScreenState
                                                   ? Text(
                                                       "${currentBalanceStore.amount}",
                                                       style: AppTextStyle
-                                                          .currentBalanceDetails,
+                                                        .currentBalanceDetails,
                                                     )
                                                   : Text("fetching...")),
 

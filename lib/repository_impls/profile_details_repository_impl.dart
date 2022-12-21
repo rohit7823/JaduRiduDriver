@@ -58,10 +58,10 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
       String districtId,
       String cityId,
       String gender,
-      String dob, File profileImage)async {
+      String dob, File? profileImage)async {
 
     return _manageProfileApi
-        .uploadProfile(userId,  userName, userEmail, userMobileNumber, stateId, districtId, cityId, gender, dob, profileImage!)
+        .uploadProfile(userId,  userName, userEmail, userMobileNumber, stateId, districtId, cityId, gender, dob, profileImage)
         .handleResponse<UpdateProfileDetailsResponse>();
   }
 

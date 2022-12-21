@@ -57,6 +57,11 @@ class _MoreScreenState extends State<MoreScreen> {
           );
         }
       }),
+      reaction((p0) => widget.sharedStore.checkStatusLoader, (p0) {
+        if(p0){
+          _store.getShortProfileData();
+        }
+      })
     ];
   }
 

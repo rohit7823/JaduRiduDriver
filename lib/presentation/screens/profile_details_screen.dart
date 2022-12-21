@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
@@ -114,21 +115,33 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
               DateTime(2050), _store.onSelectDate,
               dismissed: _store.dialogManager.closeDatePicker);
         }
+      }),
+      reaction((p0) => _store.currentChange, (p0) {
+        if(p0 != null){
+          ChangeScreen.from(context, p0.screen,
+              result: p0.argument, onCompleted: _store.clear);
+        }
       })
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBarWithOutLogo(
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            expand(flex: 3, child: _upperSideContent()),
-            expand(flex: 7, child: _lowerSideContent())
-          ],
+    return WillPopScope(
+      onWillPop: () async{
+        return  _store.backToPrevious();
+      },
+      child: Scaffold(
+        appBar: MyAppBarWithOutLogo(
+          onPop: _store.backToPrevious,
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              expand(flex: 3, child: _upperSideContent()),
+              expand(flex: 7, child: _lowerSideContent())
+            ],
+          ),
         ),
       ),
     );
