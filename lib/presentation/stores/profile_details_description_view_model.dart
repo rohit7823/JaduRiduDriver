@@ -113,7 +113,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   bool backToPrevious() {
-    onChange(ScreenWithExtras(screen: Screen.dashBoard, argument: checkStatus));
+    onChange(ScreenWithExtras(screen: Screen.dashBoard, argument: checkStatus ?? "" ));
     return false;
   }
 
@@ -194,10 +194,12 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
 
       switch (data != null && data.status) {
         case true:
-          checkStatus =  data!.status;
+
           if (data!.isSubmitted) {
             /*onChange(ScreenWithExtras(
                 screen: Screen.more, ));*/
+            checkStatus =  true;
+            backToPrevious();
             MyUtils.toastMessage("Data submitted...");
           } else {
             dialogManager.initErrorData(AlertData(

@@ -99,6 +99,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   String? currentBalance;
 
+  @observable
+  bool updateProfile = false;
+
   _SharedStore() {
     driverBookings = DriverBookingStore();
 
@@ -188,10 +191,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   }
 
 
-  @action
-  getdetails(bool status) {
-    checkStatusLoader = status;
-  }
+
+
+
 
   @action
   hidePartnercarerNav(bool isFocused) async {
@@ -443,6 +445,14 @@ abstract class _SharedStore extends AppNavigator with Store {
   onChangeCurrentBalance(String data) {
     currentBalance = data;
   }
+
+
+  @action
+  getdetails(bool data) {
+    checkStatusLoader = data;
+  }
+
+
 
   @observable
   TotalRideFareResponse? rideFareResponse;

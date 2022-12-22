@@ -138,6 +138,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$updateProfileAtom =
+      Atom(name: '_SharedStore.updateProfile', context: context);
+
+  @override
+  bool get updateProfile {
+    _$updateProfileAtom.reportRead();
+    return super.updateProfile;
+  }
+
+  @override
+  set updateProfile(bool value) {
+    _$updateProfileAtom.reportWrite(value, super.updateProfile, () {
+      super.updateProfile = value;
+    });
+  }
+
   late final _$rideFareResponseAtom =
       Atom(name: '_SharedStore.rideFareResponse', context: context);
 
@@ -201,17 +217,6 @@ mixin _$SharedStore on _SharedStore, Store {
       ActionController(name: '_SharedStore', context: context);
 
   @override
-  dynamic getdetails(bool status) {
-    final _$actionInfo = _$_SharedStoreActionController.startAction(
-        name: '_SharedStore.getdetails');
-    try {
-      return super.getdetails(status);
-    } finally {
-      _$_SharedStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic onBottomMenu(int index) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore.onBottomMenu');
@@ -245,6 +250,17 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic getdetails(bool data) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.getdetails');
+    try {
+      return super.getdetails(data);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic _setTotalRideFare(TotalRideFareResponse response) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore._setTotalRideFare');
@@ -266,6 +282,7 @@ selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
 currentBalance: ${currentBalance},
+updateProfile: ${updateProfile},
 rideFareResponse: ${rideFareResponse}
     ''';
   }

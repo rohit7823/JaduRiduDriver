@@ -43,6 +43,7 @@ abstract class _NotificationViewModels  with Store{
           if (data!.notificationlist.isEmpty) {
             isEmpty = true;
             msg = data.message;
+
           } else {
             isEmpty = false;
             msg = data.message;
