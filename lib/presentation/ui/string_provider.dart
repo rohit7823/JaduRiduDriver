@@ -878,6 +878,10 @@ class StringProvider {
 
   static var noHospitalsFoundNearYour = "No Hospitals Found\nNear You!";
 
+  static var thankYou = "Thank You";
+
+  static var youWllGetYourPaymentShortly = "You'll get your payment shortly..";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

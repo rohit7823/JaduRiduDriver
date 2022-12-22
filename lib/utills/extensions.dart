@@ -227,7 +227,17 @@ extension ConvertToService on String {
     if (this == ServiceType.car.value) {
       return ImageAssets.car;
     } else if (this == ServiceType.bike.value) {
-      return "";
+      return ImageAssets.bikeService;
+    } else if (this == ServiceType.delivery.value) {
+      return ImageAssets.deliveryService;
+    } else if (this == ServiceType.emergency.value) {
+      return ImageAssets.emergency;
+    } else if (this == ServiceType.rental.value) {
+      return ImageAssets.rentalService;
+    } else if (this == ServiceType.book.value) {
+      return ImageAssets.callService;
+    } else if (this == ServiceType.scan.value) {
+      return ImageAssets.scanService;
     }
 
     return "";

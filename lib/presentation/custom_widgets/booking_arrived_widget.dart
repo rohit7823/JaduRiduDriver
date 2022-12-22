@@ -205,6 +205,7 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                   _propagateVehicleType(widget.vehicleType),
                   width: 0.03.sw,
                   height: 0.03.sw,
+                  color: AppColors.Acadia,
                 ),
               ),
               _propagateVehicleTypeName(widget.vehicleType)
@@ -232,7 +233,17 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
     if (vehicleType == ServiceType.car.value) {
       return ImageAssets.car;
     } else if (vehicleType == ServiceType.bike.value) {
-      return "";
+      return ImageAssets.bikeService;
+    } else if (vehicleType == ServiceType.delivery.value) {
+      return ImageAssets.deliveryService;
+    } else if (vehicleType == ServiceType.emergency.value) {
+      return ImageAssets.emergency;
+    } else if (vehicleType == ServiceType.rental.value) {
+      return ImageAssets.rentalService;
+    } else if (vehicleType == ServiceType.book.value) {
+      return ImageAssets.callService;
+    } else if (vehicleType == ServiceType.scan.value) {
+      return ImageAssets.scanService;
     }
 
     return "";
@@ -243,6 +254,16 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
       return "Car";
     } else if (vehicleType == ServiceType.bike.value) {
       return "Bike";
+    } else if (vehicleType == ServiceType.delivery.value) {
+      return "Delivery";
+    } else if (vehicleType == ServiceType.emergency.value) {
+      return "Emergency";
+    } else if (vehicleType == ServiceType.rental.value) {
+      return "Rental";
+    } else if (vehicleType == ServiceType.book.value) {
+      return "On Calling";
+    } else if (vehicleType == ServiceType.scan.value) {
+      return "Via Scan";
     }
 
     return "";

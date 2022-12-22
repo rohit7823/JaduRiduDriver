@@ -103,6 +103,7 @@ abstract class _DriverBookingsStore with Store {
 
     /*var bitMap = await MarkerIcon.svgAsset(
         assetName: ImageAssets.customerMarker, context: context, size: 48);*/
+
     currentBookingId = bookingDetails.bookId;
 
     var directionRes = await Directions(_env.googleApiKey)
@@ -153,7 +154,8 @@ abstract class _DriverBookingsStore with Store {
         onBookingPass(BookingStatus.passBooking);
         alreadyBookedMsg = response.msg;
       } else if (response is RideInitiateData) {
-        debugPrint("data initialized ${response}");
+        debugPrint(
+            "data initialized ${response.serviceType} ${response.currentStage}");
         onRideData = response;
       }
     });

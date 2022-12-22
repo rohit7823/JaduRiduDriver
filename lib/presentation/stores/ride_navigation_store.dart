@@ -376,13 +376,21 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   onEndTrip() {
     _repository.onRide(RideInstruction.endTrip.key, rideNavigationData.tripId);
     stopLocationSender();
-    onChange(ScreenWithExtras(
-        screen: Screen.payTrip,
+    if (JaduService.toService(rideNavigationData.data.serviceType) !=
+        JaduService.Emergency) {
+      onChange(ScreenWithExtras(
+          screen: Screen.payTrip,
+          option: NavigationOption(option: Option.popPrevious),
+          argument: RideIds(
+              rideId: rideNavigationData.tripId,
+              driverId: rideNavigationData.driverId,
+              customerName: customer)));
+    } else {
+      onChange(ScreenWithExtras(
+        screen: Screen.thankYouEmergency,
         option: NavigationOption(option: Option.popPrevious),
-        argument: RideIds(
-            rideId: rideNavigationData.tripId,
-            driverId: rideNavigationData.driverId,
-            customerName: customer)));
+      ));
+    }
   }
 
   @action

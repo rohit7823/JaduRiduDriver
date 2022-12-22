@@ -81,22 +81,24 @@ class _EmergencyPlaceSearchScreenState
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           expand(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  StringProvider.chooseHospital
-                      .text(AppTextStyle.enterNumberStyle)
-                      .paddings(horizontal: 0.05.sw, bottom: 0.05.sw),
-                  Observer(
-                    builder: (context) => EmergencyRideLocationWidget(
-                      starting: _store.origin,
-                      ending: _store.destination,
-                      onSelectEnding: _store.onSelectEnding,
-                      onSelectStaring: _store.onSelectStarting,
-                    ),
-                  )
-                ],
+              flex: 4,
+              child: fitBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StringProvider.chooseHospital
+                        .text(AppTextStyle.enterNumberStyle)
+                        .paddings(bottom: 0.05.sw),
+                    Observer(
+                      builder: (context) => EmergencyRideLocationWidget(
+                        starting: _store.origin,
+                        ending: _store.destination,
+                        onSelectEnding: _store.onSelectEnding,
+                        onSelectStaring: _store.onSelectStarting,
+                      ),
+                    )
+                  ],
+                ).paddings(horizontal: 0.05.sw),
               )),
           expand(
               flex: 6,

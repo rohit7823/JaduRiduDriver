@@ -54,7 +54,7 @@ class DriverBookingsRepositoryImpl implements DriverBookingsRepository {
   StreamController<Object> onBookingAccepted() {
     StreamController<Object> controller = StreamController();
     SocketIO.client.on(SocketEvents.afterRideAccepted.value, (data) {
-      debugPrint("booking status $data");
+      debugPrint("bookingStatus $data");
       controller.add(BookingAccepted.fromJson(data));
     });
     SocketIO.client.on(SocketEvents.rideNavigation.value, (data) {

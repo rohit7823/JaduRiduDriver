@@ -45,5 +45,6 @@ enum Screen {
   rateCustomer,
   walletPaymentStatus,
   notification,
-  emergencyLocationSearch
+  emergencyLocationSearch,
+  thankYouEmergency
 }

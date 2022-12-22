@@ -25,11 +25,11 @@ class ImageAssets {
   static const balanceCar = "assets/images/current_balance_car.svg";
   static const dateDownArrow = "assets/images/down_arrow.svg";
   static const tripIcons = "assets/images/trip_icon.svg";
-
+  static const callService = "$_root/call_service.svg";
   static const userCar = "$_root/user_car.svg";
-
+  static const scanService = "$_root/scan_service.svg";
   static const dropDownArrow = "$_root/drop_down_arrow.svg";
-
+  static const emergencyComplete = "$_root/emergency_complete.svg";
   static const profile = "$_root/profile.svg";
 
   static const success = "$_root/success.svg";
@@ -54,6 +54,8 @@ class ImageAssets {
   static const schedule = "$_root/schedule.svg";
 
   static const car = "$_root/car.svg";
+  static const bikeService = "$_root/bike_service.svg";
+  static const deliveryService = "$_root/delivery_service.svg";
   static const notifications = "$_root/notification.svg";
   static const customerMarker = "$_root/customer_marker.svg";
   static const todaysPayment = "$_root/todays_payment.svg";
@@ -85,4 +87,5 @@ class ImageAssets {
   static const wallet = "$_root/wallet.svg";
   static const emergency = "$_root/emergency.svg";
   static const emergencyService = "$_root/emergency_service.png";
+  static const rentalService = "$_root/rental_service.svg";
 }

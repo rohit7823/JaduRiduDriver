@@ -279,13 +279,19 @@ class ChangeScreen {
             onComplete: onComplete,
             fromScreen: fromScreen);
         break;
+      case Screen.thankYouEmergency:
+        _navigate(context, AppRoute.thankYouEmergency,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen);
+        break;
     }
   }
 
   nestedTo(Screen screen,
       {Function? onComplete,
       Object? arguments,
-      Function(Object)? fromScreen,
+      Function(dynamic)? fromScreen,
       NavigationOption? option}) async {
     switch (screen) {
       case Screen.duty:
@@ -336,8 +342,8 @@ class ChangeScreen {
       BuildContext context, String destination, NavigationOption option,
       {Function? onComplete,
       Object? arguments,
-      Function(Object)? fromScreen}) async {
-    Object? returnedValue;
+      Function(dynamic)? fromScreen}) async {
+    dynamic returnedValue;
 
     switch (option.option) {
       case Option.popPrevious:

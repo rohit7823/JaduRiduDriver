@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
-import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/ride_timer_widget.dart';
@@ -33,6 +32,7 @@ class RideNavigationScreen extends StatefulWidget {
   RideNavigationScreen(
       {Key? key, required this.data, required this.sharedStore})
       : super(key: key);
+
   @override
   State<RideNavigationScreen> createState() => _RideNavigationScreenState();
 }
@@ -61,7 +61,8 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                 arguments: p0.argument,
                 onComplete: _store.clear,
                 fromScreen: _store.onVerifiedOtp);
-          } else if (p0.screen == Screen.payTrip) {
+          } else if (p0.screen == Screen.payTrip ||
+              p0.screen == Screen.thankYouEmergency) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
@@ -110,9 +111,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
           //_store.stropLocationSender();
           return false;
         },
-        child: SafeArea(
-          child: Scaffold(
-            body: Column(
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
               children: [
                 expand(
                     flex: 2,
@@ -139,7 +140,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                     onSelected: null,
                                     backgroundColor: AppColors.white,
                                     avatar: SvgPicture.asset(
-                                        _store.currentServiceIconPath),
+                                      _store.currentServiceIconPath,
+                                      color: AppColors.Acadia,
+                                    ),
                                   ),
                                 );
                               },

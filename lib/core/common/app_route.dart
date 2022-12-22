@@ -5,7 +5,7 @@ class AppRoute {
 
   static const verifyOtp = "/verifyOtp";
 
-  static const changeLanguage = "/changeLanguage";
+  static const changeLanguage = "/changeAppLanguage";
 
   static const welcomeJaduRide = "/welcomeJaduRide";
 
@@ -64,6 +64,8 @@ class AppRoute {
   static const initialScreen = "/initialScreen";
 
   static const emergencyPlacesScreen = "/emergencyPlacesScreen";
+
+  static const thankYouEmergency = "/thankYourEmergency";
 
   AppRoute._();
 

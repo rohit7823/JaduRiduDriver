@@ -29,6 +29,7 @@ import 'package:jadu_ride_driver/presentation/screens/registration_certificate_s
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page_status.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/thank_you_emergency_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_permit_screen.dart';
@@ -79,8 +80,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransitionWithEvent(VerifyOtpScreen(
             sharedStore: sharedStore, number: retrievedArgument));
       case AppRoute.changeLanguage:
-        return ScreenTransitions.rightToLeftTransitionWithEvent(
-            ChangeAppLanguageScreen(
+        return ScreenTransitions.rightToLeftTransition(ChangeAppLanguageScreen(
           sharedStore: sharedStore,
           arg: retrievedArgument as NavigateFrom,
         ));
@@ -137,7 +137,8 @@ class DefaultNav {
             CurrentBalanceDetailsScreen());
 
       case AppRoute.notification:
-        return ScreenTransitions.rightToLeftTransition(NotificationScreen());
+        return ScreenTransitions.rightToLeftTransition(
+            const NotificationScreen());
 
       case AppRoute.walletPaymentStatus:
         return ScreenTransitions.bottomToTopTransition(
@@ -179,33 +180,43 @@ class DefaultNav {
       case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
+
       case AppRoute.tripsScreen:
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
+
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           data: retrievedArgument as RideNavigationData,
           sharedStore: sharedStore,
         ));
+
       case AppRoute.verifyTripOtp:
         return ScreenTransitions.fadeInTransition(VerifyTripOtpScreen(
           ids: retrievedArgument as RideIds,
         ));
+
       case AppRoute.payTrip:
         return ScreenTransitions.fadeInTransition(PayTripScreen(
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+
       case AppRoute.rateCustomer:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             RateCustomerScreen(
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+
       case AppRoute.emergencyPlacesScreen:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             EmergencyPlaceSearchScreen(
           data: retrievedArgument as EmergencyScreenArgument,
         ));
+
+      case AppRoute.thankYouEmergency:
+        return ScreenTransitions.rightToLeftTransition(
+            const ThankYouEmergencyScreen());
       default:
         return null;
     }
