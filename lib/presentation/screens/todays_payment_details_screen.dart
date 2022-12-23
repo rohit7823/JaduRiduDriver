@@ -82,7 +82,8 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
         } else {
 
           return todaysPaymentViewModel.todaysPaymentList.isEmpty ?
-          Center(child: Text("Doesn't have any Payment ",style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),)
+          Center(child: Text("Doesn't have any Payment ",
+            style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),)
               :  ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 0.02.sw, horizontal: 0.02.sw),
             itemCount: todaysPaymentViewModel.todaysPaymentList.length,
@@ -101,7 +102,7 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           border: Border.all(color: AppColors.appGreens),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Color(0x1a000000),
                 blurRadius: 20,
