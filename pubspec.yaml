@@ -42,7 +42,10 @@ dependencies:
   url_launcher: ^6.1.5
   carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.2
-  pinput: ^2.2.12
+  pinput:
+    git:
+      url: https://github.com/Tkko/Flutter_Pinput
+      ref: dev
   dropdown_button2: ^1.8.0
   easy_localization: ^3.0.1
   dotted_border: ^2.0.0+2
