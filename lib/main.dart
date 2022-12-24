@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              navigatorKey: AppModule.alice.getNavigatorKey(),
+              //navigatorKey: AppModule.alice.getNavigatorKey(),
               localizationsDelegates: context.localizationDelegates,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,

@@ -1623,10 +1623,10 @@ packages:
     dependency: transitive
     description:
       name: smart_auth
-      sha256: "868715abca6ac2141f7f2cebd0f6f58f95eb765d12f1de4f0b9279ad3108e4ba"
+      sha256: f75cd4c4ef0af01becbf939392fbf78d30fae677d8419ab1ef17836106b46a72
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   socket_io_client:
     dependency: "direct main"
     description:

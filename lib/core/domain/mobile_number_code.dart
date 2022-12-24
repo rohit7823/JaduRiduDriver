@@ -1,23 +1,23 @@
 class MobileNumberCode {
   final String id;
-  final String countryImage;
+  final String flag;
   final String code;
 
   MobileNumberCode(
       {required this.id,
-        required this.countryImage,
+        required this.flag,
         required this.code});
 
   factory MobileNumberCode.fromJson(Map<String, dynamic> json) =>
       MobileNumberCode(
         id: json["id"],
-        countryImage: json["countryImage"],
+        flag:json["flag"],
         code: json["code"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "countryImage": countryImage,
+        "flag": flag,
         "code": code,
       };
 }
