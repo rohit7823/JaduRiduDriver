@@ -14,18 +14,21 @@ class ShortBookingsSummaryResponse  extends BusinessObject{
     required this.message,
     required this.bookingCount,
     required this.operatorBill,
+    required this.updateDateTime,
   });
 
    bool status;
    String message;
    int bookingCount;
    int operatorBill;
+  String updateDateTime;
 
   factory ShortBookingsSummaryResponse.fromJson(Map<String, dynamic> json) => ShortBookingsSummaryResponse(
     status: json["status"],
     message: json["message"],
     bookingCount: json["bookingCount"],
     operatorBill: json["operatorBill"],
+    updateDateTime: json["updateDateTime"],
   );
 
   //get bookingsSummary => null;
@@ -35,5 +38,6 @@ class ShortBookingsSummaryResponse  extends BusinessObject{
     "message": message,
     "bookingCount": bookingCount,
     "operatorBill": operatorBill,
+    "updateDateTime": updateDateTime,
   };
 }

@@ -137,10 +137,14 @@ abstract class _DutyScreenStore  extends AppNavigator with Store {
           bookingCount = '${data!.bookingCount}';
 
           operatorBill = '${data.operatorBill}';
+
+          timeStamp = data.updateDateTime;
+
           break;
         default:
           bookingCount = "0";
           operatorBill = "0.0";
+          String timeStamp = "Thus, 01 Jun 22, 06:37 PM";
           errorMsg = data?.message ?? "";
       }
     } else if (response is Error) {
