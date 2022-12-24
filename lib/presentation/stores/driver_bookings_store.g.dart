@@ -153,19 +153,17 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
     });
   }
 
-  late final _$_DriverBookingsStoreActionController =
-      ActionController(name: '_DriverBookingsStore', context: context);
+  late final _$initCurrentBookingAsyncAction =
+      AsyncAction('_DriverBookingsStore.initCurrentBooking', context: context);
 
   @override
-  dynamic _onBooking(GoogleMapController controller, BuildContext context) {
-    final _$actionInfo = _$_DriverBookingsStoreActionController.startAction(
-        name: '_DriverBookingsStore._onBooking');
-    try {
-      return super._onBooking(controller, context);
-    } finally {
-      _$_DriverBookingsStoreActionController.endAction(_$actionInfo);
-    }
+  Future initCurrentBooking(DriverBookingDetails data, BuildContext context) {
+    return _$initCurrentBookingAsyncAction
+        .run(() => super.initCurrentBooking(data, context));
   }
+
+  late final _$_DriverBookingsStoreActionController =
+      ActionController(name: '_DriverBookingsStore', context: context);
 
   @override
   dynamic afterBookingAcceptedListen() {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
+import 'package:jadu_ride_driver/core/common/service.dart';
 
 RideInitiateData rideInitiateDataFromJson(String str) =>
     RideInitiateData.fromJson(json.decode(str));

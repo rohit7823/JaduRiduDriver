@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
+import 'package:jadu_ride_driver/core/common/service.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/booking_arrived_widget.dart';
@@ -36,8 +36,10 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _store = DutyStore(TabController(length: DriverStatus.values.length, vsync: this));
-    _dialogController = DialogController(dialog: MyDialogImpl(buildContext: context));
+    _store = DutyStore(
+        TabController(length: DriverStatus.values.length, vsync: this));
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
 
@@ -78,7 +80,15 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
       }),
       reaction((p0) => widget.sharedStore.driverBookings.onRideData, (p0) {
         if (p0 != null) {
+          widget.sharedStore.onRideStarted();
+          widget.sharedStore.onRideFare();
           widget.sharedStore.afterAcceptBooking(p0);
+        }
+      }),
+      reaction((p0) => widget.sharedStore.notificationPayload, (p0) {
+        if (p0 != null) {
+          widget.sharedStore.driverBookings
+              .initCurrentBooking(p0.bookingDetails, context);
         }
       })
     ];
@@ -155,7 +165,6 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             )),
                         expand(
                             flex: 2,
-
                             child: GestureDetector(
                               onTap: _store.onNotificationScreen,
                               child: SvgPicture.asset(
@@ -284,6 +293,30 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                         onOkay: widget.sharedStore.onOkay,
                       )
                     : const SizedBox.shrink(),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Observer(
+                  builder: (context) => FloatingActionButton(
+                    onPressed: widget.sharedStore.emergencyLoading
+                        ? null
+                        : widget.sharedStore.onClickEmergency,
+                    backgroundColor: AppColors.primaryVariant,
+                    tooltip: StringProvider.bookAnEmergencyRide,
+                    hoverElevation: 12,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r)),
+                    child: widget.sharedStore.emergencyLoading
+                        ? const CircularProgressIndicator(
+                            color: AppColors.white,
+                          )
+                        : const Icon(
+                            Icons.emergency,
+                            color: AppColors.white,
+                            size: 35,
+                          ),
+                  ).paddings(all: 0.05.sw),
+                ),
               )
             ],
           );

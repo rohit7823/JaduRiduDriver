@@ -58,22 +58,6 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
-  late final _$checkStatusLoaderAtom =
-      Atom(name: '_SharedStore.checkStatusLoader', context: context);
-
-  @override
-  bool get checkStatusLoader {
-    _$checkStatusLoaderAtom.reportRead();
-    return super.checkStatusLoader;
-  }
-
-  @override
-  set checkStatusLoader(bool value) {
-    _$checkStatusLoaderAtom.reportWrite(value, super.checkStatusLoader, () {
-      super.checkStatusLoader = value;
-    });
-  }
-
   late final _$selectedMenuAtom =
       Atom(name: '_SharedStore.selectedMenu', context: context);
 
@@ -138,19 +122,19 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
-  late final _$updateProfileAtom =
-      Atom(name: '_SharedStore.updateProfile', context: context);
+  late final _$emergencyLoadingAtom =
+      Atom(name: '_SharedStore.emergencyLoading', context: context);
 
   @override
-  bool get updateProfile {
-    _$updateProfileAtom.reportRead();
-    return super.updateProfile;
+  bool get emergencyLoading {
+    _$emergencyLoadingAtom.reportRead();
+    return super.emergencyLoading;
   }
 
   @override
-  set updateProfile(bool value) {
-    _$updateProfileAtom.reportWrite(value, super.updateProfile, () {
-      super.updateProfile = value;
+  set emergencyLoading(bool value) {
+    _$emergencyLoadingAtom.reportWrite(value, super.emergencyLoading, () {
+      super.emergencyLoading = value;
     });
   }
 
@@ -167,6 +151,22 @@ mixin _$SharedStore on _SharedStore, Store {
   set rideFareResponse(TotalRideFareResponse? value) {
     _$rideFareResponseAtom.reportWrite(value, super.rideFareResponse, () {
       super.rideFareResponse = value;
+    });
+  }
+
+  late final _$notificationPayloadAtom =
+      Atom(name: '_SharedStore.notificationPayload', context: context);
+
+  @override
+  NotificationPayload? get notificationPayload {
+    _$notificationPayloadAtom.reportRead();
+    return super.notificationPayload;
+  }
+
+  @override
+  set notificationPayload(NotificationPayload? value) {
+    _$notificationPayloadAtom.reportWrite(value, super.notificationPayload, () {
+      super.notificationPayload = value;
     });
   }
 
@@ -213,6 +213,23 @@ mixin _$SharedStore on _SharedStore, Store {
     return _$onOkayAsyncAction.run(() => super.onOkay(status));
   }
 
+  late final _$handleNotificationPayloadAsyncAction =
+      AsyncAction('_SharedStore.handleNotificationPayload', context: context);
+
+  @override
+  Future handleNotificationPayload(String? payload) {
+    return _$handleNotificationPayloadAsyncAction
+        .run(() => super.handleNotificationPayload(payload));
+  }
+
+  late final _$onClickEmergencyAsyncAction =
+      AsyncAction('_SharedStore.onClickEmergency', context: context);
+
+  @override
+  Future onClickEmergency() {
+    return _$onClickEmergencyAsyncAction.run(() => super.onClickEmergency());
+  }
+
   late final _$_SharedStoreActionController =
       ActionController(name: '_SharedStore', context: context);
 
@@ -250,17 +267,6 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
-  dynamic getdetails(bool data) {
-    final _$actionInfo = _$_SharedStoreActionController.startAction(
-        name: '_SharedStore.getdetails');
-    try {
-      return super.getdetails(data);
-    } finally {
-      _$_SharedStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic _setTotalRideFare(TotalRideFareResponse response) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore._setTotalRideFare');
@@ -277,13 +283,13 @@ mixin _$SharedStore on _SharedStore, Store {
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
-checkStatusLoader: ${checkStatusLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
 currentBalance: ${currentBalance},
-updateProfile: ${updateProfile},
-rideFareResponse: ${rideFareResponse}
+emergencyLoading: ${emergencyLoading},
+rideFareResponse: ${rideFareResponse},
+notificationPayload: ${notificationPayload}
     ''';
   }
 }

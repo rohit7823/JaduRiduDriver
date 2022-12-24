@@ -87,44 +87,49 @@ abstract class _DriverBookingsStore with Store {
     _controller?.dispose();
   }
 
-  @action
   _onBooking(GoogleMapController controller, BuildContext context) {
     _streamDisposer = _repository.booking().stream.listen((data) async {
-      customers.clear();
-      newBooking = data;
-      var bookingDetails = data;
-
-      var bitMap = await MarkerIcon.svgAsset(
-          assetName: ImageAssets.customerMarker, context: context, size: 48);
-      currentBookingId = bookingDetails.bookId;
-
-      var directionRes = await Directions(_env.googleApiKey)
-          .origin(_currentLocation!)
-          .destination(LatLng(bookingDetails.lat, bookingDetails.lng))
-          .request();
-
-      if (directionRes != null) {
-        pickUpLocation = directionRes.routes.first.legs.last.endAddress;
-        estimatedKm = directionRes.routes.first.legs.last.distance.text;
-        eta = directionRes.routes.first.legs.last.duration.text;
-      } else {
-        pickUpLocation = StringProvider.notAvailable;
-      }
-
-      var customer = Marker(
-        markerId: MarkerId(bookingDetails.bookId),
-        position: LatLng(bookingDetails.lat, bookingDetails.lng),
-        icon: bitMap,
-        draggable: false,
-        consumeTapEvents: false,
-      );
-      details = bookingDetails.customerDetails;
-      vehicleType = bookingDetails.vehicleType;
-      passTimer = bookingDetails.passTimer;
-      customers.add(customer);
-      controller.animateCamera(CameraUpdate.newLatLngZoom(
-          LatLng(newBooking!.lat, newBooking!.lng), 20));
+      initCurrentBooking(data, context);
+      /*controller.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(newBooking!.lat, newBooking!.lng), 20));*/
     });
+  }
+
+  @action
+  initCurrentBooking(DriverBookingDetails data, BuildContext context) async {
+    customers.clear();
+    newBooking = data;
+    var bookingDetails = data;
+
+    /*var bitMap = await MarkerIcon.svgAsset(
+        assetName: ImageAssets.customerMarker, context: context, size: 48);*/
+
+    currentBookingId = bookingDetails.bookId;
+
+    var directionRes = await Directions(_env.googleApiKey)
+        .origin(_currentLocation!)
+        .destination(LatLng(bookingDetails.lat, bookingDetails.lng))
+        .request();
+
+    if (directionRes != null) {
+      pickUpLocation = directionRes.routes.first.legs.last.endAddress;
+      estimatedKm = directionRes.routes.first.legs.last.distance.text;
+      eta = directionRes.routes.first.legs.last.duration.text;
+    } else {
+      pickUpLocation = StringProvider.notAvailable;
+    }
+
+    var customer = Marker(
+      markerId: MarkerId(bookingDetails.bookId),
+      position: LatLng(bookingDetails.lat, bookingDetails.lng),
+      icon: BitmapDescriptor.defaultMarker,
+      draggable: false,
+      consumeTapEvents: false,
+    );
+    details = bookingDetails.customerDetails;
+    vehicleType = bookingDetails.vehicleType;
+    passTimer = bookingDetails.passTimer;
+    customers.add(customer);
   }
 
   onBookingPass(BookingStatus status) {
@@ -136,7 +141,7 @@ abstract class _DriverBookingsStore with Store {
   onBookingAccept(BookingStatus status) {
     customers.clear();
     newBooking = null;
-    log("bookingAccept ${status.key} ${currentBookingId} ${_prefs.userId()}");
+    log("bookingAccept ${status.key} $currentBookingId ${_prefs.userId()}");
     _repository.bookingStatus(status.key, currentBookingId, _prefs.userId());
   }
 
@@ -149,7 +154,8 @@ abstract class _DriverBookingsStore with Store {
         onBookingPass(BookingStatus.passBooking);
         alreadyBookedMsg = response.msg;
       } else if (response is RideInitiateData) {
-        debugPrint("data initialized $response");
+        debugPrint(
+            "data initialized ${response.serviceType} ${response.currentStage}");
         onRideData = response;
       }
     });

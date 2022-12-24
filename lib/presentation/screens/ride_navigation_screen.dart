@@ -26,11 +26,11 @@ import 'package:timelines/timelines.dart';
 import '../custom_widgets/app_snack_bar.dart';
 
 class RideNavigationScreen extends StatefulWidget {
-  RideNavigationData rideId;
+  RideNavigationData data;
   SharedStore sharedStore;
 
   RideNavigationScreen(
-      {Key? key, required this.rideId, required this.sharedStore})
+      {Key? key, required this.data, required this.sharedStore})
       : super(key: key);
 
   @override
@@ -44,9 +44,7 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
 
   @override
   void initState() {
-    widget.sharedStore.onRideStarted();
-    widget.sharedStore.onRideFare();
-    _store = RideNavStore(widget.rideId);
+    _store = RideNavStore(widget.data);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _disposers = [
@@ -63,7 +61,8 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                 arguments: p0.argument,
                 onComplete: _store.clear,
                 fromScreen: _store.onVerifiedOtp);
-          } else if (p0.screen == Screen.payTrip) {
+          } else if (p0.screen == Screen.payTrip ||
+              p0.screen == Screen.thankYouEmergency) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument,
                 option: p0.option,
@@ -112,9 +111,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
           //_store.stropLocationSender();
           return false;
         },
-        child: SafeArea(
-          child: Scaffold(
-            body: Column(
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
               children: [
                 expand(
                     flex: 2,
@@ -141,7 +140,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                     onSelected: null,
                                     backgroundColor: AppColors.white,
                                     avatar: SvgPicture.asset(
-                                        _store.currentServiceIconPath),
+                                      _store.currentServiceIconPath,
+                                      color: AppColors.Acadia,
+                                    ),
                                   ),
                                 );
                               },
@@ -194,8 +195,9 @@ class _RideNavigationScreenState extends State<RideNavigationScreen>
                                       onFinish: _store.onEndTrip,
                                       onWaitingProcess: _store.endTripWaiting,
                                       isFinished: _store.endTripLoader,
-                                      indicatorColor: AlwaysStoppedAnimation(
-                                          AppColors.Acadia),
+                                      indicatorColor:
+                                          const AlwaysStoppedAnimation(
+                                              AppColors.Acadia),
                                       activeColor: AppColors.primary,
                                       buttonWidget:
                                           SvgPicture.asset(ImageAssets.swipe),

@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/core/domain/ride_navigation_data.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/screen_transitions.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/sereen_argument_models/emergency_screen_argument.dart';
 import 'package:jadu_ride_driver/presentation/screens/aadhar_card_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_all_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/add_vehicle_screen.dart';
@@ -13,6 +14,7 @@ import 'package:jadu_ride_driver/presentation/screens/application_submitted_scre
 import 'package:jadu_ride_driver/presentation/screens/change_app_language_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/dashboard_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/driver_license_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/emergengy_place_search_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/indentify_details_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/intro_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/login_register_screen.dart';
@@ -27,6 +29,7 @@ import 'package:jadu_ride_driver/presentation/screens/registration_certificate_s
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page_status.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
+import 'package:jadu_ride_driver/presentation/screens/thank_you_emergency_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_insurance_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_permit_screen.dart';
@@ -77,8 +80,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransitionWithEvent(VerifyOtpScreen(
             sharedStore: sharedStore, number: retrievedArgument));
       case AppRoute.changeLanguage:
-        return ScreenTransitions.rightToLeftTransitionWithEvent(
-            ChangeAppLanguageScreen(
+        return ScreenTransitions.rightToLeftTransition(ChangeAppLanguageScreen(
           sharedStore: sharedStore,
           arg: retrievedArgument as NavigateFrom,
         ));
@@ -136,13 +138,13 @@ class DefaultNav {
 
       case AppRoute.notification:
         return ScreenTransitions.rightToLeftTransition(
-            NotificationScreen());
+            const NotificationScreen());
 
       case AppRoute.walletPaymentStatus:
         return ScreenTransitions.bottomToTopTransition(
             RiderWalletStatus(argument: retrievedArgument));
 
-        case AppRoute.profileDetails:
+      case AppRoute.profileDetails:
         return ScreenTransitions.rightToLeftTransition(
             ProfileDetailsScreen(profileShortDescription: retrievedArgument));
 
@@ -178,28 +180,43 @@ class DefaultNav {
       case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
+
       case AppRoute.tripsScreen:
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
+
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
-          rideId: retrievedArgument as RideNavigationData,
+          data: retrievedArgument as RideNavigationData,
           sharedStore: sharedStore,
         ));
+
       case AppRoute.verifyTripOtp:
         return ScreenTransitions.fadeInTransition(VerifyTripOtpScreen(
           ids: retrievedArgument as RideIds,
         ));
+
       case AppRoute.payTrip:
         return ScreenTransitions.fadeInTransition(PayTripScreen(
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+
       case AppRoute.rateCustomer:
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             RateCustomerScreen(
           rideIds: retrievedArgument as RideIds,
           sharedStore: sharedStore,
         ));
+
+      case AppRoute.emergencyPlacesScreen:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
+            EmergencyPlaceSearchScreen(
+          data: retrievedArgument as EmergencyScreenArgument,
+        ));
+
+      case AppRoute.thankYouEmergency:
+        return ScreenTransitions.rightToLeftTransition(
+            const ThankYouEmergencyScreen());
       default:
         return null;
     }
@@ -222,7 +239,9 @@ class DefaultNav {
       if (arguments is RideIds) {
         return arguments;
       }
-      return arguments;
+      if (arguments is EmergencyScreenArgument) {
+        return arguments;
+      }
     }
   }
 }

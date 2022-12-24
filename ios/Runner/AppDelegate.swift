@@ -7,7 +7,7 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyCfLg29SzyG1nvAFl0AZiwpJuBcwDgreaA")
+    GMSServices.provideAPIKey("AIzaSyDCx7UqFSWYeSjVzcXbgBKB5nnarnHZWoM")
     GeneratedPluginRegistrant.register(with: self)
 
     SwiftFlutterForegroundTaskPlugin.setPluginRegistrantCallback(registerPlugins)

@@ -16,9 +16,12 @@ class SocketIO {
   SocketIO._();
 
   static init({bool autoConnect = false, required String userId}) {
-    _socketClient = soc.io("http://54.169.200.51:3000", <String, dynamic>{
+    _socketClient = soc.io("http://18.143.118.7:3000", <String, dynamic>{
       'autoConnect': autoConnect,
       'transports': ['websocket'],
+      'reconnection': true,
+      'reconnectionDelay': 100,
+      'reconnectionAttempts': 50,
     });
     connect(userId, autoConnect);
   }

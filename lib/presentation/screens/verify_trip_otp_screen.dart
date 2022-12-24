@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';

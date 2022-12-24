@@ -5,7 +5,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
 import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
 import 'package:jadu_ride_driver/core/helpers/location_service.dart';
-import 'package:rxdart/subjects.dart';
 
 class AppLocationService implements LocationService {
   /*final BehaviorSubject<bool> notifyLocationRequest = BehaviorSubject<bool>();

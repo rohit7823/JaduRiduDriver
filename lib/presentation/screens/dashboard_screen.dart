@@ -7,7 +7,6 @@ import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
-import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
@@ -55,12 +54,22 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
+      reaction((p0) => widget.sharedStore.dialogManager.currentErrorState,
+          (p0) {
+        if (p0 == DialogState.displaying) {
+          _dialogController.show(
+              widget.sharedStore.dialogManager.errorData!, p0,
+              close: widget.sharedStore.dialogManager.closeErrorDialog,
+              positive: widget.sharedStore.onAction);
+        }
+      }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null) {
           debugPrint("MyPrint ${p0.screen.name}");
           if (p0.screen == Screen.currentBalanceDetails) {
             ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: widget.sharedStore.clear, fromScreen: (data) {
+                arguments: p0.argument,
+                onComplete: widget.sharedStore.clear, fromScreen: (data) {
               debugPrint("FROMCURRENT Bal $data");
               widget.sharedStore.onChangeCurrentBalance(data as String);
             });
@@ -94,11 +103,12 @@ class _DashboardScreenState extends State<DashboardScreen>
           } else if (p0.screen == Screen.todaysPaymentScreen) {
             ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
-          }else if (p0.screen == Screen.paymentSummeryScreen) {
+          } else if (p0.screen == Screen.paymentSummeryScreen) {
             ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.notification) {
-            ChangeScreen.to(context, p0.screen, onComplete: widget.sharedStore.clear);
+            ChangeScreen.to(context, p0.screen,
+                onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.amountTransfferedByDayScreen) {
             ChangeScreen.to(context, p0.screen,
                 onComplete: widget.sharedStore.clear);
@@ -114,6 +124,11 @@ class _DashboardScreenState extends State<DashboardScreen>
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
           } else if (p0.screen == Screen.numberInputScreen) {
+            ChangeScreen.to(context, p0.screen,
+                option: p0.option,
+                onComplete: widget.sharedStore.clear,
+                arguments: p0.argument);
+          } else if (p0.screen == Screen.emergencyLocationSearch) {
             ChangeScreen.to(context, p0.screen,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,

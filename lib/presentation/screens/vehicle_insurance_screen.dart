@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/dob_view.dart';
@@ -42,8 +43,7 @@ class _VehicleInsuranceScreenState extends State<VehicleInsuranceScreen> {
   @override
   void initState() {
     _store = VehicleInsuranceStore();
-    _controller =
-        DialogController(dialog: MyDialogImpl(buildContext: context));
+    _controller = DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [

@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/package.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
+import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/mobile_number_with_codes_text_field.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
@@ -62,11 +63,10 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
         }
       }),
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
+        if (p0 != null) {
           ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
         }
       }),
-
     ];
   }
 
@@ -149,10 +149,11 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                       isMandatory: false,
                       placeholderText: StringProvider.enterYourEmail,
                     ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-                    if(!_store.emailValidator ) const Text(
-                      "*Check your Email.",style: TextStyle(color: Colors.red,fontSize: 10),
-                    ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
-
+                    if (!_store.emailValidator)
+                      const Text(
+                        "*Check your Email.",
+                        style: TextStyle(color: Colors.red, fontSize: 10),
+                      ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
                     MobileNumberWithCodesTextField(
                             key: ObjectKey(_store.gettingLoader),
                             node: FocusNode(),

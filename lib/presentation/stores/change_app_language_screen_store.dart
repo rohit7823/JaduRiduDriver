@@ -6,6 +6,7 @@ import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/app_language_codes.dart';
 import 'package:jadu_ride_driver/core/common/app_languages.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
+import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
@@ -102,7 +103,13 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
             await changeLang();
             languageChangedMsg = StringProvider.languageChangedSuccessfully;
             enableBtn = false;
-            onChange(ScreenWithExtras(screen: Screen.welcomeJaduRide));
+            if (cameFrom == NavigateFrom.verifyOtp) {
+              onChange(ScreenWithExtras(screen: Screen.welcomeJaduRide));
+            } else if (cameFrom == NavigateFrom.moreScreen) {
+              onChange(ScreenWithExtras(
+                  screen: Screen.dashBoard,
+                  option: NavigationOption(option: Option.none)));
+            }
           } else {
             enableBtn = false;
             dialogManager.initErrorData(AlertData(

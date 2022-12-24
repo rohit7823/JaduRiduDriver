@@ -5,11 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
-import 'package:jadu_ride_driver/core/common/overlay_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/ride_instruction.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/ride_stop.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/common/service.dart';
+import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/common/timestamp_with_direction.dart';
 import 'package:jadu_ride_driver/core/domain/cilent_waiting_response.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
@@ -24,6 +25,7 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:jadu_ride_driver/utills/socket_io.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/screen.dart';
@@ -88,6 +90,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   bool endTripLoader = false;
 
   _RideNavigationStore(this.rideNavigationData) {
+    _emitPageCreate();
     directions = google.Directions(env.googleApiKey);
     rideDirectionNavigationService.init(
       channelID: StringProvider.jaduRideDirectionNavigationServiceID,
@@ -373,13 +376,21 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   onEndTrip() {
     _repository.onRide(RideInstruction.endTrip.key, rideNavigationData.tripId);
     stopLocationSender();
-    onChange(ScreenWithExtras(
-        screen: Screen.payTrip,
+    if (JaduService.toService(rideNavigationData.data.serviceType) !=
+        JaduService.Emergency) {
+      onChange(ScreenWithExtras(
+          screen: Screen.payTrip,
+          option: NavigationOption(option: Option.popPrevious),
+          argument: RideIds(
+              rideId: rideNavigationData.tripId,
+              driverId: rideNavigationData.driverId,
+              customerName: customer)));
+    } else {
+      onChange(ScreenWithExtras(
+        screen: Screen.thankYouEmergency,
         option: NavigationOption(option: Option.popPrevious),
-        argument: RideIds(
-            rideId: rideNavigationData.tripId,
-            driverId: rideNavigationData.driverId,
-            customerName: customer)));
+      ));
+    }
   }
 
   @action
@@ -414,5 +425,14 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   onRideStopTapped(RideStop stop) {
     _controller?.animateCamera(CameraUpdate.newLatLngZoom(stop.location, 20));
+  }
+
+  void _emitPageCreate() {
+    if (JaduService.toService(rideNavigationData.data.serviceType) ==
+        JaduService.Emergency) {
+      debugPrint("rideNavigationData.tripId ${rideNavigationData.tripId}");
+      SocketIO.client.emit(
+          SocketEvents.onRideNavigationCreate.value, rideNavigationData.tripId);
+    }
   }
 }

@@ -9,8 +9,10 @@ class AppButton extends StatelessWidget {
   VoidCallback onClick;
   bool enable;
   bool showLoading;
+  Color loaderColor;
   Widget? child;
   String label;
+  Color btnColor;
 
   AppButton(
       {Key? key,
@@ -18,7 +20,9 @@ class AppButton extends StatelessWidget {
       this.enable = true,
       this.showLoading = false,
       required this.label,
-      this.child})
+      this.child,
+      this.loaderColor = AppColors.Acadia,
+      this.btnColor = AppColors.primary})
       : super(key: key);
 
   @override
@@ -26,13 +30,12 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: enable ? onClick : null,
       style: enable
-          ? AppButtonThemes.defaultStyle.copyWith(
-              backgroundColor:
-                  const MaterialStatePropertyAll(AppColors.primary))
+          ? AppButtonThemes.defaultStyle
+              .copyWith(backgroundColor: MaterialStatePropertyAll(btnColor))
           : AppButtonThemes.cancelBtnStyle,
       child: showLoading
           ? CircularProgressIndicator(
-              color: AppColors.Acadia,
+              color: loaderColor,
             )
           : child ?? label.text(AppTextStyle.btnTextStyleBlack),
     );

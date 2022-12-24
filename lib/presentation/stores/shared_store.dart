@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,6 +15,7 @@ import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
+import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
@@ -21,6 +23,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
+import 'package:jadu_ride_driver/core/domain/notification_payload.dart';
 import 'package:jadu_ride_driver/core/domain/response/intro_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/login_register_data_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/total_ride_fare_response.dart';
@@ -33,7 +36,6 @@ import 'package:jadu_ride_driver/core/repository/driver_live_location_repository
 import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
-import 'package:jadu_ride_driver/presentation/stores/accounts_view_model.dart';
 import 'package:jadu_ride_driver/presentation/stores/driver_bookings_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -48,6 +50,7 @@ import 'package:mobx/mobx.dart';
 import '../../core/common/app_constants.dart';
 import '../../core/repository/base_repository.dart';
 import '../../utills/notification_api.dart';
+import '../app_navigation/sereen_argument_models/emergency_screen_argument.dart';
 
 part 'shared_store.g.dart';
 
@@ -102,9 +105,12 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool updateProfile = false;
 
+  @observable
+  bool emergencyLoading = false;
+
   _SharedStore() {
     driverBookings = DriverBookingStore();
-
+    handlePushNotification();
   }
 
   initiateBatchCall() {
@@ -264,6 +270,7 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   @action
   getDashBoardData() async {
+    connectToSocket();
     gettingDataLoader = true;
     streamDisposer = _locationService.checkPermission().listen((event) async {
       if (event == GpsStatus.disabled) {
@@ -325,6 +332,8 @@ abstract class _SharedStore extends AppNavigator with Store {
       _locationService.openSettings();
     } else if (action == AlertAction.locationServiceDisable) {
       _locationService.openSettings();
+    } else if (action == AlertAction.emergencyPlaces) {
+      onClickEmergency();
     }
   }
 
@@ -346,9 +355,6 @@ abstract class _SharedStore extends AppNavigator with Store {
       }
     });
   }
-
-
-
 
   @action
   onBottomMenu(int index) {
@@ -488,11 +494,14 @@ abstract class _SharedStore extends AppNavigator with Store {
     }, onTokenError: (Object error) {
       debugPrint(error.toString());
     });
+  }
 
+  handlePushNotification() async {
+    await _pushNotification.init();
     _pushNotification.onMessageReceived(
         onMessage: (RemoteMessage message) async {
       await NotificationApi.showNotification(
-          1,
+          message.hashCode,
           message.data[AppConstants.notificationTitleKey],
           message.data[AppConstants.notificationBodyKey],
           image: message.data[AppConstants.notificationImageKey],
@@ -500,6 +509,85 @@ abstract class _SharedStore extends AppNavigator with Store {
           payload: message.data[AppConstants.notificationActionKey]);
     }, onBackgroundMessage: (RemoteMessage message) {
       debugPrint("backgroundMessage $message");
+      handleNotificationPayload(
+          message.data[AppConstants.notificationActionKey]);
     });
+
+    NotificationApi.behaviorSubjects.listen(handleNotificationPayload);
+  }
+
+  @observable
+  NotificationPayload? notificationPayload;
+
+  @action
+  handleNotificationPayload(String? payload) async {
+    debugPrint("NotificationPayload $payload}");
+    if (payload != null) {
+      var currentPayload = NotificationPayload.fromJson(json.decode(payload));
+      debugPrint("NotificationPayloadConverted $currentPayload");
+      debugPrint("visibleScreen $visibleScreen");
+      if (currentPayload.screen == Screen.dashBoard) {
+        if (Screen.dashBoard != visibleScreen) {
+          if (visibleScreen == Screen.partnerCare ||
+              visibleScreen == Screen.incentives ||
+              visibleScreen == Screen.schedule ||
+              visibleScreen == Screen.accounts ||
+              visibleScreen == Screen.more) {
+            onBottomMenu(BottomMenus.duty.index);
+          } else {
+            onChange(ScreenWithExtras(
+                screen: Screen.dashBoard,
+                option: NavigationOption(option: Option.popAll)));
+          }
+        }
+      }
+      //notificationPayload = currentPayload;
+    }
+  }
+
+  @action
+  onClickEmergency() async {
+    emergencyLoading = true;
+    var currentLOC = await _locationService.getCurrentLocation();
+
+    var response = await _repository.emergencyPlaces(
+        LatLong(lat: currentLOC.latitude, lng: currentLOC.longitude));
+
+    if (response is Success) {
+      var data = response.data;
+      emergencyLoading = false;
+      switch (data != null && data.status) {
+        case true:
+          var screenArg = EmergencyScreenArgument(
+              currentLocation: currentLOC, emergencyPlaces: data!.places);
+          onChange(ScreenWithExtras(
+              screen: Screen.emergencyLocationSearch, argument: screenArg));
+          break;
+        default:
+          dialogManager.initErrorData(AlertData(
+              StringProvider.appName,
+              null,
+              StringProvider.appId,
+              data!.message,
+              StringProvider.retry,
+              null,
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none,
+                  action: AlertAction.emergencyPlaces)));
+      }
+    } else if (response is Error) {
+      emergencyLoading = false;
+      dialogManager.initErrorData(AlertData(
+          StringProvider.appName,
+          null,
+          StringProvider.appId,
+          response.message ?? "",
+          StringProvider.retry,
+          null,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none, action: AlertAction.emergencyPlaces)));
+    }
   }
 }

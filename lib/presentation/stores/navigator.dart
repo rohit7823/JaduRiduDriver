@@ -1,3 +1,4 @@
+import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:mobx/mobx.dart';
 
@@ -12,9 +13,12 @@ abstract class _Navigator with Store {
   @computed
   ScreenWithExtras? get currentChange => _change;
 
+  Screen visibleScreen = Screen.none;
+
   @action
   onChange(ScreenWithExtras data) {
     _change = data;
+    visibleScreen = data.screen;
   }
 
   @action

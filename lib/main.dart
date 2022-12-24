@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -20,6 +21,9 @@ import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.d
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/firebase_module.dart';
 import 'package:jadu_ride_driver/utills/notification_api.dart';
+import 'package:mobx/mobx.dart';
+
+import 'core/helpers/push_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,10 +31,11 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await EasyLocalization.ensureInitialized();
   await GoogleFirebase.init();
-  await NotificationApi.initNotification(appIcon: 'app_name');
+  await NotificationApi.initNotification(appIcon: '@drawable/app_name');
+  FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
   EasyLocalization.logger.enableLevels = [];
-  runApp(JaduRideDriver());
+  runApp(const MyApp());
 }
 
 @pragma("vm:entry-point")
@@ -49,9 +54,30 @@ void startCallback() {
       ScreenWithExtras(screen: Screen.rideNavigation)));
 }
 
-class JaduRideDriver extends StatelessWidget {
-  JaduRideDriver({Key? key}) : super(key: key);
-  final SharedStore sharedStore = SharedStore();
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final SharedStore sharedStore;
+  late final List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    sharedStore = SharedStore();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var element in _disposers) {
+      element();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,4 +111,9 @@ class JaduRideDriver extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+  debugPrint(message.toString());
+  PushNotification.backgroundMessage.add(message);
 }
