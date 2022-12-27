@@ -14,7 +14,9 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 class ThankYouEmergencyScreen extends StatefulWidget {
-  const ThankYouEmergencyScreen({Key? key}) : super(key: key);
+  int totalFare;
+  ThankYouEmergencyScreen({Key? key, required this.totalFare})
+      : super(key: key);
 
   @override
   State<ThankYouEmergencyScreen> createState() =>
@@ -75,6 +77,14 @@ class _ThankYouEmergencyScreenState extends State<ThankYouEmergencyScreen> {
                         width: .30.sw,
                         height: .30.sw,
                       ).paddings(vertical: 0.05.sw),
+                      Row(
+                        children: [
+                          "${StringProvider.totalFare} "
+                              .text(AppTextStyle.btnTextStyle),
+                          "₹${widget.totalFare}"
+                              .text(AppTextStyle.btnTextStyleRed)
+                        ],
+                      ),
                       StringProvider.thankYou.text(AppTextStyle.profileText
                           .copyWith(fontWeight: FontWeight.w600)),
                       StringProvider.youWllGetYourPaymentShortly

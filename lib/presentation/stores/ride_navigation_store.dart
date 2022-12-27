@@ -42,7 +42,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   final env = dependency<Environment>();
   final AppLocationService _locationService = AppLocationService();
   late final google.Directions directions;
-  List<StreamSubscription<dynamic>?> _disposers = [];
+  final List<StreamSubscription<dynamic>?> _disposers = [];
   late final GoogleMapDirectionImpl _directionImpl;
   final messageInformer = MessageInformer();
   final rideDirectionNavigationService = RideDirectionForegroundService();
@@ -386,10 +386,12 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
               driverId: rideNavigationData.driverId,
               customerName: customer)));
     } else {
-      onChange(ScreenWithExtras(
-        screen: Screen.thankYouEmergency,
-        option: NavigationOption(option: Option.popPrevious),
-      ));
+      SocketIO.client.on(SocketEvents.totalRideFareEmergency.value, (data) {
+        onChange(ScreenWithExtras(
+            screen: Screen.thankYouEmergency,
+            option: NavigationOption(option: Option.popPrevious),
+            argument: data));
+      });
     }
   }
 

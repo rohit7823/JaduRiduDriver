@@ -216,7 +216,8 @@ class DefaultNav {
 
       case AppRoute.thankYouEmergency:
         return ScreenTransitions.rightToLeftTransition(
-            const ThankYouEmergencyScreen());
+            ThankYouEmergencyScreen(totalFare: retrievedArgument as int)
+        );
       default:
         return null;
     }
@@ -240,6 +241,9 @@ class DefaultNav {
         return arguments;
       }
       if (arguments is EmergencyScreenArgument) {
+        return arguments;
+      }
+      if(arguments is int) {
         return arguments;
       }
     }
