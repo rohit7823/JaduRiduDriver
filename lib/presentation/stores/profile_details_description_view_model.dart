@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jadu_ride_driver/core/domain/response/required_data_profile_details_response.dart';
 import 'package:jadu_ride_driver/utills/my_utils.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/common/alert_action.dart';
@@ -44,7 +45,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   String userMobileNumber = "";
 
   @observable
-  List<Package> states = [];
+  List<State> states = [];
 
   @observable
   List<Package> districts = [];
@@ -53,19 +54,31 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   List<Package> cities = [];
 
   @observable
-  List<MobileNumberCode> codes = [];
+  List<NumberCode> codes = [];
 
   @observable
-  MobileNumberCode? selectedCode;
+  NumberCode? selectedCode;
 
   @observable
   Package? selectedDistrict;
 
   @observable
-  Package? selectedState;
+  State? selectedState;
 
   @observable
   Package? selectedCity;
+
+  @observable
+  DialogState openImagePicker = DialogState.notDisplaying;
+
+  @observable
+  String image = "";
+
+
+  @observable
+  File? selectedImage;
+
+
 
   @observable
   bool gettingDistrictsLoader = false;
@@ -91,6 +104,11 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     _picker = ImagePicker();
     _cropper = ImageCropper();
   }
+  @action
+  selectImage() {
+    dialogManager.openFilePicker();
+  }
+
 
   @action
   _initialData() async {
@@ -102,7 +120,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       gettingLoader = false;
       switch (data != null && data.status) {
         case true:
-          userMobileNumber = data!.mobileNumber;
+          userMobileNumber = data!.mobile;
           userName = data.name;
           userEmail = data.email;
           finalCurrentDate = data.dob;
@@ -112,9 +130,10 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
             selected = GenderRadio.female;
           }
           states = data.states;
-          codes = data.numberCodes;
-          selectedCode = data.numberCodes.first;
+          codes = data.numberCode;
+          selectedCode = data.numberCode.id;
           selectedState = data.states.first;
+          image = data.image;
           break;
         default:
           dialogManager.initErrorData(AlertData(
@@ -148,7 +167,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @action
   getDistricts() async {
     gettingDistrictsLoader = true;
-    var response = await _repository.districts(selectedState!.id);
+    var response = await _repository.districts("STATE_721445545_3232332");
     if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
@@ -248,7 +267,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   @action
-  onNumberCode(MobileNumberCode? code) {
+  onNumberCode(NumberCode? code) {
     selectedCode = code;
   }
 
@@ -266,6 +285,21 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   onCity(Package? city) {
     selectedCity = city;
   }
+
+
+  @observable
+  String informMessage = "";
+
+
+  @observable
+  String selectedGender = "";
+
+  @observable
+  GenderRadio selected = GenderRadio.none;
+
+  @observable
+  String finalCurrentDate = "";
+
 
   onRetry(AlertAction? action) {
     switch (action) {
@@ -289,22 +323,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  @observable
-  String informMessage = "";
 
-  @observable
-  DialogState openImagePicker = DialogState.notDisplaying;
 
-  @observable
-  File? selectedImage;
 
-  @observable
-  String selectedGender = "";
-
-  @action
-  selectImage() {
-    openImagePicker = DialogState.displaying;
-  }
 
   @action
   chooseFromCamera() async {
@@ -323,11 +344,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  @observable
-  GenderRadio selected = GenderRadio.none;
-
-  @observable
-  String finalCurrentDate = "";
 
   @action
   onRadioSelected(GenderRadio? selectedValue) {
@@ -419,7 +435,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
         selectedDistrict?.id ?? "",
         selectedCity?.id ?? "",
         genderSelected,
-        finalCurrentDate);
+        finalCurrentDate, selectedImage);
 
     if (response is Success) {
       var data = response.data;

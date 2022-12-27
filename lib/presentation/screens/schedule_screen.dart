@@ -130,7 +130,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             Row(
               children: [
                 Expanded(
-                  flex: 5,
+                  flex: 8,
                   child: Text(scheduleStore.scheduleArrayList[index].date,
                       style: TextStyle(
                         color: AppColors.lightBlack,
@@ -138,28 +138,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         fontWeight: FontWeight.w600,
                       )),
                 ),
-                SizedBox(
-                  width: 0.07.sw,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5.sp),
-                    child: Text("TIME : ",
-                            style: TextStyle(
-                              color: AppColors.primaryVariant,
-                              fontSize: 13.sp,
-                            )),
 
-                  ),
-                ),
+                Text("TIME:",
+                    style: TextStyle(
+                      color: AppColors.primaryVariant,
+                      fontSize: 13.sp,
+                    )),
                 Expanded(
                   flex: 2,
                   child: Text(scheduleStore.scheduleArrayList[index].time,
                       style: TextStyle(
                         color: AppColors.lightGrays,
                         fontSize: 13.sp,
-                      )).paddings(vertical: 0.01.sw, horizontal: 0.03.sw),
+                      )).paddings(vertical: 0.01.sw, horizontal: 0.01.sw),
                 )
               ],
             ),

@@ -44,10 +44,10 @@ abstract class _TripsViewModel with Store{
   }
 
   @observable
-  List<TripsDetails> tripDetailsArrayList = [];
+  List<Trip> tripDetailsArrayList = [];
 
 
-  List<TripsDetails> tripDetailsArrayListbackup = [];
+  List<Trip> tripDetailsArrayListbackup = [];
 
 
   _TripsViewModel(){
@@ -76,7 +76,7 @@ abstract class _TripsViewModel with Store{
   onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
     if (selectedValue != null) {
       selected = selectedValue;
-      var temp = <TripsDetails>[];
+      var temp = <Trip>[];
       for (var element in tripDetailsArrayListbackup) {
         debugPrint('${selectedValue.name} ${element.paymentType}');
         if(selectedValue.name == element.paymentType) {
@@ -100,13 +100,13 @@ abstract class _TripsViewModel with Store{
       datesSelectedListLoader = false;
       switch (data != null && data.status) {
         case true:
-          if (data!.tripsDetailsList.isEmpty) {
+          if (data!.trips.isEmpty) {
             tripDetailsArrayList = [];
             tripDetailsArrayListbackup = [];
             MyUtils.toastMessage("Empty List....");
           } else {
-            tripDetailsArrayList = data.tripsDetailsList;
-            tripDetailsArrayListbackup = data.tripsDetailsList;
+            tripDetailsArrayList = data.trips;
+            tripDetailsArrayListbackup = data.trips;
             //MyUtils.toastMessage("Success....");
           }
       } //switch
