@@ -126,11 +126,11 @@ final dependency = GetIt.instance;
 class AppModule {
   AppModule._();
 
-  // static final alice = Alice(
-  //   showNotification: true,
-  //   showInspectorOnShake: true,
-  //   darkTheme: false,
-  // );
+  static final alice = Alice(
+    showNotification: true,
+    showInspectorOnShake: true,
+    darkTheme: false,
+  );
 
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -150,7 +150,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-   // dio.interceptors.add(alice.getDioInterceptor());
+    dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 

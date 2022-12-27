@@ -25,29 +25,16 @@ class DriverDutyRepositoryImpl implements DriverDutyRepository {
 
   @override
   Future<Resource<DriverStatusResponse>> driverStatus(String userId) async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    return Success(DriverStatusResponse(
-        status: true,
-        message: "Message",
-        driverStatus: DriverStatusModel(
-            id: "DriverStatus", status: DriverStatus.onDuty.name)));
-  }
+    return await _driverStatusApi
+        .getworkingStatus(userId)
+        .handleResponse<DriverStatusResponse>();
+      }
 
   @override
   Future<Resource<ShortBookingsSummaryResponse>> bookingsSummary(String userId) async {
     return await _shortBookingsApi
             .bookingcount(userId)
         .handleResponse<ShortBookingsSummaryResponse>();
-    // await Future.delayed(const Duration(seconds: 2));
-    //
-    // return Success(ShortBookingsSummaryResponse(
-    //     status: true,
-    //     message: "Success",
-    //     bookingsSummary: ShortBookingsSummary(
-    //         bookingCount: "0",
-    //         totalIncome: "0.0",
-    //         timeStamp: "Thus, 01 Jun 22, 06:37 PM")));
   }
 
   @override

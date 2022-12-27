@@ -151,14 +151,17 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                 indicator: BoxDecoration(
                                     color: AppColors.primaryVariant,
                                     borderRadius: BorderRadius.circular(20.r)),
-                                padding: EdgeInsets.all(0.01.sw),
+                               // padding: EdgeInsets.all(0.01.sw),
                                 controller: _store.tabController,
                                 onTap: _store.onDriverStatusChanged,
                                 labelColor: AppColors.white,
-                                unselectedLabelColor: AppColors.Gray,
+                                unselectedLabelColor: AppColors.appBlack,
                                 tabs: DriverStatus.values.map((status) {
                                   return fitBox(
-                                    child: Tab(text: status.name),
+                                    child: Padding(
+                                      padding:  EdgeInsets.all(0.01.sw),
+                                      child: Tab(text: status.name),
+                                    ),
                                   );
                                 }).toList(),
                               ),
