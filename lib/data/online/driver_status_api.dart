@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/api_route.dart';
+import 'package:jadu_ride_driver/core/domain/response/driver_status_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/set_driver_status_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -13,4 +14,9 @@ abstract class DriverStatusApi {
   @FormUrlEncoded()
   Future<SetDriverStatusResponse> setWorkingStatus(
       @Path("userId") String userId, @Field("status") String status);
+  
+  
+  @GET("${ApiRoutes.parent}/users/{userId}/status/current")
+  Future<DriverStatusResponse> getworkingStatus(
+      @Path("userId") String userId);
 }

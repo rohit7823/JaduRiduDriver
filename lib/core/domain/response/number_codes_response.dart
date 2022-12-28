@@ -21,8 +21,7 @@ class NumberCodesResponse extends BusinessObject {
       NumberCodesResponse(
         status: json["status"],
         message: json["message"],
-        codes: List<MobileNumberCode>.from(
-            json["codes"].map((x) => MobileNumberCode.fromJson(x))),
+        codes: List<MobileNumberCode>.from(json["codes"].map((x) => MobileNumberCode.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

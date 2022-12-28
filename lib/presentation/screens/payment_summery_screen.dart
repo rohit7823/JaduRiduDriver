@@ -125,7 +125,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
                                 ),
 
                                   Text(
-                                    "online",
+                                    "Online",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -233,35 +233,41 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-                child: Observer(builder: (BuildContext context) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0.02.sw, horizontal: 0.02.sw),
-                    child: paymentSummaryStores.datesSelectedListLoader
-                        ? Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                          height: 0.10.sh,
-                          width: 0.10.sh,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 0.05.sw,
-                                  horizontal: 0.05.sw),
-                              child:
-                              const CircularProgressIndicator())),
-                    )
-                        : ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.02.sw,
-                          horizontal: 0.02.sw),
-                      itemCount: paymentSummaryStores
-                          .rechargeHistory.length,
-                      itemBuilder: (context, index) => listItem(index),
-                      separatorBuilder:
-                          (BuildContext context, int index) => separatedBox(),
-                    ),
-                  );
+                child: Observer(
+                    builder: (BuildContext context) {
+                      if(paymentSummaryStores.datesSelectedListLoader) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                              height: 0.10.sh,
+                              width: 0.10.sh,
+                              child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 0.05.sw,
+                                      horizontal: 0.05.sw),
+                                  child:
+                                  const CircularProgressIndicator())),
+                        );
+                      }else{
+                        return  paymentSummaryStores.rechargeHistory.isEmpty ?
+
+                        Center(child: Text("Doesn't have any Payment ",
+                          style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),)
+
+                            : ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.02.sw,
+                              horizontal: 0.02.sw),
+                          itemCount: paymentSummaryStores
+                              .rechargeHistory.length,
+                          itemBuilder: (context, index) => listItem(index),
+                          separatorBuilder:
+                              (BuildContext context, int index) => separatedBox(),
+                        );
+                      }
+
+
                 }),
               ),
             ),),

@@ -81,6 +81,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool gettingDataLoader = false;
 
+  @observable
+  bool checkStatusLoader =  false;
+
   StreamSubscription? streamDisposer;
 
   Position? currentLocation;
@@ -98,6 +101,9 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   @observable
   String? currentBalance;
+
+  @observable
+  bool updateProfile = false;
 
   @observable
   bool emergencyLoading = false;
@@ -189,6 +195,11 @@ abstract class _SharedStore extends AppNavigator with Store {
     dialogManager.closeErrorDialog();
     getIntroPageData();
   }
+
+
+
+
+
 
   @action
   hidePartnercarerNav(bool isFocused) async {
@@ -395,6 +406,8 @@ abstract class _SharedStore extends AppNavigator with Store {
     driverBookings.onBookingPass(status);
   }
 
+
+
   @action
   onOkay(BookingStatus status) async {
     driverBookings.onBookingAccept(status);
@@ -432,10 +445,20 @@ abstract class _SharedStore extends AppNavigator with Store {
     dropLocationData = response;
   }
 
+
+
   @action
   onChangeCurrentBalance(String data) {
     currentBalance = data;
   }
+
+
+  @action
+  getdetails(bool data) {
+    checkStatusLoader = data;
+  }
+
+
 
   @observable
   TotalRideFareResponse? rideFareResponse;

@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
+import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
@@ -114,20 +115,33 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
               DateTime(2050), _store.onSelectDate,
               dismissed: _store.dialogManager.closeDatePicker);
         }
+      }),
+      reaction((p0) => _store.currentChange, (p0) {
+        if(p0 != null){
+          ChangeScreen.from(context, p0.screen,
+              result: p0.argument, onCompleted: _store.clear);
+        }
       })
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBarWithOutLogo(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            expand(flex: 3, child: _upperSideContent()),
-            expand(flex: 8, child: _lowerSideContent())
-          ],
+    return WillPopScope(
+      onWillPop: () async{
+        return  _store.backToPrevious();
+      },
+      child: Scaffold(
+        appBar: MyAppBarWithOutLogo(
+          onPop: _store.backToPrevious,
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              expand(flex: 3, child: _upperSideContent()),
+              expand(flex: 7, child: _lowerSideContent())
+            ],
+          ),
         ),
       ),
     );
@@ -140,18 +154,27 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
         Column(
           children: [
             Expanded(
-              flex: 7,
+              flex: 5,
               child: Container(
-                decoration: const BoxDecoration(
-                    color: AppColors.primary),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0.05.sw),
-                  child: Align(
+                decoration: BoxDecoration(
+                    color: AppColors.primary,
+                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(100.r))),
+                child:Align(
                     alignment: Alignment.topLeft,
-                    child: StringProvider.manageProfile
-                        .text(AppTextStyle.enterNumberStyle),
+                    child: fitBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                           StringProvider.manageProfile
+                                  .text(AppTextStyle.enterNumberStyle),
+
+                        ],
+                      ).padding(
+                        insets: EdgeInsets.symmetric(horizontal: 0.04.sw)
+                      ),
+                    ),
                   ),
-                ),
+
               ),
             ),
             Expanded(
@@ -195,59 +218,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     },
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(0.02.sw),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.white),
-                  child: Observer(
-                    builder: (BuildContext context) {
-                      return _store.selectedImage != null
-                          ? CircleAvatar(
-                        radius: 0.15.sw,
-                        backgroundColor: AppColors.lightGray,
-                        foregroundImage: FileImage(_store.selectedImage!),
-                      )
-                          : _store.image.isNotEmpty
-                          ? CircleAvatar(
-                        radius: 0.15.sw,
-                        foregroundImage: NetworkImage(_store.image),
-                        backgroundColor: AppColors.lightGray,
-                      )
-                          : CircleAvatar(
-                        radius: 0.15.sw,
-                        foregroundImage: const AssetImage(
-                            "assets/images/profile.png"),
-                        backgroundColor: AppColors.lightGray,
-                      );
-                    },
-                  ),
-                ),
-                // Observer(builder: (BuildContext context) {
-                //   if (_store.selectedImage != null) {
-                //     return Container(
-                //       height: 0.25.sw,
-                //       width: 0.25.sw,
-                //       decoration: BoxDecoration(
-                //         color: AppColors.primary,
-                //         borderRadius: BorderRadius.circular(500),
-                //         border: Border.all(color: AppColors.appGreens),
-                //       ),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(500),
-                //         child: Image.file(
-                //           _store.selectedImage!,
-                //           fit: BoxFit.cover,
-                //         ),
-                //       ),
-                //     );
-                //   }
-                //   return CircleAvatar(
-                //     foregroundImage: NetworkImage(
-                //         widget.profileShortDescription.driverImageURL),
-                //     backgroundColor: AppColors.primary,
-                //     radius: 45,
-                //   );
-                // }),
+
+
                 Container(
                   padding: EdgeInsets.all(0.01.sw),
                   decoration: BoxDecoration(
@@ -328,7 +300,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             onTextChange: _store.mobileNumber,
                             codes: _store.codes,
                             isMandatory: false,
-                            onCodeSelect: _store.codes,
+                            onCodeSelect: _store.onNumberCode,
                             onNumberCleared: _store.mobileNumberCleared,
                             gettingLoader: _store.gettingLoader)
                         .padding(insets: EdgeInsets.only(bottom: 0.04.sw));

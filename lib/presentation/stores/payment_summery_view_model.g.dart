@@ -57,6 +57,22 @@ mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
     });
   }
 
+  late final _$RmessageAtom =
+      Atom(name: '_PaymentSummeryViewModel.Rmessage', context: context);
+
+  @override
+  String get Rmessage {
+    _$RmessageAtom.reportRead();
+    return super.Rmessage;
+  }
+
+  @override
+  set Rmessage(String value) {
+    _$RmessageAtom.reportWrite(value, super.Rmessage, () {
+      super.Rmessage = value;
+    });
+  }
+
   late final _$datesSelectedListLoaderAtom = Atom(
       name: '_PaymentSummeryViewModel.datesSelectedListLoader',
       context: context);
@@ -157,6 +173,7 @@ mixin _$PaymentSummaryStores on _PaymentSummeryViewModel, Store {
 rechargeHistory: ${rechargeHistory},
 data: ${data},
 isLoading: ${isLoading},
+Rmessage: ${Rmessage},
 datesSelectedListLoader: ${datesSelectedListLoader},
 finalCurrentDate: ${finalCurrentDate},
 selected: ${selected}

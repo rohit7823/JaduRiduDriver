@@ -58,6 +58,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$checkStatusLoaderAtom =
+      Atom(name: '_SharedStore.checkStatusLoader', context: context);
+
+  @override
+  bool get checkStatusLoader {
+    _$checkStatusLoaderAtom.reportRead();
+    return super.checkStatusLoader;
+  }
+
+  @override
+  set checkStatusLoader(bool value) {
+    _$checkStatusLoaderAtom.reportWrite(value, super.checkStatusLoader, () {
+      super.checkStatusLoader = value;
+    });
+  }
+
   late final _$selectedMenuAtom =
       Atom(name: '_SharedStore.selectedMenu', context: context);
 
@@ -119,6 +135,22 @@ mixin _$SharedStore on _SharedStore, Store {
   set currentBalance(String? value) {
     _$currentBalanceAtom.reportWrite(value, super.currentBalance, () {
       super.currentBalance = value;
+    });
+  }
+
+  late final _$updateProfileAtom =
+      Atom(name: '_SharedStore.updateProfile', context: context);
+
+  @override
+  bool get updateProfile {
+    _$updateProfileAtom.reportRead();
+    return super.updateProfile;
+  }
+
+  @override
+  set updateProfile(bool value) {
+    _$updateProfileAtom.reportWrite(value, super.updateProfile, () {
+      super.updateProfile = value;
     });
   }
 
@@ -267,6 +299,17 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic getdetails(bool data) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.getdetails');
+    try {
+      return super.getdetails(data);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic _setTotalRideFare(TotalRideFareResponse response) {
     final _$actionInfo = _$_SharedStoreActionController.startAction(
         name: '_SharedStore._setTotalRideFare');
@@ -283,10 +326,12 @@ mixin _$SharedStore on _SharedStore, Store {
 gettingIntroDataLoader: ${gettingIntroDataLoader},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
+checkStatusLoader: ${checkStatusLoader},
 selectedMenu: ${selectedMenu},
 isVisible: ${isVisible},
 dropLocationData: ${dropLocationData},
 currentBalance: ${currentBalance},
+updateProfile: ${updateProfile},
 emergencyLoading: ${emergencyLoading},
 rideFareResponse: ${rideFareResponse},
 notificationPayload: ${notificationPayload}

@@ -16,7 +16,7 @@ abstract class ProfileDetailsRepository{
 
   Future<Resource<CitiesResponse>> cities(String selectedDistrictId);
 
-  Future<Resource<UploadProfileDetailsResponse>> uploadProfileDetails(
+  Future<Resource<UpdateProfileDetailsResponse>> uploadProfileDetails(
       String userId,
       String userName,
       String userEmail,

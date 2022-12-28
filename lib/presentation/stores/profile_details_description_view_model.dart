@@ -45,7 +45,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   String userMobileNumber = "";
 
   @observable
-  List<State> states = [];
+  List<Package> states = [];
 
   @observable
   List<Package> districts = [];
@@ -54,16 +54,16 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   List<Package> cities = [];
 
   @observable
-  List<NumberCode> codes = [];
+  List<MobileNumberCode> codes = [];
 
   @observable
-  NumberCode? selectedCode;
+  MobileNumberCode? selectedCode;
 
   @observable
   Package? selectedDistrict;
 
   @observable
-  State? selectedState;
+  Package? selectedState;
 
   @observable
   Package? selectedCity;
@@ -77,6 +77,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
 
   @observable
   File? selectedImage;
+
+  @observable
+  bool checkStatus = false;
 
 
 
@@ -109,6 +112,10 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     dialogManager.openFilePicker();
   }
 
+  bool backToPrevious() {
+    onChange(ScreenWithExtras(screen: Screen.dashBoard, argument: checkStatus ?? "" ));
+    return false;
+  }
 
   @action
   _initialData() async {
@@ -121,6 +128,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           userMobileNumber = data!.mobile;
+          print("${userMobileNumber}");
           userName = data.name;
           userEmail = data.email;
           finalCurrentDate = data.dob;
@@ -130,8 +138,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
             selected = GenderRadio.female;
           }
           states = data.states;
-          codes = data.numberCode;
-          selectedCode = data.numberCode.id;
+          List<MobileNumberCode> numbercodes = [data.numberCode];
+          codes = numbercodes ;
+          selectedCode = data.numberCode;
           selectedState = data.states.first;
           image = data.image;
           break;
@@ -164,10 +173,79 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
+
+  onSave() async {
+    uploadingLoader = true;
+    var response = await _repository.uploadProfileDetails(
+        _storage.userId(),
+        userName,
+        userEmail,
+        userMobileNumber,
+        selectedState?.id ?? "",
+        selectedDistrict?.id ?? "",
+        selectedCity?.id ?? "",
+        selected.value,
+        finalCurrentDate,
+        selectedImage);
+
+    if (response is Success) {
+      var data = response.data;
+      uploadingLoader = false;
+
+      switch (data != null && data.status) {
+        case true:
+
+          if (data!.isSubmitted) {
+            /*onChange(ScreenWithExtras(
+                screen: Screen.more, ));*/
+            checkStatus =  true;
+            backToPrevious();
+            MyUtils.toastMessage("Data submitted...");
+          } else {
+            dialogManager.initErrorData(AlertData(
+                StringProvider.error,
+                null,
+                StringProvider.appId,
+                data.message,
+                StringProvider.okay,
+                null,
+                null,
+                AlertBehaviour(
+                    option: AlertOption.none, action: AlertAction.none)));
+          }
+          break;
+        default:
+          dialogManager.initErrorData(AlertData(
+              StringProvider.error,
+              null,
+              StringProvider.appId,
+              data?.message ?? "",
+              StringProvider.retry,
+              null,
+              null,
+              AlertBehaviour(
+                  option: AlertOption.none,
+                  action: AlertAction.uploadUserData)));
+      }
+    } else if (response is Error) {
+      uploadingLoader = false;
+      dialogManager.initErrorData(AlertData(
+          StringProvider.error,
+          null,
+          StringProvider.appId,
+          response.message ?? "",
+          StringProvider.retry,
+          null,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none, action: AlertAction.uploadUserData)));
+    }
+  }
+
   @action
   getDistricts() async {
     gettingDistrictsLoader = true;
-    var response = await _repository.districts("STATE_721445545_3232332");
+    var response = await _repository.districts(selectedState!.id);
     if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
@@ -267,7 +345,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   @action
-  onNumberCode(NumberCode? code) {
+  onNumberCode(MobileNumberCode? code) {
     selectedCode = code;
   }
 
@@ -350,6 +428,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     if (selectedValue != null) {
       debugPrint(selectedValue.toString());
       selected = selectedValue;
+
+
     }
   }
 
@@ -424,69 +504,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-  onSave() async {
-    uploadingLoader = true;
-    var response = await _repository.uploadProfileDetails(
-        _storage.userId(),
-        userName,
-        userEmail,
-        userMobileNumber,
-        selectedState?.id ?? "",
-        selectedDistrict?.id ?? "",
-        selectedCity?.id ?? "",
-        genderSelected,
-        finalCurrentDate, selectedImage);
 
-    if (response is Success) {
-      var data = response.data;
-      uploadingLoader = false;
-
-      switch (data != null && data.status) {
-        case true:
-          if (data!.isSaved) {
-            /*onChange(ScreenWithExtras(
-                screen: Screen.more, ));*/
-            MyUtils.toastMessage("Data submitted...");
-          } else {
-            dialogManager.initErrorData(AlertData(
-                StringProvider.error,
-                null,
-                StringProvider.appId,
-                data.message,
-                StringProvider.okay,
-                null,
-                null,
-                AlertBehaviour(
-                    option: AlertOption.none, action: AlertAction.none)));
-          }
-          break;
-        default:
-          dialogManager.initErrorData(AlertData(
-              StringProvider.error,
-              null,
-              StringProvider.appId,
-              data?.message ?? "",
-              StringProvider.retry,
-              null,
-              null,
-              AlertBehaviour(
-                  option: AlertOption.none,
-                  action: AlertAction.uploadUserData)));
-      }
-    } else if (response is Error) {
-      uploadingLoader = false;
-      dialogManager.initErrorData(AlertData(
-          StringProvider.error,
-          null,
-          StringProvider.appId,
-          response.message ?? "",
-          StringProvider.retry,
-          null,
-          null,
-          AlertBehaviour(
-              option: AlertOption.none, action: AlertAction.uploadUserData)));
-    }
-  }
 
   /*onMore() {
     onChange(ScreenWithExtras(

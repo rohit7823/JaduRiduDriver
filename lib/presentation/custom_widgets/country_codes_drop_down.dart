@@ -54,7 +54,7 @@ class _CountryCodesDropDownState extends State<CountryCodesDropDown> {
                               Image.network(
                                 height: 0.08.sw,
                                 //e.countryImage,
-                                "${Global.baseUrl}${e.countryImage}",
+                                "${Global.baseUrl}${e.flag}",
                                 width: 0.10.sw,
                               ),
                               SizedBox(width: 0.02.sw),

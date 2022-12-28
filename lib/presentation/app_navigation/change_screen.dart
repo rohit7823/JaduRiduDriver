@@ -38,8 +38,12 @@ class ChangeScreen {
             onComplete: onComplete);
         break;
       case Screen.changeLanguage:
-        await _navigateWithOption(context, AppRoute.changeLanguage, option!,
-            arguments: arguments, onComplete: onComplete);
+        await _navigateWithOption(
+            context,
+            AppRoute.changeLanguage,
+            option!,
+            arguments: arguments,
+            onComplete: onComplete);
         break;
       case Screen.welcomeJaduRide:
         await _navigate(context, AppRoute.welcomeJaduRide,
@@ -144,12 +148,15 @@ class ChangeScreen {
         );
         break;
 
+
+
       case Screen.profileDetailsScreen:
         _navigate(
           context,
           AppRoute.profileDetails,
           arguments: arguments,
           onComplete: onComplete,
+          fromScreen: fromScreen,
         );
         break;
       case Screen.todaysPaymentScreen:

@@ -82,12 +82,7 @@ class WelcomeJaduRideRepositoryImpl implements WelcomeJaduRideRepository {
       String referralCode,
       bool isTermsSelected) async {
     return await _welcomeJaduRideApi
-        .driverDetails(userId, userName, userEmail, referralCode, stateId,
-            districtId, cityId)
+        .driverDetails(userId, userName, userEmail, referralCode, stateId, districtId, cityId)
         .handleResponse<UserPrimaryRegistrationResponse>();
-
-    /*await Future.delayed(const Duration(seconds: 2));
-    return Success(UserPrimaryRegistrationResponse(
-        status: true, message: "Success", isSaved: true));*/
   }
 }

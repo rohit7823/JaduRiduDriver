@@ -76,9 +76,10 @@ abstract class _DutyScreenStore  extends AppNavigator with Store {
         switch (data != null && data.status) {
           case true:
             for (var element in DriverStatus.values) {
-              if (element.name == data!.driverStatus.status) {
+              if (element.name == data!.currentStatus) {
                 selectedStatus = element;
-                _storage.setDriverStatus(selectedStatus.name);
+                print("$selectedStatus");
+                //_storage.setDriverStatus(selectedStatus.name);
                 break;
               }
             }
@@ -106,7 +107,7 @@ abstract class _DutyScreenStore  extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.isUpdated) {
-            _storage.setDriverStatus(selectedStatus.name);
+            //_storage.setDriverStatus(selectedStatus.name);
             this.selectedStatus = selectedStatus;
             informMessage = data.message;
           } else {
@@ -137,10 +138,14 @@ abstract class _DutyScreenStore  extends AppNavigator with Store {
           bookingCount = '${data!.bookingCount}';
 
           operatorBill = '${data.operatorBill}';
+
+          timeStamp = data.updateDateTime;
+
           break;
         default:
           bookingCount = "0";
           operatorBill = "0.0";
+          String timeStamp = "Thus, 01 Jun 22, 06:37 PM";
           errorMsg = data?.message ?? "";
       }
     } else if (response is Error) {

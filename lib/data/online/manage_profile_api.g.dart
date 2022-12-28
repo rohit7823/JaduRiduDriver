@@ -87,6 +87,77 @@ class _ManageProfileApi implements ManageProfileApi {
     return value;
   }
 
+  @override
+  Future<UpdateProfileDetailsResponse> uploadProfile(
+    userId,
+    userName,
+    userEmail,
+    userMobileNumber,
+    stateId,
+    districtId,
+    cityId,
+    gender,
+    dob,
+    profileImage,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'name',
+      userName,
+    ));
+    _data.fields.add(MapEntry(
+      'email',
+      userEmail,
+    ));
+    _data.fields.add(MapEntry(
+      'state_id',
+      stateId,
+    ));
+    _data.fields.add(MapEntry(
+      'district_id',
+      districtId,
+    ));
+    _data.fields.add(MapEntry(
+      'city_id',
+      cityId,
+    ));
+    _data.fields.add(MapEntry(
+      'gender',
+      gender,
+    ));
+    _data.fields.add(MapEntry(
+      'dob',
+      dob,
+    ));
+    _data.files.add(MapEntry(
+      'profile_image',
+      MultipartFile.fromFileSync(
+        profileImage!.path,
+        filename: profileImage.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UpdateProfileDetailsResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
+    )
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/profile/update?mobile=${userMobileNumber}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateProfileDetailsResponse.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

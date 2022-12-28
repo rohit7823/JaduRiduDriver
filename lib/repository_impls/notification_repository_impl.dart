@@ -11,7 +11,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     await Future.delayed(const Duration(seconds: 2));
     return Success(GetNotificationResponse(
         status: true, message: "Success",
-        notificationlist: List.generate(5, (index) => NotificationResponseClass(
+        notificationlist: List.generate(4, (index) => NotificationResponseClass(
             time: "04:35", info: "Your bookings has been completed", imagepath: "assets/images/tick.png"))));
   }
 

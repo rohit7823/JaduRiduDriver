@@ -159,7 +159,7 @@ class _CurrentBalanceDetailsScreenState
                                                   ? Text(
                                                       "${currentBalanceStore.amount}",
                                                       style: AppTextStyle
-                                                          .currentBalanceDetails,
+                                                        .currentBalanceDetails,
                                                     )
                                                   : Text("fetching...")),
                                     ],
@@ -335,9 +335,10 @@ class _CurrentBalanceDetailsScreenState
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-              child: Observer(builder: (BuildContext context) {
-                return currentBalanceStore.datesSelectedListLoader
-                    ? Align(
+              child: Observer(
+                  builder: (BuildContext context){
+                    if(currentBalanceStore.datesSelectedListLoader){
+                      return Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.only(top: 0.15.sw),
@@ -349,18 +350,27 @@ class _CurrentBalanceDetailsScreenState
                                       vertical: 0.05.sw, horizontal: 0.05.sw),
                                   child: const CircularProgressIndicator())),
                         ),
-                      )
-                    : ListView.separated(
+                      );
+                    }else{
+                       return currentBalanceStore.currentBalanceHistory.isEmpty ?
+                      Center(child: Text("No Transaction",
+                        style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),)
+
+                          : ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.symmetric(
                             vertical: 0.05.sw, horizontal: 0.05.sw),
                         itemCount:
-                            currentBalanceStore.currentBalanceHistory.length,
+                        currentBalanceStore.currentBalanceHistory.length,
                         itemBuilder: (context, index) => listItem(index),
                         separatorBuilder: (BuildContext context, int index) =>
                             separatedBox(),
                       );
-                //);
+                    }
+
+
+
+
               }),
             ),
           ),

@@ -175,11 +175,10 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
             currentBalanceHistory =  [];
             currentBalanceHistorybackup = [];
-            //MyUtils.toastMessage("Empty List....");
+           // MyUtils.toastMessage("Empty List....");
             // Rmessage = data.message;
-            // debugPrint('Rmessage: $Rmessage');
-            msgInformer.informUi(data.message);
-            debugPrint('data.message');
+            // msgInformer.informUi(data.message);
+            // debugPrint('data.message');
           } else {
             currentBalanceHistory =  data.data;
             currentBalanceHistorybackup = data.data;
@@ -296,37 +295,3 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
     retrieveWalletDetails();
   }
 }
-
-//selected item list..............
-// @action
-// datelistItem(String id) async {
-//   datesSelectedListLoader = true;
-//   var userId = _prefs.userId();
-//   var response = await _repository.uploadCurrentBalanceResponse(userId, id);
-//   if (response is Success) {
-//     var data = response.data;
-//     datesSelectedListLoader = false;
-//     switch (data != null && data.status) {
-//       case true:
-//         if (data!.currentBalanceDates.isEmpty) {
-//           //MyUtils.toastMessage("Empty....");
-//
-//         } else {
-//           currentBalanceList = data.currentBalanceDates;
-//           //MyUtils.toastMessage("Success....");
-//         }
-//     } //switch
-//   } else if (response is Error) {
-//     MyUtils.toastMessage("Error found....");
-//     datesSelectedListLoader = false;
-//   }
-// }
-
-
-// @action
-// onState(Package? dates) {
-//   selectedDates = dates;
-//  // datelistItem(selectedDates!.id);
-// }
-
-//drop down...........................

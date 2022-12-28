@@ -34,6 +34,9 @@ import 'dart:convert';
 
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 
+import '../mobile_number_code.dart';
+import '../package.dart';
+
 FetchProfileDetailsResponse fetchProfileDetailsResponseFromJson(String str) => FetchProfileDetailsResponse.fromJson(json.decode(str));
 
 String fetchProfileDetailsResponseToJson(FetchProfileDetailsResponse data) => json.encode(data.toJson());
@@ -56,21 +59,21 @@ class FetchProfileDetailsResponse  extends BusinessObject{
   final String message;
   final String name;
   final String email;
-  final NumberCode numberCode;
+  MobileNumberCode numberCode;
   final String mobile;
-  final List<State> states;
+  List<Package> states;
   final String gender;
   final String dob;
-  final String image;
+  String image;
 
   factory FetchProfileDetailsResponse.fromJson(Map<String, dynamic> json) => FetchProfileDetailsResponse(
     status: json["status"],
     message: json["message"],
     name: json["name"],
     email: json["email"],
-    numberCode: NumberCode.fromJson(json["numberCode"]),
+    numberCode: MobileNumberCode.fromJson(json["numberCode"]),
     mobile: json["mobile"],
-    states: List<State>.from(json["states"].map((x) => State.fromJson(x))),
+    states:  List<Package>.from(json["states"].map((x) => Package.fromJson(x))),
     gender: json["gender"],
     dob: json["dob"],
     image: json["image"],
@@ -90,46 +93,3 @@ class FetchProfileDetailsResponse  extends BusinessObject{
   };
 }
 
-class NumberCode {
-  NumberCode({
-    required this.id,
-    required this.countryImage,
-    required this.code,
-  });
-
-  final String id;
-  final String countryImage;
-  final String code;
-
-  factory NumberCode.fromJson(Map<String, dynamic> json) => NumberCode(
-    id: json["id"],
-    countryImage: json["countryImage"],
-    code: json["code"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "countryImage": countryImage,
-    "code": code,
-  };
-}
-
-class State {
-  State({
-    required this.id,
-    required this.name,
-  });
-
-  final String id;
-  final String name;
-
-  factory State.fromJson(Map<String, dynamic> json) => State(
-    id: json["id"],
-    name: json["name"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-  };
-}

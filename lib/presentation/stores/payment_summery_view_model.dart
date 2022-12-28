@@ -36,6 +36,9 @@ abstract class _PaymentSummeryViewModel with Store{
   bool isLoading = false;
 
   @observable
+  String Rmessage = '';
+
+  @observable
   bool datesSelectedListLoader = false;
 
   @observable
@@ -78,7 +81,8 @@ abstract class _PaymentSummeryViewModel with Store{
       switch (data != null && data.status) {
         case true:
           if (data!.data.rechargeHistory.isEmpty) {
-            MyUtils.toastMessage("Empty List....");
+            Rmessage = data.message;
+            //MyUtils.toastMessage("Empty List....");
             rechargeHistory = [];
             rechargeHistorybackup = [];
           } else {

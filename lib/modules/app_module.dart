@@ -150,7 +150,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    //dio.interceptors.add(alice.getDioInterceptor());
+    dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 
@@ -259,11 +259,11 @@ class AppModule {
     dependency.registerLazySingleton<ProfileRepository>(
         () => ProfileShortRepositoryImpl(dio));
     dependency.registerLazySingleton<ProfileDetailsRepository>(
-        () => ProfileDetailsRepositoryImpl(dio));
+            () => ProfileDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<DriverReferRepository>(
         () => DriverReferRepositoryImpl());
     dependency.registerLazySingleton<TripsDetailsRepository>(
-        () => TripsDetailsRepositoryImpl(dio));
+            () => TripsDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<TermsAndConditionsRepository>(
         () => TermsAndContionsRepositoryImpl());
     dependency.registerLazySingleton<PrivacyPolicyRepository>(

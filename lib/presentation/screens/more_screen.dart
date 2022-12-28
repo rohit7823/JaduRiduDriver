@@ -37,8 +37,7 @@ class _MoreScreenState extends State<MoreScreen> {
   void initState() {
     _store = MoreViewModels();
     _store.getShortProfileData();
-    _dialogController =
-        DialogController(dialog: MyDialogImpl(buildContext: context));
+    _dialogController = DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
@@ -57,6 +56,11 @@ class _MoreScreenState extends State<MoreScreen> {
           );
         }
       }),
+      reaction((p0) => widget.sharedStore.checkStatusLoader, (p0) {
+        if(p0){
+          _store.getShortProfileData();
+        }
+      })
     ];
   }
 
