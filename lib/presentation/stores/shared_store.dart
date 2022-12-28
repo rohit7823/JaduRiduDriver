@@ -82,7 +82,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   bool gettingDataLoader = false;
 
   @observable
-  bool checkStatusLoader =  false;
+  bool checkStatusLoader = false;
 
   StreamSubscription? streamDisposer;
 
@@ -123,7 +123,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       getIntroPageData();
     } else {
       log("isLogin && userId.isNotEmpty ${isLogin && userId.isNotEmpty}");
-      if (/*isLogin && */ userId.isNotEmpty) {
+      if (isLogin && userId.isNotEmpty) {
         getDashBoardData();
       } else if (!isLogin &&
           userId.isNotEmpty &&
@@ -196,11 +196,6 @@ abstract class _SharedStore extends AppNavigator with Store {
     getIntroPageData();
   }
 
-
-
-
-
-
   @action
   hidePartnercarerNav(bool isFocused) async {
     isVisible = isFocused;
@@ -270,7 +265,6 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   @action
   getDashBoardData() async {
-    connectToSocket();
     gettingDataLoader = true;
     streamDisposer = _locationService.checkPermission().listen((event) async {
       if (event == GpsStatus.disabled) {
@@ -406,8 +400,6 @@ abstract class _SharedStore extends AppNavigator with Store {
     driverBookings.onBookingPass(status);
   }
 
-
-
   @action
   onOkay(BookingStatus status) async {
     driverBookings.onBookingAccept(status);
@@ -445,20 +437,15 @@ abstract class _SharedStore extends AppNavigator with Store {
     dropLocationData = response;
   }
 
-
-
   @action
   onChangeCurrentBalance(String data) {
     currentBalance = data;
   }
 
-
   @action
   getdetails(bool data) {
     checkStatusLoader = data;
   }
-
-
 
   @observable
   TotalRideFareResponse? rideFareResponse;

@@ -3,7 +3,6 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/add_car_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/initial_data_in_add_vehicle_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/user_vehicle_response.dart';
-import 'package:jadu_ride_driver/core/domain/vehicle_category.dart';
 import 'package:jadu_ride_driver/core/repository/add_vehicle_repository.dart';
 import 'package:jadu_ride_driver/data/online/add_vehicle_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
@@ -15,7 +14,7 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
 
   AddVehicleRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
-    _addVehicleApi =  AddVehicleApi(_dio);
+    _addVehicleApi = AddVehicleApi(_dio);
   }
 
   @override
@@ -49,12 +48,7 @@ class AddVehicleRepositoryImpl implements AddVehicleRepository {
   }
 
   @override
-  Future<Resource<CarResponse>> addCar(
-      String selectedCategoryId) async {
-        return _addVehicleApi
-          .car(selectedCategoryId)
-           .handleResponse<CarResponse>();
-
+  Future<Resource<CarResponse>> addCar(String selectedCategoryId) async {
+    return _addVehicleApi.car(selectedCategoryId).handleResponse<CarResponse>();
   }
-
 }

@@ -21,6 +21,7 @@ class MobileNumberWithCodesTextField extends StatefulWidget {
   Function onNumberCleared;
   bool gettingLoader;
   bool? isMandatory;
+  bool isReadOnly;
   Key key;
 
   MobileNumberWithCodesTextField(
@@ -32,6 +33,7 @@ class MobileNumberWithCodesTextField extends StatefulWidget {
       required this.onCodeSelect,
       required this.onNumberCleared,
       this.isMandatory,
+      this.isReadOnly = false,
       required this.gettingLoader})
       : super(key: key);
 
@@ -85,7 +87,9 @@ class _MobileNumberWithCodesTextFieldState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: widget.isMandatory != null && widget.isMandatory! ? EdgeInsets.only(bottom: 0.03.sw) : EdgeInsets.zero,
+          padding: widget.isMandatory != null && widget.isMandatory!
+              ? EdgeInsets.only(bottom: 0.03.sw)
+              : EdgeInsets.zero,
           child: Container(
             key: myKey,
             decoration: BoxDecoration(
@@ -130,7 +134,9 @@ class _MobileNumberWithCodesTextFieldState
             ),
           ),
         ),
-        if(widget.isMandatory != null && widget.isMandatory!) StringProvider.thisFieldIsMandatory.text(AppTextStyle.mandatoryFieldStyle)
+        if (widget.isMandatory != null && widget.isMandatory!)
+          StringProvider.thisFieldIsMandatory
+              .text(AppTextStyle.mandatoryFieldStyle)
       ],
     );
   }
@@ -143,6 +149,7 @@ class _MobileNumberWithCodesTextFieldState
       onTap: () {
         FocusScope.of(context).requestFocus(inputManager);
       },
+      readOnly: widget.isReadOnly,
       onChanged: onChange,
       decoration: InputDecoration(
         filled: true,
@@ -172,11 +179,13 @@ class _MobileNumberWithCodesTextFieldState
         suffixIcon: Padding(
           padding: EdgeInsets.all(18.w),
           child: InkWell(
-            onTap: () {
-              inputController.text = "";
-              inputManager.unfocus();
-              onClear();
-            },
+            onTap: !widget.isReadOnly
+                ? () {
+                    inputController.text = "";
+                    inputManager.unfocus();
+                    onClear();
+                  }
+                : null,
             child: SvgPicture.asset(
               ImageAssets.clearText,
               width: 17.w,

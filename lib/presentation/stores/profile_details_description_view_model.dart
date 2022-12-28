@@ -74,14 +74,11 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @observable
   String image = "";
 
-
   @observable
   File? selectedImage;
 
   @observable
   bool checkStatus = false;
-
-
 
   @observable
   bool gettingDistrictsLoader = false;
@@ -113,7 +110,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   }
 
   bool backToPrevious() {
-    onChange(ScreenWithExtras(screen: Screen.dashBoard, argument: checkStatus ?? "" ));
+    onChange(ScreenWithExtras(
+        screen: Screen.dashBoard, argument: checkStatus ?? ""));
     return false;
   }
 
@@ -128,18 +126,20 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           userMobileNumber = data!.mobile;
-          print("${userMobileNumber}");
+          debugPrint("${userMobileNumber}");
           userName = data.name;
           userEmail = data.email;
-          finalCurrentDate = data.dob;
+          if (data.dob.isNotEmpty) {
+            finalCurrentDate = data.dob;
+          }
           if (data.gender == "male") {
             selected = GenderRadio.male;
-          } else {
+          } else if (data.gender == "female") {
             selected = GenderRadio.female;
           }
           states = data.states;
           List<MobileNumberCode> numbercodes = [data.numberCode];
-          codes = numbercodes ;
+          codes = numbercodes;
           selectedCode = data.numberCode;
           selectedState = data.states.first;
           image = data.image;
@@ -173,9 +173,13 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-
   onSave() async {
     uploadingLoader = true;
+    var dob = "";
+    if (finalCurrentDate != StringProvider.dateOfBirth) {
+      dob = finalCurrentDate;
+    }
+
     var response = await _repository.uploadProfileDetails(
         _storage.userId(),
         userName,
@@ -185,7 +189,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
         selectedDistrict?.id ?? "",
         selectedCity?.id ?? "",
         selected.value,
-        finalCurrentDate,
+        dob,
         selectedImage);
 
     if (response is Success) {
@@ -194,11 +198,10 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
 
       switch (data != null && data.status) {
         case true:
-
           if (data!.isSubmitted) {
             /*onChange(ScreenWithExtras(
                 screen: Screen.more, ));*/
-            checkStatus =  true;
+            checkStatus = true;
             backToPrevious();
             MyUtils.toastMessage("Data submitted...");
           } else {
@@ -364,10 +367,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     selectedCity = city;
   }
 
-
   @observable
   String informMessage = "";
-
 
   @observable
   String selectedGender = "";
@@ -376,8 +377,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   GenderRadio selected = GenderRadio.none;
 
   @observable
-  String finalCurrentDate = "";
-
+  String finalCurrentDate = StringProvider.dateOfBirth;
 
   onRetry(AlertAction? action) {
     switch (action) {
@@ -401,10 +401,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-
-
-
-
   @action
   chooseFromCamera() async {
     var image =
@@ -422,14 +418,11 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     }
   }
 
-
   @action
   onRadioSelected(GenderRadio? selectedValue) {
     if (selectedValue != null) {
       debugPrint(selectedValue.toString());
       selected = selectedValue;
-
-
     }
   }
 
@@ -486,10 +479,9 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
     if (selected != null) {
       finalCurrentDate =
           "${selected.day} ${_dateTimeHelper.getMonthName(selected.month)}, ${selected.year}";
-
     } else {
       //currentDate();
-      finalCurrentDate = "25th june 1998";
+      //finalCurrentDate = "25th june 1998";
     }
   }
 
@@ -503,8 +495,6 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       onSave();
     }
   }
-
-
 
   /*onMore() {
     onChange(ScreenWithExtras(

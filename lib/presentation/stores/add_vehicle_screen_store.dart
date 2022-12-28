@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
@@ -6,7 +5,6 @@ import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/core/domain/package.dart';
 import 'package:jadu_ride_driver/core/domain/response/car_category.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_category.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
@@ -47,7 +45,6 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
 
   @observable
   CarCategory? selectcar;
-
 
   @observable
   String vehicleNumber = "";
@@ -97,7 +94,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
+                  option: AlertOption.none,
                   action: AlertAction.addVehicleInitialData)));
       }
     } else if (response is Error) {
@@ -111,7 +108,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
+              option: AlertOption.none,
               action: AlertAction.addVehicleInitialData)));
     }
   }
@@ -121,7 +118,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
     addingLoader = true;
     var userId = _storage.userId();
     var response = await _repository.addVehicle(
-        userId, selectedCategory?.id ?? "", selectcar?.id ?? "", vehicleNumber);
+        userId, selectcar?.id ?? "", selectedCategory?.id ?? "", vehicleNumber);
     if (response is Success) {
       var data = response.data;
       addingLoader = false;
@@ -152,8 +149,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
-                  action: AlertAction.addVehicle)));
+                  option: AlertOption.none, action: AlertAction.addVehicle)));
       }
     } else if (response is Error) {
       addingLoader = false;
@@ -166,15 +162,12 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.addVehicle)));
+              option: AlertOption.none, action: AlertAction.addVehicle)));
     }
   }
 
-
-
   @action
-  addCar() async{
+  addCar() async {
     addingcLoader = true;
     var userId = _storage.userId();
     var response = await _repository.addCar(selectedCategory?.id ?? "");
@@ -196,7 +189,8 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.none, action: AlertAction.subtypesalert)));
+                  option: AlertOption.none,
+                  action: AlertAction.subtypesalert)));
       }
     } else if (response is Error) {
       addingcLoader = false;
@@ -211,10 +205,7 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
           AlertBehaviour(
               option: AlertOption.none, action: AlertAction.subtypesalert)));
     }
-
-
   }
-
 
   onError(AlertAction? action) {
     if (action == AlertAction.addVehicleInitialData) {

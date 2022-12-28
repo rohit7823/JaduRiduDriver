@@ -1,4 +1,4 @@
- import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,14 +110,14 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
         }
       })*/
       reaction((p0) => _store.dialogManager.datePickerState, (p0) {
-        if (p0 is DialogState && p0 == DialogState.displaying) {
-          AppDatePicker.show(context, DateTime.now(), DateTime(2000),
-              DateTime(2050), _store.onSelectDate,
+        if (p0 == DialogState.displaying) {
+          AppDatePicker.show(context, DateTime.now(), DateTime(1970),
+              DateTime.now(), _store.onSelectDate,
               dismissed: _store.dialogManager.closeDatePicker);
         }
       }),
       reaction((p0) => _store.currentChange, (p0) {
-        if(p0 != null){
+        if (p0 != null) {
           ChangeScreen.from(context, p0.screen,
               result: p0.argument, onCompleted: _store.clear);
         }
@@ -128,8 +128,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
-        return  _store.backToPrevious();
+      onWillPop: () async {
+        return _store.backToPrevious();
       },
       child: Scaffold(
         appBar: MyAppBarWithOutLogo(
@@ -158,23 +158,21 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColors.primary,
-                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(100.r))),
-                child:Align(
-                    alignment: Alignment.topLeft,
-                    child: fitBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                           StringProvider.manageProfile
-                                  .text(AppTextStyle.enterNumberStyle),
-
-                        ],
-                      ).padding(
-                        insets: EdgeInsets.symmetric(horizontal: 0.04.sw)
-                      ),
-                    ),
+                    borderRadius:
+                        BorderRadius.only(bottomRight: Radius.circular(100.r))),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: fitBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StringProvider.manageProfile
+                            .text(AppTextStyle.enterNumberStyle),
+                      ],
+                    ).padding(
+                        insets: EdgeInsets.symmetric(horizontal: 0.04.sw)),
                   ),
-
+                ),
               ),
             ),
             Expanded(
@@ -199,27 +197,25 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     builder: (BuildContext context) {
                       return _store.selectedImage != null
                           ? CircleAvatar(
-                        radius: 0.15.sw,
-                        backgroundColor: AppColors.lightGray,
-                        foregroundImage: FileImage(_store.selectedImage!),
-                      )
+                              radius: 0.15.sw,
+                              backgroundColor: AppColors.lightGray,
+                              foregroundImage: FileImage(_store.selectedImage!),
+                            )
                           : _store.image.isNotEmpty
-                          ? CircleAvatar(
-                        radius: 0.15.sw,
-                        foregroundImage: NetworkImage(_store.image),
-                        backgroundColor: AppColors.lightGray,
-                      )
-                          : CircleAvatar(
-                        radius: 0.15.sw,
-                        foregroundImage: const AssetImage(
-                            "assets/images/flag_india.png"),
-                        backgroundColor: AppColors.lightGray,
-                      );
+                              ? CircleAvatar(
+                                  radius: 0.15.sw,
+                                  foregroundImage: NetworkImage(_store.image),
+                                  backgroundColor: AppColors.lightGray,
+                                )
+                              : CircleAvatar(
+                                  radius: 0.15.sw,
+                                  foregroundImage: const AssetImage(
+                                      "assets/images/flag_india.png"),
+                                  backgroundColor: AppColors.lightGray,
+                                );
                     },
                   ),
                 ),
-
-
                 Container(
                   padding: EdgeInsets.all(0.01.sw),
                   decoration: BoxDecoration(
@@ -300,6 +296,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             onTextChange: _store.mobileNumber,
                             codes: _store.codes,
                             isMandatory: false,
+                            isReadOnly: true,
                             onCodeSelect: _store.onNumberCode,
                             onNumberCleared: _store.mobileNumberCleared,
                             gettingLoader: _store.gettingLoader)
@@ -408,7 +405,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 0.01.sw),
+                  padding: EdgeInsets.only(left: 0.01.sw, bottom: 0.03.sw),
                   child: const Text("Date Of Birth"),
                 ),
                 InkWell(

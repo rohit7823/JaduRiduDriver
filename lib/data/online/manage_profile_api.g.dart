@@ -133,13 +133,15 @@ class _ManageProfileApi implements ManageProfileApi {
       'dob',
       dob,
     ));
-    _data.files.add(MapEntry(
-      'profile_image',
-      MultipartFile.fromFileSync(
-        profileImage!.path,
-        filename: profileImage.path.split(Platform.pathSeparator).last,
-      ),
-    ));
+    if (profileImage != null) {
+      _data.files.add(MapEntry(
+        'profile_image',
+        MultipartFile.fromFileSync(
+          profileImage.path,
+          filename: profileImage.path.split(Platform.pathSeparator).last,
+        ),
+      ));
+    }
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileDetailsResponse>(Options(
       method: 'POST',

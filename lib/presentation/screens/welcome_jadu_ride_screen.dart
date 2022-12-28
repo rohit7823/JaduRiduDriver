@@ -136,18 +136,26 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                       horizontal: 0.05.sw, vertical: 0.05.sw),
                   children: [
                     MyTextInput(
+                      key: ObjectKey(_store.personalDetails),
                       onTextChange: _store.name,
                       keyboardType: TextInputType.name,
                       inputAction: TextInputAction.next,
                       isMandatory: true,
                       placeholderText: StringProvider.enterYourName,
+                      initialText: _store.personalDetails != null
+                          ? _store.personalDetails!.name
+                          : "",
                     ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
                     MyTextInput(
+                      key: ObjectKey(_store.personalDetails),
                       onTextChange: _store.email,
                       keyboardType: TextInputType.name,
                       inputAction: TextInputAction.next,
                       isMandatory: false,
                       placeholderText: StringProvider.enterYourEmail,
+                      initialText: _store.personalDetails != null
+                          ? _store.personalDetails!.email
+                          : "",
                     ).padding(insets: EdgeInsets.only(bottom: 0.04.sw)),
                     if (!_store.emailValidator)
                       const Text(
@@ -160,6 +168,7 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                             controller: TextEditingController(
                                 text: _store.userMobileNumber),
                             onTextChange: _store.mobileNumber,
+                            isReadOnly: true,
                             codes: _store.codes,
                             isMandatory: true,
                             onCodeSelect: _store.onNumberCode,

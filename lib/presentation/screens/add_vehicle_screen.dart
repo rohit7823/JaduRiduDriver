@@ -109,7 +109,6 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                             .text(AppTextStyle.enterNumberSubHeadingStyle))
                   ],
                 )),
-
             Expanded(
                 flex: 2,
                 child: fitBox(
@@ -150,19 +149,20 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                   }),
                   Observer(builder: (context) {
                     return CarCategoriesView(
-                        ccategories: _store.carCategories,
-                        onSelectedcar: _store.onSelectcarCategory,
-                        carplaceHolder: "no items",
-                        carloader: _store.addingcLoader,
-                        currentcar: _store.selectcar)
+                            ccategories: _store.carCategories,
+                            onSelectedcar: _store.onSelectcarCategory,
+                            carplaceHolder: "no items",
+                            carloader: _store.addingcLoader,
+                            currentcar: _store.selectcar)
                         .padding(
-                        insets: EdgeInsets.symmetric(vertical: 0.05.sw));
+                            insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),
                   MyTextInput(
                       onTextChange: _store.onVehicleNumber,
                       placeholderText: StringProvider.vehicleNumber,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       inputAction: TextInputAction.done,
+                      textCapitalization: TextCapitalization.characters,
                       isMandatory: true)
                 ],
               )),

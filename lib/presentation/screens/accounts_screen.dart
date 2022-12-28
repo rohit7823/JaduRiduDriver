@@ -40,7 +40,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         }
       }),
       reaction((p0) => widget.sharedStore.currentBalance, (p0) {
-        if (p0 != null){
+        if (p0 != null) {
           accountsStore.currentBalance = p0;
         }
       })
@@ -94,7 +94,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Widget _lowerSideContent() {
     return Observer(builder: (BuildContext context) {
-      if(accountsStore.isLoading){
+      if (accountsStore.isLoading) {
         return Align(
           alignment: Alignment.center,
           child: SizedBox(
@@ -103,84 +103,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
             child: CircularProgressIndicator(),
           ),
         );
-      }else{
+      } else {
         return ListView(
-            children: [
-              Observer(
-                builder: ((context) {
-                  if (accountsStore.balanceLow.isNotEmpty) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0x1a000000),
-                                blurRadius: 20,
-                                spreadRadius: 0,
-                                offset: Offset(0, 0))
-                          ]),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.05.sw, horizontal: 0.05.sw),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 9,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Your balance is low! ",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
-                                  ),
-                                  Text(
-                                    "Your bookings may drop if dues are not ",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
-                                  ),
-                                  Text(
-                                    "cleared immediately ",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                flex: 1,
-                                child: Padding(
-                                    padding: EdgeInsets.only(left: 0.05.sw),
-                                    child: Icon(
-                                      Icons.keyboard_arrow_right,
-                                      color: Colors.white,
-                                    )))
-                          ],
-                        ),
-                      ),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: 0.02.sw,
-                    );
-                  }
-                }),
-              ),
-              SizedBox(
-                height: 0.02.sw,
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 5, bottom: 8, right: 15, left: 15),
-                color: Color(0x56ffffff),
-                child: InkWell(
-                 onTap: accountsStore.onCurrentBalance,
-                  child: Container(
+          children: [
+            Observer(
+              builder: ((context) {
+                if (accountsStore.balanceLow.isNotEmpty) {
+                  return Container(
                     decoration: const BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
@@ -191,7 +122,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         ]),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 0.03.sw, horizontal: 0.02.sw),
+                          vertical: 0.05.sw, horizontal: 0.05.sw),
                       child: Row(
                         children: [
                           Expanded(
@@ -199,169 +130,130 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
-                                Text(StringProvider.currentBalance,
-                                    style: TextStyle(
-                                        color: AppColors.appGreery, fontSize: 16.sp)),
-                                Row(
-                                  children: [
-                                    Observer(
-                                      builder: (context) {
-                                        return Text(accountsStore.currentBalance ,
-                                            style: TextStyle(
-                                                color: AppColors.secondaryVariant,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.bold));
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 0.02.sw,
-                                    ),
-
-                                  ],
+                                Text(
+                                  "Your balance is low! ",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
+                                ),
+                                Text(
+                                  "Your bookings may drop if dues are not ",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
+                                ),
+                                Text(
+                                  "cleared immediately ",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
                                 )
                               ],
                             ),
                           ),
                           Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: Padding(
-                                  padding: EdgeInsets.only(left: 0.07.sw),
+                                  padding: EdgeInsets.only(left: 0.05.sw),
                                   child: Icon(
                                     Icons.keyboard_arrow_right,
-                                    color: AppColors.secondaryVariant,
+                                    color: Colors.white,
                                   )))
                         ],
                       ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 0.03.sh,
-                child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
-              ),
-
-
-              Container(
-                padding: EdgeInsets.only(top: 0.02.sw, bottom: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
-                // padding:EdgeInsets.all(5) ,
-                child: InkWell(
-                  onTap: accountsStore.onTodaysPayment,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0x1a000000),
-                              blurRadius: 20,
-                              spreadRadius: 0,
-                              offset: Offset(0, 0))
-                        ]),
-                    child: Padding(
-                      padding:
-                      EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: SvgPicture.asset(ImageAssets.todaysPayment),
-                          ),
-                          Expanded(
-                            flex: 8,
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  ).paddings(all: 0.04.sw);
+                } else {
+                  return SizedBox(
+                    height: 0.02.sw,
+                  );
+                }
+              }),
+            ),
+            SizedBox(
+              height: 0.02.sw,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 5, bottom: 8, right: 15, left: 15),
+              color: Color(0x56ffffff),
+              child: InkWell(
+                onTap: accountsStore.onCurrentBalance,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x1a000000),
+                            blurRadius: 20,
+                            spreadRadius: 0,
+                            offset: Offset(0, 0))
+                      ]),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0.03.sw, horizontal: 0.02.sw),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 9,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //StringProvider.accountSummary.text(AppTextStyle.enterNumberStyle),
+                              Text(StringProvider.currentBalance,
+                                  style: TextStyle(
+                                      color: AppColors.appGreery,
+                                      fontSize: 16.sp)),
+                              Row(
                                 children: [
-                                  Text(StringProvider.todaysPayment,
-                                      style: TextStyle(
-                                          color: AppColors.secondaryVariant,
-                                          fontSize: 16.sp)),
-                                  Text(StringProvider.noBalance,
-                                      style: TextStyle(
-                                          color: AppColors.appGreens, fontSize: 11.sp)),
+                                  Observer(
+                                    builder: (context) {
+                                      return Text(accountsStore.currentBalance,
+                                          style: TextStyle(
+                                              color: AppColors.secondaryVariant,
+                                              fontSize: 30.sp,
+                                              fontWeight: FontWeight.bold));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 0.02.sw,
+                                  ),
                                 ],
-                              ),
-                            ),
+                              )
+                            ],
                           ),
-                          const Expanded(
-                              flex: 1,
-                              child: Icon(
-                Icons.keyboard_arrow_right,
-                color: AppColors.secondaryVariant,
-      ))
-      ],
-      ),
-      ),
-      ),
-      ),
-              ),
-             SizedBox(
-                height: 0.03.sh,
-                child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
-              ),
-
-              Container(
-                padding: EdgeInsets.only(top: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
-                child: InkWell(
-                  onTap: accountsStore.onPaymentSummery,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        // border: Border.all(color: AppColors.appGreens),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0x1a000000),
-                              blurRadius: 20,
-                              spreadRadius: 0,
-                              offset: Offset(0, 0))
-                        ]),
-                    child: Padding(
-                      padding:
-                      EdgeInsets.symmetric(vertical: 0.06.sw, horizontal: 0.06.sw),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: SvgPicture.asset(ImageAssets.paymentSummery),
-                          ),
-                          Expanded(
-                            flex: 8,
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(StringProvider.paymentSummery,
-                                      style: TextStyle(
-                                          color: AppColors.secondaryVariant,
-                                          fontSize: 16.sp)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: AppColors.secondaryVariant,
-                              ))
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                            flex: 2,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 0.07.sw),
+                                child: Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: AppColors.secondaryVariant,
+                                )))
+                      ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 0.01.sw,
+            ),
+            SizedBox(
+              height: 0.03.sh,
+              child: Divider(
+                height: 8,
+                thickness: 7,
+                color: Color(0xd5e8e8e8),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 0.01.sw,  right: 0.03.sw, left: 0.07.sw),
+            ),
+
+            Container(
+              padding: EdgeInsets.only(
+                  top: 0.02.sw, bottom: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
+              // padding:EdgeInsets.all(5) ,
+              child: InkWell(
+                onTap: accountsStore.onTodaysPayment,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       boxShadow: [
@@ -378,7 +270,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: SvgPicture.asset(ImageAssets.onlineCollect),
+                          child: SvgPicture.asset(ImageAssets.todaysPayment),
                         ),
                         Expanded(
                           flex: 8,
@@ -387,38 +279,49 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(StringProvider.onlineCollect,
-                                    maxLines: 1,
+                                Text(StringProvider.todaysPayment,
                                     style: TextStyle(
                                         color: AppColors.secondaryVariant,
-                                        fontSize: 15.sp)),
+                                        fontSize: 16.sp)),
+                                Text(StringProvider.noBalance,
+                                    style: TextStyle(
+                                        color: AppColors.appGreens,
+                                        fontSize: 11.sp)),
                               ],
                             ),
                           ),
                         ),
-                        Expanded(
-                            flex: 3,
-                            child: Observer(
-                              builder: (context) {
-                                return Text(
-                                  "₹${accountsStore.onlinePrice}",
-                                );
-                              },
+                        const Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.secondaryVariant,
                             ))
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 0.01.sw,
+            ),
+            SizedBox(
+              height: 0.03.sh,
+              child: Divider(
+                height: 8,
+                thickness: 7,
+                color: Color(0xd5e8e8e8),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 0.01.sw,  right: 0.03.sw, left: 0.07.sw),
+            ),
+
+            Container(
+              padding:
+                  EdgeInsets.only(top: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
+              child: InkWell(
+                onTap: accountsStore.onPaymentSummery,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
+                      // border: Border.all(color: AppColors.appGreens),
                       boxShadow: [
                         BoxShadow(
                             color: Color(0x1a000000),
@@ -428,102 +331,210 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       ]),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        vertical: 0.05.sw, horizontal: 0.05.sw),
+                        vertical: 0.06.sw, horizontal: 0.06.sw),
                     child: Row(
                       children: [
                         Expanded(
                           flex: 1,
-                          child: SvgPicture.asset(ImageAssets.cashCollect),
+                          child: SvgPicture.asset(ImageAssets.paymentSummery),
                         ),
                         Expanded(
                           flex: 8,
                           child: Align(
                             alignment: Alignment.topLeft,
-                            child: Text(StringProvider.cashCollect,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: AppColors.secondaryVariant,
-                                    fontSize: 15.sp)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(StringProvider.paymentSummery,
+                                    style: TextStyle(
+                                        color: AppColors.secondaryVariant,
+                                        fontSize: 16.sp)),
+                              ],
+                            ),
                           ),
                         ),
                         Expanded(
-                            flex: 3,
-                            child: Observer(
-                              builder: (context) {
-                                return Text("₹${accountsStore.cashPrice}");
-                              },
+                            flex: 1,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.secondaryVariant,
                             ))
                       ],
                     ),
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 0.03.sw,
-              // // ),
-              // SizedBox(
-              //   height: 0.03.sh,
-              //   child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.only(top: 0.02.sw, bottom: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
-              //   child: InkWell(
-              //     onTap: accountsStore.onAmountTransfferedByDay,
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           borderRadius: BorderRadius.all(Radius.circular(15)),
-              //           boxShadow: [
-              //             BoxShadow(
-              //                 color: Color(0x1a000000),
-              //                 blurRadius: 20,
-              //                 spreadRadius: 0,
-              //                 offset: Offset(0, 0))
-              //           ]),
-              //       child: Padding(
-              //         padding:
-              //         EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
-              //         child: Row(
-              //           children: [
-              //             Expanded(
-              //               flex: 1,
-              //               child: SvgPicture.asset(ImageAssets.amountTransfer),
-              //             ),
-              //             Expanded(
-              //               flex: 8,
-              //               child: Align(
-              //                 alignment: Alignment.topLeft,
-              //                 child: Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Text(StringProvider.amountTransfer,
-              //                         style: TextStyle(
-              //                             color: AppColors.secondaryVariant,
-              //                             fontSize: 16.sp)),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //             Expanded(
-              //                 flex: 1,
-              //                 child: Icon(
-              //                   Icons.keyboard_arrow_right,
-              //                   color: AppColors.secondaryVariant,
-              //                 )),
-              //
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //
-              //   ),
-              // ),
-              SizedBox(
-                height: 0.05.sw,
+            ),
+            SizedBox(
+              height: 0.01.sw,
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: 0.01.sw, right: 0.03.sw, left: 0.07.sw),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x1a000000),
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: Offset(0, 0))
+                    ]),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0.05.sw, horizontal: 0.05.sw),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: SvgPicture.asset(ImageAssets.onlineCollect),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(StringProvider.onlineCollect,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: AppColors.secondaryVariant,
+                                      fontSize: 15.sp)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 3,
+                          child: Observer(
+                            builder: (context) {
+                              return Text(
+                                "₹${accountsStore.onlinePrice}",
+                              );
+                            },
+                          ))
+                    ],
+                  ),
+                ),
               ),
-            ],
+            ),
+            SizedBox(
+              height: 0.01.sw,
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: 0.01.sw, right: 0.03.sw, left: 0.07.sw),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x1a000000),
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: Offset(0, 0))
+                    ]),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0.05.sw, horizontal: 0.05.sw),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: SvgPicture.asset(ImageAssets.cashCollect),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(StringProvider.cashCollect,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: AppColors.secondaryVariant,
+                                  fontSize: 15.sp)),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 3,
+                          child: Observer(
+                            builder: (context) {
+                              return Text("₹${accountsStore.cashPrice}");
+                            },
+                          ))
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // SizedBox(
+            //   height: 0.03.sw,
+            // // ),
+            // SizedBox(
+            //   height: 0.03.sh,
+            //   child: Divider(height: 8,thickness: 7,color: Color(0xd5e8e8e8),),
+            // ),
+            // Container(
+            //   padding: EdgeInsets.only(top: 0.02.sw, bottom: 0.02.sw, right: 0.03.sw, left: 0.03.sw),
+            //   child: InkWell(
+            //     onTap: accountsStore.onAmountTransfferedByDay,
+            //     child: Container(
+            //       decoration: BoxDecoration(
+            //           color: Colors.white,
+            //           borderRadius: BorderRadius.all(Radius.circular(15)),
+            //           boxShadow: [
+            //             BoxShadow(
+            //                 color: Color(0x1a000000),
+            //                 blurRadius: 20,
+            //                 spreadRadius: 0,
+            //                 offset: Offset(0, 0))
+            //           ]),
+            //       child: Padding(
+            //         padding:
+            //         EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+            //         child: Row(
+            //           children: [
+            //             Expanded(
+            //               flex: 1,
+            //               child: SvgPicture.asset(ImageAssets.amountTransfer),
+            //             ),
+            //             Expanded(
+            //               flex: 8,
+            //               child: Align(
+            //                 alignment: Alignment.topLeft,
+            //                 child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     Text(StringProvider.amountTransfer,
+            //                         style: TextStyle(
+            //                             color: AppColors.secondaryVariant,
+            //                             fontSize: 16.sp)),
+            //                   ],
+            //                 ),
+            //               ),
+            //             ),
+            //             Expanded(
+            //                 flex: 1,
+            //                 child: Icon(
+            //                   Icons.keyboard_arrow_right,
+            //                   color: AppColors.secondaryVariant,
+            //                 )),
+            //
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //
+            //   ),
+            // ),
+            SizedBox(
+              height: 0.05.sw,
+            ),
+          ],
         );
-
       }
     });
   }

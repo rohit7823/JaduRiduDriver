@@ -19,6 +19,8 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/domain/user_personal_details.dart';
+
 part 'welcome_jadu_ride_screen_store.g.dart';
 
 class WelcomeJaduRideStore = _WelcomeJaduRideScreenStore
@@ -85,6 +87,10 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
 
   @observable
   bool emailValidator = true;
+
+  @observable
+  UserPersonalDetails? personalDetails;
+
   _WelcomeJaduRideScreenStore() {
     _initialData();
     _validateInputs();
@@ -105,6 +111,9 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
           codes = data.numberCodes;
           selectedCode = data.numberCodes.first;
           selectedState = data.states.first;
+          personalDetails = data.personalDetails;
+          name(personalDetails!.name);
+          email(personalDetails!.email);
           break;
         default:
           dialogManager.initErrorData(AlertData(
@@ -220,7 +229,8 @@ abstract class _WelcomeJaduRideScreenStore extends AppNavigator with Store {
 
   @action
   email(String value) {
-    emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    emailValidator = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(value);
     userEmail = value;
   }
