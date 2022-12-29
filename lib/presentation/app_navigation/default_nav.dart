@@ -180,16 +180,13 @@ class DefaultNav {
       case AppRoute.amountTransfferedByDay:
         return ScreenTransitions.rightToLeftTransition(
             const AmountTransfferedbyDayScreen());
-
       case AppRoute.tripsScreen:
         return ScreenTransitions.rightToLeftTransition(const TripsScreen());
-
       case AppRoute.rideNavigation:
         return ScreenTransitions.bottomToTopTransition(RideNavigationScreen(
           data: retrievedArgument as RideNavigationData,
           sharedStore: sharedStore,
         ));
-
       case AppRoute.verifyTripOtp:
         return ScreenTransitions.fadeInTransition(VerifyTripOtpScreen(
           ids: retrievedArgument as RideIds,
@@ -216,8 +213,7 @@ class DefaultNav {
 
       case AppRoute.thankYouEmergency:
         return ScreenTransitions.rightToLeftTransition(
-            ThankYouEmergencyScreen(totalFare: retrievedArgument as int)
-        );
+            ThankYouEmergencyScreen(totalFare: retrievedArgument as int));
       default:
         return null;
     }
@@ -243,7 +239,7 @@ class DefaultNav {
       if (arguments is EmergencyScreenArgument) {
         return arguments;
       }
-      if(arguments is int) {
+      if (arguments is int) {
         return arguments;
       }
     }

@@ -409,7 +409,9 @@ abstract class _SharedStore extends AppNavigator with Store {
     onChange(ScreenWithExtras(
       screen: Screen.rideNavigation,
       argument: RideNavigationData(
-          tripId: driverBookings.currentBookingId,
+          tripId: driverBookings.currentBookingId.isNotEmpty
+              ? driverBookings.currentBookingId
+              : value.rideId,
           driverId: _prefs.userId(),
           customerId: driverBookings.details?.id ?? "",
           data: value,

@@ -15,7 +15,7 @@ part 'trips_details_view_model.g.dart';
 
 class TripsDetailsStore = _TripsViewModel with _$TripsDetailsStore;
 
-abstract class _TripsViewModel with Store{
+abstract class _TripsViewModel with Store {
   final _repository = dependency<TripsDetailsRepository>();
   final _prefs = dependency<Storage>();
   final dialogManager = DialogManager();
@@ -24,9 +24,8 @@ abstract class _TripsViewModel with Store{
   bool isLoading = false;
 
   @observable
-  DriverTransactionPaymentSummeryType selected = DriverTransactionPaymentSummeryType.none;
-
-
+  DriverTransactionPaymentSummeryType selected =
+      DriverTransactionPaymentSummeryType.none;
 
   @observable
   bool datesSelectedListLoader = false;
@@ -46,14 +45,11 @@ abstract class _TripsViewModel with Store{
   @observable
   List<Trip> tripDetailsArrayList = [];
 
-
   List<Trip> tripDetailsArrayListbackup = [];
 
-
-  _TripsViewModel(){
+  _TripsViewModel() {
     _initialData();
   }
-
 
   @action
   onSelectDate(DateTime? selected) {
@@ -67,33 +63,29 @@ abstract class _TripsViewModel with Store{
     }
   }
 
-
-
-
-
-
   @action
   onRadioSelected(DriverTransactionPaymentSummeryType? selectedValue) {
     if (selectedValue != null) {
       selected = selectedValue;
       var temp = <Trip>[];
       for (var element in tripDetailsArrayListbackup) {
-        debugPrint('${selectedValue.name} ${element.paymentType}');
-        if(selectedValue.name == element.paymentType) {
+        debugPrint(
+            '${selectedValue.name.toLowerCase()} ${element.paymentType.toLowerCase()}');
+        if (selectedValue.name.toLowerCase() ==
+            element.paymentType.toLowerCase()) {
           temp.add(element);
         }
       }
-      tripDetailsArrayList= temp;
+      tripDetailsArrayList = temp;
     }
   }
-
-
 
   @action
   _initialData() async {
     datesSelectedListLoader = true;
     var userId = _prefs.userId();
-    var response = await _repository.getTripsDetailsInittialData(userId, finalCurrentDate);
+    var response =
+        await _repository.getTripsDetailsInittialData(userId, finalCurrentDate);
     //debugPrint(response.toString());
     if (response is Success) {
       var data = response.data;
@@ -115,5 +107,4 @@ abstract class _TripsViewModel with Store{
       datesSelectedListLoader = false;
     }
   }
-
 }

@@ -11,13 +11,11 @@ String driverBookingDetailsToJson(DriverBookingDetails data) =>
 class DriverBookingDetails {
   String bookId;
   String vehicleType;
-  /*String pickUpLocation;
-  String estimateDistance;
-  String eta;*/
   CustomerDetails customerDetails;
   int passTimer;
   double lat;
   double lng;
+  String? alertSoundUrl;
 
   DriverBookingDetails(
       {required this.bookId,
@@ -25,7 +23,8 @@ class DriverBookingDetails {
       required this.customerDetails,
       required this.passTimer,
       required this.lat,
-      required this.lng});
+      required this.lng,
+      required this.alertSoundUrl});
 
   factory DriverBookingDetails.fromJson(Map<String, dynamic> json) =>
       DriverBookingDetails(
@@ -34,6 +33,7 @@ class DriverBookingDetails {
         passTimer: json["passTimer"],
         lat: json["lat"].toDouble(),
         lng: json["lng"].toDouble(),
+        alertSoundUrl: json["alertSoundUrl"],
         customerDetails: CustomerDetails.fromJson(json["customerDetails"]),
       );
 

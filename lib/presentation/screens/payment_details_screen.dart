@@ -4,21 +4,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
-import 'package:jadu_ride_driver/core/common/payment_method.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
-import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/image_viewer.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
-import 'package:jadu_ride_driver/presentation/custom_widgets/outline_drop_down.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/payment_method_drop_down.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/progress_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/upi_id_text_field.dart';
 import 'package:jadu_ride_driver/presentation/stores/payment_details_store.dart';
-import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
-import 'package:jadu_ride_driver/presentation/ui/app_button_themes.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
@@ -45,8 +40,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
   void initState() {
     _store = PaymentDetailStore();
     _editingController = TextEditingController(text: _store.upiID);
-    _controller =
-        DialogController(dialog: MyDialogImpl(buildContext: context));
+    _controller = DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [
@@ -129,9 +123,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    DefaultPaymentMethodView(
-                        current: _store.methods.first
-                    ).padding(insets: EdgeInsets.only(top: 0.05.sw)),
+                    DefaultPaymentMethodView(current: _store.methods.first)
+                        .padding(insets: EdgeInsets.only(top: 0.05.sw)),
                     Padding(
                       padding: EdgeInsets.only(top: 0.10.sw, bottom: 0.07.sw),
                       child: Container(
@@ -144,7 +137,9 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                       child: fitBox(
                         child: StringProvider.provideYourAlternatePaymentDetails
                             .text(AppTextStyle.requiredStepsStyle)
-                            .padding(insets: EdgeInsets.only(bottom: 0.04.sw, left: 0.05.sw)),
+                            .padding(
+                                insets: EdgeInsets.only(
+                                    bottom: 0.04.sw, left: 0.05.sw)),
                       ),
                     ),
                     Padding(
@@ -198,8 +193,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                               children: [
                                 expand(
                                     flex: 9,
-                                    child: StringProvider.uploadQrCode
-                                        .text(AppTextStyle.detailsTypeItemTextStyle)),
+                                    child: StringProvider.uploadQrCode.text(
+                                        AppTextStyle.detailsTypeItemTextStyle)),
                                 expand(
                                     flex: 1,
                                     child: SvgPicture.asset(

@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/service_type.dart';
+import 'package:jadu_ride_driver/core/common/skip_ride_stage.dart';
 import 'package:jadu_ride_driver/core/domain/response/business_object.dart';
 import 'package:jadu_ride_driver/core/domain/vehicle_audit_step.dart';
 import 'package:jadu_ride_driver/presentation/nested_screens/intro_one.dart';
@@ -156,6 +157,18 @@ extension AuditStepKeyMapper on VehicleAuditStep {
       return name;
     }
     return "";
+  }
+}
+
+extension ConvertToSkipRideStage on String {
+  SkipRideStage? toSkipStageKey() {
+    for (var key in SkipRideStage.values) {
+      if (key.value == this) {
+        return key;
+      }
+    }
+
+    return null;
   }
 }
 

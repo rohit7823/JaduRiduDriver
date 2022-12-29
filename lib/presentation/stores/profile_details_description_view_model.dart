@@ -126,15 +126,15 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           userMobileNumber = data!.mobile;
-          debugPrint("${userMobileNumber}");
+          debugPrint(userMobileNumber);
           userName = data.name;
           userEmail = data.email;
           if (data.dob.isNotEmpty) {
             finalCurrentDate = data.dob;
           }
-          if (data.gender == "male") {
+          if (data.gender.toLowerCase() == "male") {
             selected = GenderRadio.male;
-          } else if (data.gender == "female") {
+          } else if (data.gender.toLowerCase() == "female") {
             selected = GenderRadio.female;
           }
           states = data.states;

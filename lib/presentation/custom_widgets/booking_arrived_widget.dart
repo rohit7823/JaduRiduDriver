@@ -13,6 +13,7 @@ import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
+import 'package:just_audio/just_audio.dart';
 
 class BookingArrivedWidget extends StatefulWidget {
   CustomerDetails? details;
@@ -21,6 +22,7 @@ class BookingArrivedWidget extends StatefulWidget {
   int passTimer;
   String vehicleType;
   String pickUpLocation;
+  String? soundUrl;
   Function(BookingStatus) onPass;
   Function(BookingStatus) onOkay;
 
@@ -33,6 +35,7 @@ class BookingArrivedWidget extends StatefulWidget {
       required this.onPass,
       required this.onOkay,
       required this.pickUpLocation,
+      this.soundUrl,
       required this.eta})
       : super(key: key);
 
@@ -43,11 +46,19 @@ class BookingArrivedWidget extends StatefulWidget {
 class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
   late Duration passDuration;
   late Timer ticker;
+  late AudioPlayer _player;
   //String timerStr = "";
 
   @override
   void initState() {
     passDuration = Duration(seconds: widget.passTimer);
+    _player = AudioPlayer();
+
+    if (widget.soundUrl != null) {
+      _player.setUrl(widget.soundUrl!);
+      _player.setLoopMode(LoopMode.all);
+      _player.play();
+    }
     super.initState();
     ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
       const reduceBy = 1;
@@ -64,6 +75,8 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
 
   @override
   void dispose() {
+    _player.stop();
+    _player.dispose();
     ticker.cancel();
     super.dispose();
   }

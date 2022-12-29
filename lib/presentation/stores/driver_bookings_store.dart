@@ -69,6 +69,9 @@ abstract class _DriverBookingsStore with Store {
 
   DriverBookingDetails? newBooking;
 
+  @observable
+  String? bookingAlertSoundUrl;
+
   onMapCreate(GoogleMapController controller, BuildContext context) async {
     _onBooking(controller, context);
     if (newBooking != null) {
@@ -105,7 +108,7 @@ abstract class _DriverBookingsStore with Store {
         assetName: ImageAssets.customerMarker, context: context, size: 48);*/
 
     currentBookingId = bookingDetails.bookId;
-
+    bookingAlertSoundUrl = bookingDetails.alertSoundUrl;
     var directionRes = await Directions(_env.googleApiKey)
         .origin(_currentLocation!)
         .destination(LatLng(bookingDetails.lat, bookingDetails.lng))

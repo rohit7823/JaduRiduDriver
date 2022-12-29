@@ -151,7 +151,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                 indicator: BoxDecoration(
                                     color: AppColors.primaryVariant,
                                     borderRadius: BorderRadius.circular(20.r)),
-                               // padding: EdgeInsets.all(0.01.sw),
+                                // padding: EdgeInsets.all(0.01.sw),
                                 controller: _store.tabController,
                                 onTap: _store.onDriverStatusChanged,
                                 labelColor: AppColors.white,
@@ -159,7 +159,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                 tabs: DriverStatus.values.map((status) {
                                   return fitBox(
                                     child: Padding(
-                                      padding:  EdgeInsets.all(0.01.sw),
+                                      padding: EdgeInsets.all(0.01.sw),
                                       child: Tab(text: status.name),
                                     ),
                                   );
@@ -294,6 +294,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             widget.sharedStore.driverBookings.pickUpLocation,
                         onPass: widget.sharedStore.onPass,
                         onOkay: widget.sharedStore.onOkay,
+                        soundUrl: widget
+                            .sharedStore.driverBookings.bookingAlertSoundUrl,
                       )
                     : const SizedBox.shrink(),
               ),

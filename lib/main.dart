@@ -22,7 +22,7 @@ import 'package:jadu_ride_driver/utills/directions.dart' as google;
 import 'package:jadu_ride_driver/utills/firebase_module.dart';
 import 'package:jadu_ride_driver/utills/notification_api.dart';
 import 'package:mobx/mobx.dart';
-
+import 'package:jadu_ride_driver/utills/environment.dart';
 import 'core/helpers/push_notification.dart';
 
 void main() async {
@@ -34,7 +34,6 @@ void main() async {
   await NotificationApi.initNotification(appIcon: '@drawable/app_name');
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
-  EasyLocalization.logger.enableLevels = [];
   runApp(const MyApp());
 }
 
@@ -46,10 +45,12 @@ void overlayMain() {
 }
 
 @pragma('vm:entry-point')
-void startCallback() {
+void startCallback() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var env = Environment();
+  await env.init();
   FlutterForegroundTask.setTaskHandler(DestinationTaskHandler(
-      google.Directions("AIzaSyDCx7UqFSWYeSjVzcXbgBKB5nnarnHZWoM"),
+      google.Directions(env.googleApiKey),
       AppLocationService(),
       ScreenWithExtras(screen: Screen.rideNavigation)));
 }

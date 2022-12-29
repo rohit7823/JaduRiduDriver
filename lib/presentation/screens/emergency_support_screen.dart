@@ -68,6 +68,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
 
   Widget _lowerSideContent() {
     return Align(
+      alignment: Alignment.topCenter,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
         child: Container(
@@ -89,13 +90,19 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
               StringProvider.tollFreeMobileNumber
                   .text(AppTextStyle.tollFreeMobileStyle),
               Observer(builder: (BuildContext context) {
-                return emergencyStore.helpPhoneNumber.text(AppTextStyle.helpMobileStyle);
+                return emergencyStore.helpPhoneNumber
+                    .text(AppTextStyle.helpMobileStyle);
                 //}
               }),
               Padding(
-                padding: EdgeInsets.only(left: 0.15.sw, right: 0.15.sw),
+                padding: EdgeInsets.only(
+                    left: 0.15.sw,
+                    right: 0.15.sw,
+                    top: 0.05.sw,
+                    bottom: 0.05.sw),
                 child: ElevatedButton(
-                  onPressed: () => launchUrl(Uri.parse("tel://{$emergencyStore.helpPhoneNumber}")),
+                  onPressed: () => launchUrl(
+                      Uri.parse("tel:${emergencyStore.helpPhoneNumber}")),
                   //${helpStore.helpPhoneNumber
                   style: AppButtonThemes.defaultStyle.copyWith(
                       backgroundColor:

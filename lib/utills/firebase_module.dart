@@ -8,8 +8,10 @@ class GoogleFirebase {
   GoogleFirebase._();
   static Future init() async {
     if (Global.getPlatform() == AppConstants.android) {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform);
+      var app = await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      await app.setAutomaticDataCollectionEnabled(true);
     }
   }
 }

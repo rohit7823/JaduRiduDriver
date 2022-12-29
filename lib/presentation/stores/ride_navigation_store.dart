@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/core/common/ride_stages.dart';
 import 'package:jadu_ride_driver/core/common/ride_stop.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/common/service.dart';
+import 'package:jadu_ride_driver/core/common/skip_ride_stage.dart';
 import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/common/timestamp_with_direction.dart';
 import 'package:jadu_ride_driver/core/domain/cilent_waiting_response.dart';
@@ -145,6 +146,13 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     currentServiceIconPath =
         rideNavigationData.data.serviceType.toServiceIconPath();
     _updateCurrentLocation(rideNavigationData.data.pickUpLocation);
+    if (rideNavigationData.data.isSkipped == SkipRideStage.yes) {
+      onClientLocated();
+    }
+
+    if (rideNavigationData.data.isSkipEndTrip == SkipRideStage.yes) {
+      onEndTrip();
+    }
   }
 
   /*_onRide() {
@@ -246,8 +254,11 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
 
   @action
   onClientLocated() {
-    _repository.onRide(
-        RideInstruction.clientLocated.key, rideNavigationData.tripId);
+    if (rideNavigationData.data.isSkipped == SkipRideStage.no) {
+      _repository.onRide(
+          RideInstruction.clientLocated.key, rideNavigationData.tripId);
+    }
+
     _disposers.add(_repository.clientLocated().stream.listen((response) async {
       if (response is ClientWaitingResponse) {
         currentRideStage = response.rideStage.toRideStage();
@@ -374,7 +385,11 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
   }
 
   onEndTrip() {
-    _repository.onRide(RideInstruction.endTrip.key, rideNavigationData.tripId);
+    if (rideNavigationData.data.isSkipEndTrip == SkipRideStage.no) {
+      _repository.onRide(
+          RideInstruction.endTrip.key, rideNavigationData.tripId);
+    }
+
     stopLocationSender();
     if (JaduService.toService(rideNavigationData.data.serviceType) !=
         JaduService.Emergency) {
