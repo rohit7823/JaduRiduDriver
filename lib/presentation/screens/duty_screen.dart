@@ -80,8 +80,6 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
       }),
       reaction((p0) => widget.sharedStore.driverBookings.onRideData, (p0) {
         if (p0 != null) {
-          widget.sharedStore.onRideStarted();
-          widget.sharedStore.onRideFare();
           widget.sharedStore.afterAcceptBooking(p0);
         }
       }),
@@ -299,7 +297,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                       )
                     : const SizedBox.shrink(),
               ),
-              Align(
+              /*Align(
                 alignment: Alignment.bottomLeft,
                 child: Observer(
                   builder: (context) => FloatingActionButton(
@@ -322,7 +320,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                           ),
                   ).paddings(all: 0.05.sw),
                 ),
-              )
+              )*/
             ],
           );
         },

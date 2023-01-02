@@ -123,6 +123,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       getIntroPageData();
     } else {
       log("isLogin && userId.isNotEmpty ${isLogin && userId.isNotEmpty}");
+      log("!isLogin && userId.isNotEmpty && accountStatus == DriverAccountStatus.accountFound ${!isLogin && userId.isNotEmpty && accountStatus == DriverAccountStatus.accountFound}");
       if (isLogin && userId.isNotEmpty) {
         getDashBoardData();
       } else if (!isLogin &&
@@ -327,7 +328,7 @@ abstract class _SharedStore extends AppNavigator with Store {
     } else if (action == AlertAction.locationServiceDisable) {
       _locationService.openSettings();
     } else if (action == AlertAction.emergencyPlaces) {
-      onClickEmergency();
+      //onClickEmergency();
     }
   }
 
@@ -423,6 +424,8 @@ abstract class _SharedStore extends AppNavigator with Store {
   connectToSocket() {
     SocketIO.init(autoConnect: true, userId: _prefs.userId());
     driverBookings.afterBookingAcceptedListen();
+    onRideStarted();
+    onRideFare();
     driverBookings.onPaymentAcceptance();
     driverBookings.afterPayment();
   }

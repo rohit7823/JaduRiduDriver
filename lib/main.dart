@@ -1,5 +1,7 @@
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,10 +21,11 @@ import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/presentation/ui/translations_asset.dart';
 import 'package:jadu_ride_driver/translations_generated_files/codegen_loader.g.dart';
 import 'package:jadu_ride_driver/utills/directions.dart' as google;
+import 'package:jadu_ride_driver/utills/environment.dart';
 import 'package:jadu_ride_driver/utills/firebase_module.dart';
 import 'package:jadu_ride_driver/utills/notification_api.dart';
 import 'package:mobx/mobx.dart';
-import 'package:jadu_ride_driver/utills/environment.dart';
+
 import 'core/helpers/push_notification.dart';
 
 void main() async {
@@ -32,6 +35,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await GoogleFirebase.init();
   await NotificationApi.initNotification(appIcon: '@drawable/app_name');
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   await AppModule.init();
   runApp(const MyApp());
@@ -96,7 +106,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              navigatorKey: AppModule.alice.getNavigatorKey(),
+              //navigatorKey: AppModule.alice.getNavigatorKey(),
               localizationsDelegates: context.localizationDelegates,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,

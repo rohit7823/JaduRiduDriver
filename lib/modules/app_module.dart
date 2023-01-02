@@ -1,8 +1,5 @@
-import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,7 +44,6 @@ import 'package:jadu_ride_driver/data/offline/fcm_storage.dart';
 import 'package:jadu_ride_driver/helpers_impls/firebase_notification.dart';
 import 'package:jadu_ride_driver/helpers_impls/storage_impl.dart';
 import 'package:jadu_ride_driver/helpers_impls/validator_impl.dart';
-import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/repository_impls/aadhar_number_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/accounts_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/add_all_details_repository_impl.dart';
@@ -83,11 +79,7 @@ import 'package:jadu_ride_driver/repository_impls/vehicle_pollution_repository_i
 import 'package:jadu_ride_driver/repository_impls/verify_otp_repository_impl.dart';
 import 'package:jadu_ride_driver/repository_impls/welcome_jadu_ride_repository_impl.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
-import 'package:jadu_ride_driver/utills/app_pip_service.dart';
 import 'package:jadu_ride_driver/utills/environment.dart';
-import 'package:jadu_ride_driver/utills/global.dart';
-import 'package:jadu_ride_driver/utills/socket_io.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -126,11 +118,11 @@ final dependency = GetIt.instance;
 class AppModule {
   AppModule._();
 
-  static final alice = Alice(
+  /*static final alice = Alice(
     showNotification: true,
     showInspectorOnShake: true,
     darkTheme: false,
-  );
+  );*/
 
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -150,7 +142,7 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    dio.interceptors.add(alice.getDioInterceptor());
+    //dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 

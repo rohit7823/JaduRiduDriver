@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jadu_ride_driver/core/domain/response/required_data_profile_details_response.dart';
+import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/helpers/storage.dart';
+import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/utills/my_utils.dart';
 import 'package:mobx/mobx.dart';
+
 import '../../core/common/alert_action.dart';
 import '../../core/common/alert_behaviour.dart';
 import '../../core/common/alert_data.dart';
@@ -18,12 +23,8 @@ import '../../core/repository/profile_details_repository.dart';
 import '../../helpers_impls/date_time_helper.dart';
 import '../../modules/app_module.dart';
 import '../../utills/dialog_manager.dart';
-import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import '../ui/string_provider.dart';
 import '../ui/theme.dart';
-import 'dart:io';
-import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
-import 'package:jadu_ride_driver/core/common/screen.dart';
 
 part 'profile_details_description_view_model.g.dart';
 
@@ -154,7 +155,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
+                  option: AlertOption.none,
                   action: AlertAction.welcomeJaduRideInitialData)));
       }
     } else if (response is Error) {
@@ -168,7 +169,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
+              option: AlertOption.none,
               action: AlertAction.welcomeJaduRideInitialData)));
     }
   }
@@ -267,8 +268,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
-                  action: AlertAction.getDistricts)));
+                  option: AlertOption.none, action: AlertAction.getDistricts)));
       }
     } else if (response is Error) {
       gettingDistrictsLoader = false;
@@ -281,8 +281,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.getDistricts)));
+              option: AlertOption.none, action: AlertAction.getDistricts)));
     }
   }
 
@@ -308,8 +307,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
               null,
               null,
               AlertBehaviour(
-                  option: AlertOption.invokeOnBarrier,
-                  action: AlertAction.getCities)));
+                  option: AlertOption.none, action: AlertAction.getCities)));
       }
     } else if (response is Error) {
       gettingCitiesLoader = false;
@@ -322,8 +320,7 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
           null,
           null,
           AlertBehaviour(
-              option: AlertOption.invokeOnBarrier,
-              action: AlertAction.getCities)));
+              option: AlertOption.none, action: AlertAction.getCities)));
     }
   }
 

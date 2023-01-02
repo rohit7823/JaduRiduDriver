@@ -104,8 +104,8 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.isVerified) {
-            _storage.saveUserId(data.userId);
             if (data.userStatus == UserStatus.registered.value) {
+              _storage.saveUserId(data.userId);
               _retrieveDriverAccountStatus(
                   success: () => sendingLoader = false,
                   error: () => sendingLoader = false);

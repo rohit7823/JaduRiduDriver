@@ -42,12 +42,10 @@ class _RegistrationCertificateApi implements RegistrationCertificateApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(
-              _dio.options,
-              '/driver/users/${userId}/document/rc',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+            .compose(_dio.options, '/driver/users/${userId}/document/rc',
+                queryParameters: queryParameters,
+                data: _data,
+                onSendProgress: uploading)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadRegistrationCertificateResponse.fromJson(_result.data!);
     return value;

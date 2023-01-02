@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:jadu_ride_driver/core/common/app_constants.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:socket_io_client/socket_io_client.dart' as soc;
+
 import '../core/common/socket_events.dart';
 import '../core/common/socket_status.dart';
 import '../core/domain/socket_connection_model.dart';
@@ -16,7 +17,7 @@ class SocketIO {
   SocketIO._();
 
   static init({bool autoConnect = false, required String userId}) {
-    _socketClient = soc.io("http://192.168.0.106:3000", <String, dynamic>{
+    _socketClient = soc.io("http://18.143.118.7:3000", <String, dynamic>{
       'autoConnect': autoConnect,
       'transports': ['websocket'],
       'reconnection': true,

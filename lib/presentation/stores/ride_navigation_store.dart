@@ -147,10 +147,14 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
         rideNavigationData.data.serviceType.toServiceIconPath();
     _updateCurrentLocation(rideNavigationData.data.pickUpLocation);
     if (rideNavigationData.data.isSkipped == SkipRideStage.yes) {
+      SocketIO.client.emit(SocketEvents.onClientLocatedCreated.value,
+          rideNavigationData.driverId);
       onClientLocated();
     }
 
     if (rideNavigationData.data.isSkipEndTrip == SkipRideStage.yes) {
+      SocketIO.client.emit(
+          SocketEvents.onEndTripCreated.value, rideNavigationData.driverId);
       onEndTrip();
     }
   }
@@ -260,6 +264,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     }
 
     _disposers.add(_repository.clientLocated().stream.listen((response) async {
+      debugPrint("clientLocated $response");
       if (response is ClientWaitingResponse) {
         currentRideStage = response.rideStage.toRideStage();
         initiateTimerDuration(
@@ -388,6 +393,9 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
     if (rideNavigationData.data.isSkipEndTrip == SkipRideStage.no) {
       _repository.onRide(
           RideInstruction.endTrip.key, rideNavigationData.tripId);
+    } else if (rideNavigationData.data.isSkipEndTrip == null) {
+      _repository.onRide(
+          RideInstruction.endTrip.key, rideNavigationData.tripId);
     }
 
     stopLocationSender();
@@ -402,6 +410,7 @@ abstract class _RideNavigationStore extends AppNavigator with Store {
               customerName: customer)));
     } else {
       SocketIO.client.on(SocketEvents.totalRideFareEmergency.value, (data) {
+        log("${SocketEvents.totalRideFareEmergency.value} called!!!!");
         onChange(ScreenWithExtras(
             screen: Screen.thankYouEmergency,
             option: NavigationOption(option: Option.popPrevious),

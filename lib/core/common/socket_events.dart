@@ -19,6 +19,8 @@ enum SocketEvents {
   afterPayment("afterPayment"),
   onRideNavigationCreate("onRideNavigationCreate"),
   totalRideFareEmergency("totalRideFareEmergency"),
+  onClientLocatedCreated("onClientLocatedCreated"),
+  onEndTripCreated("onEndTripCreated"),
   paymentAcceptanceControl("paymentAcceptanceControl");
 
   final String value;

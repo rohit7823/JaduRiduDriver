@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
-import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
-import 'package:jadu_ride_driver/presentation/custom_widgets/destination.dart';
 import 'package:jadu_ride_driver/presentation/stores/pay_trip_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_button_themes.dart';
@@ -15,6 +12,8 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
+
+import '../ui/image_assets.dart';
 
 class PayTripScreen extends StatefulWidget {
   RideIds rideIds;
@@ -108,10 +107,10 @@ class _PayTripScreenState extends State<PayTripScreen> {
                 children: [
                   "₹${_store.totalRideFareResponse!.totalFare}"
                       .text(AppTextStyle.enterNumberStyle.copyWith(
-                          fontSize: 45.sp, fontWeight: FontWeight.w700))
+                          fontSize: 50.sp, fontWeight: FontWeight.w700))
                       .paddings(bottom: 0.03.sw),
-                  "${widget.rideIds.customerName} to pay in cash"
-                      .text()
+                  "${widget.rideIds.customerName} to pay in CASH"
+                      .text(AppTextStyle.applicationSubmittedStyle)
                       .paddings(bottom: 0.03.sw),
                   "OR".text().paddings(bottom: 0.03.sw)
                 ],
@@ -134,12 +133,18 @@ class _PayTripScreenState extends State<PayTripScreen> {
                     children: [
                       Container(
                         width: 0.70.sw,
-                        padding: EdgeInsets.all(0.03.sw),
+                        padding: EdgeInsets.all(0.01.sw),
                         decoration: BoxDecoration(
                             border:
                                 Border.all(color: AppColors.primary, width: 1)),
-                        child:
-                            Image.network(_store.totalRideFareResponse!.qrCode),
+                        child: FadeInImage.assetNetwork(
+                          placeholder: ImageAssets.placeHolder,
+                          fadeInCurve: Curves.easeInSine,
+                          fadeOutCurve: Curves.easeOutSine,
+                          fadeInDuration: const Duration(milliseconds: 400),
+                          fadeOutDuration: const Duration(milliseconds: 400),
+                          image: _store.totalRideFareResponse!.qrCode,
+                        ),
                       ).paddings(bottom: 0.04.sw),
                       StringProvider.scanQrCodeToPay.text(AppTextStyle
                           .btnTextStyle
