@@ -78,17 +78,25 @@ class _ThankYouEmergencyScreenState extends State<ThankYouEmergencyScreen> {
                         height: .30.sw,
                       ).paddings(vertical: 0.05.sw),
                       Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          "${StringProvider.totalFare} "
-                              .text(AppTextStyle.btnTextStyle),
-                          "₹${widget.totalFare}"
-                              .text(AppTextStyle.btnTextStyleRed)
+                          "${StringProvider.totalFare} ".text(
+                              AppTextStyle.btnTextStyle
+                                  .copyWith(fontSize: 20.sp),
+                              TextOverflow.fade,
+                              TextAlign.center),
+                          "₹${widget.totalFare}".text(
+                              AppTextStyle.btnTextStyleRed
+                                  .copyWith(fontSize: 30.sp),
+                              TextOverflow.fade,
+                              TextAlign.center)
                         ],
-                      ),
+                      ).paddings(vertical: 0.05.sw),
                       StringProvider.thankYou.text(AppTextStyle.profileText
                           .copyWith(fontWeight: FontWeight.w600)),
                       StringProvider.youWllGetYourPaymentShortly
-                          .text(AppTextStyle.packageBtnStyle)
+                          .text(AppTextStyle.packageBtnStyle),
                     ],
                   ),
                 )),

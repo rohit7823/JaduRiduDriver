@@ -882,7 +882,7 @@ class StringProvider {
 
   static var youWllGetYourPaymentShortly = "You'll get your payment shortly..";
 
-  static var totalFare = "Total Fare:";
+  static var totalFare = "Fare:";
 
   StringProvider._();
 
