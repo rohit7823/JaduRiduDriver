@@ -6,17 +6,11 @@ import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
-import 'package:jadu_ride_driver/core/common/socket_events.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
-import 'package:jadu_ride_driver/helpers_impls/google_map_direction_impl.dart';
-import 'package:jadu_ride_driver/main.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
-import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
-import 'package:jadu_ride_driver/utills/dialog_manager.dart';
-import 'package:jadu_ride_driver/utills/environment.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
-import 'package:jadu_ride_driver/utills/socket_io.dart';
+import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
 part 'duty_screen_store.g.dart';
@@ -138,9 +132,8 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
         case true:
           bookingCount = '${data!.bookingCount}';
           operatorBill = '${data.operatorBill}';
-
+          debugPrint("data.updateDateTime ${data.updateDateTime}");
           timeStamp = data.updateDateTime;
-
           break;
         default:
           bookingCount = "0";

@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
-import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_button.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
@@ -80,87 +79,84 @@ class _RateCustomerScreenState extends State<RateCustomerScreen> {
       body: SafeArea(
           child: Stack(
         children: [
-          expand(flex: 1, child: _background()),
-          expand(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 0.90.sw,
-                      height: 0.60.sh,
-                      padding: EdgeInsets.all(0.05.sw),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: AppColors.white,
-                          boxShadow: allShadow()),
-                      child: Column(
-                        children: [
-                          StringProvider.rateYourCustomer
-                              .text(AppTextStyle.driveDocumentNameStyle
-                                  .copyWith(color: AppColors.lightGray))
-                              .paddings(bottom: 0.03.sw),
-                          widget.rideIds.customerName
-                              .text(AppTextStyle.rechargeDoneStyle)
-                              .paddings(bottom: 0.03.sw),
-                          RatingBar.builder(
-                            initialRating: 3,
-                            itemSize: 0.08.sw,
-                            direction: Axis.horizontal,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 3),
-                            onRatingUpdate: _store.onCustomerRating,
-                            itemBuilder: (context, _) {
-                              return Icon(
-                                Icons.star,
-                                color: Theme.of(context).primaryColor,
-                              );
-                            },
-                          ).paddings(bottom: 0.05.sw),
-                          Container(
-                            height: 0.20.sh,
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFF3F3F3),
-                                borderRadius: BorderRadius.circular(20.r)),
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                //controller: inputController,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(16.r),
-                                      gapPadding: 10,
-                                    ),
-                                    fillColor: const Color(0xFFF3F3F3),
-                                    contentPadding: EdgeInsets.all(0.03.sw),
-                                    filled: true,
-                                    hintText: StringProvider
-                                        .saySomethingAboutYourExp),
-                                onChanged: _store.onCustomerReview,
-                              ),
-                            ),
-                          ).paddings(bottom: 0.05.sw),
-                        ],
-                      ),
-                    ),
-                    Observer(
-                      builder: (BuildContext context) => AppButton(
-                        key: ObjectKey(_store.uploadingReviewLoader),
-                        onClick: _store.submitReview,
-                        label: StringProvider.submit,
-                        enable: _store.enableBtn,
-                        showLoading: _store.uploadingReviewLoader,
-                      ),
-                    )
-                  ],
-                ).paddings(vertical: 0.10.sw),
-              ))
+          _background(),
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 0.90.sw,
+                  height: 0.60.sh,
+                  padding: EdgeInsets.all(0.05.sw),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.r),
+                      color: AppColors.white,
+                      boxShadow: allShadow()),
+                  child: Column(
+                    children: [
+                      StringProvider.rateYourCustomer
+                          .text(AppTextStyle.driveDocumentNameStyle
+                              .copyWith(color: AppColors.lightGray))
+                          .paddings(bottom: 0.03.sw),
+                      widget.rideIds.customerName
+                          .text(AppTextStyle.rechargeDoneStyle)
+                          .paddings(bottom: 0.03.sw),
+                      RatingBar.builder(
+                        initialRating: 3,
+                        itemSize: 0.08.sw,
+                        direction: Axis.horizontal,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 3),
+                        onRatingUpdate: _store.onCustomerRating,
+                        itemBuilder: (context, _) {
+                          return Icon(
+                            Icons.star,
+                            color: Theme.of(context).primaryColor,
+                          );
+                        },
+                      ).paddings(bottom: 0.05.sw),
+                      Container(
+                        height: 0.20.sh,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFF3F3F3),
+                            borderRadius: BorderRadius.circular(20.r)),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            //controller: inputController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  gapPadding: 10,
+                                ),
+                                fillColor: const Color(0xFFF3F3F3),
+                                contentPadding: EdgeInsets.all(0.03.sw),
+                                filled: true,
+                                hintText:
+                                    StringProvider.saySomethingAboutYourExp),
+                            onChanged: _store.onCustomerReview,
+                          ),
+                        ),
+                      ).paddings(bottom: 0.05.sw),
+                    ],
+                  ),
+                ),
+                Observer(
+                  builder: (BuildContext context) => AppButton(
+                    key: ObjectKey(_store.uploadingReviewLoader),
+                    onClick: _store.submitReview,
+                    label: StringProvider.submit,
+                    enable: _store.enableBtn,
+                    showLoading: _store.uploadingReviewLoader,
+                  ),
+                )
+              ],
+            ).paddings(vertical: 0.10.sw),
+          )
         ],
       )),
     );

@@ -30,6 +30,7 @@ import 'core/helpers/push_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await EasyLocalization.ensureInitialized();
@@ -47,9 +48,10 @@ void main() async {
   runApp(const MyApp());
 }
 
-@pragma("vm:entry-point")
+@pragma('vm:entry-point')
 void overlayMain() {
   WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   runApp(const MaterialApp(
       debugShowCheckedModeBanner: false, home: AppOverlayWidget()));
 }
@@ -57,6 +59,7 @@ void overlayMain() {
 @pragma('vm:entry-point')
 void startCallback() async {
   WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   var env = Environment();
   await env.init();
   FlutterForegroundTask.setTaskHandler(DestinationTaskHandler(

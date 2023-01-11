@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
-import 'package:jadu_ride_driver/core/common/service.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/booking_arrived_widget.dart';
@@ -239,9 +238,12 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             ))
                       ],
                     ).padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
-                    fitBox(
-                      child: "${StringProvider.lastUpdated}${_store.timeStamp}"
-                          .text(AppTextStyle.placerHolderStyle),
+                    Observer(
+                      builder: (context) => fitBox(
+                        child:
+                            "${StringProvider.lastUpdated}${_store.timeStamp}"
+                                .text(AppTextStyle.placerHolderStyle),
+                      ),
                     )
                   ],
                 ),

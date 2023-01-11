@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:jadu_ride_driver/utills/my_utils.dart';
+import 'package:share/share.dart';
 
 import '../custom_widgets/my_app_bar_without_logo.dart';
 import '../stores/refer_view_model.dart';
@@ -12,8 +14,6 @@ import '../ui/app_text_style.dart';
 import '../ui/image_assets.dart';
 import '../ui/string_provider.dart';
 import '../ui/theme.dart';
-import 'package:flutter/services.dart';
-import 'package:share/share.dart';
 
 class ReferScreen extends StatefulWidget {
   const ReferScreen({Key? key}) : super(key: key);
@@ -104,45 +104,42 @@ class _ReferScreenState extends State<ReferScreen> {
                             vertical: 0.05.sw, horizontal: 0.05.sw),
                         child: Row(
                           children: [
-                            Expanded(
-                              flex: 7,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "To driver",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
-                                  ),
-                                ],
+                            expand(
+                              flex: 5,
+                              child: fitBox(
+                                child: Text(
+                                  "To driver",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
+                                ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Observer(
-                                builder: (BuildContext context) {
-                                  if (_referStore.isLoading) {
-                                    return Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        height: 0.05.sw,
-                                        width: 0.05.sw,
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  } else {
-                                    return Expanded(
-                                        flex: 4,
-                                        child: _referStore.driverToDriver
+                            expand(
+                                flex: 5,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Observer(
+                                    builder: (BuildContext context) {
+                                      if (_referStore.isLoading) {
+                                        return Align(
+                                          alignment: Alignment.center,
+                                          child: SizedBox(
+                                            height: 0.05.sw,
+                                            width: 0.05.sw,
+                                            child:
+                                                const CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      } else {
+                                        return _referStore.driverToDriver
                                             .toString()
                                             .text(
-                                                AppTextStyle.toDriverTxtStyle));
-                                  }
-                                },
-                              ),
-                            )
+                                                AppTextStyle.toDriverTxtStyle);
+                                      }
+                                    },
+                                  ),
+                                ))
                           ],
                         ),
                       ),
@@ -169,45 +166,39 @@ class _ReferScreenState extends State<ReferScreen> {
                             vertical: 0.05.sw, horizontal: 0.05.sw),
                         child: Row(
                           children: [
-                            Expanded(
-                              flex: 7,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "To Customer",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
-                                  ),
-                                ],
+                            expand(
+                              flex: 6,
+                              child: fitBox(
+                                child: Text(
+                                  "To Customer",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
+                                ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Observer(
-                                builder: (BuildContext context) {
-                                  if (_referStore.isLoading) {
-                                    return Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        height: 0.05.sw,
-                                        width: 0.05.sw,
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  } else {
-                                    return Expanded(
-                                        flex: 4,
-                                        child: _referStore.driverToCustomer
+                            expand(
+                                flex: 4,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Observer(
+                                    builder: (BuildContext context) {
+                                      if (_referStore.isLoading) {
+                                        return SizedBox(
+                                          height: 0.05.sw,
+                                          width: 0.05.sw,
+                                          child:
+                                              const CircularProgressIndicator(),
+                                        );
+                                      } else {
+                                        return _referStore.driverToCustomer
                                             .toString()
                                             .text(
-                                                AppTextStyle.toDriverTxtStyle));
-                                  }
-                                },
-                              ),
-                            )
+                                                AppTextStyle.toDriverTxtStyle);
+                                      }
+                                    },
+                                  ),
+                                ))
                           ],
                         ),
                       ),
