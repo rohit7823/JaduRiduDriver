@@ -22,8 +22,10 @@ class HelpPhoneNumberRepositoryImpl extends HelpRepository{
 
   @override
   Future<Resource<RequiredDataHelpResponse>> getHelpInittialData(String userId) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return Success(RequiredDataHelpResponse(status: true, message: "Success", helpPhoneNumber: "9876543210"));
+    return _helpApi.helpNumber(userId).handleResponse<RequiredDataHelpResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
+    return Success(RequiredDataHelpResponse(status: true, message: "Success", helpPhoneNumber: "9876543210"));*/
   }
 
   @override

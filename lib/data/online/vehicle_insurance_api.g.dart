@@ -57,11 +57,12 @@ class _VehicleInsuranceApi implements VehicleInsuranceApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(_dio.options,
-                '/driver/users/${userId}/document/vehicleInsurance',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/document/vehicleInsurance',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadInsuranceResponse.fromJson(_result.data!);
     return value;

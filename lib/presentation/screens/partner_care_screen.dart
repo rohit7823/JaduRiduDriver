@@ -113,7 +113,7 @@ class _PartnerCareScreenState extends State<PartnerCareScreen> {
             children: [
               StringProvider.partnerCare
                   .text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.partnerCareDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

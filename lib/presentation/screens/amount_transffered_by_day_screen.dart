@@ -53,7 +53,7 @@ class _AmountTransfferedbyDayScreenState extends State<AmountTransfferedbyDayScr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.amountTransfferedByDay.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.amountTransfferedByDayDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

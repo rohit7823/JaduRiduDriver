@@ -47,6 +47,7 @@ class IntroTwo extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(bottom: 0.03.sw),
                 child: Text(store.data[pos].heading,
+                    textAlign: TextAlign.center,
                     style: AppTextStyle.introHeadingStyle)),
             Padding(
                 padding: EdgeInsets.only(bottom: 0.03.sw),

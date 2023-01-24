@@ -75,11 +75,11 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             child: SizedBox(
               height: 0.10.sw,
               width: 0.10.sw,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             ),
           );
         } else {
-          return Padding(
+          return SingleChildScrollView(
             padding:
                 EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
             child: Column(

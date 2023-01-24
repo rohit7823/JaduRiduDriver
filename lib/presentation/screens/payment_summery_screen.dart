@@ -84,7 +84,7 @@ class _PaymentSummeryScreenState extends State<PaymentSummeryScreen> {
             children: [
               StringProvider.paymentsSummery
                   .text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.paymentSummeryDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

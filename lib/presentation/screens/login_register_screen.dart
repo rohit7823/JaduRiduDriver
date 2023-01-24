@@ -90,15 +90,13 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                             style: AppTextStyle.introHeadingStyle),
                       ),
                     ),
-                    if(sharedStore.loginRegistrationData != null)FittedBox(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 0.05.sw),
-                        child: Text(
-                            sharedStore.loginRegistrationData!.description
-                                .replaceFirst(",", "\n"),
-                            style: AppTextStyle.bodyTextStyle,
-                            textAlign: TextAlign.center),
-                      ),
+                    if(sharedStore.loginRegistrationData != null)Padding(
+                      padding: EdgeInsets.only(bottom: 0.05.sw),
+                      child: Text(
+                          sharedStore.loginRegistrationData!.description
+                              .replaceFirst(",", "\n"),
+                          style: AppTextStyle.bodyTextStyle,
+                          textAlign: TextAlign.center),
                     ),
                     FittedBox(
                       child: Padding(

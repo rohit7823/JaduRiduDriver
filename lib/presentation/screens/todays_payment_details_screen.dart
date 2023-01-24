@@ -57,7 +57,7 @@ class _TodaysPaymentDetailsState extends State<TodaysPaymentDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.todaysPayments.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.todaysPaymentDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

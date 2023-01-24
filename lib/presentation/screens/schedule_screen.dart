@@ -56,7 +56,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.scheduleTrip.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.scheduleTripDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

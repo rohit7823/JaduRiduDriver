@@ -77,7 +77,7 @@ class _HelpScreenState extends State<HelpScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.helpTxt.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.helpDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

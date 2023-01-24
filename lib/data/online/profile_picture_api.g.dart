@@ -42,10 +42,12 @@ class _ProfilePictureApi implements ProfilePictureApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(_dio.options, '/driver/users/${userId}/profilePicture',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: sentProgress)
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/profilePicture',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadImageResponse.fromJson(_result.data!);
     return value;

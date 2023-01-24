@@ -42,10 +42,12 @@ class _CarInsideApi implements CarInsideApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(_dio.options, '/driver/users/${userId}/document/carInside',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/document/carInside',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadInsideCarResponse.fromJson(_result.data!);
     return value;

@@ -14,5 +14,5 @@ abstract class PaymentDetailsRepository {
 
   Future<Resource<UpisResponse>> getUpiIds();
 
-  Future<Resource<UpiValidateResponse>> validateUpi(String fullUpiId);
+
 }

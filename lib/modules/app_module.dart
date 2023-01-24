@@ -245,7 +245,7 @@ class AppModule {
     dependency.registerLazySingleton<PaymentSummeryRepository>(
         () => PaymentSummeryRepositoryImpl(dio));
     dependency.registerLazySingleton<ScheduleRepository>(
-        () => LocationSchedulRepositoryImpl());
+        () => LocationSchedulRepositoryImpl(dio));
     dependency.registerLazySingleton<AmountTransfferedByDayRepository>(
         () => AmountTransferredByDayRepositoryImpl());
     dependency.registerLazySingleton<ProfileRepository>(
@@ -253,22 +253,22 @@ class AppModule {
     dependency.registerLazySingleton<ProfileDetailsRepository>(
         () => ProfileDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<DriverReferRepository>(
-        () => DriverReferRepositoryImpl());
+        () => DriverReferRepositoryImpl(dio));
     dependency.registerLazySingleton<TripsDetailsRepository>(
         () => TripsDetailsRepositoryImpl(dio));
     dependency.registerLazySingleton<TermsAndConditionsRepository>(
-        () => TermsAndContionsRepositoryImpl());
+        () => TermsAndContionsRepositoryImpl(dio));
     dependency.registerLazySingleton<PrivacyPolicyRepository>(
-        () => PrivacyPolicyRepositoryImpl());
+        () => PrivacyPolicyRepositoryImpl(dio));
     dependency.registerLazySingleton<RefundPolicyRepository>(
-        () => RefundPolicyRepositoryImpl());
+        () => RefundPolicyRepositoryImpl(dio));
     dependency.registerLazySingleton<HelpRepository>(
         () => HelpPhoneNumberRepositoryImpl(dio));
     dependency.registerLazySingleton<EmergencyRepository>(
         () => EmergencyRepositoryImpl());
 
     dependency.registerLazySingleton<NotificationRepository>(
-        () => NotificationRepositoryImpl());
+        () => NotificationRepositoryImpl(dio));
 
     dependency.registerLazySingleton<PushNotification>(
         () => FirebaseNotification(fireBaseMessaging));

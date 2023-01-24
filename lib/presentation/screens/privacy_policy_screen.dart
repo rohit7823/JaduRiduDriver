@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -41,6 +40,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
       ),
     );
   }
+
   Widget _upperSideContent() {
     return Container(
       decoration: BoxDecoration(
@@ -58,11 +58,12 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             ],
           ).padding(
               insets:
-              EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
+                  EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.02.sw)),
         ),
       ),
     );
   }
+
   Widget _lowerSideContent() {
     return Observer(
       builder: (BuildContext context) {
@@ -76,9 +77,8 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             ),
           );
         } else {
-          return Padding(
-            padding:
-            EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(0.05.sw),
             child: Column(
               children: [
                 Container(

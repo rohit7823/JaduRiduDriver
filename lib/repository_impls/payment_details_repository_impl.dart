@@ -49,7 +49,7 @@ class PaymentDetailsRepositoryImpl implements PaymentDetailsRepository {
             (index) => UpiID(id: "${index + 1}", name: "@UpiID${index + 1}"))));*/
   }
 
-  @override
+  /*@override
   Future<Resource<UpiValidateResponse>> validateUpi(String fullUpiId) async {
     await Future.delayed(const Duration(seconds: 1));
     var parts = fullUpiId.split("@");
@@ -62,5 +62,5 @@ class PaymentDetailsRepositoryImpl implements PaymentDetailsRepository {
 
     return Success(UpiValidateResponse(
         status: true, message: "Success", isValid: isValid));
-  }
+  }*/
 }

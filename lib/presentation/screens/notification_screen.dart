@@ -135,7 +135,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 builder: (BuildContext context) {
                   return CircleAvatar(
                     foregroundImage:
-                        AssetImage(notificationStore.NList[index].imagepath),
+                        NetworkImage(notificationStore.NList[index].imagepath),
                   );
                 },
               )),

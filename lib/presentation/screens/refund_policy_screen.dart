@@ -55,7 +55,7 @@ class _RefundPolicyScreenState extends State<RefundPolicyScreen> {
             children: [
               StringProvider.refundPolicy
                   .text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.refundPolicyDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(
@@ -79,7 +79,7 @@ class _RefundPolicyScreenState extends State<RefundPolicyScreen> {
             ),
           );
         } else {
-          return Padding(
+          return SingleChildScrollView(
             padding:
             EdgeInsets.symmetric(vertical: 0.05.sw, horizontal: 0.05.sw),
             child: Column(

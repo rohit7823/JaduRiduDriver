@@ -46,6 +46,7 @@ class IntroOne extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(bottom: 0.03.sw),
                 child: Text(store.data.first.heading,
+                    textAlign: TextAlign.center,
                     style: AppTextStyle.introHeadingStyle)),
             Padding(
                 padding: EdgeInsets.only(bottom: 0.03.sw),

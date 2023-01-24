@@ -47,11 +47,12 @@ class _VehiclePollutionApi implements VehiclePollutionApi {
       extra: _extra,
       contentType: 'multipart/form-data',
     )
-            .compose(_dio.options,
-                '/driver/users/${userId}/document/vehiclePollution',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+            .compose(
+              _dio.options,
+              '/driver/users/${userId}/document/vehiclePollution',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadVehiclePollutionResponse.fromJson(_result.data!);
     return value;

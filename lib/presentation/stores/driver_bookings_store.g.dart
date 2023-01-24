@@ -153,6 +153,23 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
     });
   }
 
+  late final _$bookingAlertSoundUrlAtom =
+      Atom(name: '_DriverBookingsStore.bookingAlertSoundUrl', context: context);
+
+  @override
+  String? get bookingAlertSoundUrl {
+    _$bookingAlertSoundUrlAtom.reportRead();
+    return super.bookingAlertSoundUrl;
+  }
+
+  @override
+  set bookingAlertSoundUrl(String? value) {
+    _$bookingAlertSoundUrlAtom.reportWrite(value, super.bookingAlertSoundUrl,
+        () {
+      super.bookingAlertSoundUrl = value;
+    });
+  }
+
   late final _$initCurrentBookingAsyncAction =
       AsyncAction('_DriverBookingsStore.initCurrentBooking', context: context);
 
@@ -187,7 +204,8 @@ alreadyBookedMsg: ${alreadyBookedMsg},
 estimatedKm: ${estimatedKm},
 eta: ${eta},
 vehicleType: ${vehicleType},
-passTimer: ${passTimer}
+passTimer: ${passTimer},
+bookingAlertSoundUrl: ${bookingAlertSoundUrl}
     ''';
   }
 }

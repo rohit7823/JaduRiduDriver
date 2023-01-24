@@ -10,4 +10,16 @@ class RequiredDataDriverReferResponse extends BusinessObject{
   DriverRefer driverRefers;
 
   RequiredDataDriverReferResponse({required this.status, required this.message, required this.driverRefers});
+
+  factory RequiredDataDriverReferResponse.fromJson(Map<String, dynamic> json) => RequiredDataDriverReferResponse(
+    status: json["status"],
+    message: json["message"],
+    driverRefers: DriverRefer(
+        driverToDriver: json["referredDriverCount"],
+        driverToCustomar: json["referredCustomerCount"],
+        driverToDriverReferCode: json["driverReferralCode"],
+        driverToCustomarReferCode: json["customerReferralCode"]
+    ),
+  );
+
 }

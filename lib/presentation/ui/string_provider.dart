@@ -443,7 +443,7 @@ class StringProvider {
 
   static var paymentId = "Payment ID: ";
 
-  static var rechargeSuccesful = "RechargeSuccesful";
+  static var rechargeSuccesful = "Recharge Successful";
 
   static var reason = "Reason: ";
 
@@ -566,23 +566,23 @@ class StringProvider {
   static const weAreFacingSomeError =
       "We are facing some error in our backend please retry. Sorry for this inconvenience.";
 
-  static const indentifyDetails = "Identify Details";
+  static const indentifyDetails = "Identification Details";
 
-  static const profilePicture = "Profile Picture";
+  static const profilePicture = "Picture Verification";
 
-  static const driverLicense = "Driver License";
+  static const driverLicense = "Driving Licence Details";
 
-  static const aadharCard = "Aadhar Card";
+  static const aadharCard = "Aadhar Card Details";
 
-  static const vehicleInsurance = "Vehicle Insurance";
+  static const vehicleInsurance = "Vehicle Insurance Details";
 
-  static const registrationCertificate = "Registration Certificate (RC)";
+  static const registrationCertificate = "Registration Certificate Details";
 
-  static const panCard = "Pan Card";
+  static const panCard = "Pan Card Details";
 
   static const vehiclePermit = "Vehicle Permit";
 
-  static const vehicleAudit = "Vehicle Audit";
+  static const vehicleAudit = "Vehicle Audit Process";
 
   static const paymentDetails = "Payment Details";
 
@@ -694,7 +694,7 @@ class StringProvider {
 
   static var vehiclePollution = "Vehicle Pollution";
 
-  static var chasisNumberImage = "Chasis Number Image";
+  static var chasisNumberImage = "Chassis Number Details";
 
   static var backSideWithNumberPlate = "Back Side With Number Plate";
 
@@ -754,7 +754,7 @@ class StringProvider {
   static var applicationSubmitted = "Your Application Submitted";
 
   static var applicationSubmittedDescription =
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+      "The application has been submitted, we will verify the details provided by you and contact you soon.";
 
   static var enableGpsMessage =
       "Please enable your Location Service/GPS, We need this for getting your current location.";
@@ -819,7 +819,7 @@ class StringProvider {
   static var referToCustomer = "Refer to Customer";
 
   static var accountSummaryDescription =
-      "Lorem Ipsum is simply dummy \n text of the printing text of the printing";
+      "Here are all the details \n of your Jadu Ride Partner account.";
   static var toDriver = "1";
   static var terms =
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.";
@@ -883,6 +883,37 @@ class StringProvider {
   static var youWllGetYourPaymentShortly = "You'll get your payment shortly..";
 
   static var totalFare = "Fare:";
+
+  static var emergencySupportDescription =
+      "In case of an emergency don't\nhesitate to reach out to us on this toll free number";
+
+  static var helpDescription =
+      "In case you need immediate help then reach\nout on the toll free number else fill the\nform and we will reply immediately.";
+
+  static var refundPolicyDescription = "To Fill";
+
+  static var tripsDescription =
+      "Here are the details of\nthe trips you made till date. Keep Driving Safe!";
+
+  static var referDescription =
+      "Refer to a customer or a driver and earn exciting rewards";
+
+  static var incentivesDescription =
+      "Here are your incentives as rewards for\ncreating magic with Jadu Ride";
+
+  static var partnerCareDescription =
+      "Our partners are valuable!\nReach out to us if you need support or have any queries";
+
+  static var amountTransfferedByDayDescription =
+      "Here is the transferred amount for today";
+
+  static var paymentSummeryDescription =
+      "Check the details of all the transaction\nyou made today";
+
+  static var todaysPaymentDescription = "Check your transactions for today";
+
+  static var scheduleTripDescription =
+      "Here are the trips that\nyou need to make as per today's schedule";
 
   StringProvider._();
 

@@ -58,7 +58,7 @@ class _ReferScreenState extends State<ReferScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.refer.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.referDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

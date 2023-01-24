@@ -6,4 +6,11 @@ class RequiredDataHelpResponse extends BusinessObject{
   String helpPhoneNumber;
 
   RequiredDataHelpResponse({required this.status, required this.message, required this.helpPhoneNumber});
+  factory RequiredDataHelpResponse.fromJson(Map<String, dynamic> json) =>
+      RequiredDataHelpResponse(
+        status: json["status"],
+        message: json["message"],
+        helpPhoneNumber: json["helplineNumber"],
+      );
+
 }

@@ -70,7 +70,7 @@ class _TripsScreenState extends State<TripsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.tripsTxt.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.tripsDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

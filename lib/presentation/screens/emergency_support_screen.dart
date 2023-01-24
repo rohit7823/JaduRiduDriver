@@ -55,7 +55,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.emergencyTxt.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.emergencySupportDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

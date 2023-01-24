@@ -56,7 +56,7 @@ class _IncentivesScreenState extends State<IncentivesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.incentives.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.incentivesDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

@@ -40,14 +40,14 @@ abstract class _NotificationViewModels  with Store{
       isLoading = false;
       switch(data != null && data.status){
         case true:
-          if (data!.notificationlist.isEmpty) {
+          if (data!.notifications.isEmpty) {
             isEmpty = true;
             msg = data.message;
 
           } else {
             isEmpty = false;
             msg = data.message;
-            NList = data.notificationlist;
+            NList = data.notifications;
           }
       }
     }

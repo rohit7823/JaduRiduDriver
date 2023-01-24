@@ -133,7 +133,7 @@ class _ManageProfileApi implements ManageProfileApi {
       'dob',
       dob,
     ));
-    if (profileImage != null) {
+    if(profileImage != null) {
       _data.files.add(MapEntry(
         'profile_image',
         MultipartFile.fromFileSync(
