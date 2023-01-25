@@ -605,9 +605,11 @@ class StringProvider {
 
   static var selectOrChoosePicture = "Select/Choose Picture";
 
-  static var imageChooseGuidLine = "Image upload guideline 1";
+  static var imageChooseGuidLine =
+      "Hold the phone steady with enough ambient lighting to ensure the click is bright";
 
-  static var imageChooseGuidLine2 = "Image upload guideline 2";
+  static var imageChooseGuidLine2 =
+      "Focus on the document, to ensure the picture is clear and make sure it’s in the frame";
 
   static var chooseSource = "Choose Source";
 
@@ -890,7 +892,8 @@ class StringProvider {
   static var helpDescription =
       "In case you need immediate help then reach\nout on the toll free number else fill the\nform and we will reply immediately.";
 
-  static var refundPolicyDescription = "To Fill";
+  static var refundPolicyDescription =
+      "We offer refund under some conditions\nas mentioned in the Refund Policy by Jadu Ride";
 
   static var tripsDescription =
       "Here are the details of\nthe trips you made till date. Keep Driving Safe!";
@@ -914,6 +917,12 @@ class StringProvider {
 
   static var scheduleTripDescription =
       "Here are the trips that\nyou need to make as per today's schedule";
+
+  static var termsDescription =
+      "You signify your agreement to be bound by these\nTerms, thereby forming a contractual relationship between you and Jadu Ride";
+
+  static var privacyDescription =
+      "Jadu Ride has a clear Privacy Policy that\ninvolves the collection and use of your data to some extent";
 
   StringProvider._();
 

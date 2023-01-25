@@ -57,10 +57,10 @@ abstract class _ChangeAppLanguageScreenStore extends AppNavigator with Store {
             locales.addAll({AppLanguageCode.english: element});
             break;
           case AppLanguage.hindi:
-            locales.addAll({AppLanguageCode.hindi: element});
+            //locales.addAll({AppLanguageCode.hindi: element});
             break;
           case AppLanguage.bengali:
-            locales.addAll({AppLanguageCode.bengali: element});
+            //locales.addAll({AppLanguageCode.bengali: element});
             break;
           case AppLanguage.marathi:
             //locales.addAll({AppLanguageCode.marathi: element});

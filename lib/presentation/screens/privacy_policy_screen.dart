@@ -53,7 +53,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StringProvider.privacyPolicy.text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.privacyDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(

@@ -55,7 +55,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               StringProvider.termsAndConditions
                   .text(AppTextStyle.enterNumberStyle),
-              StringProvider.accountSummaryDescription
+              StringProvider.termsDescription
                   .text(AppTextStyle.enterNumberSubHeadingStyle)
             ],
           ).padding(
