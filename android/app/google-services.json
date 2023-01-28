@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "747172814338",
-    "project_id": "jadu-ride-driver",
-    "storage_bucket": "jadu-ride-driver.appspot.com"
+    "project_number": "505827533331",
+    "project_id": "jaduride-driver",
+    "storage_bucket": "jaduride-driver.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:747172814338:android:cbba4a1bc2c54a4060911b",
+        "mobilesdk_app_id": "1:505827533331:android:d227b3fb03d7c376cbd5e6",
         "android_client_info": {
-          "package_name": "com.example.jadu_ride_driver"
+          "package_name": "com.jadu_ride.driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "747172814338-cmgimm0ikf4c97ln0g3lv56hitqtscjj.apps.googleusercontent.com",
+          "client_id": "505827533331-s24qjeljdvt527s2iid90a8unkhou6v5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxp4aRTUqXsDY_-vGcV6bnipEGvXCxAUQ"
+          "current_key": "AIzaSyAGoAQ32eYIhOqa7aFhanQYFiaSRslzZMA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "747172814338-cmgimm0ikf4c97ln0g3lv56hitqtscjj.apps.googleusercontent.com",
+              "client_id": "505827533331-s24qjeljdvt527s2iid90a8unkhou6v5.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.jaduRideDriver"
-              }
             }
           ]
         }

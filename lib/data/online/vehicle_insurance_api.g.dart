@@ -62,6 +62,7 @@ class _VehicleInsuranceApi implements VehicleInsuranceApi {
               '/driver/users/${userId}/document/vehicleInsurance',
               queryParameters: queryParameters,
               data: _data,
+              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadInsuranceResponse.fromJson(_result.data!);

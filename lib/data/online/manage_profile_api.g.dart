@@ -35,6 +35,7 @@ class _ManageProfileApi implements ManageProfileApi {
               '/driver/districts',
               queryParameters: queryParameters,
               data: _data,
+
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = DistrictsResponse.fromJson(_result.data!);

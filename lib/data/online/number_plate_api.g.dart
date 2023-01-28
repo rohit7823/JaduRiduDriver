@@ -47,6 +47,7 @@ class _NumberPlateApi implements NumberPlateApi {
               '/driver/users/${userId}/document/numberPlate',
               queryParameters: queryParameters,
               data: _data,
+              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadVehicleNumberPlateResponse.fromJson(_result.data!);

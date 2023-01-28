@@ -52,6 +52,7 @@ class _ChassisNumberApi implements ChassisNumberApi {
               '/driver/users/${userId}/document/chassis',
               queryParameters: queryParameters,
               data: _data,
+              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadChasisNumberResponse.fromJson(_result.data!);

@@ -75,6 +75,7 @@ class _PaymentDetailsApi implements PaymentDetailsApi {
               '/driver/users/${userId}/document/onlinePaymentDetails',
               queryParameters: queryParameters,
               data: _data,
+              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaymentDetailsResponse.fromJson(_result.data!);
