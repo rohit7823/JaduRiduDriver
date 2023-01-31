@@ -34,7 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: Column(
           children: [
             expand(flex: 1, child: _upperSideContent()),
-            expand(flex: 8, child: _lowerSideContent())
+            expand(flex: 9, child: _lowerSideContent())
           ],
         ),
       ),
@@ -74,7 +74,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 child: SizedBox(
                     height: 0.10.sw,
                     width: 0.10.sw,
-                    child: CircularProgressIndicator()),
+                    child: const CircularProgressIndicator()),
               );
             } else {
               return notificationStore.isEmpty
@@ -105,20 +105,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 0.02.sw),
-          child: expand(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  style: AppButtonThemes.backBtnStyle.copyWith(
-                      fixedSize: MaterialStatePropertyAll(Size(0.90.sw, 65.h))),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: StringProvider.back.text(AppTextStyle.btnTextStyleWhite
-                      .copyWith(fontWeight: FontWeight.w600, fontSize: 20.sp)),
-                ),
-              )),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              style: AppButtonThemes.backBtnStyle.copyWith(
+                  fixedSize: MaterialStatePropertyAll(Size(0.90.sw, 65.h))),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: StringProvider.back.text(AppTextStyle.btnTextStyleWhite
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 20.sp)),
+            ),
+          ),
         )
       ],
     );
@@ -129,16 +127,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
       padding: EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),
       child: Row(
         children: [
-          Expanded(
-              flex: 1,
-              child: Observer(
-                builder: (BuildContext context) {
-                  return CircleAvatar(
-                    foregroundImage:
-                        NetworkImage(notificationStore.NList[index].imagepath),
-                  );
-                },
-              )),
+          Observer(
+            builder: (BuildContext context) {
+              return CircleAvatar(
+                foregroundImage:
+                NetworkImage(notificationStore.NList[index].imagepath),
+              );
+            },
+          ),
           SizedBox(width: 0.01.sw),
           Expanded(
             flex: 4,
@@ -152,22 +148,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 0.01.sw),
-            child: Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(top: 0.06.sw),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 15.sp,
-                    ),
-                    Text(notificationStore.NList[index].time,
-                        style: TextStyle(
-                            color: AppColors.lightGrays, fontSize: 14.sp)),
-                  ],
+            child: Row(
+              children: [
+                Icon(
+                  Icons.access_time,
+                  size: 15.sp,
                 ),
-              ),
+                Text(notificationStore.NList[index].time,
+                    style: TextStyle(
+                        color: AppColors.lightGrays, fontSize: 14.sp)),
+              ],
             ),
           ),
         ],

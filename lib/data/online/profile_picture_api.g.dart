@@ -47,6 +47,7 @@ class _ProfilePictureApi implements ProfilePictureApi {
               '/driver/users/${userId}/profilePicture',
               queryParameters: queryParameters,
               data: _data,
+          onSendProgress: sentProgress
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadImageResponse.fromJson(_result.data!);

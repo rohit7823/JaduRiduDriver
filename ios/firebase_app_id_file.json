@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:747172814338:ios:bcf46c9bb1e6cd8560911b",
-  "FIREBASE_PROJECT_ID": "jadu-ride-driver",
-  "GCM_SENDER_ID": "747172814338"
+  "GOOGLE_APP_ID": "1:505827533331:ios:e25c75e68f61e1f6cbd5e6",
+  "FIREBASE_PROJECT_ID": "jaduride-driver",
+  "GCM_SENDER_ID": "505827533331"
 }

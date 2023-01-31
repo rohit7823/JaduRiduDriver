@@ -50,21 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCxp4aRTUqXsDY_-vGcV6bnipEGvXCxAUQ',
-    appId: '1:747172814338:android:cbba4a1bc2c54a4060911b',
-    messagingSenderId: '747172814338',
-    projectId: 'jadu-ride-driver',
-    storageBucket: 'jadu-ride-driver.appspot.com',
+    apiKey: 'AIzaSyAGoAQ32eYIhOqa7aFhanQYFiaSRslzZMA',
+    appId: '1:505827533331:android:d227b3fb03d7c376cbd5e6',
+    messagingSenderId: '505827533331',
+    projectId: 'jaduride-driver',
+    storageBucket: 'jaduride-driver.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCCOypIj1MPwz76Qvwo9fvhWm6gwFCkEQ8',
-    appId: '1:747172814338:ios:bcf46c9bb1e6cd8560911b',
-    messagingSenderId: '747172814338',
-    projectId: 'jadu-ride-driver',
-    storageBucket: 'jadu-ride-driver.appspot.com',
+    apiKey: 'AIzaSyAGoAQ32eYIhOqa7aFhanQYFiaSRslzZMA',
+    appId: '1:505827533331:ios:e25c75e68f61e1f6cbd5e6',
+    messagingSenderId: '505827533331',
+    projectId: 'jaduride-driver',
+    storageBucket: 'jaduride-driver.appspot.com',
     iosClientId:
-        '747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com',
+        '505827533331-v0m58nik3cnba22q06u0m233r7jbttdc.apps.googleusercontent.com',
     iosBundleId: 'com.example.jaduRideDriver',
   );
 }

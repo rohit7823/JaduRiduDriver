@@ -61,6 +61,7 @@ class _VehiclePermitApi implements VehiclePermitApi {
               '/driver/users/${userId}/document/vehiclePermit',
               queryParameters: queryParameters,
               data: _data,
+          onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadVehiclePermitResponse.fromJson(_result.data!);

@@ -52,6 +52,7 @@ class _VehiclePollutionApi implements VehiclePollutionApi {
               '/driver/users/${userId}/document/vehiclePollution',
               queryParameters: queryParameters,
               data: _data,
+          onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadVehiclePollutionResponse.fromJson(_result.data!);
