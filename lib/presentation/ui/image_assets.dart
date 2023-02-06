@@ -88,4 +88,5 @@ class ImageAssets {
   static const emergency = "$_root/emergency.svg";
   static const emergencyService = "$_root/emergency_service.png";
   static const rentalService = "$_root/rental_service.svg";
+  static const mapPNG = "$_root/map.png";
 }

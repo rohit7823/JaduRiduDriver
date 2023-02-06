@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/disclosure_dialog.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:mobx/mobx.dart';
@@ -138,6 +139,15 @@ class _DashboardScreenState extends State<DashboardScreen>
                 option: p0.option, onComplete: widget.sharedStore.clear);
           }
         }
+      }),
+      reaction((p0) => widget.sharedStore.dialogManager.disclosureState, (p0) {
+        if (p0 == DialogState.displaying) {
+          showDisclosureDialog(
+              context,
+              widget.sharedStore.dialogManager.disclosureData,
+              onEvent: widget.sharedStore.onDisclosureEvent
+          );
+        }
       })
     ];
   }
@@ -145,7 +155,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      widget.sharedStore.getDashBoardData();
+      widget.sharedStore.retrieveLocation();
     }
   }
 

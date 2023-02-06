@@ -15,6 +15,8 @@ class Constants {
 
   static const accountStatus = "ACCOUNT_STATUS";
 
+  static const disclosureStatus = "DISCLOUSER_STATUS";
+
   Constants._();
 
   static const baseUrl = "BASE_URL";

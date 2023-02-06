@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageImpl implements Storage {
   final SharedPreferences _pref;
+
   StorageImpl(this._pref);
 
   @override
@@ -84,5 +85,15 @@ class StorageImpl implements Storage {
   @override
   setAccountStatus(String status) {
     _pref.setString(Constants.accountStatus, status);
+  }
+
+  @override
+  bool disclosureStatus() {
+    return _pref.getBool(Constants.disclosureStatus) ?? false;
+  }
+
+  @override
+  locationDisclosureStatus(bool status) {
+    _pref.setBool(Constants.disclosureStatus, status);
   }
 }

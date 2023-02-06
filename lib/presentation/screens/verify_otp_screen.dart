@@ -8,6 +8,7 @@ import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/disclosure_dialog.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/presentation/stores/verify_otp_screen_store.dart';
@@ -24,6 +25,7 @@ import '../ui/app_button_themes.dart';
 class VerifyOtpScreen extends StatefulWidget {
   SharedStore sharedStore;
   String number;
+
   VerifyOtpScreen({Key? key, required this.sharedStore, required this.number})
       : super(key: key);
 
@@ -37,6 +39,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   late final VerifyOtpStore _store;
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+
   _VerifyOtpScreenState({required this.sharedStore});
 
   @override
@@ -70,9 +73,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         }
       }),
       reaction((p0) => _store.isUserRegister, (p0) {
+        debugPrint(p0.toString());
         if (p0) {
-          debugPrint(p0.toString());
           widget.sharedStore.getDashBoardData();
+          _store.clearUserRegister();
         }
       }),
       reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
@@ -87,6 +91,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           debugPrint(p0.option.toString());
           ChangeScreen.to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
+        }
+      }),
+      reaction((p0) => widget.sharedStore.dialogManager.disclosureState, (p0) {
+        if (p0 == DialogState.displaying) {
+          showDisclosureDialog(
+              context, widget.sharedStore.dialogManager.disclosureData,
+              onEvent: widget.sharedStore.onDisclosureEvent);
         }
       })
     ];

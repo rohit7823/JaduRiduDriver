@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06.apps.googleusercontent.com</string>
+	<string>505827533331-v0m58nik3cnba22q06u0m233r7jbttdc.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.747172814338-2rtj511qlss6b5kee0a2nbo1tfb5ur06</string>
+	<string>com.googleusercontent.apps.505827533331-v0m58nik3cnba22q06u0m233r7jbttdc</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCCOypIj1MPwz76Qvwo9fvhWm6gwFCkEQ8</string>
+	<string>AIzaSyCi5ABXK-Xhum6iPhFTX6raRKiqostLfug</string>
 	<key>GCM_SENDER_ID</key>
-	<string>747172814338</string>
+	<string>505827533331</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.jaduRideDriver</string>
 	<key>PROJECT_ID</key>
-	<string>jadu-ride-driver</string>
+	<string>jaduride-driver</string>
 	<key>STORAGE_BUCKET</key>
-	<string>jadu-ride-driver.appspot.com</string>
+	<string>jaduride-driver.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:747172814338:ios:bcf46c9bb1e6cd8560911b</string>
+	<string>1:505827533331:ios:e25c75e68f61e1f6cbd5e6</string>
 </dict>
 </plist>

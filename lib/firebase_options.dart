@@ -58,12 +58,13 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCi5ABXK-Xhum6iPhFTX6raRKiqostLfug',
+    apiKey: 'AIzaSyAGoAQ32eYIhOqa7aFhanQYFiaSRslzZMA',
     appId: '1:505827533331:ios:e25c75e68f61e1f6cbd5e6',
     messagingSenderId: '505827533331',
     projectId: 'jaduride-driver',
     storageBucket: 'jaduride-driver.appspot.com',
-    iosClientId: '505827533331-v0m58nik3cnba22q06u0m233r7jbttdc.apps.googleusercontent.com',
+    iosClientId:
+        '505827533331-v0m58nik3cnba22q06u0m233r7jbttdc.apps.googleusercontent.com',
     iosBundleId: 'com.example.jaduRideDriver',
   );
 }

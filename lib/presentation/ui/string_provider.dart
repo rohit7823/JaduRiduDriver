@@ -924,6 +924,10 @@ class StringProvider {
   static var privacyDescription =
       "Jadu Ride has a clear Privacy Policy that\ninvolves the collection and use of your data to some extent";
 
+  static const decline = "DECLINE";
+
+  static const accept = "ACCEPT";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";
@@ -934,4 +938,9 @@ class StringProvider {
   static const clearImd = "cleared immediately";
   static const submitBtn = "Submit";
   static const currentBalance = "Current Balance";
+
+  static const disclosureMsg =
+      "Jadu Ride collects your location data to enable get your current location so we can deliver nearby customer requests to you.\n\nWe will only track your current location when the app is in use and within the app.";
+
+  static const locationDisclosure = "Location Needed!!";
 }

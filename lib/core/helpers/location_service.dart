@@ -5,4 +5,6 @@ abstract class LocationService {
   Future getCurrentLocation();
 
   Future openSettings();
+
+  Future<bool> checkIfPermissionGranted();
 }

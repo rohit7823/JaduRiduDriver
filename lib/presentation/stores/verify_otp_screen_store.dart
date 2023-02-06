@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
@@ -104,8 +105,9 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
       switch (data != null && data.status) {
         case true:
           if (data!.isVerified) {
+            _storage.saveUserId(data.userId);
             if (data.userStatus == UserStatus.registered.value) {
-              _storage.saveUserId(data.userId);
+              debugPrint("userID ${data.userId}");
               _retrieveDriverAccountStatus(
                   success: () => sendingLoader = false,
                   error: () => sendingLoader = false);
@@ -201,5 +203,10 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
     }
 
     isUserRegister = true;
+  }
+
+  @action
+  clearUserRegister() {
+    isUserRegister =false;
   }
 }

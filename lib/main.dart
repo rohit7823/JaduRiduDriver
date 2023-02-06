@@ -83,6 +83,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     sharedStore = SharedStore();
     super.initState();
+
+    _disposers = [
+
+    ];
   }
 
   @override
@@ -109,7 +113,6 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              //navigatorKey: AppModule.alice.getNavigatorKey(),
               localizationsDelegates: context.localizationDelegates,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,
@@ -125,6 +128,8 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+
 }
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {

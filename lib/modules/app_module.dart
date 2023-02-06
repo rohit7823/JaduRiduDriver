@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
@@ -118,12 +119,6 @@ final dependency = GetIt.instance;
 class AppModule {
   AppModule._();
 
-  /*static final alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    darkTheme: false,
-  );*/
-
   static init() async {
     final sharedPrefs = await SharedPreferences.getInstance();
     dependency.registerLazySingleton<Storage>(() => StorageImpl(sharedPrefs));
@@ -142,7 +137,6 @@ class AppModule {
 
     await ApiClientConfiguration.init(env.apiKey, env.staticBaseUrl);
     final dio = Dio(ApiClientConfiguration.initialConfiguration);
-    //dio.interceptors.add(alice.getDioInterceptor());
 
     dependency.registerLazySingleton<ImagePicker>(() => imagePicker);
 

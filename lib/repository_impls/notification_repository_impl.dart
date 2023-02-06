@@ -10,27 +10,29 @@ import 'package:jadu_ride_driver/utills/extensions.dart';
 import '../utills/api_client_configuration.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
-
-
   final Dio _dio;
   late final NotificationsApi _notificationsApi;
+
   NotificationRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _notificationsApi = NotificationsApi(_dio);
   }
 
-
-
   @override
-  Future<Resource<GetNotificationResponse>>getNotificationSummery(String userInputId) async {
+  Future<Resource<GetNotificationResponse>> getNotificationSummery(
+      String userInputId) async {
     return _notificationsApi.api(userInputId).handleResponse<GetNotificationResponse>();
 
 //GetAmountTransferredResponse
     /*await Future.delayed(const Duration(seconds: 2));
     return Success(GetNotificationResponse(
-        status: true, message: "Success",
-        notificationlist: List.generate(4, (index) => NotificationResponseClass(
-            time: "04:35", info: "Your bookings has been completed", imagepath: "assets/images/tick.png"))));*/
+        status: true,
+        message: "Success",
+        notifications: List.generate(
+            4,
+            (index) => NotificationResponseClass(
+                time: "04:35",
+                info: "Your bookings has been completed",
+                imagepath: "assets/images/tick.png"))));*/
   }
-
 }

@@ -142,6 +142,17 @@ mixin _$VerifyOtpStore on _VerifyOtpScreenStore, Store {
   }
 
   @override
+  dynamic clearUserRegister() {
+    final _$actionInfo = _$_VerifyOtpScreenStoreActionController.startAction(
+        name: '_VerifyOtpScreenStore.clearUserRegister');
+    try {
+      return super.clearUserRegister();
+    } finally {
+      _$_VerifyOtpScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 reSendingOtpLoader: ${reSendingOtpLoader},

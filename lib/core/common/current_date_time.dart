@@ -7,7 +7,7 @@ class GetDateState {
 
   static String getCurrentDate() {
     var today = DateTime.now();
-    var dateFormat = DateFormat('${today.day}-${today.month}-${today.year}');
+    var dateFormat = DateFormat('${today.year}-${today.month}-${today.day}');
     String dats = dateFormat.format(today);
     return dats;
   }

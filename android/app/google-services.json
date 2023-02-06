@@ -29,6 +29,13 @@
             {
               "client_id": "505827533331-s24qjeljdvt527s2iid90a8unkhou6v5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "505827533331-v0m58nik3cnba22q06u0m233r7jbttdc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jaduRideDriver"
+              }
             }
           ]
         }
