@@ -50,8 +50,8 @@ class _CurrentBalanceDetailsScreenState
   @override
   void initState() {
     currentBalanceStore = CurrentBalanceStore();
-    currentBalanceStore.datelistItem();
     currentBalanceStore.currentDate();
+    currentBalanceStore.datelistItem();
     _dialogController =
         DialogController(dialog: PaymentDialog(buildContext: context));
     super.initState();

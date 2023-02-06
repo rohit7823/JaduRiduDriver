@@ -16,6 +16,7 @@ import '../ui/theme.dart';
 
 class LoginRegisterScreen extends StatefulWidget {
   SharedStore sharedStore;
+
   LoginRegisterScreen({Key? key, required this.sharedStore}) : super(key: key);
 
   @override
@@ -27,6 +28,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   SharedStore sharedStore;
   late final LRStore _store;
   late final List<ReactionDisposer> _disposers;
+
   _LoginRegisterScreenState({required this.sharedStore});
 
   @override
@@ -69,10 +71,10 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
             flex: 5,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child:sharedStore.loginRegistrationData != null? FittedBox(
-                child: SvgPicture.network(
-                    sharedStore.loginRegistrationData?.coverImage??''),
-              ) : const SizedBox.shrink(),
+              child: sharedStore.loginRegistrationData != null
+                  ? SvgPicture.network(
+                      sharedStore.loginRegistrationData?.coverImage ?? '')
+                  : const SizedBox.shrink(),
             )),
         Expanded(
             flex: 5,
@@ -83,21 +85,24 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                   if(sharedStore.loginRegistrationData != null) FittedBox(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 0.03.sw),
-                        child: Text(sharedStore.loginRegistrationData!.heading,
-                            style: AppTextStyle.introHeadingStyle),
+                    if (sharedStore.loginRegistrationData != null)
+                      FittedBox(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 0.03.sw),
+                          child: Text(
+                              sharedStore.loginRegistrationData!.heading,
+                              style: AppTextStyle.introHeadingStyle),
+                        ),
                       ),
-                    ),
-                    if(sharedStore.loginRegistrationData != null)Padding(
-                      padding: EdgeInsets.only(bottom: 0.05.sw),
-                      child: Text(
-                          sharedStore.loginRegistrationData!.description
-                              .replaceFirst(",", "\n"),
-                          style: AppTextStyle.bodyTextStyle,
-                          textAlign: TextAlign.center),
-                    ),
+                    if (sharedStore.loginRegistrationData != null)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 0.05.sw),
+                        child: Text(
+                            sharedStore.loginRegistrationData!.description
+                                .replaceFirst(",", "\n"),
+                            style: AppTextStyle.bodyTextStyle,
+                            textAlign: TextAlign.center),
+                      ),
                     FittedBox(
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 0.04.sw),

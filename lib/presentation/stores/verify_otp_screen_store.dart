@@ -204,4 +204,9 @@ abstract class _VerifyOtpScreenStore extends AppNavigator with Store {
 
     isUserRegister = true;
   }
+
+  @action
+  clearUserRegister() {
+    isUserRegister =false;
+  }
 }

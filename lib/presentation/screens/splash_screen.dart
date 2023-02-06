@@ -21,6 +21,9 @@ import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../helpers_impls/my_dialog_impl.dart';
+import '../../utills/dialog_controller.dart';
+import '../custom_widgets/disclosure_dialog.dart';
 import '../ui/image_assets.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -39,16 +42,19 @@ class _SplashScreenState extends State<SplashScreen>
   SharedStore sharedStore;
   late final List<ReactionDisposer> _disposers;
   late final SplashStore _store;
+  late final DialogController _dialogController;
 
   @override
   void initState() {
     _store = SplashStore();
+    _dialogController =
+        DialogController(dialog: MyDialogImpl(buildContext: context));
     WidgetsBinding.instance.addObserver(this);
     super.initState();
 
     _disposers = [
       reaction((p0) => _store.dialogManager.currentState, (p0) {
-        if (p0 is DialogState && p0 == DialogState.displaying) {
+        if (p0 == DialogState.displaying) {
           _showAppUpdatePopUp(_store.dialogManager.data!);
         }
       }),
@@ -72,12 +78,28 @@ class _SplashScreenState extends State<SplashScreen>
         }
       }),
       reaction((p0) => sharedStore.dialogManager.currentErrorState, (p0) {
-        if (p0 is DialogState && p0 == DialogState.displaying) {
+        if (p0 == DialogState.displaying) {
           debugPrint("introDataError: ${sharedStore.dialogManager.errorData!}");
           _showErrorPopUp(sharedStore.dialogManager.errorData!,
               callback: sharedStore.onIntroError);
         }
-      })
+      }),
+      reaction((p0) => sharedStore.dialogManager.disclosureState, (p0) {
+        if (p0 == DialogState.displaying) {
+          showDisclosureDialog(
+              context,
+              sharedStore.dialogManager.disclosureData,
+              onEvent: sharedStore.onDisclosureEvent
+          );
+        }
+      }),
+      reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
+        if (p0 is DialogState && p0 == DialogState.displaying) {
+          _dialogController.show(widget.sharedStore.dialogManager.data!, p0,
+              close: widget.sharedStore.dialogManager.closeDialog,
+              positive: widget.sharedStore.onAction);
+        }
+      }),
     ];
   }
 
@@ -179,6 +201,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print("==============${state.name}");
+    sharedStore.retrieveLocation();
   }
 
   Widget _appLogo() {

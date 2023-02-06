@@ -47,7 +47,6 @@ class _CarInsideApi implements CarInsideApi {
               '/driver/users/${userId}/document/carInside',
               queryParameters: queryParameters,
               data: _data,
-              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadInsideCarResponse.fromJson(_result.data!);

@@ -53,10 +53,11 @@ class _DriverLicenseApi implements DriverLicenseApi {
       contentType: 'multipart/form-data',
     )
             .compose(
-                _dio.options, '/driver/users/${userId}/document/vehicleLicence',
-                queryParameters: queryParameters,
-                data: _data,
-                onSendProgress: uploading)
+              _dio.options,
+              '/driver/users/${userId}/document/vehicleLicence',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadDriverLicenseResponse.fromJson(_result.data!);
     return value;

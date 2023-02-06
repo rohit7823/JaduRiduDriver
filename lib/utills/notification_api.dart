@@ -63,10 +63,10 @@ class NotificationApi {
     await _notification.initialize(
         InitializationSettings(
             android: AndroidInitializationSettings(appIcon),
-            iOS: const IOSInitializationSettings()),
-        onSelectNotification: (payload) {
+            iOS: const DarwinInitializationSettings()),
+        onDidReceiveNotificationResponse: (payload) {
       debugPrint("NotificationPayloadClicked: $payload");
-      behaviorSubjects.sink.add(payload);
+      behaviorSubjects.sink.add(payload.payload);
     });
   }
 

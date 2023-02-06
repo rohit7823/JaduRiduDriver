@@ -9,6 +9,7 @@ import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
+import 'package:jadu_ride_driver/presentation/custom_widgets/disclosure_dialog.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/my_app_bar.dart';
 import 'package:jadu_ride_driver/presentation/service/ride_direction_foreground_service.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
@@ -20,6 +21,9 @@ import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../core/common/alert_action.dart';
+import '../../core/common/alert_data.dart';
 
 class ApplicationSubmittedScreen extends StatefulWidget {
   final SharedStore sharedStore;
@@ -54,6 +58,15 @@ class _ApplicationSubmittedScreenState
           debugPrint("MyDebug" + p0.option.toString());
           ChangeScreen.to(context, p0.screen,
               option: p0.option, onComplete: widget.sharedStore.clear);
+        }
+      }),
+      reaction((p0) => widget.sharedStore.dialogManager.disclosureState, (p0) {
+        if (p0 == DialogState.displaying) {
+          showDisclosureDialog(
+            context,
+            widget.sharedStore.dialogManager.disclosureData,
+            onEvent: widget.sharedStore.onDisclosureEvent
+          );
         }
       })
     ];
@@ -119,4 +132,6 @@ class _ApplicationSubmittedScreenState
       ),
     );
   }
+
+
 }

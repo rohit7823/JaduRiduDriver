@@ -37,6 +37,13 @@ mixin _$DialogManager on _DialogManager, Store {
           Computed<DialogState>(() => super.datePickerState,
               name: '_DialogManager.datePickerState'))
       .value;
+  Computed<DialogState>? _$disclosureStateComputed;
+
+  @override
+  DialogState get disclosureState => (_$disclosureStateComputed ??=
+          Computed<DialogState>(() => super.disclosureState,
+              name: '_DialogManager.disclosureState'))
+      .value;
 
   late final _$_stateAtom =
       Atom(name: '_DialogManager._state', context: context);
@@ -102,6 +109,22 @@ mixin _$DialogManager on _DialogManager, Store {
     });
   }
 
+  late final _$_disclosureStateAtom =
+      Atom(name: '_DialogManager._disclosureState', context: context);
+
+  @override
+  DialogState get _disclosureState {
+    _$_disclosureStateAtom.reportRead();
+    return super._disclosureState;
+  }
+
+  @override
+  set _disclosureState(DialogState value) {
+    _$_disclosureStateAtom.reportWrite(value, super._disclosureState, () {
+      super._disclosureState = value;
+    });
+  }
+
   late final _$dataAtom = Atom(name: '_DialogManager.data', context: context);
 
   @override
@@ -130,6 +153,22 @@ mixin _$DialogManager on _DialogManager, Store {
   set errorData(AlertData<dynamic>? value) {
     _$errorDataAtom.reportWrite(value, super.errorData, () {
       super.errorData = value;
+    });
+  }
+
+  late final _$disclosureDataAtom =
+      Atom(name: '_DialogManager.disclosureData', context: context);
+
+  @override
+  AlertData<dynamic>? get disclosureData {
+    _$disclosureDataAtom.reportRead();
+    return super.disclosureData;
+  }
+
+  @override
+  set disclosureData(AlertData<dynamic>? value) {
+    _$disclosureDataAtom.reportWrite(value, super.disclosureData, () {
+      super.disclosureData = value;
     });
   }
 
@@ -227,14 +266,39 @@ mixin _$DialogManager on _DialogManager, Store {
   }
 
   @override
+  dynamic initDisclosureMsg(AlertData<dynamic> data,
+      {DialogState dState = DialogState.displaying}) {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.initDisclosureMsg');
+    try {
+      return super.initDisclosureMsg(data, dState: dState);
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic closeDisclosure() {
+    final _$actionInfo = _$_DialogManagerActionController.startAction(
+        name: '_DialogManager.closeDisclosure');
+    try {
+      return super.closeDisclosure();
+    } finally {
+      _$_DialogManagerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 data: ${data},
 errorData: ${errorData},
+disclosureData: ${disclosureData},
 currentState: ${currentState},
 currentErrorState: ${currentErrorState},
 filePickerState: ${filePickerState},
-datePickerState: ${datePickerState}
+datePickerState: ${datePickerState},
+disclosureState: ${disclosureState}
     ''';
   }
 }

@@ -32,10 +32,19 @@ abstract class _DialogManager with Store {
   DialogState get datePickerState => _datePicker;
 
   @observable
+  DialogState _disclosureState = DialogState.notDisplaying;
+
+  @computed
+  DialogState get disclosureState => _disclosureState;
+
+  @observable
   AlertData? data;
 
   @observable
   AlertData? errorData;
+
+  @observable
+  AlertData? disclosureData;
 
   @action
   initData(AlertData alertData, {DialogState state = DialogState.displaying}) {
@@ -82,5 +91,18 @@ abstract class _DialogManager with Store {
   @action
   closeErrorDialog() {
     _errorState = DialogState.notDisplaying;
+  }
+
+  @action
+  initDisclosureMsg(AlertData data, {DialogState dState = DialogState.displaying}) {
+      disclosureData = data;
+      if(_disclosureState == DialogState.notDisplaying) {
+        _disclosureState = dState;
+      }
+  }
+
+  @action
+  closeDisclosure() {
+    _disclosureState = DialogState.notDisplaying;
   }
 }

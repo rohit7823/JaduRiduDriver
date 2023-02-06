@@ -148,7 +148,6 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
 
 
 
-
   @action
   onSelectDate(DateTime? selected) {
     if (selected != null) {

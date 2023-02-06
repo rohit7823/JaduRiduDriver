@@ -29,7 +29,8 @@ class _BaseUrlApi implements BaseUrlApi {
       method: 'GET',
       headers: _headers,
       extra: _extra,
-    ).compose(
+    )
+            .compose(
               _dio.options,
               '/driver/baseUrl',
               queryParameters: queryParameters,

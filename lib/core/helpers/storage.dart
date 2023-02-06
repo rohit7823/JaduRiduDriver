@@ -22,4 +22,7 @@ abstract class Storage {
 
   setAccountStatus(String status);
   String accountStatus();
+
+  locationDisclosureStatus(bool status);
+  bool disclosureStatus();
 }

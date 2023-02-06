@@ -65,4 +65,16 @@ class AppLocationService implements LocationService {
       return isOpened;
     }
   }
+
+  @override
+  Future<bool> checkIfPermissionGranted() async {
+    var status = await Geolocator.checkPermission();
+
+    if (status == LocationPermission.always ||
+        status == LocationPermission.whileInUse) {
+      return true;
+    }
+
+    return false;
+  }
 }
