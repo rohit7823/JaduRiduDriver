@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
         }
       }),
       reaction((p0) => _store.batchCall, (p0) {
-        if (p0 is BatchCallCommand && p0 == BatchCallCommand.initiate) {
+        if (p0 == BatchCallCommand.initiate) {
           sharedStore.initiateBatchCall();
         }
       }),
@@ -201,7 +201,9 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print("==============${state.name}");
-    sharedStore.retrieveLocation();
+    if(state == AppLifecycleState.resumed) {
+      _store.getBaseUrl();
+    }
   }
 
   Widget _appLogo() {

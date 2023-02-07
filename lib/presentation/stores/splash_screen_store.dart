@@ -38,11 +38,11 @@ abstract class _SplashScreenStore with Store, CheckInternet {
 
   _SplashScreenStore() {
     _initPackageInfo();
-    _getBaseUrl();
+    getBaseUrl();
     checkNow((connectivityState) {
       switch (connectivityState) {
         case ConnectivityState.Gained:
-          _getBaseUrl();
+          getBaseUrl();
           _changeConnectivity(connectivityState);
           break;
         case ConnectivityState.Gone:
@@ -66,7 +66,7 @@ abstract class _SplashScreenStore with Store, CheckInternet {
   }
 
   @action
-  _getBaseUrl() async {
+  getBaseUrl() async {
     var response = await _repository.getBaseUrl();
     if (response is Success) {
       var data = response.data;
@@ -135,6 +135,6 @@ abstract class _SplashScreenStore with Store, CheckInternet {
 
   onErrorRetry() {
     dialogManager.closeErrorDialog();
-    _getBaseUrl();
+    getBaseUrl();
   }
 }

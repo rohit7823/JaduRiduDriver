@@ -86,6 +86,8 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   StreamSubscription? streamDisposer;
 
+  StreamSubscription? checkPermissionDisposer;
+
   Position? currentLocation;
 
   @observable
@@ -270,7 +272,6 @@ abstract class _SharedStore extends AppNavigator with Store {
     gettingDataLoader = true;
     _showProminentDisclosureDialog();
   }
-
 
   onAction(AlertAction? action) {
     if (action == AlertAction.enableGps) {
@@ -571,31 +572,75 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   void _showProminentDisclosureDialog() async {
     var status = await _locationService.checkIfPermissionGranted();
-    if(!status) {
-      dialogManager.initDisclosureMsg(
-          AlertData(
-              StringProvider.locationDisclosure,
-              null,
-              StringProvider.appId,
-              StringProvider.disclosureMsg,
-              StringProvider.accept,
-              StringProvider.decline,
-              null,
-              AlertBehaviour(
-                  option: AlertOption.none,
-                  action: AlertAction.locationDisclosure,
-                  isDismissable: false
-              )
-          )
-      );
+    if (!status) {
+      dialogManager.initDisclosureMsg(AlertData(
+          StringProvider.locationDisclosure,
+          null,
+          StringProvider.appId,
+          StringProvider.disclosureMsg,
+          StringProvider.accept,
+          StringProvider.decline,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none,
+              action: AlertAction.locationDisclosure,
+              isDismissable: false)));
     } else {
       retrieveLocation();
     }
   }
 
+  checkLocationPermission() async {
+    checkPermissionDisposer = _locationService.checkPermission().listen((event) async {
+      if (event == GpsStatus.disabled) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.enableGpsMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.invokeOnBarrier,
+                isDismissable: false,
+                action: AlertAction.enableGps)));
+      } else if (event == LocationPermissionStatus.showRationale) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.permissionRationaleMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none,
+                action: AlertAction.locationPermissionRationale)));
+      } else if (event == LocationPermissionStatus.openSetting) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.locationDeniedForever,
+            StringProvider.appSetting,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none, action: AlertAction.enableGps)));
+      } else {
+        currentLocation = await _locationService.getCurrentLocation();
+        checkPermissionDisposer?.cancel();
+      }
+    });
+  }
+
   onDisclosureEvent(AlertAction? action, String tag) {
-    if(action == AlertAction.locationDisclosure) {
-      if(tag == StringProvider.accept) {
+    if (action == AlertAction.locationDisclosure) {
+      if (tag == StringProvider.accept) {
         retrieveLocation();
       }
     }

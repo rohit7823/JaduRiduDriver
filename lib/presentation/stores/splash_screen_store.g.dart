@@ -69,8 +69,8 @@ mixin _$SplashStore on _SplashScreenStore, Store {
       AsyncAction('_SplashScreenStore._getBaseUrl', context: context);
 
   @override
-  Future _getBaseUrl() {
-    return _$_getBaseUrlAsyncAction.run(() => super._getBaseUrl());
+  Future getBaseUrl() {
+    return _$_getBaseUrlAsyncAction.run(() => super.getBaseUrl());
   }
 
   late final _$_checkAppVersionAsyncAction =
