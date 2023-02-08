@@ -47,6 +47,7 @@ class _RegistrationCertificateApi implements RegistrationCertificateApi {
               '/driver/users/${userId}/document/rc',
               queryParameters: queryParameters,
               data: _data,
+          onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadRegistrationCertificateResponse.fromJson(_result.data!);
