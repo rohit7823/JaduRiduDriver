@@ -47,7 +47,6 @@ class _RightSideExteriorApi implements RightSideExteriorApi {
               '/driver/users/${userId}/document/rightExterior',
               queryParameters: queryParameters,
               data: _data,
-          onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadExteriorResponse.fromJson(_result.data!);

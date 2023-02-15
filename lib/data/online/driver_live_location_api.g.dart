@@ -40,7 +40,6 @@ class _DriverLiveLocationApi implements DriverLiveLocationApi {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

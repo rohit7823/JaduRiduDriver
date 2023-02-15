@@ -931,6 +931,10 @@ class StringProvider {
 
   static const accept = "ACCEPT";
 
+  static const noIncentivesFoundYet = "No Incentives Found Yet!!";
+
+  static const dropOff = "DROP OFF";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

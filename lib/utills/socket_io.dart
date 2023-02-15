@@ -16,7 +16,7 @@ class SocketIO {
   SocketIO._();
 
   static init({bool autoConnect = false, required String userId}) {
-    _socketClient = soc.io("http://18.143.118.7:3000", <String, dynamic>{
+    _socketClient = soc.io("https://node.jaduride.com", <String, dynamic>{
       'autoConnect': autoConnect,
       'transports': ['websocket'],
       'reconnection': true,

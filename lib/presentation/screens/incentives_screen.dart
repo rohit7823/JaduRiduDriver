@@ -76,9 +76,14 @@ class _IncentivesScreenState extends State<IncentivesScreen> {
             child: SizedBox(
                 height: 0.18.sw,
                 width: 0.18.sw,
-                child: CircularProgressIndicator()),
+                child: const CircularProgressIndicator()),
           );
         } else {
+          if(incentivesStore.incentiveList.isEmpty) {
+            return Center(
+              child: StringProvider.noIncentivesFoundYet.text(),
+            );
+          }
           return ListView.separated(
             padding:
                 EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),

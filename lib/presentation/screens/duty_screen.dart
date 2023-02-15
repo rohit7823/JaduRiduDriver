@@ -292,10 +292,13 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             widget.sharedStore.driverBookings.vehicleType,
                         pickUpLocation:
                             widget.sharedStore.driverBookings.pickUpLocation,
+                        dropLocation:
+                            widget.sharedStore.driverBookings.dropLocation,
                         onPass: widget.sharedStore.onPass,
                         onOkay: widget.sharedStore.onOkay,
                         soundUrl: widget
                             .sharedStore.driverBookings.bookingAlertSoundUrl,
+                        estimateFare: widget.sharedStore.driverBookings.fare,
                       )
                     : const SizedBox.shrink(),
               ),

@@ -117,7 +117,7 @@ class _CurrentBalanceDetailsScreenState
         ),
         body: Column(
           children: [
-            expand(flex: 4, child: _upperSideContent()),
+            expand(flex: 3, child: _upperSideContent()),
             expand(flex: 7, child: _lowerSideContent())
           ],
         ),
@@ -126,83 +126,62 @@ class _CurrentBalanceDetailsScreenState
   }
 
   Widget _upperSideContent() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
+    return Column(
       children: [
-        Column(
+        expand(flex: 6, child: Container(
+          decoration: const BoxDecoration(color: AppColors.primary),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StringProvider.currentBalanceTitle
+                  .text(AppTextStyle.currentBalanceTitle),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  expand(
+                      flex: 2,
+                      child: Observer(
+                          builder: (BuildContext context) =>
+                          currentBalanceStore.amount != null
+                              ? Text(
+                            "${currentBalanceStore.amount}",
+                            style: AppTextStyle
+                                .currentBalanceDetails,
+                          )
+                              : const Text("fetching..."))),
+                  expand(
+                      flex: 1,
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: SvgPicture.asset(ImageAssets.balanceCar)))
+                ],
+              )
+            ],
+          ).paddings(horizontal: 0.05.sw),
+        )),
+        expand(flex: 3, child: Stack(
+          alignment: Alignment.center,
           children: [
-            Expanded(
-              flex: 8,
-              child: Container(
-                decoration: BoxDecoration(color: AppColors.primary),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        flex: 8,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 0.07.sw, horizontal: 0.06.sw),
-                            child: fitBox(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  StringProvider.currentBalanceTitle
-                                      .text(AppTextStyle.currentBalanceTitle),
-                                  Row(
-                                    children: [
-                                      Observer(
-                                          builder: (BuildContext context) =>
-                                              currentBalanceStore.amount != null
-                                                  ? Text(
-                                                      "${currentBalanceStore.amount}",
-                                                      style: AppTextStyle
-                                                        .currentBalanceDetails,
-                                                    )
-                                                  : Text("fetching...")),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 3,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.04.sw, horizontal: 0.05.sw),
-                          child: fitBox(
-                              child: SvgPicture.asset(ImageAssets.balanceCar)),
-                        ))
-                  ],
-                ),
-              ),
+            Column(
+              children: [
+                expand(flex: 1, child: Container(color: AppColors.primary)),
+                expand(flex: 1, child: Container(color: AppColors.white)),
+              ],
             ),
-            Expanded(
-                flex: 2,
-                child: Container(
-                  color: AppColors.white,
-                ))
+            Observer(
+              builder: (context) => ElevatedButton(
+                onPressed: currentBalanceStore.openingPaymentGatewayLoader
+                    ? null
+                    : currentBalanceStore.onClickRefillWallet,
+                style: AppButtonThemes.customdefaultStyle.copyWith(
+                    backgroundColor:
+                    MaterialStateProperty.all(AppColors.primaryVariant)),
+                child: StringProvider.rechargeNow
+                    .text(AppTextStyle.partnerButtonTxt),
+              ).paddings(horizontal: 0.25.sw),
+            ),
           ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.06.sw, horizontal: 0.25.sw),
-          child: Observer(
-            builder: (context) => ElevatedButton(
-              onPressed: currentBalanceStore.openingPaymentGatewayLoader
-                  ? null
-                  : currentBalanceStore.onClickRefillWallet,
-              style: AppButtonThemes.customdefaultStyle.copyWith(
-                  backgroundColor:
-                      MaterialStateProperty.all(AppColors.primaryVariant)),
-              child: StringProvider.rechargeNow
-                  .text(AppTextStyle.partnerButtonTxt),
-            ),
-          ),
-        ),
+        )),
       ],
     );
   }
@@ -335,48 +314,47 @@ class _CurrentBalanceDetailsScreenState
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 0.02.sw),
-              child: Observer(
-                  builder: (BuildContext context){
-                    if(currentBalanceStore.datesSelectedListLoader){
-                      return Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 0.15.sw),
-                          child: SizedBox(
-                              height: 0.10.sh,
-                              width: 0.10.sh,
-                              child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 0.05.sw, horizontal: 0.05.sw),
-                                  child: const CircularProgressIndicator())),
-                        ),
-                      );
-                    }else{
-                       return currentBalanceStore.currentBalanceHistory.isEmpty ?
-                      Center(child: Text("No Transaction",
-                        style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),)
-
-                          : ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.05.sw, horizontal: 0.05.sw),
-                        itemCount:
-                        currentBalanceStore.currentBalanceHistory.length,
-                        itemBuilder: (context, index) => listItem(index),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            separatedBox(),
-                      );
-                    }
-
-
-
-
+              child: Observer(builder: (BuildContext context) {
+                if (currentBalanceStore.datesSelectedListLoader) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 0.15.sw),
+                      child: SizedBox(
+                          height: 0.10.sh,
+                          width: 0.10.sh,
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0.05.sw, horizontal: 0.05.sw),
+                              child: const CircularProgressIndicator())),
+                    ),
+                  );
+                } else {
+                  return currentBalanceStore.currentBalanceHistory.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No Transaction",
+                            style: TextStyle(
+                                fontSize: 25.sp, color: AppColors.refer),
+                          ),
+                        )
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.05.sw, horizontal: 0.05.sw),
+                          itemCount:
+                              currentBalanceStore.currentBalanceHistory.length,
+                          itemBuilder: (context, index) => listItem(index),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              separatedBox(),
+                        );
+                }
               }),
             ),
           ),
         ),
       ],
-    );
+    ).paddings(top: 0.03.sw);
   }
 
   Widget listItem(int index) {

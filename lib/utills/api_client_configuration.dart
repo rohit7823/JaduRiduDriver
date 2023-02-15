@@ -22,7 +22,7 @@ class ApiClientConfiguration {
   static BaseOptions initialConfiguration = BaseOptions(
       baseUrl: _staticBaseUrl ?? "",
       followRedirects: true,
-      connectTimeout: 10000,
+      connectTimeout: const Duration(seconds: 10000),
       contentType: "application/json",
       responseType: ResponseType.json,
       headers: {
@@ -35,7 +35,7 @@ class ApiClientConfiguration {
       baseUrl: dependency<Storage>().baseUrl(),
       followRedirects: true,
       contentType: "application/json",
-      connectTimeout: 10000,
+      connectTimeout: const Duration(seconds: 5000),
       headers: {
         AppConstants.xApiKey: _apiKey ?? "",
         AppConstants.platform: Global.getPlatform(),

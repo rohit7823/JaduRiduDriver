@@ -179,17 +179,21 @@ extension MyApiCall on Future<BusinessObject> {
       return Success(result as R);
     } on DioError catch (ex) {
       switch (ex.type) {
-        case DioErrorType.connectTimeout:
+        case DioErrorType.connectionTimeout:
+          return Error(message: ex.message);
+        case DioErrorType.badCertificate:
+          return Error(message: ex.message);
+        case DioErrorType.badResponse:
+          return Error(message: ex.message);
+        case DioErrorType.connectionError:
+          return Error(message: ex.message);
+        case DioErrorType.unknown:
           return Error(message: ex.message);
         case DioErrorType.sendTimeout:
-          return Error(message: ex.message);
+          return Error(message: ex.message);break;
         case DioErrorType.receiveTimeout:
           return Error(message: ex.message);
-        case DioErrorType.response:
-          return Error(message: ex.message);
         case DioErrorType.cancel:
-          return Error(message: ex.message);
-        case DioErrorType.other:
           return Error(message: ex.message);
       }
     }

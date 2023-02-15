@@ -47,8 +47,7 @@ dependencies:
   dotted_border: ^2.0.0+2
   image_picker: ^0.8.5+3
   image_cropper: ^3.0.0
-  dio: ^4.0.6
-  retrofit: ^3.0.1+1
+  retrofit: ^4.0.1
   built_value: ^8.3.3
   json_annotation: ^4.5.0
   platform_device_id: ^1.0.1
@@ -106,7 +105,7 @@ dev_dependencies:
   json_serializable: ^6.2.0
   objectbox_generator: any
   build_runner: ^2.1.11
-  retrofit_generator: ^4.0.1
+  retrofit_generator: ^5.0.0
   built_value_generator: ^8.3.3
 
 # For information on the generic Dart part of this file, see the
