@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
@@ -51,7 +52,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         }
       }),
       reaction((p0) => _store.informMessage, (p0) {
-        if (p0 is String && p0.isNotEmpty) {
+        if (p0.isNotEmpty) {
           AppSnackBar.show(context, message: p0, clear: () {
             _store.informMessage = "";
           });
@@ -87,6 +88,14 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
           widget.sharedStore.driverBookings
               .initCurrentBooking(p0.bookingDetails, context);
         }
+      }),
+      reaction((p0) => widget.sharedStore.selectedLocation, (p0) {
+        if(p0 is DetailsResult) {
+          _store.setSelectLocation(p0);
+        } else if(p0 is bool) {
+          _store.setSelectLocation(null);
+        }
+        widget.sharedStore.selectedLocation = null;
       })
     ];
   }
@@ -145,6 +154,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                   border:
                                       Border.all(color: AppColors.lightGray)),
                               child: TabBar(
+
                                 indicator: BoxDecoration(
                                     color: AppColors.primaryVariant,
                                     borderRadius: BorderRadius.circular(20.r)),
@@ -152,6 +162,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                 controller: _store.tabController,
                                 onTap: _store.onDriverStatusChanged,
                                 labelColor: AppColors.white,
+                                automaticIndicatorColorAdjustment: false,
                                 unselectedLabelColor: AppColors.appBlack,
                                 tabs: DriverStatus.values.map((status) {
                                   return fitBox(

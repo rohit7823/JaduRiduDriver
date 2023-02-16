@@ -123,7 +123,7 @@ abstract class _DriverBookingsStore with Store {
 
     if (directionRes != null) {
       pickUpLocation = directionRes.routes.first.legs.last.endAddress;
-      dropLocation = directionRes.routes.last.legs.last.endAddress;
+      dropLocation = directionRes.routes.last.legs.last.startAddress;
       estimatedKm = directionRes.routes.first.legs.last.distance.text;
       eta = directionRes.routes.first.legs.last.duration.text;
     } else {

@@ -1,13 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
+import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/core/helpers/storage.dart';
 import 'package:jadu_ride_driver/core/repository/driver_duty_repository.dart';
+import 'package:jadu_ride_driver/helpers_impls/app_location_service.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
@@ -21,6 +25,7 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final _repository = dependency<DriverDutyRepository>();
   final dialogManager = DialogManager();
+  final _locationService = AppLocationService();
 
   @observable
   String bookingCount = "0";
@@ -47,6 +52,8 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
 
   @observable
   String notificationStatus = "";
+
+  int _selectedStatusIdx = 0;
 
   _DutyScreenStore(this.tabController) {
     _driverStatus();
@@ -87,34 +94,21 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
         errorMsg = response.message ?? "";
       }
     }
-
     tabController.animateTo(selectedStatus.index);
   }
 
   @action
   onDriverStatusChanged(int idx) async {
-    var selectedStatus = DriverStatus.values.elementAt(idx);
-    var userId = _storage.userId();
-
-    var response = await _repository.setStatus(userId, selectedStatus.name);
-
-    if (response is Success) {
-      var data = response.data;
-      switch (data != null && data.status) {
-        case true:
-          if (data!.isUpdated) {
-            //_storage.setDriverStatus(selectedStatus.name);
-            this.selectedStatus = selectedStatus;
-            informMessage = data.message;
-          } else {
-            errorMsg = data.message;
-          }
-          break;
-        default:
-          errorMsg = data?.message ?? "";
-      }
-    } else if (response is Error) {
-      errorMsg = response.message ?? "";
+    _selectedStatusIdx = idx;
+    if (idx == DriverStatus.goTo.index) {
+      var currentPos = await _locationService.getCurrentLocation();
+      var currentLocation = LatLon(currentPos.latitude, currentPos.longitude);
+      onChange(ScreenWithExtras(
+          screen: Screen.selectLocation,
+          argument: currentLocation,
+          option: NavigationOption(option: Option.none)));
+    } else {
+      await changeDriverStatus(idx);
     }
   }
 
@@ -149,5 +143,59 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
 
   onNotificationScreen() {
     onChange(ScreenWithExtras(screen: Screen.notification));
+  }
+
+  @action
+  changeDriverStatus(int idx,
+      {String? goToLocationTxt, Location? goToLocation}) async {
+    var selectedStatus = DriverStatus.values.elementAt(idx);
+    var userId = _storage.userId();
+    var goToDetails = json.encode({
+      "address": goToLocationTxt,
+      "lat": goToLocation?.lat,
+      "lng": goToLocation?.lng
+    });
+    var response =
+        await _repository.setStatus(userId, selectedStatus.name, goToDetails);
+
+    if (response is Success) {
+      var data = response.data;
+      switch (data != null && data.status) {
+        case true:
+          if (data!.isUpdated) {
+            //_storage.setDriverStatus(selectedStatus.name);
+            _changeStatus(selectedStatus);
+
+            informMessage = data.message;
+          } else {
+            errorMsg = data.message;
+          }
+          break;
+        default:
+          errorMsg = data?.message ?? "";
+      }
+    } else if (response is Error) {
+      errorMsg = response.message ?? "";
+    }
+  }
+
+  setSelectLocation(DetailsResult? location) {
+    debugPrint("_selectedStatusIdx $_selectedStatusIdx");
+    if (location != null) {
+      changeDriverStatus(_selectedStatusIdx,
+          goToLocationTxt: location.formattedAddress,
+          goToLocation: location.geometry?.location);
+    } else {
+      if (_selectedStatusIdx != 0) {
+        debugPrint("statusChanging $location");
+        _changeStatus(DriverStatus.values.elementAt(_selectedStatusIdx - 1));
+      }
+    }
+  }
+
+  @action
+  _changeStatus(DriverStatus selectedStatus) {
+    tabController.animateTo(selectedStatus.index);
+    this.selectedStatus = selectedStatus;
   }
 }

@@ -156,6 +156,32 @@ mixin _$DutyStore on _DutyScreenStore, Store {
         .run(() => super._getBookingSummary());
   }
 
+  late final _$changeDriverStatusAsyncAction =
+      AsyncAction('_DutyScreenStore.changeDriverStatus', context: context);
+
+  @override
+  Future changeDriverStatus(int idx,
+      {String? goToLocationTxt, Location? goToLocation}) {
+    return _$changeDriverStatusAsyncAction.run(() => super.changeDriverStatus(
+        idx,
+        goToLocationTxt: goToLocationTxt,
+        goToLocation: goToLocation));
+  }
+
+  late final _$_DutyScreenStoreActionController =
+      ActionController(name: '_DutyScreenStore', context: context);
+
+  @override
+  dynamic _changeStatus(DriverStatus selectedStatus) {
+    final _$actionInfo = _$_DutyScreenStoreActionController.startAction(
+        name: '_DutyScreenStore._changeStatus');
+    try {
+      return super._changeStatus(selectedStatus);
+    } finally {
+      _$_DutyScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

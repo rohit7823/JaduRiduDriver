@@ -148,14 +148,14 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
                     .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                 MyTextInput(
                         onTextChange: _store.driverLicense,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.streetAddress,
                         inputAction: TextInputAction.next,
                         placeholderText: StringProvider.driverLicenseNumber,
                         isMandatory: true)
                     .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                 MyTextInput(
                     onTextChange: _store.repeatedDriverLicense,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.streetAddress,
                     inputAction: TextInputAction.done,
                     placeholderText: StringProvider.reEnterDriverLicenseNumber,
                     isMandatory: true),

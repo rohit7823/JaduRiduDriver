@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
@@ -65,11 +66,13 @@ abstract class _SharedStore extends AppNavigator with Store {
   final dialogManager = DialogManager();
   final _locationService = AppLocationService();
   late final DriverBookingStore driverBookings;
-
   late TokenSender tokenSender;
 
   @observable
   bool gettingIntroDataLoader = false;
+
+  @observable
+  Object? selectedLocation;
 
   List<IntroData> introPageData = [];
 
@@ -644,7 +647,11 @@ abstract class _SharedStore extends AppNavigator with Store {
         retrieveLocation();
       }
     }
-
     dialogManager.closeDisclosure();
+  }
+
+  @action
+  onLocationSelected(Object? data) {
+    selectedLocation = data;
   }
 }

@@ -126,6 +126,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Observer(
             builder: (BuildContext context) {
@@ -137,7 +138,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           SizedBox(width: 0.01.sw),
           Expanded(
-            flex: 4,
+            flex: 6,
             child: Text(
               notificationStore.NList[index].info,
               style: TextStyle(
@@ -146,6 +147,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   fontWeight: FontWeight.w500),
             ),
           ),
+
           Padding(
             padding: EdgeInsets.only(top: 0.01.sw),
             child: Row(

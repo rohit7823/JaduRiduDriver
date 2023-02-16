@@ -142,6 +142,7 @@ class _ManageProfileApi implements ManageProfileApi {
         ),
       ));
     }
+
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileDetailsResponse>(Options(
       method: 'POST',

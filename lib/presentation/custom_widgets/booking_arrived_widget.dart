@@ -108,8 +108,8 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    height: 0.2.sw,
-                    width: 0.2.sw,
+                    height: 0.25.sw,
+                    width: 0.25.sw,
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(100.sw),
@@ -127,11 +127,14 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if(widget.estimateFare != null) Row(
-                    children: [
-                      Text("Approx Fare: ", style: AppTextStyle.pickUpLocationStyle,),
-                      Text(widget.estimateFare!, style: AppTextStyle.pickUpLocationStyle,)
-                    ],
+                  if(widget.estimateFare != null) fitBox(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Approx Fare", style: AppTextStyle.pickUpLocationStyle,),
+                        Text("₹${widget.estimateFare!}", style: AppTextStyle.partnerButtonTxt.copyWith(fontSize: 28.sp),)
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.03.sw),
@@ -233,6 +236,7 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                   .padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
               Column(
                 children: [
+                  const Divider(color: AppColors.white),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -256,7 +260,8 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                       /* "${widget.estimateKm} • ${widget.eta}"
                               .text(AppTextStyle.pickUpLocationStyle),*/
                     ],
-                  ).paddings(bottom: 0.02.sw, horizontal: 0.02.sw),
+                  ).paddings(horizontal: 0.05.sw),
+                  const Divider(color: AppColors.white),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -277,11 +282,12 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                       /*"${widget.estimateKm} • ${widget.eta}"
                               .text(AppTextStyle.pickUpLocationStyle)*/
                     ],
-                  ).paddings(bottom: 0.05.sw, horizontal: 0.02.sw)
+                  ).paddings(horizontal: 0.05.sw),
+                  const Divider(color: AppColors.white),
                 ],
               ),
             ],
-          ).padding(insets: EdgeInsets.only(top: 0.10.sw, bottom: 0.05.sw)),
+          ).padding(insets: EdgeInsets.only(top: 0.03.sw, bottom: 0.05.sw)),
         ),
       ],
     );
