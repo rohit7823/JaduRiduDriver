@@ -90,13 +90,13 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         }
       }),
       reaction((p0) => widget.sharedStore.selectedLocation, (p0) {
-        if(p0 is DetailsResult) {
-          _store.setSelectLocation(p0);
-        } else if(p0 is bool) {
-          _store.setSelectLocation(null);
+        if (p0 is DetailsResult) {
+          _store.setGoToLocation(p0);
+        } else if (p0 is bool) {
+          _store.setGoToLocation(null);
         }
         widget.sharedStore.selectedLocation = null;
-      })
+      }),
     ];
   }
 
@@ -154,7 +154,6 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                   border:
                                       Border.all(color: AppColors.lightGray)),
                               child: TabBar(
-
                                 indicator: BoxDecoration(
                                     color: AppColors.primaryVariant,
                                     borderRadius: BorderRadius.circular(20.r)),
@@ -289,6 +288,42 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                       .onMapCreate(controller, context);
                 },
                 markers: widget.sharedStore.driverBookings.customers.toSet(),
+              ),
+              Observer(
+                builder: (context) => _store.selectedGoToLocation !=
+                        null
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: 0.80.sw,
+                          padding: EdgeInsets.all(0.03.sw),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              boxShadow: allShadow(),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16.r),
+                                  topRight: Radius.circular(16.r))),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              StringProvider.selectedLocation
+                                  .text()
+                                  .paddings(bottom: 0.01.sw),
+                              Text(
+                                _store.selectedGoToLocation!,
+                                style: AppTextStyle.rechargeDoneStyle.copyWith(
+                                    fontWeight: FontWeightManager.medium,
+                                    fontSize: 16.sp),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 400),

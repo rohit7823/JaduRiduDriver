@@ -138,6 +138,14 @@ abstract class _Profile extends AppNavigator with Store {
     ));
   }
 
+  //
+  onManageVehicle() {
+    onChange(ScreenWithExtras(
+        screen: Screen.addAllDetails,
+        argument: NavigateFrom.moreScreen
+    ));
+  }
+
   //log out.......................................
   onLogout() {
     dialogManager.initData(AlertData(

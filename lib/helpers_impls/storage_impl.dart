@@ -73,6 +73,11 @@ class StorageImpl implements Storage {
   }
 
   @override
+  removeDriverStatus() {
+    _pref.remove(Constants.driverStatus);
+  }
+
+  @override
   setDriverStatus(String status) {
     _pref.setString(Constants.driverStatus, status);
   }
@@ -96,4 +101,18 @@ class StorageImpl implements Storage {
   locationDisclosureStatus(bool status) {
     _pref.setBool(Constants.disclosureStatus, status);
   }
+
+  @override
+  String? selectedGoToLocation() => _pref.getString(Constants.selectedGOTOLocation);
+
+  @override
+  setGoToLocation(String? location) {
+    if(location != null) {
+      _pref.setString(Constants.selectedGOTOLocation, location);
+    }
+  }
+
+
+  @override
+  Future<bool> removeSelectedGoToLocation() => _pref.remove(Constants.selectedGOTOLocation);
 }

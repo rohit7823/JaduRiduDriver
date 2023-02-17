@@ -937,6 +937,8 @@ class StringProvider {
 
   static const searchHere = "Search here";
 
+  static const selectedLocation = "Selected GO TO Location";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

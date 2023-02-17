@@ -654,4 +654,21 @@ abstract class _SharedStore extends AppNavigator with Store {
   onLocationSelected(Object? data) {
     selectedLocation = data;
   }
+
+  @action
+  alertOnNecessaryDocumentsExpired() async {
+
+    var response = await _repository.giveAlert(_prefs.userId());
+    if(response is Success) {
+      var data = response.data;
+      switch(data != null && data.status) {
+        case true:
+
+      }
+    } else if(response is Error) {
+
+    }
+
+
+  }
 }

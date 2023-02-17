@@ -141,7 +141,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument,
                 fromScreen: widget.sharedStore.onLocationSelected);
-          } else {
+          } else if(p0.screen == Screen.addAllDetails) {
+            ChangeScreen.to(context, p0.screen,
+                option: p0.option,
+                onComplete: widget.sharedStore.clear,
+                arguments: p0.argument,
+                fromScreen: widget.sharedStore.onLocationSelected);
+          }else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);
           }

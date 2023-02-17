@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
@@ -25,7 +26,8 @@ import 'package:mobx/mobx.dart';
 
 class AddAllDetailsScreen extends StatefulWidget {
   SharedStore sharedStore;
-  AddAllDetailsScreen({Key? key, required this.sharedStore}) : super(key: key);
+  NavigateFrom enteredFrom;
+  AddAllDetailsScreen({Key? key, required this.sharedStore, required this.enteredFrom}) : super(key: key);
 
   @override
   State<AddAllDetailsScreen> createState() => _AddAllDetailsScreenState();
@@ -38,14 +40,14 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
 
   @override
   void initState() {
-    _store = AddAllDetailsStore();
+    _store = AddAllDetailsStore(widget.enteredFrom);
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
     super.initState();
 
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
+        if (p0 != null) {
           ChangeScreen.to(context, p0.screen,
               arguments: p0.argument,
               option: p0.option,
@@ -151,7 +153,7 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
             color: AppColors.lightGray,
             height: 0.05,
           ),
-          expand(
+          if(_store.navigateFrom == NavigateFrom.addVehicle) expand(
               flex: 3,
               child: Align(
                 child: fitBox(

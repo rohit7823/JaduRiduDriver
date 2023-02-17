@@ -206,6 +206,7 @@ class ChangeScreen {
       case Screen.emergencySupportScreen:
         _navigate(
           context,
+
           AppRoute.emergencySupportScreen,
           arguments: arguments,
           onComplete: onComplete,

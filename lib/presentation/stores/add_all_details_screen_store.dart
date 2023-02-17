@@ -5,6 +5,7 @@ import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
@@ -47,7 +48,9 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
   @observable
   bool continueBtn = false;
 
-  _AddAllDetailsScreenStore() {
+  NavigateFrom navigateFrom;
+
+  _AddAllDetailsScreenStore(this.navigateFrom) {
     getInitialData();
   }
 

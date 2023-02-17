@@ -94,7 +94,7 @@ class DefaultNav {
             AddVechicleScreen(sharedStore: sharedStore));
       case AppRoute.allDetails:
         return ScreenTransitions.rightToLeftTransition(
-            AddAllDetailsScreen(sharedStore: sharedStore));
+            AddAllDetailsScreen(sharedStore: sharedStore, enteredFrom: retrievedArgument as NavigateFrom));
       case AppRoute.identifyDetails:
         return ScreenTransitions.bottomToTopTransition(
             const IdentifyDetailsScreen());
@@ -216,7 +216,7 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransition(
             ThankYouEmergencyScreen(totalFare: retrievedArgument as int));
       case AppRoute.selectLocation:
-        return ScreenTransitions.bottomToTopTransition(
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
             SelectLocationScreen(currentLocation: retrievedArgument as LatLon));
       default:
         return null;

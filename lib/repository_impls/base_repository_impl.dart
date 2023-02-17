@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:jadu_ride_driver/core/common/batch_call_apis.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/domain/expired_document_alert.dart';
 import 'package:jadu_ride_driver/core/domain/response/batch_call_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/driver_account_status_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/emergency_places_response.dart';
+import 'package:jadu_ride_driver/core/domain/response/expired_document_alert_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/fcm_token_response.dart';
 import 'package:jadu_ride_driver/core/repository/base_repository.dart';
 import 'package:jadu_ride_driver/data/online/batch_call_api.dart';
@@ -119,5 +122,19 @@ class BaseRepositoryImpl implements BaseRepository {
                     lat: Random().nextDouble().ceilToDouble(),
                     lng: Random().nextDouble().ceilToDouble()),
                 isOpen: index.isEven ? false : true))));*/
+  }
+
+  @override
+  Future<Resource<ExpiredDocumentAlertResponse>> giveAlert(String userId) async {
+    await Future.delayed(const Duration(seconds: 2));
+    return Success(ExpiredDocumentAlertResponse(
+        status: true,
+        message: "Success",
+        documentAlert: ExpiredDocumentAlert(
+          message: "asdafsa",
+          isSkippable: false,
+          key: DetailsStepKey.driverLicense.key
+        )
+    ));
   }
 }
