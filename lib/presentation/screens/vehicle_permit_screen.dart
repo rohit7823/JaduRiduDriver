@@ -149,20 +149,24 @@ class _VehiclePermitScreenState extends State<VehiclePermitScreen> {
                       return DobView(
                         onClick: _store.onChoose,
                         value: _store.selectedDate,
-                        isMandatory: true,
+                        isMandatory: _store.selectedDate != StringProvider.expiry
+                            ? false
+                            : true,
                       ).padding(insets: EdgeInsets.only(bottom: 0.03.sw));
                     },
                   ),
                   StringProvider.pleaseEnterVehiclePermitNumber
                       .text(AppTextStyle.enterDrivingLicNumberStyle)
                       .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
-                  MyTextInput(
-                          onTextChange: _store.onVehiclePermit,
-                          keyboardType: TextInputType.text,
-                          inputAction: TextInputAction.done,
-                          placeholderText: StringProvider.vehiclePermitNumber,
-                          isMandatory: true)
-                      .padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
+                  Observer(
+                    builder: (context) => MyTextInput(
+                        onTextChange: _store.onVehiclePermit,
+                        keyboardType: TextInputType.text,
+                        inputAction: TextInputAction.done,
+                        placeholderText: StringProvider.vehiclePermitNumber,
+                        isMandatory: !_store.permitNumber.isNotEmpty
+                    ).padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
+                  ),
                   GuideLineView(guildLine: StringProvider.imageChooseGuidLine),
                   GuideLineView(guildLine: StringProvider.imageChooseGuidLine2)
                       .padding(insets: EdgeInsets.only(bottom: 0.03.sw)),

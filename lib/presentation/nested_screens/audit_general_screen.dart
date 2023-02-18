@@ -31,6 +31,7 @@ import 'package:mobx/mobx.dart';
 
 class AuditGeneralScreen extends StatefulWidget {
   final Store storeInstance;
+
   const AuditGeneralScreen({Key? key, required this.storeInstance})
       : super(key: key);
 
@@ -170,13 +171,20 @@ class _AuditGeneralScreenState extends State<AuditGeneralScreen> {
               .padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
           Observer(
             builder: (BuildContext context) {
+              var isMandatory = false;
+              if (_auditGeneralStore.requiredStore is ChasisNumberStore) {
+                isMandatory =
+                    (_auditGeneralStore.requiredStore as ChasisNumberStore)
+                        .chasisNumber
+                        .isNotEmpty;
+              }
               return MyTextInput(
                       onTextChange: _auditGeneralStore.onChasisNumber,
                       keyboardType: TextInputType.text,
                       inputAction: TextInputAction.done,
                       initialText: _auditGeneralStore.chasisNumber,
                       placeholderText: StringProvider.chasisNumber,
-                      isMandatory: true)
+                      isMandatory: isMandatory)
                   .padding(insets: EdgeInsets.only(bottom: 0.03.sw));
             },
           ),

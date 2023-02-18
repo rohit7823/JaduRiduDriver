@@ -27,8 +27,9 @@ abstract class _IdentifyQuestionItemModel with Store {
   }
 
   @action
-  selectOption(QuestionOption option) {
+  selectOption(QuestionOption option, bool isUpdated) {
     _option = option;
+    data.isMandatory = !isUpdated;
   }
 
   @action

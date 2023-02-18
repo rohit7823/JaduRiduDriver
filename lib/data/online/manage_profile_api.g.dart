@@ -19,9 +19,15 @@ class _ManageProfileApi implements ManageProfileApi {
   String? baseUrl;
 
   @override
-  Future<DistrictsResponse> districts(stateId) async {
+  Future<DistrictsResponse> districts(
+    stateId,
+    userId,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'state_id': stateId};
+    final queryParameters = <String, dynamic>{
+      r'state_id': stateId,
+      r'userId': userId,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
@@ -42,9 +48,15 @@ class _ManageProfileApi implements ManageProfileApi {
   }
 
   @override
-  Future<CitiesResponse> cities(districtId) async {
+  Future<CitiesResponse> cities(
+    districtId,
+    userId,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'district_id': districtId};
+    final queryParameters = <String, dynamic>{
+      r'district_id': districtId,
+      r'userId': userId,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
@@ -142,7 +154,6 @@ class _ManageProfileApi implements ManageProfileApi {
         ),
       ));
     }
-
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileDetailsResponse>(Options(
       method: 'POST',

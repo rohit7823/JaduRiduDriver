@@ -278,6 +278,16 @@ mixin _$SharedStore on _SharedStore, Store {
     return _$onClickEmergencyAsyncAction.run(() => super.onClickEmergency());
   }
 
+  late final _$alertOnNecessaryDocumentsExpiredAsyncAction = AsyncAction(
+      '_SharedStore.alertOnNecessaryDocumentsExpired',
+      context: context);
+
+  @override
+  Future alertOnNecessaryDocumentsExpired() {
+    return _$alertOnNecessaryDocumentsExpiredAsyncAction
+        .run(() => super.alertOnNecessaryDocumentsExpired());
+  }
+
   late final _$_SharedStoreActionController =
       ActionController(name: '_SharedStore', context: context);
 

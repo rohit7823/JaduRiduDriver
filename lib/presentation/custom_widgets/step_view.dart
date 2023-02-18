@@ -26,9 +26,7 @@ class StepView extends StatelessWidget {
           width: 0.90.sw,
           padding: EdgeInsets.all(0.05.sw),
           decoration: BoxDecoration(
-            color: step.isComplete
-                ? AppColors.appGreen.withOpacity(0.6)
-                : AppColors.white.withOpacity(0.8),
+            color: AppColors.white.withOpacity(0.8),
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: const [
               BoxShadow(
@@ -52,15 +50,15 @@ class StepView extends StatelessWidget {
             children: [
               expand(
                   flex: 9,
-                  child: step.key.toDetailStepName().text(step.isComplete
-                      ? AppTextStyle.detailsTypeItemTextStyle
-                          .copyWith(color: AppColors.white)
-                      : AppTextStyle.detailsTypeItemTextStyle)),
+                  child: step.key.toDetailStepName().text(AppTextStyle.detailsTypeItemTextStyle)),
               expand(
                   flex: 1,
-                  child: Icon(
+                  child: step.isComplete ? Icon(
+                    Icons.check_circle,
+                    color: AppColors.GreenHaze,
+                  ) :  const Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: step.isComplete ? AppColors.white : AppColors.Acadia,
+                    color: AppColors.Acadia,
                   ))
             ],
           ),

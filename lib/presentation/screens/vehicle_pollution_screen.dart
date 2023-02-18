@@ -148,7 +148,9 @@ class _VehiclePollutionState extends State<VehiclePollution> {
                     builder: (BuildContext context) {
                       return DobView(
                           value: _store.selectedDate,
-                          isMandatory: true,
+                          isMandatory: _store.selectedDate != StringProvider.expiry
+                              ? false
+                              : true,
                           onClick: _store.openDatePicker);
                     },
                   ),

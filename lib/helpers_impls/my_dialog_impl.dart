@@ -41,8 +41,9 @@ class MyDialogImpl implements MyDialog {
                         Navigator.pop(buildContext);
                         onPositive?.call((data.data as AlertBehaviour).action);
                       },
-                      child: data.positive!.text(AppTextStyle.dialogBtnStyle)),
-                if (data.negative != null)
+                      child: data.positive!.text(AppTextStyle.dialogBtnStyle)
+                  ),
+                if (data.negative != null && (data.data as AlertBehaviour).isDismissable)
                   TextButton(
                       onPressed: () {
                         Navigator.pop(buildContext);

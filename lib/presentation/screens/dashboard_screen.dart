@@ -39,6 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
     widget.sharedStore.connectToSocket();
+    widget.sharedStore.alertOnNecessaryDocumentsExpired();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
@@ -55,8 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
-      reaction((p0) => widget.sharedStore.dialogManager.currentErrorState,
-          (p0) {
+      reaction((p0) => widget.sharedStore.dialogManager.currentErrorState, (p0) {
         if (p0 == DialogState.displaying) {
           _dialogController.show(
               widget.sharedStore.dialogManager.errorData!, p0,
@@ -141,13 +141,29 @@ class _DashboardScreenState extends State<DashboardScreen>
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument,
                 fromScreen: widget.sharedStore.onLocationSelected);
-          } else if(p0.screen == Screen.addAllDetails) {
+          } else if (p0.screen == Screen.addAllDetails) {
             ChangeScreen.to(context, p0.screen,
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument,
                 fromScreen: widget.sharedStore.onLocationSelected);
-          }else {
+          } else if (p0.screen == Screen.identifyDetails ||
+              p0.screen == Screen.vehicleAudit ||
+              p0.screen == Screen.vehiclePermit ||
+              p0.screen == Screen.panCard ||
+              p0.screen == Screen.vehicleInsurance ||
+              p0.screen == Screen.registrationCertificate ||
+              p0.screen == Screen.profilePicture ||
+              p0.screen == Screen.aadharCard ||
+              p0.screen == Screen.driverLicense ||
+              p0.screen == Screen.paymentDetails ||
+              p0.screen == Screen.vehiclePollution) {
+            ChangeScreen.to(context, p0.screen,
+                arguments: p0.argument,
+                option: p0.option,
+                onComplete:widget.sharedStore.clear,
+            );
+          } else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);
           }

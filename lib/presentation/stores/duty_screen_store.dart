@@ -100,8 +100,8 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
     } else {
       selectedGoToLocation = null;
       await _storage.removeSelectedGoToLocation();
-      _storage.setDriverStatus(DriverStatus.values.elementAt(idx).name);
       await changeDriverStatus(idx);
+      _storage.setDriverStatus(DriverStatus.values.elementAt(idx).name);
     }
   }
 
@@ -158,6 +158,11 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
           if (data!.isUpdated) {
             //_storage.setDriverStatus(selectedStatus.name);
             _changeStatus(selectedStatus);
+            if(goToLocationTxt != null) {
+              selectedGoToLocation = goToLocationTxt;
+              _storage.setGoToLocation(goToLocationTxt);
+            }
+
             informMessage = data.message;
           } else {
             errorMsg = data.message;
@@ -176,8 +181,6 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
     var selected = _storage.driverStatus();
     debugPrint("_selectedStatusIdx $selected");
     if (location != null) {
-      selectedGoToLocation = location.formattedAddress;
-      _storage.setGoToLocation(location.formattedAddress);
       changeDriverStatus(
           DriverStatus.goTo.index,
           goToLocationTxt: location.formattedAddress,

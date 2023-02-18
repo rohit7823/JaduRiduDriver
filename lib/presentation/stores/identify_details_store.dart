@@ -128,7 +128,11 @@ abstract class _IdentifyDetailsStore extends AppNavigator with Store {
     if (alertAction == AlertAction.identifyQuestions) {
       _getQuestions();
     } else if (alertAction == AlertAction.exitFormIdentifyDetails) {
-      onChange(ScreenWithExtras(screen: Screen.addAllDetails));
+      onChange(
+          ScreenWithExtras(
+              screen: Screen.addAllDetails
+          )
+      );
     }
   }
 
@@ -147,7 +151,7 @@ abstract class _IdentifyDetailsStore extends AppNavigator with Store {
         switch (data != null && data.status) {
           case true:
             if (data!.isUpdated) {
-              selectedQuestion.selectOption(option);
+              selectedQuestion.selectOption(option, data.isUpdated);
               mandatoryQuestions.remove(selectedQuestion.data);
             } else {
               informMessage = data.message;

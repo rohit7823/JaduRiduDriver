@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
 import 'package:jadu_ride_driver/presentation/ui/image_assets.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
-
 import '../../core/domain/mobile_number_code.dart';
 import '../../utills/number_textInput_formatter.dart';
 import '../ui/string_provider.dart';

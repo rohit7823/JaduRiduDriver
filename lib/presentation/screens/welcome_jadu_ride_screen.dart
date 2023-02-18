@@ -140,7 +140,7 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                       onTextChange: _store.name,
                       keyboardType: TextInputType.name,
                       inputAction: TextInputAction.next,
-                      isMandatory: true,
+                      isMandatory: !_store.userName.isNotEmpty,
                       placeholderText: StringProvider.enterYourName,
                       initialText: _store.personalDetails != null
                           ? _store.personalDetails!.name
@@ -170,7 +170,7 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                             onTextChange: _store.mobileNumber,
                             isReadOnly: true,
                             codes: _store.codes,
-                            isMandatory: true,
+                            isMandatory: _store.userMobileNumber.isNotEmpty ? false: true,
                             onCodeSelect: _store.onNumberCode,
                             onNumberCleared: _store.mobileNumberCleared,
                             gettingLoader: _store.gettingLoader)
@@ -200,11 +200,11 @@ class _WelcomeJaduRideScreenState extends State<WelcomeJaduRideScreen> {
                       onTextChange: _store.onReferralCode,
                       keyboardType: TextInputType.text,
                       inputAction: TextInputAction.done,
-                      isMandatory: true,
+                      isMandatory: !_store.referralCode.isNotEmpty,
                       placeholderText: StringProvider.referralCode,
                     ).padding(insets: EdgeInsets.only(bottom: 0.06.sw)),
                     TermsAndConditionView(
-                      isMandatory: true,
+                      isMandatory: !_store.isTermsSelected,
                       onClick: _store.termsConditionClicked,
                       isSelected: _store.isTermsSelected,
                     )

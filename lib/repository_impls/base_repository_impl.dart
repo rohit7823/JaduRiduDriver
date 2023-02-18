@@ -133,6 +133,7 @@ class BaseRepositoryImpl implements BaseRepository {
         documentAlert: ExpiredDocumentAlert(
           message: "asdafsa",
           isSkippable: false,
+          giveAlert: false,
           key: DetailsStepKey.driverLicense.key
         )
     ));

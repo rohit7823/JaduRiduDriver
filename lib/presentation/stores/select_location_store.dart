@@ -51,9 +51,8 @@ abstract class _ISelectLocationStore extends AppNavigator with Store {
     if (query.isNotEmpty) {
       var response = await _placesApi.autocomplete.get(query,
           location: location,
-          radius: 50000,
+          radius: 5000,
           components: [Component("country", "ind")],
-          strictbounds: true,
           types: "geocode",
           origin: location);
       switch (response != null && response.status == 'OK') {

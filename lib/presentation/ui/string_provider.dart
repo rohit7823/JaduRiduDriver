@@ -939,6 +939,8 @@ class StringProvider {
 
   static const selectedLocation = "Selected GO TO Location";
 
+  static const reSubmit = "RESUBMIT";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

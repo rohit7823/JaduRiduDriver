@@ -33,5 +33,5 @@ enum AlertAction {
   subtypesalert,
   logout,
   emergencyPlaces,
-  initiateBooking, locationDisclosure, placesApiError;
+  initiateBooking, locationDisclosure, placesApiError, documentExpired;
 }

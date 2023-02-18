@@ -146,19 +146,22 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
                 StringProvider.pleaseEnterDrivingLicenseNumber
                     .text(AppTextStyle.enterDrivingLicNumberStyle)
                     .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
-                MyTextInput(
-                        onTextChange: _store.driverLicense,
-                        keyboardType: TextInputType.streetAddress,
-                        inputAction: TextInputAction.next,
-                        placeholderText: StringProvider.driverLicenseNumber,
-                        isMandatory: true)
-                    .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
-                MyTextInput(
-                    onTextChange: _store.repeatedDriverLicense,
-                    keyboardType: TextInputType.streetAddress,
-                    inputAction: TextInputAction.done,
-                    placeholderText: StringProvider.reEnterDriverLicenseNumber,
-                    isMandatory: true),
+                Observer(
+                  builder: (context) => MyTextInput(
+                      onTextChange: _store.driverLicense,
+                      keyboardType: TextInputType.streetAddress,
+                      inputAction: TextInputAction.next,
+                      placeholderText: StringProvider.driverLicenseNumber,
+                      isMandatory: !_store.license.isNotEmpty),
+                ).padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
+                Observer(
+                  builder: (context) => MyTextInput(
+                      onTextChange: _store.repeatedDriverLicense,
+                      keyboardType: TextInputType.streetAddress,
+                      inputAction: TextInputAction.done,
+                      placeholderText: StringProvider.reEnterDriverLicenseNumber,
+                      isMandatory:!_store.reEnteredLicense.isNotEmpty),
+                ),
                 Observer(
                   builder: (BuildContext context) {
                     return InvalidInput(invalidText: _store.warnMessage);
@@ -173,7 +176,9 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
                     return DobView(
                       value: _store.selectedDate,
                       onClick: _store.openDatePicker,
-                      isMandatory: true,
+                      isMandatory: _store.selectedDate != StringProvider.expiry
+                          ? false
+                          : true,
                     );
                   },
                 ),

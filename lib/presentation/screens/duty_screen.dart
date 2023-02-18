@@ -317,6 +317,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                     fontWeight: FontWeightManager.medium,
                                     fontSize: 16.sp),
                                 maxLines: 2,
+                                textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],

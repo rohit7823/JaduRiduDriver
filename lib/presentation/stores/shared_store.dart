@@ -14,6 +14,7 @@ import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
@@ -22,6 +23,7 @@ import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/domain/expired_document_alert.dart';
 import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/notification_payload.dart';
@@ -277,12 +279,16 @@ abstract class _SharedStore extends AppNavigator with Store {
   }
 
   onAction(AlertAction? action) {
+    debugPrint("action $action");
     if (action == AlertAction.enableGps) {
       _locationService.openSettings();
     } else if (action == AlertAction.locationServiceDisable) {
       _locationService.openSettings();
     } else if (action == AlertAction.emergencyPlaces) {
       //onClickEmergency();
+    } else if(action == AlertAction.documentExpired) {
+
+      navigateToExpairedDocument(action);
     }
   }
 
@@ -594,7 +600,8 @@ abstract class _SharedStore extends AppNavigator with Store {
   }
 
   checkLocationPermission() async {
-    checkPermissionDisposer = _locationService.checkPermission().listen((event) async {
+    checkPermissionDisposer =
+        _locationService.checkPermission().listen((event) async {
       if (event == GpsStatus.disabled) {
         gettingDataLoader = false;
         dialogManager.initData(AlertData(
@@ -655,20 +662,60 @@ abstract class _SharedStore extends AppNavigator with Store {
     selectedLocation = data;
   }
 
+  ExpiredDocumentAlert? _documentAlert;
+
   @action
   alertOnNecessaryDocumentsExpired() async {
-
     var response = await _repository.giveAlert(_prefs.userId());
-    if(response is Success) {
+    if (response is Success) {
       var data = response.data;
-      switch(data != null && data.status) {
+      switch (data != null && data.status) {
         case true:
-
+          if(data!.documentAlert.giveAlert) {
+            _documentAlert = data.documentAlert;
+            dialogManager.initErrorData(AlertData(
+                StringProvider.appName,
+                null,
+                StringProvider.appId,
+                data.documentAlert.message,
+                StringProvider.reSubmit,
+                StringProvider.skip.toUpperCase(),
+                null,
+                AlertBehaviour(
+                    option: AlertOption.noDismissable,
+                    action: AlertAction.documentExpired,
+                    isDismissable: data.documentAlert.isSkippable
+                )
+            ));
+          }
       }
-    } else if(response is Error) {
+    } else if (response is Error) {}
+  }
 
+  navigateToExpairedDocument(AlertAction? action) {
+    var key = _documentAlert?.key ?? "";
+    if (key == DetailsStepKey.identifyDetails.key) {
+      onChange(ScreenWithExtras(screen: Screen.identifyDetails));
+    } else if (key == DetailsStepKey.vehicleAudit.key) {
+      onChange(ScreenWithExtras(screen: Screen.vehicleAudit));
+    } else if (key == DetailsStepKey.vehiclePermit.key) {
+      onChange(ScreenWithExtras(screen: Screen.vehiclePermit));
+    } else if (key == DetailsStepKey.panCard.key) {
+      onChange(ScreenWithExtras(screen: Screen.panCard));
+    } else if (key == DetailsStepKey.vehicleInsurance.key) {
+      onChange(ScreenWithExtras(screen: Screen.vehicleInsurance));
+    } else if (key == DetailsStepKey.registrationCertificate.key) {
+      onChange(ScreenWithExtras(screen: Screen.registrationCertificate));
+    } else if (key == DetailsStepKey.profilePicture.key) {
+      onChange(ScreenWithExtras(screen: Screen.profilePicture));
+    } else if (key == DetailsStepKey.aadharCard.key) {
+      onChange(ScreenWithExtras(screen: Screen.aadharCard));
+    } else if (key == DetailsStepKey.driverLicense.key) {
+      onChange(ScreenWithExtras(screen: Screen.driverLicense));
+    } else if (key == DetailsStepKey.paymentDetails.key) {
+      onChange(ScreenWithExtras(screen: Screen.paymentDetails));
+    } else if (key == DetailsStepKey.vehiclePollution.key) {
+      onChange(ScreenWithExtras(screen: Screen.vehiclePollution));
     }
-
-
   }
 }

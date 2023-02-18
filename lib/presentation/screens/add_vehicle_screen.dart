@@ -157,13 +157,16 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                         .padding(
                             insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),
-                  MyTextInput(
-                      onTextChange: _store.onVehicleNumber,
-                      placeholderText: StringProvider.vehicleNumber,
-                      keyboardType: TextInputType.text,
-                      inputAction: TextInputAction.done,
-                      textCapitalization: TextCapitalization.characters,
-                      isMandatory: true)
+                  Observer(
+                    builder: (context) => MyTextInput(
+                        onTextChange: _store.onVehicleNumber,
+                        placeholderText: StringProvider.vehicleNumber,
+                        keyboardType: TextInputType.text,
+                        inputAction: TextInputAction.done,
+                        textCapitalization: TextCapitalization.characters,
+                        isMandatory: !_store.vehicleNumber.isNotEmpty
+                    ),
+                  )
                 ],
               )),
           expand(
