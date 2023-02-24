@@ -8,9 +8,12 @@ import 'package:jadu_ride_driver/data/online/identify_detail_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
+import '../data/online/prefill_details_api.dart';
+
 class IdentifyDetailsRepositoryImpl implements IdentifyDetailsRepository {
   final Dio _dio;
   late final IdentifyDetailApi _identifyDetailsApi;
+  late final PrefillDetailsApi _prefillDetailsApi;
 
   IdentifyDetailsRepositoryImpl(this._dio) {
     debugPrint(

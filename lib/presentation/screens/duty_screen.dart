@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
+import 'package:jadu_ride_driver/helpers_impls/expired_document_dialog.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/booking_arrived_widget.dart';
@@ -33,6 +34,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
   late final DutyStore _store;
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final DialogController _alertController;
 
   @override
   void initState() {
@@ -40,6 +42,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         TabController(length: DriverStatus.values.length, vsync: this));
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    _alertController =
+        DialogController(dialog: ExpiredDocumentDialog(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
 
@@ -65,6 +69,14 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
               positive: _store.onError);
         }
       }),
+      reaction((p0) => _store.alertDialogManager.currentErrorState, (p0) {
+        if (p0 == DialogState.displaying) {
+          _alertController.show(_store.alertDialogManager.errorData!, p0,
+              close: _store.alertDialogManager.closeErrorDialog,
+              positive: _store.onError,
+              negative: null);
+        }
+      }),
       reaction((p0) => widget.sharedStore.driverBookings.alreadyBookedMsg,
           (p0) {
         if (p0.isNotEmpty) {
@@ -87,6 +99,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         if (p0 != null) {
           widget.sharedStore.driverBookings
               .initCurrentBooking(p0.bookingDetails, context);
+          widget.sharedStore.notificationPayload = null;
         }
       }),
       reaction((p0) => widget.sharedStore.selectedLocation, (p0) {
@@ -290,8 +303,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                 markers: widget.sharedStore.driverBookings.customers.toSet(),
               ),
               Observer(
-                builder: (context) => _store.selectedGoToLocation !=
-                        null
+                builder: (context) => _store.selectedGoToLocation != null
                     ? Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(

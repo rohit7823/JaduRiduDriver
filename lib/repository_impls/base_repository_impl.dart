@@ -10,6 +10,7 @@ import 'package:jadu_ride_driver/core/domain/response/emergency_places_response.
 import 'package:jadu_ride_driver/core/domain/response/expired_document_alert_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/fcm_token_response.dart';
 import 'package:jadu_ride_driver/core/repository/base_repository.dart';
+import 'package:jadu_ride_driver/data/online/alert_api.dart';
 import 'package:jadu_ride_driver/data/online/batch_call_api.dart';
 import 'package:jadu_ride_driver/data/online/driver_account_status_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
@@ -24,11 +25,13 @@ class BaseRepositoryImpl implements BaseRepository {
   late final FCMTokenApi _fcmTokenApi;
   late final DriverAccountStatusApi _driverAccountStatusApi;
   late final EmergencyPlacesApi _emergencyPlacesApi;
+  late final AlertApi _alertApi;
 
   BaseRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _batchCallApi = BatchCallApi(_dio);
     _fcmTokenApi = FCMTokenApi(_dio);
+    _alertApi = AlertApi(_dio);
     _driverAccountStatusApi = DriverAccountStatusApi(_dio);
     _emergencyPlacesApi = EmergencyPlacesApi(_dio);
   }
@@ -125,8 +128,13 @@ class BaseRepositoryImpl implements BaseRepository {
   }
 
   @override
-  Future<Resource<ExpiredDocumentAlertResponse>> giveAlert(String userId) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<Resource<ExpiredDocumentAlertResponse>> giveAlert(
+      String userId) async {
+    return _alertApi
+        .giveAlert(userId)
+        .handleResponse<ExpiredDocumentAlertResponse>();
+
+    /*await Future.delayed(const Duration(seconds: 2));
     return Success(ExpiredDocumentAlertResponse(
         status: true,
         message: "Success",
@@ -136,6 +144,6 @@ class BaseRepositoryImpl implements BaseRepository {
           giveAlert: false,
           key: DetailsStepKey.driverLicense.key
         )
-    ));
+    ));*/
   }
 }

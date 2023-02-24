@@ -43,7 +43,7 @@ class MyDialogImpl implements MyDialog {
                       },
                       child: data.positive!.text(AppTextStyle.dialogBtnStyle)
                   ),
-                if (data.negative != null && (data.data as AlertBehaviour).isDismissable)
+                if (data.negative != null)
                   TextButton(
                       onPressed: () {
                         Navigator.pop(buildContext);

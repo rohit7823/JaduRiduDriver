@@ -17,6 +17,7 @@ import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -51,6 +52,18 @@ abstract class _ProfilePictureScreenStore extends AppNavigator with Store {
 
   @observable
   File? selectedImage;
+
+  @action
+  prefillData() async {;
+    var response = await _repository.setImage(_storage.userId());
+    if(response.data != null) {
+      response.data.forEach((key, value) async {
+        if(key == "assets") {
+          selectedImage = await urlToFile(value);
+        }
+      });
+    }
+  }
 
   @action
   selectImage() {

@@ -3,6 +3,7 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/argument.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/profile_short_description.dart';
@@ -142,8 +143,7 @@ abstract class _Profile extends AppNavigator with Store {
   onManageVehicle() {
     onChange(ScreenWithExtras(
         screen: Screen.addAllDetails,
-        argument: NavigateFrom.moreScreen
-    ));
+        argument: Argument(navigateFrom: NavigateFrom.moreScreen)));
   }
 
   //log out.......................................

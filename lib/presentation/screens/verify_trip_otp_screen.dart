@@ -159,6 +159,7 @@ class _VerifyTripOtpScreenState extends State<VerifyTripOtpScreen> {
                               },
                               keyboardType: TextInputType.number,
                               validator: _store.validateOtp,
+                              androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
                             )),
                       ]),
                 ),

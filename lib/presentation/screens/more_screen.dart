@@ -378,7 +378,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Manage Vehicle",
+                            Text("Manage Documents",
                                 style: TextStyle(
                                     color: AppColors.appMore,
                                     fontSize: 20.sp,

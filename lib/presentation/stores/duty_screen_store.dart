@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
+import 'package:jadu_ride_driver/core/common/alert_option.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
@@ -17,6 +18,13 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/common/alert_behaviour.dart';
+import '../../core/common/alert_data.dart';
+import '../../core/common/argument.dart';
+import '../../core/common/navigate_from.dart';
+import '../../core/domain/expired_document_alert.dart';
+import '../ui/string_provider.dart';
+
 part 'duty_screen_store.g.dart';
 
 class DutyStore = _DutyScreenStore with _$DutyStore;
@@ -25,6 +33,7 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
   final _storage = dependency<Storage>();
   final _repository = dependency<DriverDutyRepository>();
   final dialogManager = DialogManager();
+  final alertDialogManager = DialogManager();
   final _locationService = AppLocationService();
 
   @observable
@@ -75,6 +84,7 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
               selectedStatus = element;
               print("$selectedStatus");
               _storage.setDriverStatus(selectedStatus.name);
+
               break;
             }
           }
@@ -105,7 +115,11 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
     }
   }
 
-  onError(AlertAction? action) {}
+  onError(AlertAction? action) {
+    if (action == AlertAction.documentExpired) {
+      _navigateToAddedDetails();
+    }
+  }
 
   @action
   _getBookingSummary() async {
@@ -162,7 +176,23 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
               selectedGoToLocation = goToLocationTxt;
               _storage.setGoToLocation(goToLocationTxt);
             }
-
+            if (data.documentAlert.giveAlert) {
+              debugPrint("documentAlert ${data.documentAlert.keys}");
+              _documentAlert = data.documentAlert;
+              alertDialogManager.initErrorData(AlertData(
+                  StringProvider.appName,
+                  null,
+                  StringProvider.appId,
+                  data.documentAlert.message,
+                  StringProvider.reSubmit,
+                  StringProvider.skip.toUpperCase(),
+                  null,
+                  AlertBehaviour(
+                      option: AlertOption.none,
+                      action: AlertAction.documentExpired,
+                      isDismissable: data.documentAlert.isSkippable)
+              ));
+            }
             informMessage = data.message;
           } else {
             errorMsg = data.message;
@@ -202,5 +232,17 @@ abstract class _DutyScreenStore extends AppNavigator with Store {
   _changeStatus(DriverStatus selectedStatus) {
     tabController.animateTo(selectedStatus.index);
     this.selectedStatus = selectedStatus;
+  }
+
+  ExpiredDocumentAlert? _documentAlert;
+
+  void _navigateToAddedDetails() {
+    onChange(ScreenWithExtras(
+        screen: Screen.addAllDetails,
+        argument: Argument(
+            navigateFrom: NavigateFrom.duty,
+            data: _documentAlert
+        )
+    ));
   }
 }

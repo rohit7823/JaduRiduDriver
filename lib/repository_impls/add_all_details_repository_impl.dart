@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/domain/response/add_all_details_initial_data_response.dart';
@@ -18,9 +19,19 @@ class AddAllDetailsRepositoryImpl implements AddAllDetailsRepository {
 
   @override
   Future<Resource<AddAllDetailsInitialDataResponse>> initialData(
-      String userId) async {
+      String userId, String identifier, List<String> keys) async {
+
+    var keysQuery = "";
+    for (var element in keys) {
+      if(element != keys.last) {
+        keysQuery+="$element+";
+      } else {
+        keysQuery+=element;
+      }
+    }
+    debugPrint("keysQuery $keysQuery");
     return await _addAllDetailsApi
-        .initialData(userId)
+        .initialData(userId, identifier, keysQuery)
         .handleResponse<AddAllDetailsInitialDataResponse>();
 
     /*await Future.delayed(const Duration(seconds: 3));

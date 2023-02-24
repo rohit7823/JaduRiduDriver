@@ -941,6 +941,8 @@ class StringProvider {
 
   static const reSubmit = "RESUBMIT";
 
+  static const pending = "PENDING";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";

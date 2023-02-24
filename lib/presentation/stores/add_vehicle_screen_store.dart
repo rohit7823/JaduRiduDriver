@@ -2,6 +2,7 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/argument.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
@@ -128,7 +129,8 @@ abstract class _AddVehicleScreenStore extends AppNavigator with Store {
           if (data!.isAdded) {
             onChange(ScreenWithExtras(
                 screen: Screen.addAllDetails,
-                argument: NavigateFrom.addVehicle));
+                argument: Argument(navigateFrom: NavigateFrom.addVehicle)
+            ));
           } else {
             dialogManager.initErrorData(AlertData(
                 StringProvider.error,

@@ -19,9 +19,16 @@ class _AddAllDetailsApi implements AddAllDetailsApi {
   String? baseUrl;
 
   @override
-  Future<AddAllDetailsInitialDataResponse> initialData(userId) async {
+  Future<AddAllDetailsInitialDataResponse> initialData(
+    userId,
+    indentifier,
+    keys,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'indentifier': indentifier,
+      r'keys': keys,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(

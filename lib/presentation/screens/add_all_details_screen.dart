@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jadu_ride_driver/core/common/argument.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
@@ -26,7 +27,7 @@ import 'package:mobx/mobx.dart';
 
 class AddAllDetailsScreen extends StatefulWidget {
   SharedStore sharedStore;
-  NavigateFrom enteredFrom;
+  Argument enteredFrom;
   AddAllDetailsScreen({Key? key, required this.sharedStore, required this.enteredFrom}) : super(key: key);
 
   @override
@@ -153,7 +154,7 @@ class _AddAllDetailsScreenState extends State<AddAllDetailsScreen> {
             color: AppColors.lightGray,
             height: 0.05,
           ),
-          if(_store.navigateFrom == NavigateFrom.addVehicle) expand(
+          if(_store.argument == NavigateFrom.addVehicle) expand(
               flex: 3,
               child: Align(
                 child: fitBox(

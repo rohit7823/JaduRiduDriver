@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/domain/expired_document_alert.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
@@ -15,6 +16,7 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../helpers_impls/expired_document_dialog.dart';
 import '../ui/theme.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     with WidgetsBindingObserver {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final DialogController _alertController;
   late final GlobalKey<NavigatorState> dashBoardNavigator;
   late final ChangeScreen changeScreen;
 
@@ -44,6 +47,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    _alertController =
+        DialogController(dialog: ExpiredDocumentDialog(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -56,12 +61,24 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
-      reaction((p0) => widget.sharedStore.dialogManager.currentErrorState, (p0) {
+      reaction((p0) => widget.sharedStore.dialogManager.currentErrorState,
+          (p0) {
         if (p0 == DialogState.displaying) {
           _dialogController.show(
               widget.sharedStore.dialogManager.errorData!, p0,
               close: widget.sharedStore.dialogManager.closeErrorDialog,
               positive: widget.sharedStore.onAction);
+        }
+      }),
+      reaction((p0) => widget.sharedStore.alertDialogManager.currentErrorState,
+          (p0) {
+        if (p0 == DialogState.displaying) {
+          _alertController.show(
+              widget.sharedStore.alertDialogManager.errorData!, p0,
+              close: widget.sharedStore.alertDialogManager.closeErrorDialog,
+              positive: widget.sharedStore.onAction,
+              negative: null
+          );
         }
       }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
@@ -142,26 +159,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                 arguments: p0.argument,
                 fromScreen: widget.sharedStore.onLocationSelected);
           } else if (p0.screen == Screen.addAllDetails) {
-            ChangeScreen.to(context, p0.screen,
-                option: p0.option,
-                onComplete: widget.sharedStore.clear,
-                arguments: p0.argument,
-                fromScreen: widget.sharedStore.onLocationSelected);
-          } else if (p0.screen == Screen.identifyDetails ||
-              p0.screen == Screen.vehicleAudit ||
-              p0.screen == Screen.vehiclePermit ||
-              p0.screen == Screen.panCard ||
-              p0.screen == Screen.vehicleInsurance ||
-              p0.screen == Screen.registrationCertificate ||
-              p0.screen == Screen.profilePicture ||
-              p0.screen == Screen.aadharCard ||
-              p0.screen == Screen.driverLicense ||
-              p0.screen == Screen.paymentDetails ||
-              p0.screen == Screen.vehiclePollution) {
-            ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument,
-                option: p0.option,
-                onComplete:widget.sharedStore.clear,
+            ChangeScreen.to(
+              context,
+              p0.screen,
+              option: p0.option,
+              onComplete: widget.sharedStore.clear,
+              arguments: p0.argument,
             );
           } else {
             changeScreen.nestedTo(p0.screen,

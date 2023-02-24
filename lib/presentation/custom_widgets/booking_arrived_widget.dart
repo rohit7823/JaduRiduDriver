@@ -37,9 +37,9 @@ class BookingArrivedWidget extends StatefulWidget {
       required this.onPass,
       required this.onOkay,
       required this.pickUpLocation,
-        required this.dropLocation,
+      required this.dropLocation,
       this.soundUrl,
-        this.estimateFare = "",
+      this.estimateFare = "",
       required this.eta})
       : super(key: key);
 
@@ -127,15 +127,23 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if(widget.estimateFare != null) fitBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Approx Fare", style: AppTextStyle.pickUpLocationStyle,),
-                        Text("₹${widget.estimateFare!}", style: AppTextStyle.partnerButtonTxt.copyWith(fontSize: 28.sp),)
-                      ],
+                  if (widget.estimateFare != null)
+                    fitBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Approx Fare",
+                            style: AppTextStyle.pickUpLocationStyle,
+                          ),
+                          Text(
+                            "₹${widget.estimateFare!}",
+                            style: AppTextStyle.partnerButtonTxt
+                                .copyWith(fontSize: 28.sp),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.03.sw),
                     child: Container(
@@ -152,17 +160,20 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                               CircleAvatar(
                                 radius: 30,
                                 foregroundImage:
-                                NetworkImage(widget.details!.image),
-                              ).padding(insets: EdgeInsets.only(right: 0.02.sw)),
+                                    NetworkImage(widget.details!.image),
+                              ).padding(
+                                  insets: EdgeInsets.only(right: 0.02.sw)),
                             if (widget.details != null)
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   widget.details!.name
-                                      .text(AppTextStyle.applicationSubmittedStyle)
+                                      .text(AppTextStyle
+                                          .applicationSubmittedStyle)
                                       .padding(
-                                      insets: const EdgeInsets.only(bottom: 5)),
+                                          insets:
+                                              const EdgeInsets.only(bottom: 5)),
                                   if (widget.details != null)
                                     Row(
                                       children: [
@@ -171,7 +182,8 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                                           color: AppColors.primary,
                                         ),
                                         "${widget.details!.rating}".text(
-                                            AppTextStyle.applicationSubmittedStyle)
+                                            AppTextStyle
+                                                .applicationSubmittedStyle)
                                       ],
                                     )
                                 ],
@@ -242,18 +254,14 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                     children: [
                       StringProvider.pickUp
                           .text(AppTextStyle.pickUpLocationStyle,
-                          TextOverflow.ellipsis, TextAlign.center)
-                          .padding(
-                          insets: const EdgeInsets.only(right: 5)),
+                              TextOverflow.ellipsis, TextAlign.center)
+                          .padding(insets: const EdgeInsets.only(right: 5)),
                       expand(
                           flex: 1,
                           child: Text(
                             widget.pickUpLocation,
-
-                            style: AppTextStyle.pickUpLocationStyle
-                                .copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15.sp),
+                            style: AppTextStyle.pickUpLocationStyle.copyWith(
+                                fontWeight: FontWeight.w600, fontSize: 15.sp),
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                           )),
@@ -262,27 +270,27 @@ class _BookingArrivedWidgetState extends State<BookingArrivedWidget> {
                     ],
                   ).paddings(horizontal: 0.05.sw),
                   const Divider(color: AppColors.white),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StringProvider.dropOff
-                          .text(AppTextStyle.pickUpLocationStyle,
-                          TextOverflow.ellipsis, TextAlign.center)
-                          .padding(
-                          insets: const EdgeInsets.only(right: 5)),
-                      expand(
-                          flex: 1,
-                          child: Text(widget.dropLocation,
-                              maxLines: 2,
-                              textAlign: TextAlign.justify,
-                              style: AppTextStyle.pickUpLocationStyle
-                                  .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15.sp))),
-                      /*"${widget.estimateKm} • ${widget.eta}"
+                  if (widget.dropLocation.isNotEmpty)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StringProvider.dropOff
+                            .text(AppTextStyle.pickUpLocationStyle,
+                                TextOverflow.ellipsis, TextAlign.center)
+                            .padding(insets: const EdgeInsets.only(right: 5)),
+                        expand(
+                            flex: 1,
+                            child: Text(widget.dropLocation,
+                                maxLines: 2,
+                                textAlign: TextAlign.justify,
+                                style: AppTextStyle.pickUpLocationStyle
+                                    .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15.sp))),
+                        /*"${widget.estimateKm} • ${widget.eta}"
                               .text(AppTextStyle.pickUpLocationStyle)*/
-                    ],
-                  ).paddings(horizontal: 0.05.sw),
+                      ],
+                    ).paddings(horizontal: 0.05.sw),
                   const Divider(color: AppColors.white),
                 ],
               ),

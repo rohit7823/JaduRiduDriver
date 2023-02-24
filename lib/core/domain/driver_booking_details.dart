@@ -34,7 +34,7 @@ class DriverBookingDetails {
 
   factory DriverBookingDetails.fromJson(Map<String, dynamic> json) =>
       DriverBookingDetails(
-        bookId: json["rideId"],
+        bookId: json["rideId"] ?? "",
         vehicleType: json["vehicleType"],
         passTimer: json["passTimer"],
         lat: json["lat"].toDouble(),
