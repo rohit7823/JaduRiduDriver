@@ -9,7 +9,7 @@ part 'prefill_details_api.g.dart';
 abstract class PrefillDetailsApi {
   factory PrefillDetailsApi(Dio dio, {String? baseUrl}) = _PrefillDetailsApi;
 
-  @GET("${ApiRoutes.parent}/driver/users/{userId}/document")
+  @GET("${ApiRoutes.parent}/users/{userId}/document")
   Future<MasterResponse> prefillDetails(
       @Path("userId") String userId,
       @Query("key") String key);

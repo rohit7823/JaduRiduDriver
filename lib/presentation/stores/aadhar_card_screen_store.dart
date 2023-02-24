@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
@@ -21,6 +22,8 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../utills/extensions.dart';
+
 part 'aadhar_card_screen_store.g.dart';
 
 class AadharCardStore = _AadharCardScreenStore with _$AadharCardStore;
@@ -34,6 +37,7 @@ abstract class _AadharCardScreenStore extends AppNavigator with Store {
   final _picker = ImageFilePicker();
 
   _AadharCardScreenStore() {
+    prefillData();
     _validateInputs();
   }
 
@@ -54,6 +58,26 @@ abstract class _AadharCardScreenStore extends AppNavigator with Store {
 
   @observable
   String errorMessage = "";
+
+  @observable
+  bool prefillLoader = false;
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      debugPrint("response.data ${response.data}");
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "value") {
+          aaharNumber = value;
+        }
+      });
+    }
+    prefillLoader = false;
+  }
 
   @action
   _validateInputs() async {

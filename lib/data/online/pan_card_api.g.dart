@@ -52,7 +52,6 @@ class _PanCardApi implements PanCardApi {
               '/driver/users/${userId}/document/pan',
               queryParameters: queryParameters,
               data: _data,
-              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadPanCardResponse.fromJson(_result.data!);

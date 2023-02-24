@@ -35,7 +35,7 @@ class _PrefillDetailsApi implements PrefillDetailsApi {
     )
             .compose(
               _dio.options,
-              '/driver/driver/users/${userId}/document',
+              '/driver/users/${userId}/document',
               queryParameters: queryParameters,
               data: _data,
             )

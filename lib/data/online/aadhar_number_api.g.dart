@@ -52,7 +52,6 @@ class _AadharNumberApi implements AadharNumberApi {
               '/driver/users/${userId}/document/aadhar',
               queryParameters: queryParameters,
               data: _data,
-              onSendProgress: uploading
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UploadAadharResponse.fromJson(_result.data!);

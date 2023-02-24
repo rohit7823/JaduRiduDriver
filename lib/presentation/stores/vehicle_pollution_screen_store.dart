@@ -20,6 +20,8 @@ import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../utills/extensions.dart';
+
 part 'vehicle_pollution_screen_store.g.dart';
 
 class VehiclePollutionStore = _VehiclePollutionScreenStore
@@ -45,9 +47,30 @@ abstract class _VehiclePollutionScreenStore extends AppNavigator with Store {
   @observable
   bool enableBtn = false;
 
+  @observable
+  bool prefillLoader = false;
+
   _VehiclePollutionScreenStore() {
+    prefillData();
     _validateInputs();
   }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "expiary_date") {
+          selectedDate = value;
+        }
+      });
+    }
+    prefillLoader = false;
+  }
+
 
   @action
   _validateInputs() async {

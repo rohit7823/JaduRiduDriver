@@ -41,7 +41,6 @@ class _ManageProfileApi implements ManageProfileApi {
               '/driver/districts',
               queryParameters: queryParameters,
               data: _data,
-
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = DistrictsResponse.fromJson(_result.data!);
@@ -146,7 +145,7 @@ class _ManageProfileApi implements ManageProfileApi {
       'dob',
       dob,
     ));
-    if(profileImage != null) {
+    if (profileImage != null) {
       _data.files.add(MapEntry(
         'profile_image',
         MultipartFile.fromFileSync(

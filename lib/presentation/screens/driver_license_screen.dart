@@ -148,19 +148,24 @@ class _DriverLicenseScreenState extends State<DriverLicenseScreen> {
                     .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                 Observer(
                   builder: (context) => MyTextInput(
+                      key: ValueKey(_store.prefillLoader),
                       onTextChange: _store.driverLicense,
                       keyboardType: TextInputType.streetAddress,
                       inputAction: TextInputAction.next,
                       placeholderText: StringProvider.driverLicenseNumber,
+                      initialText: _store.license,
                       isMandatory: !_store.license.isNotEmpty),
                 ).padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                 Observer(
                   builder: (context) => MyTextInput(
+                      key: ValueKey(_store.prefillLoader),
                       onTextChange: _store.repeatedDriverLicense,
                       keyboardType: TextInputType.streetAddress,
                       inputAction: TextInputAction.done,
-                      placeholderText: StringProvider.reEnterDriverLicenseNumber,
-                      isMandatory:!_store.reEnteredLicense.isNotEmpty),
+                      placeholderText:
+                          StringProvider.reEnterDriverLicenseNumber,
+                      initialText: _store.reEnteredLicense,
+                      isMandatory: !_store.reEnteredLicense.isNotEmpty),
                 ),
                 Observer(
                   builder: (BuildContext context) {

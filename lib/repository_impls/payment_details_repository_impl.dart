@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/domain/response/master_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/payment_details_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/upi_validate_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/upis_response.dart';
@@ -11,14 +13,17 @@ import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 import '../data/online/payment_details_api.dart';
+import '../data/online/prefill_details_api.dart';
 
 class PaymentDetailsRepositoryImpl implements PaymentDetailsRepository {
   final Dio _dio;
   late final PaymentDetailsApi _paymentDetailsApi;
+  late final PrefillDetailsApi _prefillDetailsApi;
 
   PaymentDetailsRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _paymentDetailsApi = PaymentDetailsApi(_dio);
+    _prefillDetailsApi = PrefillDetailsApi(_dio);
   }
 
   @override
@@ -49,7 +54,11 @@ class PaymentDetailsRepositoryImpl implements PaymentDetailsRepository {
             (index) => UpiID(id: "${index + 1}", name: "@UpiID${index + 1}"))));*/
   }
 
-  /*@override
+  @override
+  Future<MasterResponse> setData(String userId) => _prefillDetailsApi
+      .prefillDetails(userId, DetailsStepKey.paymentDetails.key);
+
+/*@override
   Future<Resource<UpiValidateResponse>> validateUpi(String fullUpiId) async {
     await Future.delayed(const Duration(seconds: 1));
     var parts = fullUpiId.split("@");

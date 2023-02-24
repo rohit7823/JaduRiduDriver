@@ -20,6 +20,7 @@ import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/common/uploader_implementation.dart';
+import '../../utills/extensions.dart';
 
 part 'registration_certificate_screen_store.g.dart';
 
@@ -46,8 +47,26 @@ abstract class _RegistrationCertificateScreenStore extends AppNavigator
   @observable
   String informMessage = "";
 
+  @observable
+  bool prefillLoader = true;
+
   _RegistrationCertificateScreenStore() {
+    prefillData();
     _validateInputs();
+  }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        }
+      });
+    }
+    prefillLoader = false;
   }
 
   @action

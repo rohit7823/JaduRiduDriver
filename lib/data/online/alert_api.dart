@@ -7,11 +7,9 @@ part 'alert_api.g.dart';
 
 @RestApi()
 abstract class AlertApi {
-
   factory AlertApi(Dio dio, {String? baseUrl}) = _AlertApi;
 
   @GET("${ApiRoutes.parent}/users/{userId}/document/reupload")
   Future<ExpiredDocumentAlertResponse> giveAlert(
       @Path("userId") String userId);
-
 }

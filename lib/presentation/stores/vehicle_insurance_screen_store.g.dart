@@ -153,6 +153,30 @@ mixin _$VehicleInsuranceStore on _VehicleInsuranceScreenStore, Store {
     });
   }
 
+  late final _$prefillLoaderAtom = Atom(
+      name: '_VehicleInsuranceScreenStore.prefillLoader', context: context);
+
+  @override
+  bool get prefillLoader {
+    _$prefillLoaderAtom.reportRead();
+    return super.prefillLoader;
+  }
+
+  @override
+  set prefillLoader(bool value) {
+    _$prefillLoaderAtom.reportWrite(value, super.prefillLoader, () {
+      super.prefillLoader = value;
+    });
+  }
+
+  late final _$prefillDataAsyncAction =
+      AsyncAction('_VehicleInsuranceScreenStore.prefillData', context: context);
+
+  @override
+  Future prefillData() {
+    return _$prefillDataAsyncAction.run(() => super.prefillData());
+  }
+
   late final _$_validateInputsAsyncAction = AsyncAction(
       '_VehicleInsuranceScreenStore._validateInputs',
       context: context);
@@ -287,7 +311,8 @@ enableBtn: ${enableBtn},
 openDatePicker: ${openDatePicker},
 openImagePicker: ${openImagePicker},
 selectedDate: ${selectedDate},
-informMessage: ${informMessage}
+informMessage: ${informMessage},
+prefillLoader: ${prefillLoader}
     ''';
   }
 }

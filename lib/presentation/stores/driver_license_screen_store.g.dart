@@ -137,6 +137,22 @@ mixin _$DriverLicenseStore on _DriverLicenseScreenStore, Store {
     });
   }
 
+  late final _$prefillLoaderAtom =
+      Atom(name: '_DriverLicenseScreenStore.prefillLoader', context: context);
+
+  @override
+  bool get prefillLoader {
+    _$prefillLoaderAtom.reportRead();
+    return super.prefillLoader;
+  }
+
+  @override
+  set prefillLoader(bool value) {
+    _$prefillLoaderAtom.reportWrite(value, super.prefillLoader, () {
+      super.prefillLoader = value;
+    });
+  }
+
   late final _$_validateInputsAsyncAction = AsyncAction(
       '_DriverLicenseScreenStore._validateInputs',
       context: context);
@@ -144,6 +160,14 @@ mixin _$DriverLicenseStore on _DriverLicenseScreenStore, Store {
   @override
   Future _validateInputs() {
     return _$_validateInputsAsyncAction.run(() => super._validateInputs());
+  }
+
+  late final _$prefillDataAsyncAction =
+      AsyncAction('_DriverLicenseScreenStore.prefillData', context: context);
+
+  @override
+  Future prefillData() {
+    return _$prefillDataAsyncAction.run(() => super.prefillData());
   }
 
   late final _$fromGalleryAsyncAction =
@@ -238,7 +262,8 @@ enableBtn: ${enableBtn},
 selectedImage: ${selectedImage},
 warnMessage: ${warnMessage},
 informMessage: ${informMessage},
-imagePicker: ${imagePicker}
+imagePicker: ${imagePicker},
+prefillLoader: ${prefillLoader}
     ''';
   }
 }

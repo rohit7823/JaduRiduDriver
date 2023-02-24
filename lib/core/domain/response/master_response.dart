@@ -4,5 +4,5 @@ class MasterResponse {
   MasterResponse({required this.data});
 
   factory MasterResponse.fromJson(Map<String, dynamic> map) =>
-      MasterResponse(data: map);
+      MasterResponse(data: map["data"]);
 }

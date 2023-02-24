@@ -21,6 +21,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../core/helpers/validator.dart';
 import '../../core/repository/pan_card_repository.dart';
+import '../../utills/extensions.dart';
 
 part 'pan_card_screen_store.g.dart';
 
@@ -52,8 +53,28 @@ abstract class _PanCardScreenStore extends AppNavigator with Store {
   @observable
   DialogState openPickerDialog = DialogState.notDisplaying;
 
+  @observable
+  bool prefillLoader = false;
+
   _PanCardScreenStore() {
+    prefillData();
     _validateInputs();
+  }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "value") {
+          panNumber = value;
+        }
+      });
+    }
+    prefillLoader = false;
   }
 
   @action

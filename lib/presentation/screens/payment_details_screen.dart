@@ -146,6 +146,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                       padding: EdgeInsets.only(bottom: 0.05.sw),
                       child: Observer(builder: (BuildContext context) {
                         return UpiIdTextField(
+                          key: ValueKey(_store.prefillLoader),
                           upiIds: _store.upis,
                           loading: _store.gettingUpisLoader,
                           onSelect: _store.onSelectUpi,

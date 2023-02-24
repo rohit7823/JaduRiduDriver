@@ -156,27 +156,29 @@ class _VehicleInsuranceScreenState extends State<VehicleInsuranceScreen> {
                       return DobView(
                         value: _store.selectedDate,
                         onClick: _store.onDatePicker,
-                        isMandatory: _store.selectedDate != StringProvider.expiry
-                            ? false
-                            : true,
+                        isMandatory:
+                            _store.selectedDate != StringProvider.expiry
+                                ? false
+                                : true,
                       ).padding(insets: EdgeInsets.only(bottom: 0.05.sw));
                     },
                   ),
                   StringProvider.pleaseEnterVehicleInsuranceNumber
                       .text(AppTextStyle.enterDrivingLicNumberStyle)
-                      .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
+                      .padding(insets: EdgeInsets.only(bottom: 0.05.sw)
+                  ),
                   Observer(
                       builder: (context) => MyTextInput(
+                                  key: ValueKey(_store.prefillLoader),
                                   onTextChange: _store.onInsuranceNumber,
                                   keyboardType: TextInputType.emailAddress,
                                   inputAction: TextInputAction.done,
+                                  initialText: _store.insuranceNumber,
                                   placeholderText:
                                       StringProvider.vehicleInsuranceNumber,
                                   isMandatory:
-                                      !_store.insuranceNumber.isNotEmpty)
-                              .padding(
-                            insets: EdgeInsets.only(bottom: 0.05.sw),
-                          )),
+                                      !_store.insuranceNumber.isNotEmpty
+                      ).padding(insets: EdgeInsets.only(bottom: 0.05.sw))),
                   GuideLineView(guildLine: StringProvider.imageChooseGuidLine),
                   GuideLineView(guildLine: StringProvider.imageChooseGuidLine2),
                   UploadImageView(

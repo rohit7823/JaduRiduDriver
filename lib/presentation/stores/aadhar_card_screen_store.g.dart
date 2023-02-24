@@ -105,6 +105,30 @@ mixin _$AadharCardStore on _AadharCardScreenStore, Store {
     });
   }
 
+  late final _$prefillLoaderAtom =
+      Atom(name: '_AadharCardScreenStore.prefillLoader', context: context);
+
+  @override
+  bool get prefillLoader {
+    _$prefillLoaderAtom.reportRead();
+    return super.prefillLoader;
+  }
+
+  @override
+  set prefillLoader(bool value) {
+    _$prefillLoaderAtom.reportWrite(value, super.prefillLoader, () {
+      super.prefillLoader = value;
+    });
+  }
+
+  late final _$prefillDataAsyncAction =
+      AsyncAction('_AadharCardScreenStore.prefillData', context: context);
+
+  @override
+  Future prefillData() {
+    return _$prefillDataAsyncAction.run(() => super.prefillData());
+  }
+
   late final _$_validateInputsAsyncAction =
       AsyncAction('_AadharCardScreenStore._validateInputs', context: context);
 
@@ -192,7 +216,8 @@ selectedImage: ${selectedImage},
 enableBtn: ${enableBtn},
 informMessage: ${informMessage},
 imagePicker: ${imagePicker},
-errorMessage: ${errorMessage}
+errorMessage: ${errorMessage},
+prefillLoader: ${prefillLoader}
     ''';
   }
 }

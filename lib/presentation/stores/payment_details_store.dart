@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
@@ -20,6 +21,8 @@ import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../utills/extensions.dart';
 
 part 'payment_details_store.g.dart';
 
@@ -63,8 +66,12 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
   @observable
   bool uploadingLoader = false;
 
+  @observable
+  bool prefillLoader = false;
+
   _PaymentDetailsStore() {
     getInitialData();
+    prefillData();
     _validateInputs();
   }
 
@@ -96,28 +103,23 @@ abstract class _PaymentDetailsStore extends AppNavigator with Store {
   @action
   onUpiId(String id) async {
     upiID = id;
-    /*await Future.delayed(const Duration(milliseconds: 500));
-    var fullUpiId = "$upiID${selectedUpi?.name}";
-    var response = await _repository.validateUpi(fullUpiId);
+  }
 
-    if (response is Success) {
-      var data = response.data;
-      switch (data != null && data.status) {
-        case true:
-          if (data!.isValid) {
-            upiStatusLabel = StringProvider.UpiIsValid;
-            validUpi = true;
-          } else {
-            upiStatusLabel = StringProvider.UpiIsInValid;
-            validUpi = false;
-          }
-          break;
-        default:
-          validUpi = false;
-      }
-    } else if (response is Error) {
-      validUpi = false;
-    }*/
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      debugPrint("response.data ${response.data}");
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "value") {
+          onUpiId(value);
+        }
+      });
+    }
+    prefillLoader = false;
   }
 
   @action

@@ -160,10 +160,12 @@ class _VehiclePermitScreenState extends State<VehiclePermitScreen> {
                       .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                   Observer(
                     builder: (context) => MyTextInput(
+                        key: ValueKey(_store.prefillLoader),
                         onTextChange: _store.onVehiclePermit,
                         keyboardType: TextInputType.text,
                         inputAction: TextInputAction.done,
                         placeholderText: StringProvider.vehiclePermitNumber,
+                        initialText: _store.permitNumber,
                         isMandatory: !_store.permitNumber.isNotEmpty
                     ).padding(insets: EdgeInsets.only(bottom: 0.02.sw)),
                   ),

@@ -137,11 +137,13 @@ class _AadharCardScreenState extends State<AadharCardScreen> {
                       .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
                   Observer(
                     builder: (context) => MyTextInput(
+                        key: ValueKey(_store.prefillLoader),
                         onTextChange: _store.onAadharNumber,
                         keyboardType: const TextInputType.numberWithOptions(),
                         inputAction: TextInputAction.done,
                         placeholderText: StringProvider.aadharCardNumber,
                         formatters: [AadharNumberInputFormatter()],
+                        initialText: _store.aaharNumber,
                         isMandatory: !_store.aaharNumber.isNotEmpty
                     ).padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
                   ),

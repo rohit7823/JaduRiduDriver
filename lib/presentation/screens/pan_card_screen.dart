@@ -142,10 +142,12 @@ class _PancardScreenState extends State<PancardScreen> {
                               EdgeInsets.only(bottom: 0.05.sw, top: 0.05.sw)),
                   Observer(
                     builder: (context) => MyTextInput(
+                        key: ValueKey(_store.prefillLoader),
                         onTextChange: _store.onPanNumber,
                         keyboardType: TextInputType.emailAddress,
                         inputAction: TextInputAction.done,
                         placeholderText: StringProvider.panNumber,
+                        initialText: _store.panNumber,
                         textCapitalization: TextCapitalization.characters,
                         formatters: [PanCardFormatter()],
                         isMandatory: !_store.panNumber.isNotEmpty),

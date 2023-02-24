@@ -21,6 +21,7 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 part 'vehicle_permit_screen_store.g.dart';
@@ -53,8 +54,30 @@ abstract class _VehiclePermitScreenStore extends AppNavigator with Store {
   @observable
   bool enableBtn = false;
 
+  @observable
+  bool prefillLoader = false;
+
   _VehiclePermitScreenStore() {
+    prefillData();
     _validateInputs();
+  }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "expiary_date") {
+          selectedDate = value;
+        } else if(key == "value") {
+          permitNumber = value;
+        }
+      });
+    }
+    prefillLoader = false;
   }
 
   @action

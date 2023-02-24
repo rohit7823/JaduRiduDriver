@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
@@ -17,12 +15,13 @@ import 'package:jadu_ride_driver/core/repository/vehicle_insurance_repository.da
 import 'package:jadu_ride_driver/helpers_impls/date_time_helper.dart';
 import 'package:jadu_ride_driver/helpers_impls/image_file_picker.dart';
 import 'package:jadu_ride_driver/modules/app_module.dart';
-import 'package:jadu_ride_driver/presentation/custom_widgets/mcq_view.dart';
 import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../utills/extensions.dart';
 
 part 'vehicle_insurance_screen_store.g.dart';
 
@@ -30,6 +29,7 @@ class VehicleInsuranceStore = _VehicleInsuranceScreenStore
     with _$VehicleInsuranceStore;
 
 abstract class _VehicleInsuranceScreenStore extends AppNavigator with Store {
+
   final _repository = dependency<VehicleInsuranceRepository>();
   final _storage = dependency<Storage>();
   final uploader = Uploader(implementation: UploaderImplementation.real);
@@ -64,8 +64,30 @@ abstract class _VehicleInsuranceScreenStore extends AppNavigator with Store {
   @observable
   String informMessage = "";
 
+  @observable
+  bool prefillLoader = false;
+
   _VehicleInsuranceScreenStore() {
+    prefillData();
     _validateInputs();
+  }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "expiary_date") {
+          selectedDate = value;
+        } else if(key == "value") {
+          onInsuranceNumber(value);
+        }
+      });
+    }
+    prefillLoader = false;
   }
 
   @action

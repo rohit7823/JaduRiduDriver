@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
@@ -20,6 +21,7 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/stores/uploader.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
+import 'package:jadu_ride_driver/utills/extensions.dart';
 import 'package:mobx/mobx.dart';
 
 part 'driver_license_screen_store.g.dart';
@@ -58,7 +60,11 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
   @observable
   DialogState imagePicker = DialogState.notDisplaying;
 
+  @observable
+  bool prefillLoader = false;
+
   _DriverLicenseScreenStore() {
+    prefillData();
     _validateInputs();
   }
 
@@ -85,6 +91,28 @@ abstract class _DriverLicenseScreenStore extends AppNavigator with Store {
       await Future.delayed(const Duration(milliseconds: 300));
     }
   }
+
+  @action
+  prefillData() async {
+    prefillLoader = true;
+    var response = await _repository.setData(_storage.userId());
+    debugPrint("response.data ${response.data}");
+    if (response.data != null) {
+      response.data.forEach((key, value) async {
+        if (key == "assets") {
+          selectedImage = await urlToFile(value);
+        } else if(key == "value") {
+          debugPrint("lisence $value");
+          license = value;
+          reEnteredLicense = value;
+        } else if(key == "expiary_date") {
+          selectedDate = value;
+        }
+      });
+    }
+    prefillLoader = false;
+  }
+
 
   @action
   onClose() {

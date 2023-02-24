@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
+import 'package:jadu_ride_driver/core/domain/response/master_response.dart';
 import 'package:jadu_ride_driver/core/domain/response/upload_insurance_response.dart';
 import 'package:jadu_ride_driver/core/repository/vehicle_insurance_repository.dart';
+import 'package:jadu_ride_driver/data/online/prefill_details_api.dart';
 import 'package:jadu_ride_driver/utills/api_client_configuration.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
@@ -12,9 +15,12 @@ import '../data/online/vehicle_insurance_api.dart';
 class VehicleInsuranceRepositoryImpl implements VehicleInsuranceRepository {
   final Dio _dio;
   late final VehicleInsuranceApi _vehicleInsuranceApi;
+  late final PrefillDetailsApi _prefillDetailsApi;
+
   VehicleInsuranceRepositoryImpl(this._dio) {
     _dio.options = ApiClientConfiguration.mainConfiguration;
     _vehicleInsuranceApi = VehicleInsuranceApi(_dio);
+    _prefillDetailsApi = PrefillDetailsApi(_dio);
   }
 
   @override
@@ -38,4 +44,8 @@ class VehicleInsuranceRepositoryImpl implements VehicleInsuranceRepository {
     return Success(UploadInsuranceResponse(
         status: true, message: "Success", isUploaded: true));*/
   }
+
+  @override
+  Future<MasterResponse> setData(String userId) => _prefillDetailsApi
+      .prefillDetails(userId, DetailsStepKey.vehicleInsurance.key);
 }

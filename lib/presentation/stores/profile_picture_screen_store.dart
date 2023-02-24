@@ -42,6 +42,7 @@ abstract class _ProfilePictureScreenStore extends AppNavigator with Store {
   String informMessage = "";
 
   _ProfilePictureScreenStore() {
+    prefillData();
     _validateInputs();
     _picker = ImagePicker();
     _cropper = ImageCropper();
@@ -54,11 +55,11 @@ abstract class _ProfilePictureScreenStore extends AppNavigator with Store {
   File? selectedImage;
 
   @action
-  prefillData() async {;
+  prefillData() async {
     var response = await _repository.setImage(_storage.userId());
-    if(response.data != null) {
+    if (response.data != null) {
       response.data.forEach((key, value) async {
-        if(key == "assets") {
+        if (key == "assets") {
           selectedImage = await urlToFile(value);
         }
       });
