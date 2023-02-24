@@ -67,6 +67,8 @@ class AppRoute {
 
   static const thankYouEmergency = "/thankYourEmergency";
 
+  static const selectLocation = "/selectLocation";
+
   AppRoute._();
 
   static const splash = "/splash";

@@ -17,6 +17,8 @@ class Constants {
 
   static const disclosureStatus = "DISCLOUSER_STATUS";
 
+  static const selectedGOTOLocation = "SELECTED_GOTO";
+
   Constants._();
 
   static const baseUrl = "BASE_URL";

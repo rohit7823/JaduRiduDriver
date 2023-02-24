@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/constants.dart';
@@ -142,7 +143,7 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
           temp.add(element);
         }
       }
-      currentBalanceHistory= temp;
+      currentBalanceHistory = temp;
     }
   }
 
@@ -151,7 +152,8 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
   @action
   onSelectDate(DateTime? selected) {
     if (selected != null) {
-      date = "${selected.year}-${selected.month}-${selected.day}";
+      var dateFormat = DateFormat("${selected.year}-${selected.month}-${selected.day}");
+      date = dateFormat.format(selected);
       debugPrint('daTE: $date');
       datelistItem();
     } else {
@@ -181,6 +183,7 @@ abstract class _CurrentBalanceViewModel extends  AppNavigator   with Store {
           } else {
             currentBalanceHistory =  data.data;
             currentBalanceHistorybackup = data.data;
+            onRadioSelected(DriverTransactionType.received);
             print("****");
             debugPrint('currentBalanceHistory: $currentBalanceHistory');
           }

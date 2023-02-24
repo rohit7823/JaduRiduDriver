@@ -12,9 +12,9 @@ abstract class ProfileDetailsRepository{
 
   Future<Resource<FetchProfileDetailsResponse>> getProfileInittialData(String userId);
 
-  Future<Resource<DistrictsResponse>> districts(String selectedStateId);
+  Future<Resource<DistrictsResponse>> districts(String selectedStateId, String userId);
 
-  Future<Resource<CitiesResponse>> cities(String selectedDistrictId);
+  Future<Resource<CitiesResponse>> cities(String selectedDistrictId, String userId);
 
   Future<Resource<UpdateProfileDetailsResponse>> uploadProfileDetails(
       String userId,

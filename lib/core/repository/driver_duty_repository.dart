@@ -7,7 +7,7 @@ import '../domain/response/driver_status_response.dart';
 abstract class DriverDutyRepository {
   Future<Resource<DriverStatusResponse>> driverStatus(String userId);
 
-  Future<Resource<SetDriverStatusResponse>> setStatus(String userId, String status);
+  Future<Resource<SetDriverStatusResponse>> setStatus(String userId, String status, String goToDetails);
 
   Future<Resource<ShortBookingsSummaryResponse>> bookingsSummary(String userId);
 }

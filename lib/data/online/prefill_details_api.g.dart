@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'driver_live_location_api.dart';
+part of 'prefill_details_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'driver_live_location_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _DriverLiveLocationApi implements DriverLiveLocationApi {
-  _DriverLiveLocationApi(
+class _PrefillDetailsApi implements PrefillDetailsApi {
+  _PrefillDetailsApi(
     this._dio, {
     this.baseUrl,
   });
@@ -19,27 +19,29 @@ class _DriverLiveLocationApi implements DriverLiveLocationApi {
   String? baseUrl;
 
   @override
-  Future<void> sendLiveLocation(
+  Future<MasterResponse> prefillDetails(
     userId,
-    currentLocation,
+    key,
   ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'key': key};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(currentLocation.toJson());
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'PUT',
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MasterResponse>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/driver/users/${userId}/currentLocation',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              '/driver/driver/users/${userId}/document',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MasterResponse.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

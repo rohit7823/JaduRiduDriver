@@ -12,7 +12,9 @@ abstract class AddAllDetailsApi {
 
   @GET("${ApiRoutes.parent}/users/{userId}/document/addedDetails")
   Future<AddAllDetailsInitialDataResponse> initialData(
-      @Path("userId") String userId);
+      @Path("userId") String userId,
+      @Query("indentifier") String indentifier,
+      @Query("keys") String keys);
 
   @GET("${ApiRoutes.parent}/users/{userId}/document/reset")
   Future<ResetAllDetailsResponse> resetAll(@Path("userId") String userId);

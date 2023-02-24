@@ -4,7 +4,9 @@ import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/argument.dart';
 import 'package:jadu_ride_driver/core/common/details_step_key.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
@@ -17,6 +19,8 @@ import 'package:jadu_ride_driver/presentation/stores/navigator.dart';
 import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/utills/dialog_manager.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../core/domain/expired_document_alert.dart';
 
 part 'add_all_details_screen_store.g.dart';
 
@@ -47,7 +51,9 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
   @observable
   bool continueBtn = false;
 
-  _AddAllDetailsScreenStore() {
+  Argument argument;
+
+  _AddAllDetailsScreenStore(this.argument) {
     getInitialData();
   }
 
@@ -56,7 +62,16 @@ abstract class _AddAllDetailsScreenStore extends AppNavigator with Store {
     log("addedDetails CALLED");
     gettingDataLoader = true;
     var userId = _storage.userId();
-    var response = await _repository.initialData(userId);
+    var keys = <String>[];
+    if(argument.data != null && argument.data is ExpiredDocumentAlert) {
+      keys = (argument.data as ExpiredDocumentAlert).keys;
+      debugPrint("keys $keys");
+    }
+    var response = await _repository.initialData(
+        userId,
+        argument.navigateFrom.name,
+        keys
+    );
     if (response is Success) {
       var data = response.data;
       gettingDataLoader = false;

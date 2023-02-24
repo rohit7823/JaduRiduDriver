@@ -417,6 +417,7 @@ class Directions {
       return null;
     }
     var uri = Uri.parse(url);
+    debugPrint("directionURL $uri");
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       var body = response.body;

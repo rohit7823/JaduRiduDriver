@@ -140,14 +140,16 @@ class _PancardScreenState extends State<PancardScreen> {
                       .padding(
                           insets:
                               EdgeInsets.only(bottom: 0.05.sw, top: 0.05.sw)),
-                  MyTextInput(
-                      onTextChange: _store.onPanNumber,
-                      keyboardType: TextInputType.emailAddress,
-                      inputAction: TextInputAction.done,
-                      placeholderText: StringProvider.panNumber,
-                      textCapitalization: TextCapitalization.characters,
-                      formatters: [PanCardFormatter()],
-                      isMandatory: true),
+                  Observer(
+                    builder: (context) => MyTextInput(
+                        onTextChange: _store.onPanNumber,
+                        keyboardType: TextInputType.emailAddress,
+                        inputAction: TextInputAction.done,
+                        placeholderText: StringProvider.panNumber,
+                        textCapitalization: TextCapitalization.characters,
+                        formatters: [PanCardFormatter()],
+                        isMandatory: !_store.panNumber.isNotEmpty),
+                  ),
                   Observer(builder: (BuildContext context) {
                     return InvalidInput(invalidText: _store.errorMessage);
                   }),

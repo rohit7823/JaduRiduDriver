@@ -39,12 +39,12 @@ class DriverDutyRepositoryImpl implements DriverDutyRepository {
 
   @override
   Future<Resource<SetDriverStatusResponse>> setStatus(
-      String userId, String status) async {
+      String userId, String status, String goToDetails) async {
     var tmpStatus = status.split(" ");
     status = "${tmpStatus.first}_${tmpStatus.last}".toLowerCase();
 
     return _driverStatusApi
-        .setWorkingStatus(userId, status)
+        .setWorkingStatus(userId, status, goToDetails)
         .handleResponse<SetDriverStatusResponse>();
 
     /*await Future.delayed(const Duration(seconds: 2));

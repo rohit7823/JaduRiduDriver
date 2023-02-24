@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/domain/ride_ids.dart';
@@ -28,6 +29,7 @@ import 'package:jadu_ride_driver/presentation/screens/rate_customer_screen.dart'
 import 'package:jadu_ride_driver/presentation/screens/registration_certificate_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/ride_navigation_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/rider_wallet_page_status.dart';
+import 'package:jadu_ride_driver/presentation/screens/select_location_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/splash_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/thank_you_emergency_screen.dart';
 import 'package:jadu_ride_driver/presentation/screens/vehicle_audit_screen.dart';
@@ -39,6 +41,7 @@ import 'package:jadu_ride_driver/presentation/screens/verify_trip_otp_screen.dar
 import 'package:jadu_ride_driver/presentation/screens/welcome_jadu_ride_screen.dart';
 import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 
+import '../../core/common/argument.dart';
 import '../../core/common/profile_short_description.dart';
 import '../screens/amount_transffered_by_day_screen.dart';
 import '../screens/current_balance_details_screen.dart';
@@ -91,8 +94,10 @@ class DefaultNav {
         return ScreenTransitions.rightToLeftTransitionWithEvent(
             AddVechicleScreen(sharedStore: sharedStore));
       case AppRoute.allDetails:
-        return ScreenTransitions.rightToLeftTransition(
-            AddAllDetailsScreen(sharedStore: sharedStore));
+        return ScreenTransitions.rightToLeftTransition(AddAllDetailsScreen(
+            sharedStore: sharedStore,
+            enteredFrom: retrievedArgument as Argument)
+        );
       case AppRoute.identifyDetails:
         return ScreenTransitions.bottomToTopTransition(
             const IdentifyDetailsScreen());
@@ -210,10 +215,12 @@ class DefaultNav {
             EmergencyPlaceSearchScreen(
           data: retrievedArgument as EmergencyScreenArgument,
         ));
-
       case AppRoute.thankYouEmergency:
         return ScreenTransitions.rightToLeftTransition(
             ThankYouEmergencyScreen(totalFare: retrievedArgument as int));
+      case AppRoute.selectLocation:
+        return ScreenTransitions.rightToLeftTransitionWithEvent(
+            SelectLocationScreen(currentLocation: retrievedArgument as LatLon));
       default:
         return null;
     }
@@ -225,6 +232,9 @@ class DefaultNav {
         return arguments;
       }
       if (arguments is NavigateFrom) {
+        return arguments;
+      }
+      if(arguments is Argument) {
         return arguments;
       }
       if (arguments is ProfileShortDescription) {
@@ -240,6 +250,9 @@ class DefaultNav {
         return arguments;
       }
       if (arguments is int) {
+        return arguments;
+      }
+      if (arguments is LatLon) {
         return arguments;
       }
     }

@@ -26,6 +26,22 @@ mixin _$SharedStore on _SharedStore, Store {
     });
   }
 
+  late final _$selectedLocationAtom =
+      Atom(name: '_SharedStore.selectedLocation', context: context);
+
+  @override
+  Object? get selectedLocation {
+    _$selectedLocationAtom.reportRead();
+    return super.selectedLocation;
+  }
+
+  @override
+  set selectedLocation(Object? value) {
+    _$selectedLocationAtom.reportWrite(value, super.selectedLocation, () {
+      super.selectedLocation = value;
+    });
+  }
+
   late final _$callSuccessAtom =
       Atom(name: '_SharedStore.callSuccess', context: context);
 
@@ -262,6 +278,16 @@ mixin _$SharedStore on _SharedStore, Store {
     return _$onClickEmergencyAsyncAction.run(() => super.onClickEmergency());
   }
 
+  late final _$alertOnNecessaryDocumentsExpiredAsyncAction = AsyncAction(
+      '_SharedStore.alertOnNecessaryDocumentsExpired',
+      context: context);
+
+  @override
+  Future alertOnNecessaryDocumentsExpired() {
+    return _$alertOnNecessaryDocumentsExpiredAsyncAction
+        .run(() => super.alertOnNecessaryDocumentsExpired());
+  }
+
   late final _$_SharedStoreActionController =
       ActionController(name: '_SharedStore', context: context);
 
@@ -321,9 +347,21 @@ mixin _$SharedStore on _SharedStore, Store {
   }
 
   @override
+  dynamic onLocationSelected(Object? data) {
+    final _$actionInfo = _$_SharedStoreActionController.startAction(
+        name: '_SharedStore.onLocationSelected');
+    try {
+      return super.onLocationSelected(data);
+    } finally {
+      _$_SharedStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 gettingIntroDataLoader: ${gettingIntroDataLoader},
+selectedLocation: ${selectedLocation},
 callSuccess: ${callSuccess},
 gettingDataLoader: ${gettingDataLoader},
 checkStatusLoader: ${checkStatusLoader},

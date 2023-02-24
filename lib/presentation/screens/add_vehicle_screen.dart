@@ -46,8 +46,8 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
 
     _disposers = [
       reaction((p0) => _store.currentChange, (p0) {
-        if (p0 != null && p0 is ScreenWithExtras) {
-          ChangeScreen.to(context, p0.screen, onComplete: _store.clear);
+        if (p0 != null) {
+          ChangeScreen.to(context, p0.screen, arguments: p0.argument, onComplete: _store.clear);
         }
       }),
       reaction((p0) => _store.dialogManager.currentErrorState, (p0) {
@@ -157,13 +157,16 @@ class _AddVechicleScreenState extends State<AddVechicleScreen> {
                         .padding(
                             insets: EdgeInsets.symmetric(vertical: 0.05.sw));
                   }),
-                  MyTextInput(
-                      onTextChange: _store.onVehicleNumber,
-                      placeholderText: StringProvider.vehicleNumber,
-                      keyboardType: TextInputType.text,
-                      inputAction: TextInputAction.done,
-                      textCapitalization: TextCapitalization.characters,
-                      isMandatory: true)
+                  Observer(
+                    builder: (context) => MyTextInput(
+                        onTextChange: _store.onVehicleNumber,
+                        placeholderText: StringProvider.vehicleNumber,
+                        keyboardType: TextInputType.text,
+                        inputAction: TextInputAction.done,
+                        textCapitalization: TextCapitalization.characters,
+                        isMandatory: !_store.vehicleNumber.isNotEmpty
+                    ),
+                  )
                 ],
               )),
           expand(

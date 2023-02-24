@@ -60,11 +60,11 @@ mixin _$IdentifyQuestionItem on _IdentifyQuestionItemModel, Store {
       ActionController(name: '_IdentifyQuestionItemModel', context: context);
 
   @override
-  dynamic selectOption(QuestionOption option) {
+  dynamic selectOption(QuestionOption option, bool isUpdated) {
     final _$actionInfo = _$_IdentifyQuestionItemModelActionController
         .startAction(name: '_IdentifyQuestionItemModel.selectOption');
     try {
-      return super.selectOption(option);
+      return super.selectOption(option, isUpdated);
     } finally {
       _$_IdentifyQuestionItemModelActionController.endAction(_$actionInfo);
     }

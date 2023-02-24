@@ -15,24 +15,33 @@ class DriverBookingDetails {
   int passTimer;
   double lat;
   double lng;
+  double destLat;
+  double destLng;
   String? alertSoundUrl;
+  String? fare;
 
   DriverBookingDetails(
       {required this.bookId,
       required this.vehicleType,
       required this.customerDetails,
       required this.passTimer,
+        this.fare,
       required this.lat,
       required this.lng,
+        required this.destLng,
+        required this.destLat,
       required this.alertSoundUrl});
 
   factory DriverBookingDetails.fromJson(Map<String, dynamic> json) =>
       DriverBookingDetails(
-        bookId: json["rideId"],
+        bookId: json["rideId"] ?? "",
         vehicleType: json["vehicleType"],
         passTimer: json["passTimer"],
         lat: json["lat"].toDouble(),
         lng: json["lng"].toDouble(),
+        fare: json["fare"],
+        destLat: json["destinationLat"].toDouble(),
+        destLng: json["destinationLng"].toDouble(),
         alertSoundUrl: json["alertSoundUrl"],
         customerDetails: CustomerDetails.fromJson(json["customerDetails"]),
       );

@@ -19,10 +19,15 @@ abstract class Storage {
 
   setDriverStatus(String status);
   String driverStatus();
+  removeDriverStatus();
 
   setAccountStatus(String status);
   String accountStatus();
 
   locationDisclosureStatus(bool status);
   bool disclosureStatus();
+
+  setGoToLocation(String? location);
+  String? selectedGoToLocation();
+  Future<bool> removeSelectedGoToLocation();
 }

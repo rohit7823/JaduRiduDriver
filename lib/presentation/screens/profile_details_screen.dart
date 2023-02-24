@@ -210,7 +210,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                               : CircleAvatar(
                                   radius: 0.15.sw,
                                   foregroundImage: const AssetImage(
-                                      "assets/images/flag_india.png"),
+                                      "assets/images/profile_circled.png"),
                                   backgroundColor: AppColors.lightGray,
                                 );
                     },

@@ -4,8 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/driver_status.dart';
+import 'package:jadu_ride_driver/helpers_impls/expired_document_dialog.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/app_snack_bar.dart';
 import 'package:jadu_ride_driver/presentation/custom_widgets/booking_arrived_widget.dart';
@@ -32,6 +34,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
   late final DutyStore _store;
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final DialogController _alertController;
 
   @override
   void initState() {
@@ -39,6 +42,8 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         TabController(length: DriverStatus.values.length, vsync: this));
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    _alertController =
+        DialogController(dialog: ExpiredDocumentDialog(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
 
@@ -51,7 +56,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         }
       }),
       reaction((p0) => _store.informMessage, (p0) {
-        if (p0 is String && p0.isNotEmpty) {
+        if (p0.isNotEmpty) {
           AppSnackBar.show(context, message: p0, clear: () {
             _store.informMessage = "";
           });
@@ -62,6 +67,14 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
           _dialogController.show(_store.dialogManager.errorData!, p0,
               close: _store.dialogManager.closeErrorDialog,
               positive: _store.onError);
+        }
+      }),
+      reaction((p0) => _store.alertDialogManager.currentErrorState, (p0) {
+        if (p0 == DialogState.displaying) {
+          _alertController.show(_store.alertDialogManager.errorData!, p0,
+              close: _store.alertDialogManager.closeErrorDialog,
+              positive: _store.onError,
+              negative: null);
         }
       }),
       reaction((p0) => widget.sharedStore.driverBookings.alreadyBookedMsg,
@@ -86,8 +99,17 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
         if (p0 != null) {
           widget.sharedStore.driverBookings
               .initCurrentBooking(p0.bookingDetails, context);
+          widget.sharedStore.notificationPayload = null;
         }
-      })
+      }),
+      reaction((p0) => widget.sharedStore.selectedLocation, (p0) {
+        if (p0 is DetailsResult) {
+          _store.setGoToLocation(p0);
+        } else if (p0 is bool) {
+          _store.setGoToLocation(null);
+        }
+        widget.sharedStore.selectedLocation = null;
+      }),
     ];
   }
 
@@ -152,6 +174,7 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                                 controller: _store.tabController,
                                 onTap: _store.onDriverStatusChanged,
                                 labelColor: AppColors.white,
+                                automaticIndicatorColorAdjustment: false,
                                 unselectedLabelColor: AppColors.appBlack,
                                 tabs: DriverStatus.values.map((status) {
                                   return fitBox(
@@ -279,6 +302,42 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                 },
                 markers: widget.sharedStore.driverBookings.customers.toSet(),
               ),
+              Observer(
+                builder: (context) => _store.selectedGoToLocation != null
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: 0.80.sw,
+                          padding: EdgeInsets.all(0.03.sw),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              boxShadow: allShadow(),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16.r),
+                                  topRight: Radius.circular(16.r))),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              StringProvider.selectedLocation
+                                  .text()
+                                  .paddings(bottom: 0.01.sw),
+                              Text(
+                                _store.selectedGoToLocation!,
+                                style: AppTextStyle.rechargeDoneStyle.copyWith(
+                                    fontWeight: FontWeightManager.medium,
+                                    fontSize: 16.sp),
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 400),
                 child: widget.sharedStore.driverBookings.customers.isNotEmpty
@@ -292,10 +351,13 @@ class _DutyScreenState extends State<DutyScreen> with TickerProviderStateMixin {
                             widget.sharedStore.driverBookings.vehicleType,
                         pickUpLocation:
                             widget.sharedStore.driverBookings.pickUpLocation,
+                        dropLocation:
+                            widget.sharedStore.driverBookings.dropLocation,
                         onPass: widget.sharedStore.onPass,
                         onOkay: widget.sharedStore.onOkay,
                         soundUrl: widget
                             .sharedStore.driverBookings.bookingAlertSoundUrl,
+                        estimateFare: widget.sharedStore.driverBookings.fare,
                       )
                     : const SizedBox.shrink(),
               ),

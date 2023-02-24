@@ -22,11 +22,15 @@ class _DriverStatusApi implements DriverStatusApi {
   Future<SetDriverStatusResponse> setWorkingStatus(
     userId,
     status,
+    goToDetails,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {'status': status};
+    final _data = {
+      'status': status,
+      'goToDetails': goToDetails,
+    };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<SetDriverStatusResponse>(Options(
       method: 'POST',

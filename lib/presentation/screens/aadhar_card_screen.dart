@@ -135,14 +135,16 @@ class _AadharCardScreenState extends State<AadharCardScreen> {
                   StringProvider.enterAdharCardNumber
                       .text(AppTextStyle.enterDrivingLicNumberStyle)
                       .padding(insets: EdgeInsets.only(bottom: 0.05.sw)),
-                  MyTextInput(
-                          onTextChange: _store.onAadharNumber,
-                          keyboardType: const TextInputType.numberWithOptions(),
-                          inputAction: TextInputAction.done,
-                          placeholderText: StringProvider.aadharCardNumber,
-                          formatters: [AadharNumberInputFormatter()],
-                          isMandatory: true)
-                      .padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
+                  Observer(
+                    builder: (context) => MyTextInput(
+                        onTextChange: _store.onAadharNumber,
+                        keyboardType: const TextInputType.numberWithOptions(),
+                        inputAction: TextInputAction.done,
+                        placeholderText: StringProvider.aadharCardNumber,
+                        formatters: [AadharNumberInputFormatter()],
+                        isMandatory: !_store.aaharNumber.isNotEmpty
+                    ).padding(insets: EdgeInsets.only(bottom: 0.03.sw)),
+                  ),
                   Observer(builder: (BuildContext context) {
                     return InvalidInput(invalidText: _store.errorMessage);
                   }),
@@ -150,7 +152,8 @@ class _AadharCardScreenState extends State<AadharCardScreen> {
                   GuideLineView(guildLine: StringProvider.imageChooseGuidLine2),
                   UploadImageView(
                       onClick: _store.openImagePicker,
-                      title: StringProvider.aadharCardPhoto)
+                      title: StringProvider.aadharCardPhoto
+                  )
                 ],
               )),
           const Divider(

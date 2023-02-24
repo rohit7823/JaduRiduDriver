@@ -346,6 +346,62 @@ class _MoreScreenState extends State<MoreScreen> {
             height: 0.02.sw,
           ),
           InkWell(
+            onTap: _store.onManageVehicle,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  border: Border.all(color: AppColors.appGreens),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Color(0x1a000000),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: Offset(0, 0))
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 0.05.sw, horizontal: 0.05.sw),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      flex: 1,
+                      child: Icon(
+                        Icons.local_taxi_sharp,
+                        color: AppColors.primaryVariant,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Manage Documents",
+                                style: TextStyle(
+                                    color: AppColors.appMore,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.secondaryVariant,
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 0.02.sw,
+          ),
+          InkWell(
             onTap: _store.onPaymentDetailsScreenRef,
             child: Container(
               decoration: BoxDecoration(

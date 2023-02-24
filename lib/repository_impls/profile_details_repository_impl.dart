@@ -27,16 +27,16 @@ class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository{
   }
 
   @override
-  Future<Resource<CitiesResponse>> cities(String selectedDistrictId) async {
+  Future<Resource<CitiesResponse>> cities(String selectedDistrictId, String userId) async {
     return _manageProfileApi
-        .cities(selectedDistrictId)
+        .cities(selectedDistrictId, userId)
         .handleResponse<CitiesResponse>();
   }
 
   @override
-  Future<Resource<DistrictsResponse>> districts(String selectedStateId) async {
+  Future<Resource<DistrictsResponse>> districts(String selectedStateId, String userId) async {
     return _manageProfileApi
-        .districts(selectedStateId)
+        .districts(selectedStateId, userId)
         .handleResponse<DistrictsResponse>();
   }
 

@@ -138,6 +138,23 @@ mixin _$DutyStore on _DutyScreenStore, Store {
     });
   }
 
+  late final _$selectedGoToLocationAtom =
+      Atom(name: '_DutyScreenStore.selectedGoToLocation', context: context);
+
+  @override
+  String? get selectedGoToLocation {
+    _$selectedGoToLocationAtom.reportRead();
+    return super.selectedGoToLocation;
+  }
+
+  @override
+  set selectedGoToLocation(String? value) {
+    _$selectedGoToLocationAtom.reportWrite(value, super.selectedGoToLocation,
+        () {
+      super.selectedGoToLocation = value;
+    });
+  }
+
   late final _$onDriverStatusChangedAsyncAction =
       AsyncAction('_DutyScreenStore.onDriverStatusChanged', context: context);
 
@@ -156,6 +173,43 @@ mixin _$DutyStore on _DutyScreenStore, Store {
         .run(() => super._getBookingSummary());
   }
 
+  late final _$changeDriverStatusAsyncAction =
+      AsyncAction('_DutyScreenStore.changeDriverStatus', context: context);
+
+  @override
+  Future changeDriverStatus(int idx,
+      {String? goToLocationTxt, Location? goToLocation}) {
+    return _$changeDriverStatusAsyncAction.run(() => super.changeDriverStatus(
+        idx,
+        goToLocationTxt: goToLocationTxt,
+        goToLocation: goToLocation));
+  }
+
+  late final _$_DutyScreenStoreActionController =
+      ActionController(name: '_DutyScreenStore', context: context);
+
+  @override
+  dynamic setGoToLocation(DetailsResult? location) {
+    final _$actionInfo = _$_DutyScreenStoreActionController.startAction(
+        name: '_DutyScreenStore.setGoToLocation');
+    try {
+      return super.setGoToLocation(location);
+    } finally {
+      _$_DutyScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _changeStatus(DriverStatus selectedStatus) {
+    final _$actionInfo = _$_DutyScreenStoreActionController.startAction(
+        name: '_DutyScreenStore._changeStatus');
+    try {
+      return super._changeStatus(selectedStatus);
+    } finally {
+      _$_DutyScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -166,7 +220,8 @@ selectedStatus: ${selectedStatus},
 errorMsg: ${errorMsg},
 gettingSummaryLoader: ${gettingSummaryLoader},
 informMessage: ${informMessage},
-notificationStatus: ${notificationStatus}
+notificationStatus: ${notificationStatus},
+selectedGoToLocation: ${selectedGoToLocation}
     ''';
   }
 }

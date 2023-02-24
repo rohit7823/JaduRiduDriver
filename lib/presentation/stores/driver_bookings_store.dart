@@ -43,6 +43,12 @@ abstract class _DriverBookingsStore with Store {
   String pickUpLocation = "";
 
   @observable
+  String dropLocation = "";
+
+  @observable
+  String fare = "";
+
+  @observable
   String alreadyBookedMsg = "";
 
   @observable
@@ -108,14 +114,21 @@ abstract class _DriverBookingsStore with Store {
         assetName: ImageAssets.customerMarker, context: context, size: 48);*/
 
     currentBookingId = bookingDetails.bookId;
+    fare = bookingDetails.fare ?? "";
     bookingAlertSoundUrl = bookingDetails.alertSoundUrl;
+    debugPrint("bookingDetails.destLat ${bookingDetails.destLat} bookingDetails.destLng ${bookingDetails.destLng}");
     var directionRes = await Directions(_env.googleApiKey)
-        .origin(_currentLocation!)
-        .destination(LatLng(bookingDetails.lat, bookingDetails.lng))
+        .origin(LatLng(bookingDetails.lat, bookingDetails.lng))
+        .destination(bookingDetails.destLat != 0 && bookingDetails.destLng != 0
+            ? LatLng(bookingDetails.destLat, bookingDetails.destLng)
+            : LatLng(bookingDetails.lat, bookingDetails.lng))
         .request();
 
     if (directionRes != null) {
-      pickUpLocation = directionRes.routes.first.legs.last.endAddress;
+      pickUpLocation = directionRes.routes.first.legs.last.startAddress;
+      dropLocation = bookingDetails.destLat != 0 && bookingDetails.destLng != 0
+          ? directionRes.routes.last.legs.last.endAddress
+          : "";
       estimatedKm = directionRes.routes.first.legs.last.distance.text;
       eta = directionRes.routes.first.legs.last.duration.text;
     } else {
@@ -129,6 +142,7 @@ abstract class _DriverBookingsStore with Store {
       draggable: false,
       consumeTapEvents: false,
     );
+
     details = bookingDetails.customerDetails;
     vehicleType = bookingDetails.vehicleType;
     passTimer = bookingDetails.passTimer;

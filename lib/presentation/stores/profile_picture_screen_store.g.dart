@@ -73,6 +73,14 @@ mixin _$ProfilePictureStore on _ProfilePictureScreenStore, Store {
     });
   }
 
+  late final _$prefillDataAsyncAction =
+      AsyncAction('_ProfilePictureScreenStore.prefillData', context: context);
+
+  @override
+  Future prefillData() {
+    return _$prefillDataAsyncAction.run(() => super.prefillData());
+  }
+
   late final _$chooseFromCameraAsyncAction = AsyncAction(
       '_ProfilePictureScreenStore.chooseFromCamera',
       context: context);

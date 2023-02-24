@@ -7,6 +7,7 @@ import 'package:jadu_ride_driver/core/common/app_route.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
 import 'package:jadu_ride_driver/core/common/dialog_state.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
+import 'package:jadu_ride_driver/core/domain/expired_document_alert.dart';
 import 'package:jadu_ride_driver/helpers_impls/my_dialog_impl.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/change_screen.dart';
 import 'package:jadu_ride_driver/presentation/app_navigation/dashboard_nav.dart';
@@ -15,6 +16,7 @@ import 'package:jadu_ride_driver/presentation/stores/shared_store.dart';
 import 'package:jadu_ride_driver/utills/dialog_controller.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../helpers_impls/expired_document_dialog.dart';
 import '../ui/theme.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     with WidgetsBindingObserver {
   late final List<ReactionDisposer> _disposers;
   late final DialogController _dialogController;
+  late final DialogController _alertController;
   late final GlobalKey<NavigatorState> dashBoardNavigator;
   late final ChangeScreen changeScreen;
 
@@ -39,17 +42,20 @@ class _DashboardScreenState extends State<DashboardScreen>
     widget.sharedStore.initFirebase();
     widget.sharedStore.locationStatus();
     widget.sharedStore.connectToSocket();
+    widget.sharedStore.alertOnNecessaryDocumentsExpired();
     dashBoardNavigator = GlobalKey<NavigatorState>();
     changeScreen = ChangeScreen(dashBoardNavigator);
     _dialogController =
         DialogController(dialog: MyDialogImpl(buildContext: context));
+    _alertController =
+        DialogController(dialog: ExpiredDocumentDialog(buildContext: context));
     debugPrint("booking store ${widget.sharedStore.driverBookings.hashCode}");
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
     _disposers = [
       reaction((p0) => widget.sharedStore.dialogManager.currentState, (p0) {
-        if (p0 is DialogState && p0 == DialogState.displaying) {
+        if (p0 == DialogState.displaying) {
           _dialogController.show(widget.sharedStore.dialogManager.data!, p0,
               close: widget.sharedStore.dialogManager.closeDialog,
               positive: widget.sharedStore.onAction);
@@ -64,6 +70,17 @@ class _DashboardScreenState extends State<DashboardScreen>
               positive: widget.sharedStore.onAction);
         }
       }),
+      reaction((p0) => widget.sharedStore.alertDialogManager.currentErrorState,
+          (p0) {
+        if (p0 == DialogState.displaying) {
+          _alertController.show(
+              widget.sharedStore.alertDialogManager.errorData!, p0,
+              close: widget.sharedStore.alertDialogManager.closeErrorDialog,
+              positive: widget.sharedStore.onAction,
+              negative: null
+          );
+        }
+      }),
       reaction((p0) => widget.sharedStore.currentChange, (p0) {
         if (p0 != null) {
           debugPrint("MyPrint ${p0.screen.name}");
@@ -76,10 +93,11 @@ class _DashboardScreenState extends State<DashboardScreen>
             });
           } else if (p0.screen == Screen.profileDetailsScreen) {
             ChangeScreen.to(context, p0.screen,
-                arguments: p0.argument, onComplete: widget.sharedStore.clear, fromScreen: (data){
-                  debugPrint("FROMCURRENT Bal $data");
+                arguments: p0.argument,
+                onComplete: widget.sharedStore.clear, fromScreen: (data) {
+              debugPrint("FROMCURRENT Bal $data");
               widget.sharedStore.getdetails(data as bool);
-                });
+            });
           } else if (p0.screen == Screen.referScreen) {
             ChangeScreen.to(context, p0.screen,
                 arguments: p0.argument, onComplete: widget.sharedStore.clear);
@@ -134,6 +152,20 @@ class _DashboardScreenState extends State<DashboardScreen>
                 option: p0.option,
                 onComplete: widget.sharedStore.clear,
                 arguments: p0.argument);
+          } else if (p0.screen == Screen.selectLocation) {
+            ChangeScreen.to(context, p0.screen,
+                option: p0.option,
+                onComplete: widget.sharedStore.clear,
+                arguments: p0.argument,
+                fromScreen: widget.sharedStore.onLocationSelected);
+          } else if (p0.screen == Screen.addAllDetails) {
+            ChangeScreen.to(
+              context,
+              p0.screen,
+              option: p0.option,
+              onComplete: widget.sharedStore.clear,
+              arguments: p0.argument,
+            );
           } else {
             changeScreen.nestedTo(p0.screen,
                 option: p0.option, onComplete: widget.sharedStore.clear);
@@ -143,10 +175,8 @@ class _DashboardScreenState extends State<DashboardScreen>
       reaction((p0) => widget.sharedStore.dialogManager.disclosureState, (p0) {
         if (p0 == DialogState.displaying) {
           showDisclosureDialog(
-              context,
-              widget.sharedStore.dialogManager.disclosureData,
-              onEvent: widget.sharedStore.onDisclosureEvent
-          );
+              context, widget.sharedStore.dialogManager.disclosureData,
+              onEvent: widget.sharedStore.onDisclosureEvent);
         }
       })
     ];
@@ -155,7 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      widget.sharedStore.retrieveLocation();
+      widget.sharedStore.checkLocationPermission();
     }
   }
 

@@ -514,6 +514,9 @@ class StringProvider {
   static const dropLocation = "DROP LOCATION";
   static const customarBookingId = "Booking ID: : ";
 
+  static const welcomeJaduRide = "Welcome to Jadu Ride";
+  static const tagline = "Yeh Sawari Nahi, Jadu Hai";
+
   static const todaysPayment = "TODAY'S PAYMENT";
 
   static const currentBalanceDate = "June 17, 2022";
@@ -928,6 +931,18 @@ class StringProvider {
 
   static const accept = "ACCEPT";
 
+  static const noIncentivesFoundYet = "No Incentives Found Yet!!";
+
+  static const dropOff = "DROP OFF";
+
+  static const searchHere = "Search here";
+
+  static const selectedLocation = "Selected GO TO Location";
+
+  static const reSubmit = "RESUBMIT";
+
+  static const pending = "PENDING";
+
   StringProvider._();
 
   static const appVersion = "AppVersion";
@@ -940,7 +955,10 @@ class StringProvider {
   static const currentBalance = "Current Balance";
 
   static const disclosureMsg =
-      "Jadu Ride collects your location data to enable get your current location so we can deliver nearby customer requests to you.\n\nWe will only track your current location when the app is in use and within the app.";
+      "Need location for receiving ride requests.";
+
+
+  static const disclosureMsg2 = "We will use only when the app is in use and within the app";
 
   static const locationDisclosure = "Location Needed!!";
 }

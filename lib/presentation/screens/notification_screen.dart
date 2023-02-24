@@ -81,15 +81,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ? Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: [
-                         Icon(Icons.notifications,size: 0.30.sw,color:AppColors.appGreens,),
-                         Text("No New Notification",style: TextStyle(fontSize: 25.sp, color: AppColors.refer ),),
-                         Padding(
-                           padding: EdgeInsets.symmetric(horizontal: 0.08.sw),
-                           child:  Text("Check this space for updates, reminders & \n           messages from partner care",style: TextStyle(fontSize: 15.sp,color: AppColors.refer),),
-                         ),
-                       ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.notifications,
+                            size: 0.30.sw,
+                            color: AppColors.appGreens,
+                          ),
+                          Text(
+                            "No New Notification",
+                            style: TextStyle(
+                                fontSize: 25.sp, color: AppColors.refer),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0.08.sw),
+                            child: Text(
+                              "Check this space for updates, reminders & \n           messages from partner care",
+                              style: TextStyle(
+                                  fontSize: 15.sp, color: AppColors.refer),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   : ListView.separated(
@@ -126,37 +138,45 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 0.04.sw, horizontal: 0.04.sw),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Observer(
-            builder: (BuildContext context) {
-              return CircleAvatar(
-                foregroundImage:
-                NetworkImage(notificationStore.NList[index].imagepath),
-              );
-            },
+          expand(
+            flex: 2,
+            child: Observer(
+              builder: (BuildContext context) {
+                return CircleAvatar(
+                  radius: 35,
+                  foregroundImage:
+                      NetworkImage(notificationStore.NList[index].imagepath),
+                );
+              },
+            ).paddings(right: 0.03.sw),
           ),
-          SizedBox(width: 0.01.sw),
           Expanded(
-            flex: 4,
-            child: Text(
-              notificationStore.NList[index].info,
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  color: AppColors.lightGrays,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 0.01.sw),
-            child: Row(
+            flex: 8,
+            child: Column(
               children: [
-                Icon(
-                  Icons.access_time,
-                  size: 15.sp,
+                Text(
+                  notificationStore.NList[index].info,
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      color: AppColors.lightGrays,
+                      fontWeight: FontWeight.w500),
                 ),
-                Text(notificationStore.NList[index].time,
-                    style: TextStyle(
-                        color: AppColors.lightGrays, fontSize: 14.sp)),
+                Padding(
+                  padding: EdgeInsets.only(top: 0.01.sw),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.access_time,
+                        size: 15.sp,
+                      ).paddings(right: 0.01.sw),
+                      Text(notificationStore.NList[index].time,
+                          style: TextStyle(
+                              color: AppColors.lightGrays, fontSize: 14.sp)),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

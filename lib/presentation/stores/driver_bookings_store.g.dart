@@ -73,6 +73,38 @@ mixin _$DriverBookingStore on _DriverBookingsStore, Store {
     });
   }
 
+  late final _$dropLocationAtom =
+      Atom(name: '_DriverBookingsStore.dropLocation', context: context);
+
+  @override
+  String get dropLocation {
+    _$dropLocationAtom.reportRead();
+    return super.dropLocation;
+  }
+
+  @override
+  set dropLocation(String value) {
+    _$dropLocationAtom.reportWrite(value, super.dropLocation, () {
+      super.dropLocation = value;
+    });
+  }
+
+  late final _$fareAtom =
+      Atom(name: '_DriverBookingsStore.fare', context: context);
+
+  @override
+  String get fare {
+    _$fareAtom.reportRead();
+    return super.fare;
+  }
+
+  @override
+  set fare(String value) {
+    _$fareAtom.reportWrite(value, super.fare, () {
+      super.fare = value;
+    });
+  }
+
   late final _$alreadyBookedMsgAtom =
       Atom(name: '_DriverBookingsStore.alreadyBookedMsg', context: context);
 
@@ -200,6 +232,8 @@ onRideData: ${onRideData},
 customers: ${customers},
 details: ${details},
 pickUpLocation: ${pickUpLocation},
+dropLocation: ${dropLocation},
+fare: ${fare},
 alreadyBookedMsg: ${alreadyBookedMsg},
 estimatedKm: ${estimatedKm},
 eta: ${eta},

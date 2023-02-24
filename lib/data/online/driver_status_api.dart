@@ -13,10 +13,10 @@ abstract class DriverStatusApi {
   @POST("${ApiRoutes.parent}/users/{userId}/workingStatus")
   @FormUrlEncoded()
   Future<SetDriverStatusResponse> setWorkingStatus(
-      @Path("userId") String userId, @Field("status") String status);
-  
-  
+      @Path("userId") String userId,
+      @Field("status") String status,
+      @Field("goToDetails") String goToDetails);
+
   @GET("${ApiRoutes.parent}/users/{userId}/status/current")
-  Future<DriverStatusResponse> getworkingStatus(
-      @Path("userId") String userId);
+  Future<DriverStatusResponse> getworkingStatus(@Path("userId") String userId);
 }

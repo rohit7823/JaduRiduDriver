@@ -38,12 +38,8 @@ class ChangeScreen {
             onComplete: onComplete);
         break;
       case Screen.changeLanguage:
-        await _navigateWithOption(
-            context,
-            AppRoute.changeLanguage,
-            option!,
-            arguments: arguments,
-            onComplete: onComplete);
+        await _navigateWithOption(context, AppRoute.changeLanguage, option!,
+            arguments: arguments, onComplete: onComplete);
         break;
       case Screen.welcomeJaduRide:
         await _navigate(context, AppRoute.welcomeJaduRide,
@@ -148,8 +144,6 @@ class ChangeScreen {
         );
         break;
 
-
-
       case Screen.profileDetailsScreen:
         _navigate(
           context,
@@ -212,6 +206,7 @@ class ChangeScreen {
       case Screen.emergencySupportScreen:
         _navigate(
           context,
+
           AppRoute.emergencySupportScreen,
           arguments: arguments,
           onComplete: onComplete,
@@ -292,6 +287,14 @@ class ChangeScreen {
             onComplete: onComplete,
             fromScreen: fromScreen);
         break;
+      case Screen.selectLocation:
+        _navigate(
+            context,
+            AppRoute.selectLocation,
+            arguments: arguments,
+            onComplete: onComplete,
+            fromScreen: fromScreen
+        );
     }
   }
 

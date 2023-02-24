@@ -3,12 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jadu_ride_driver/core/domain/step.dart';
 import 'package:jadu_ride_driver/presentation/ui/app_text_style.dart';
+import 'package:jadu_ride_driver/presentation/ui/string_provider.dart';
 import 'package:jadu_ride_driver/presentation/ui/theme.dart';
 import 'package:jadu_ride_driver/utills/extensions.dart';
 
 class StepView extends StatelessWidget {
   DetailStep step;
   Function(DetailStep) onClick;
+
   StepView({Key? key, required this.step, required this.onClick})
       : super(key: key);
 
@@ -26,9 +28,7 @@ class StepView extends StatelessWidget {
           width: 0.90.sw,
           padding: EdgeInsets.all(0.05.sw),
           decoration: BoxDecoration(
-            color: step.isComplete
-                ? AppColors.appGreen.withOpacity(0.6)
-                : AppColors.white.withOpacity(0.8),
+            color: AppColors.white.withOpacity(0.8),
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: const [
               BoxShadow(
@@ -52,16 +52,36 @@ class StepView extends StatelessWidget {
             children: [
               expand(
                   flex: 9,
-                  child: step.key.toDetailStepName().text(step.isComplete
-                      ? AppTextStyle.detailsTypeItemTextStyle
-                          .copyWith(color: AppColors.white)
-                      : AppTextStyle.detailsTypeItemTextStyle)),
+                  child: step.key
+                      .toDetailStepName()
+                      .text(AppTextStyle.detailsTypeItemTextStyle)),
+              expand(
+                  flex: 2,
+                  child: step.isPending
+                      ? fitBox(
+                        child: StringProvider.pending
+                            .text(AppTextStyle.bankDetailsTextInputStyle),
+                      )
+                      : const SizedBox.shrink()),
               expand(
                   flex: 1,
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: step.isComplete ? AppColors.white : AppColors.Acadia,
-                  ))
+                  child: step.isRejected
+                      ? const Icon(
+                          Icons.disabled_by_default_rounded,
+                          color: AppColors.primaryVariant,
+                        )
+                      : const SizedBox.shrink()),
+              expand(
+                  flex: 1,
+                  child: step.isComplete
+                      ? Icon(
+                          Icons.check_circle,
+                          color: step.isPending ? AppColors.BirdFlower : AppColors.GreenHaze,
+                        )
+                      : const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: AppColors.Acadia,
+                        ))
             ],
           ),
         ),

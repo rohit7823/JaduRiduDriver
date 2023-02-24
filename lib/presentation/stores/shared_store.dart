@@ -7,20 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 import 'package:jadu_ride_driver/core/common/alert_action.dart';
 import 'package:jadu_ride_driver/core/common/alert_behaviour.dart';
 import 'package:jadu_ride_driver/core/common/alert_data.dart';
 import 'package:jadu_ride_driver/core/common/alert_option.dart';
+import 'package:jadu_ride_driver/core/common/argument.dart';
 import 'package:jadu_ride_driver/core/common/booking_status.dart';
 import 'package:jadu_ride_driver/core/common/bottom_menus.dart';
+import 'package:jadu_ride_driver/core/common/details_step_key.dart';
 import 'package:jadu_ride_driver/core/common/driver_account_status.dart';
 import 'package:jadu_ride_driver/core/common/gps_status.dart';
 import 'package:jadu_ride_driver/core/common/lat_long.dart';
 import 'package:jadu_ride_driver/core/common/location_permission_status.dart';
+import 'package:jadu_ride_driver/core/common/navigate_from.dart';
 import 'package:jadu_ride_driver/core/common/navigation_option.dart';
 import 'package:jadu_ride_driver/core/common/response.dart';
 import 'package:jadu_ride_driver/core/common/screen.dart';
 import 'package:jadu_ride_driver/core/common/screen_wtih_extras.dart';
+import 'package:jadu_ride_driver/core/domain/driver_booking_details.dart';
+import 'package:jadu_ride_driver/core/domain/expired_document_alert.dart';
 import 'package:jadu_ride_driver/core/domain/intro_data.dart';
 import 'package:jadu_ride_driver/core/domain/login_registration_data.dart';
 import 'package:jadu_ride_driver/core/domain/notification_payload.dart';
@@ -63,13 +69,16 @@ abstract class _SharedStore extends AppNavigator with Store {
   final _pushNotification = dependency<PushNotification>();
   final _storage = dependency<FCMStorage>();
   final dialogManager = DialogManager();
+  final alertDialogManager = DialogManager();
   final _locationService = AppLocationService();
   late final DriverBookingStore driverBookings;
-
   late TokenSender tokenSender;
 
   @observable
   bool gettingIntroDataLoader = false;
+
+  @observable
+  Object? selectedLocation;
 
   List<IntroData> introPageData = [];
 
@@ -86,6 +95,8 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   StreamSubscription? streamDisposer;
 
+  StreamSubscription? checkPermissionDisposer;
+
   Position? currentLocation;
 
   @observable
@@ -94,7 +105,7 @@ abstract class _SharedStore extends AppNavigator with Store {
   @observable
   bool isVisible = false;
 
-  StreamSubscription<RideInitiateData>? rideDataSubcription;
+  StreamSubscription<RideInitiateData>? rideDataSubscription;
 
   @observable
   RideLocationResponse? dropLocationData;
@@ -271,8 +282,8 @@ abstract class _SharedStore extends AppNavigator with Store {
     _showProminentDisclosureDialog();
   }
 
-
   onAction(AlertAction? action) {
+    debugPrint("action $action");
     if (action == AlertAction.enableGps) {
       _locationService.openSettings();
     } else if (action == AlertAction.locationServiceDisable) {
@@ -307,6 +318,7 @@ abstract class _SharedStore extends AppNavigator with Store {
       selectedMenu = index;
       ScreenWithExtras? screen;
       if (index == BottomMenus.duty.index) {
+        alertOnNecessaryDocumentsExpired();
         screen = ScreenWithExtras(
             screen: Screen.duty,
             option: NavigationOption(option: Option.popPrevious));
@@ -448,7 +460,8 @@ abstract class _SharedStore extends AppNavigator with Store {
           message.data[AppConstants.notificationBodyKey],
           image: message.data[AppConstants.notificationImageKey],
           icon: message.data[AppConstants.notificationIconKey],
-          payload: message.data[AppConstants.notificationActionKey]);
+          payload: message.data[AppConstants.notificationActionKey]
+      );
     }, onBackgroundMessage: (RemoteMessage message) {
       debugPrint("backgroundMessage $message");
       handleNotificationPayload(
@@ -464,6 +477,9 @@ abstract class _SharedStore extends AppNavigator with Store {
   @action
   handleNotificationPayload(String? payload) async {
     debugPrint("NotificationPayload $payload}");
+    if (payload != null) {
+      notificationPayload = NotificationPayload.fromJson(jsonDecode(payload));
+    }
     // needs to be implemented;
   }
 
@@ -571,35 +587,95 @@ abstract class _SharedStore extends AppNavigator with Store {
 
   void _showProminentDisclosureDialog() async {
     var status = await _locationService.checkIfPermissionGranted();
-    if(!status) {
-      dialogManager.initDisclosureMsg(
-          AlertData(
-              StringProvider.locationDisclosure,
-              null,
-              StringProvider.appId,
-              StringProvider.disclosureMsg,
-              StringProvider.accept,
-              StringProvider.decline,
-              null,
-              AlertBehaviour(
-                  option: AlertOption.none,
-                  action: AlertAction.locationDisclosure,
-                  isDismissable: false
-              )
-          )
-      );
+    if (!status) {
+      dialogManager.initDisclosureMsg(AlertData(
+          StringProvider.locationDisclosure,
+          null,
+          StringProvider.appId,
+          StringProvider.disclosureMsg,
+          StringProvider.accept,
+          StringProvider.decline,
+          null,
+          AlertBehaviour(
+              option: AlertOption.none,
+              action: AlertAction.locationDisclosure,
+              isDismissable: false)));
     } else {
       retrieveLocation();
     }
   }
 
+  checkLocationPermission() async {
+    checkPermissionDisposer =
+        _locationService.checkPermission().listen((event) async {
+      if (event == GpsStatus.disabled) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.enableGpsMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.invokeOnBarrier,
+                isDismissable: false,
+                action: AlertAction.enableGps)));
+      } else if (event == LocationPermissionStatus.showRationale) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.permissionRationaleMessage,
+            StringProvider.okay,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none,
+                action: AlertAction.locationPermissionRationale)));
+      } else if (event == LocationPermissionStatus.openSetting) {
+        gettingDataLoader = false;
+        dialogManager.initData(AlertData(
+            StringProvider.appName,
+            null,
+            StringProvider.appId,
+            StringProvider.locationDeniedForever,
+            StringProvider.appSetting,
+            null,
+            null,
+            AlertBehaviour(
+                option: AlertOption.none, action: AlertAction.enableGps)));
+      } else {
+        currentLocation = await _locationService.getCurrentLocation();
+        checkPermissionDisposer?.cancel();
+      }
+    });
+  }
+
   onDisclosureEvent(AlertAction? action, String tag) {
-    if(action == AlertAction.locationDisclosure) {
-      if(tag == StringProvider.accept) {
+    if (action == AlertAction.locationDisclosure) {
+      if (tag == StringProvider.accept) {
         retrieveLocation();
       }
     }
-
     dialogManager.closeDisclosure();
+  }
+
+  @action
+  onLocationSelected(Object? data) {
+    selectedLocation = data;
+  }
+
+  @action
+  alertOnNecessaryDocumentsExpired() async {
+    var response = await _repository.giveAlert(_prefs.userId());
+    if (response is Success) {
+      var data = response.data;
+      switch (data != null && data.status) {
+        case true:
+      }
+    } else if (response is Error) {}
   }
 }

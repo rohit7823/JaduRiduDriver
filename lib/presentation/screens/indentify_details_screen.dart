@@ -122,15 +122,13 @@ class _IdentifyDetailsScreenState extends State<IdentifyDetailsScreen> {
                           ? ListView.separated(
                               shrinkWrap: true,
                               padding: EdgeInsets.all(0.05.sw),
-                              itemBuilder: (context, idx) {
-                                return IdentifyQuestionItemView(
-                                  item: _store.questionItems[idx],
-                                  onSelect: (option) {
-                                    debugPrint("selected ${option!.option}");
-                                    _store.onSelectQuestion(option, idx);
-                                  },
-                                );
-                              },
+                              itemBuilder: (context, idx) => IdentifyQuestionItemView(
+                                item: _store.questionItems[idx],
+                                onSelect: (option) {
+                                  debugPrint("selected ${option!.option}");
+                                  _store.onSelectQuestion(option, idx);
+                                },
+                              ),
                               separatorBuilder: (context, idx) => SizedBox(
                                     height: 0.05.sw,
                                   ),

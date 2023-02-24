@@ -249,7 +249,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @action
   getDistricts() async {
     gettingDistrictsLoader = true;
-    var response = await _repository.districts(selectedState!.id);
+    var userId = _storage.userId();
+    var response = await _repository.districts(selectedState!.id, userId);
     if (response is Success) {
       var data = response.data;
       gettingDistrictsLoader = false;
@@ -288,7 +289,8 @@ abstract class _ProfileDescriptionViewModel extends AppNavigator with Store {
   @action
   getCities() async {
     gettingCitiesLoader = true;
-    var response = await _repository.cities(selectedDistrict!.id);
+    var userId = _storage.userId();
+    var response = await _repository.cities(selectedDistrict!.id, userId);
     if (response is Success) {
       var data = response.data;
       gettingCitiesLoader = false;
